@@ -1551,3 +1551,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 登陆实际收益组合fca2d76e冻结固定24：基于当前默认67d6，将此前卡牌实际权限/费用/奖励30335f89与标准多目标星球/费用1241aa34配套，并修正forceFirstLandingReward的奖励次序。原单项开发/随机结果没有证明低分公司受益，当前组合需完整独立验证，不相加。新真人毅力号火星车首轮免费卫星登陆取得两次收入提供了具体补给链参考；浏览器实际b91付1信用后登陆火星卫星获12分及两次收入、b34付2信用后木卫一获10分4能量、标准多目标木星付1能量均通过。54测试和首次奖励负对照通过。另保留2信用b34付款前预览木卫一、付款后资源与保留牌变化改选木卫二的记录，不能把所有预览收益当成保证兑现；本组合未修整个决策时序模拟。信用随机和分析固定候选均不改动，本项排在分析队列完成后运行两个并发。[计划](ai-validation/2026-09-28-land-reward-consistency-development-plan.json)、[真人同卡实际流程](ai-validation/2026-09-28-landconsistency-perseverance-browser.json)、[木卫一补能](ai-validation/2026-09-28-landconsistency-io-browser.json)、[付款后改选限制](ai-validation/2026-09-28-landconsistency-card-browser.json)、[标准费用与目标](ai-validation/2026-09-28-landconsistency-normal-browser.json)。
+
+
+2026-09-28 完整信用开发24组登陆牌兑现审计：默认67d6的53次明确card_land打牌逐一匹配实际付款，候选8f6ca009为50次；两轮内21→23次，地点收入选择两臂均8次，寰宇均2次。默认寰宇16次卡牌登陆、候选17次，其中行动内非收入能量0→4、数据18→14；完整表包含各公司信用/能量/补牌及收入/非收入。这里只汇总已确认打牌事务的main步骤及其触发奖励，排除quick、后续PASS收入和未打出牌，不是牌面边际收益或因果归因。旧冻结解析器的数值分数文案有已知局限，因此不把资源流score用于验证卡牌直接分；原始预测仅留作诊断。信用均分改善不等于卫星收入循环增强，登陆组合仍需独立完整组验证。[逐次付款与资源证据](ai-validation/2026-09-28-credit-unlock-land-card-realization.json)。

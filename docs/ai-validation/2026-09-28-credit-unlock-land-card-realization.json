@@ -1,0 +1,5065 @@
+{
+  "scope": "All explicitly logged card_land plays in both complete paired policies. Every selected instance uniquely matches actual payment. Resource totals cover main-paced steps of that paid card transaction, including embedded immediate income; exclude separate quick actions, setup and later income payouts. Planet income selections use same-player recorded round/turn and are descriptive. This is action-chain accounting, not pure printed-card marginal reward or causality. Unknown/unplayed hand cards and alien-specific non-card_land effects are not inferred. Predicted direct scores are retained for diagnosis only; old frozen parsers can misread numeric score labels, so no actual score-return comparison is made. No partial holdout data.",
+  "models": {
+    "base": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+    "candidate": "8f6ca0095995f65303aa19208fbf85df5ebd4c67"
+  },
+  "pairs": 24,
+  "groups": {
+    "baseline": {
+      "all": {
+        "plays": 53,
+        "earlyPlays": 21,
+        "incomeChoices": 8,
+        "cards": {
+          "b_34.webp": 16,
+          "dlc_31.png": 14,
+          "dlc_1.png": 7,
+          "b_91.webp": 6,
+          "dlc_6.png": 7,
+          "b_29.webp": 3
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 4,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 4,
+          "energy": 4,
+          "handSize": 24,
+          "availableData": 46,
+          "publicity": 26
+        },
+        "spent": {
+          "credits": 76,
+          "energy": 0,
+          "handSize": 61,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 30,
+        "earlyPlays": 13,
+        "incomeChoices": 6,
+        "cards": {
+          "b_34.webp": 11,
+          "dlc_31.png": 7,
+          "dlc_6.png": 3,
+          "dlc_1.png": 5,
+          "b_91.webp": 3,
+          "b_29.webp": 1
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 4,
+          "handSize": 12,
+          "availableData": 19,
+          "publicity": 16
+        },
+        "spent": {
+          "credits": 44,
+          "energy": 0,
+          "handSize": 36,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 7,
+        "earlyPlays": 3,
+        "incomeChoices": 0,
+        "cards": {
+          "b_34.webp": 2,
+          "b_91.webp": 1,
+          "dlc_31.png": 2,
+          "dlc_6.png": 2
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 3,
+          "energy": 0,
+          "handSize": 5,
+          "availableData": 9,
+          "publicity": 3
+        },
+        "spent": {
+          "credits": 11,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 16,
+        "earlyPlays": 5,
+        "incomeChoices": 2,
+        "cards": {
+          "dlc_1.png": 2,
+          "b_91.webp": 2,
+          "dlc_31.png": 5,
+          "b_34.webp": 3,
+          "b_29.webp": 2,
+          "dlc_6.png": 2
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 18,
+          "publicity": 7
+        },
+        "spent": {
+          "credits": 21,
+          "energy": 0,
+          "handSize": 18,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "plays": 50,
+        "earlyPlays": 23,
+        "incomeChoices": 8,
+        "cards": {
+          "b_34.webp": 13,
+          "dlc_6.png": 7,
+          "dlc_31.png": 12,
+          "dlc_1.png": 9,
+          "b_91.webp": 4,
+          "b_29.webp": 5
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 4,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 4,
+          "energy": 8,
+          "handSize": 24,
+          "availableData": 45,
+          "publicity": 24
+        },
+        "spent": {
+          "credits": 70,
+          "energy": 0,
+          "handSize": 58,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 26,
+        "earlyPlays": 11,
+        "incomeChoices": 6,
+        "cards": {
+          "b_34.webp": 9,
+          "dlc_6.png": 4,
+          "dlc_1.png": 4,
+          "dlc_31.png": 5,
+          "b_91.webp": 2,
+          "b_29.webp": 2
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 4,
+          "handSize": 11,
+          "availableData": 21,
+          "publicity": 11
+        },
+        "spent": {
+          "credits": 39,
+          "energy": 0,
+          "handSize": 32,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 7,
+        "earlyPlays": 5,
+        "incomeChoices": 0,
+        "cards": {
+          "b_34.webp": 1,
+          "dlc_31.png": 2,
+          "dlc_6.png": 2,
+          "dlc_1.png": 1,
+          "b_91.webp": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 3,
+          "energy": 0,
+          "handSize": 5,
+          "availableData": 10,
+          "publicity": 3
+        },
+        "spent": {
+          "credits": 10,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 17,
+        "earlyPlays": 7,
+        "incomeChoices": 2,
+        "cards": {
+          "dlc_31.png": 5,
+          "dlc_1.png": 4,
+          "b_91.webp": 1,
+          "b_34.webp": 3,
+          "b_29.webp": 3,
+          "dlc_6.png": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 1,
+          "energy": 4,
+          "handSize": 8,
+          "availableData": 14,
+          "publicity": 10
+        },
+        "spent": {
+          "credits": 21,
+          "energy": 0,
+          "handSize": 19,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "launchrune-candidate-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 110,
+      "round": 3,
+      "turn": 6,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-113-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#1；获得符文3；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "launchrune-candidate-1.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 119,
+      "round": 3,
+      "turn": 8,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-133-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "creditunlock-candidate-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 102,
+      "round": 3,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-113-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "launchrune-candidate-2.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "entry": 117,
+      "round": 3,
+      "turn": 8,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-119-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火星 - 奖励：第二次登陆：额外获得 1 个数据；获得 6 分；获得 1 个黄色外星人标记（主星，R31，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 31
+          },
+          "score": 22.795199999999998
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "creditunlock-candidate-2.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "entry": 150,
+      "round": 4,
+      "turn": 1,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-47-pass-3-3",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土星 - 奖励：首次登陆：额外获得 2 个数据；获得 8 分；获得 1 个黄色外星人标记（主星，R74，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 74
+          },
+          "score": 28.6128
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 土星，消耗 （橙色3，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 3,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "launchrune-candidate-3.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 63,
+      "round": 2,
+      "turn": 7,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-90-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；获得符文5；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "creditunlock-candidate-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 47,
+      "round": 2,
+      "turn": 2,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-90-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "creditunlock-candidate-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 95,
+      "round": 3,
+      "turn": 2,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-101-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#3；获得符文6；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "creditunlock-candidate-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 103,
+      "round": 3,
+      "turn": 4,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-101-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#4；获得符文1；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "creditunlock-candidate-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "entry": 158,
+      "round": 4,
+      "turn": 2,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-165-0",
+      "predictedDirectScore": 26,
+      "selectedLandTargets": [
+        {
+          "label": "登陆海卫一 - 奖励：获得 26 分（海王星，R221，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "triton",
+            "rocketId": 221
+          },
+          "score": 55.2892
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 海卫一，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 海卫一；获得符文1；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "launchrune-candidate-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 81,
+      "round": 3,
+      "turn": 1,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-116-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R1，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 1
+          },
+          "score": 82.35226800000001
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "launchrune-candidate-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "entry": 148,
+      "round": 4,
+      "turn": 4,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-142-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#4；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "launchrune-candidate-4.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 157,
+      "round": 4,
+      "turn": 6,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-151-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫三 - 奖励：获得 12 分；获得 5 宣传（木星，R184，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "ganymede",
+            "rocketId": 184
+          },
+          "score": 34.3753
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 木卫三，消耗 ，移除火箭，显示卫星登陆标记 木卫三；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 5
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "creditunlock-candidate-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 63,
+      "round": 2,
+      "turn": 6,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-102-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫一 - 奖励：获得 10 分；获得 4 能量（木星，R1，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "io",
+            "rocketId": 1
+          },
+          "score": 53.22
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫一，消耗 ，移除火箭，显示卫星登陆标记 木卫一；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 4,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "file": "launchrune-candidate-5.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 20,
+      "round": 1,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-57-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R6，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 6
+          },
+          "score": 48.4006
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 木卫二，消耗 ，移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "file": "creditunlock-candidate-5.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 20,
+      "round": 1,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-57-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R6，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 6
+          },
+          "score": 48.4006
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 木卫二，消耗 ，移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "launchrune-candidate-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 6,
+      "round": 1,
+      "turn": 1,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-7-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "launchrune-candidate-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-55-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 海王星，消耗 ，移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 4,
+        "publicity": 2
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "launchrune-candidate-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 86,
+      "round": 3,
+      "turn": 1,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-109-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "creditunlock-candidate-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 6,
+      "round": 1,
+      "turn": 1,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-7-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "creditunlock-candidate-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-55-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 海王星，消耗 ，移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 4,
+        "publicity": 2
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "creditunlock-candidate-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 86,
+      "round": 3,
+      "turn": 1,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-109-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "launchrune-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 21,
+      "round": 1,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-58-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R8，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 8
+          },
+          "score": 51.281200000000005
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "launchrune-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 42,
+      "round": 2,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-84-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "launchrune-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 155,
+      "round": 4,
+      "turn": 2,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-156-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分；指定目标登陆：4分（天王星，R158，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 158
+          },
+          "score": 59.97540500000001
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 天卫三，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 天卫三；获得符文6；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "creditunlock-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 21,
+      "round": 1,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-58-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R8，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 8
+          },
+          "score": 51.281200000000005
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "creditunlock-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 42,
+      "round": 2,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-84-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "creditunlock-candidate-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 155,
+      "round": 4,
+      "turn": 2,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-156-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分；指定目标登陆：4分（天王星，R158，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 158
+          },
+          "score": 59.97540500000001
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 天卫三，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 天卫三；获得符文6；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "launchrune-candidate-8.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 14,
+      "round": 1,
+      "turn": 3,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-7-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R2，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 2
+          },
+          "score": 45.4088
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "creditunlock-candidate-8.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 14,
+      "round": 1,
+      "turn": 3,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-7-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R2，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 2
+          },
+          "score": 45.4088
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "launchrune-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-12-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火星 - 奖励：首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记（主星，R7，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 7
+          },
+          "score": 30.290999999999997
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 3,
+        "publicity": 2
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "launchrune-candidate-9.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "entry": 40,
+      "round": 2,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-80-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "launchrune-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 151,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-155-0",
+      "predictedDirectScore": 26,
+      "selectedLandTargets": [
+        {
+          "label": "登陆海卫一 - 奖励：获得 26 分；指定目标登陆：4分（海王星，R68，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "triton",
+            "rocketId": 68
+          },
+          "score": 51.8377
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 海卫一，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 海卫一；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "creditunlock-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-12-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火星 - 奖励：首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记（主星，R7，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 7
+          },
+          "score": 30.290999999999997
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 3,
+        "publicity": 2
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "creditunlock-candidate-9.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "entry": 40,
+      "round": 2,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-80-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "creditunlock-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 151,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-155-0",
+      "predictedDirectScore": 26,
+      "selectedLandTargets": [
+        {
+          "label": "登陆海卫一 - 奖励：获得 26 分；指定目标登陆：4分（海王星，R68，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "triton",
+            "rocketId": 68
+          },
+          "score": 51.8377
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 海卫一，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 海卫一；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "launchrune-candidate-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 77,
+      "round": 2,
+      "turn": 11,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-93-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "launchrune-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 89,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-92-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "launchrune-candidate-10.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 156,
+      "round": 4,
+      "turn": 2,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-129-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土星 - 奖励：首次登陆：额外获得 2 个数据；获得 8 分；获得 1 个黄色外星人标记（主星，R75，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 75
+          },
+          "score": 28.992504999999998
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 土星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "creditunlock-candidate-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 77,
+      "round": 2,
+      "turn": 11,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-93-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "creditunlock-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 89,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-92-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "launchrune-candidate-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "entry": 47,
+      "round": 2,
+      "turn": 4,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-83-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "launchrune-candidate-11.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "entry": 176,
+      "round": 4,
+      "turn": 8,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-155-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土星 - 奖励：首次登陆：额外获得 2 个数据；获得 8 分；获得 1 个黄色外星人标记（主星，R185，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 185
+          },
+          "score": 35.34728
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 土星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#1；获得符文5；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "creditunlock-candidate-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "entry": 47,
+      "round": 2,
+      "turn": 4,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-83-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "launchrune-candidate-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "entry": 52,
+      "round": 2,
+      "turn": 6,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-38-pass-1-4",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，R37，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 37
+          },
+          "score": 49.638999999999996
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 土卫六，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "launchrune-candidate-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 138,
+      "round": 4,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-164-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 水星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "creditunlock-candidate-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "entry": 52,
+      "round": 2,
+      "turn": 6,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-38-pass-1-4",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，R37，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 37
+          },
+          "score": 49.638999999999996
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 土卫六，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "creditunlock-candidate-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 138,
+      "round": 4,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-164-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 水星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "launchrune-candidate-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 140,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-154-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 水星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "creditunlock-candidate-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 140,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-154-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 水星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "launchrune-candidate-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 163,
+      "round": 4,
+      "turn": 5,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-125-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "creditunlock-candidate-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 163,
+      "round": 4,
+      "turn": 5,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-125-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "launchrune-candidate-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "entry": 90,
+      "round": 3,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-122-0",
+      "predictedDirectScore": 26,
+      "selectedLandTargets": [
+        {
+          "label": "登陆海卫一 - 奖励：获得 26 分（海王星，R101，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "triton",
+            "rocketId": 101
+          },
+          "score": 95.270159
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 海卫一，消耗 （橙色3，消耗-1），移除火箭，显示卫星登陆标记 海卫一；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "launchrune-candidate-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 92,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-95-0",
+      "predictedDirectScore": 10,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 海王星，消耗 ，移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "creditunlock-candidate-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "entry": 90,
+      "round": 3,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-122-0",
+      "predictedDirectScore": 26,
+      "selectedLandTargets": [
+        {
+          "label": "登陆海卫一 - 奖励：获得 26 分（海王星，R101，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "triton",
+            "rocketId": 101
+          },
+          "score": 95.270159
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 海卫一，消耗 （橙色3，消耗-1），移除火箭，显示卫星登陆标记 海卫一；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "creditunlock-candidate-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 92,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-95-0",
+      "predictedDirectScore": 10,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 海王星，消耗 ，移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 3,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "launchrune-candidate-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 16,
+      "round": 1,
+      "turn": 3,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-55-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R16，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 16
+          },
+          "score": 63.6302
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "launchrune-candidate-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 150,
+      "round": 4,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-159-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木星 - 奖励：首次登陆：额外获得 2 个数据；获得 7 分；获得 1 个黄色外星人标记（主星，R123，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 123
+          },
+          "score": 39.116505
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "creditunlock-candidate-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 16,
+      "round": 1,
+      "turn": 3,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-55-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R16，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 16
+          },
+          "score": 63.6302
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "creditunlock-candidate-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 159,
+      "round": 4,
+      "turn": 4,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-168-0",
+      "predictedDirectScore": 9,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，可重复，R220，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 220
+          },
+          "score": 59.47393
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 天卫三，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "launchrune-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 96,
+      "round": 3,
+      "turn": 2,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-115-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "launchrune-candidate-17.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 153,
+      "round": 4,
+      "turn": 3,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-165-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R182，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 182
+          },
+          "score": 49.00328
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "creditunlock-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 96,
+      "round": 3,
+      "turn": 2,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-115-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "creditunlock-candidate-17.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 153,
+      "round": 4,
+      "turn": 3,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-165-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R182，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 182
+          },
+          "score": 49.00328
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "launchrune-candidate-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 39,
+      "round": 2,
+      "turn": 1,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-79-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R5，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 5
+          },
+          "score": 56.90954
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫二，消耗 ，移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "launchrune-candidate-18.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "entry": 89,
+      "round": 3,
+      "turn": 2,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-111-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "launchrune-candidate-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "entry": 142,
+      "round": 4,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-149-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "creditunlock-candidate-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "entry": 51,
+      "round": 2,
+      "turn": 4,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-79-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "launchrune-candidate-19.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 49,
+      "round": 2,
+      "turn": 3,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-16-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "launchrune-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 82,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，R19，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 19
+          },
+          "score": 80.72312149
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 土卫六，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "launchrune-candidate-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "entry": 97,
+      "round": 3,
+      "turn": 4,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-105-0",
+      "predictedDirectScore": 8,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R63，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 63
+          },
+          "score": 59.901467999999994
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "launchrune-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "entry": 166,
+      "round": 4,
+      "turn": 7,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-147-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，可重复，R187，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 187
+          },
+          "score": 46.066
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 土卫六，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "creditunlock-candidate-19.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 49,
+      "round": 2,
+      "turn": 3,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-16-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "creditunlock-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 82,
+      "round": 3,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，R19，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 19
+          },
+          "score": 80.72312149
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 土卫六，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "creditunlock-candidate-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "entry": 97,
+      "round": 3,
+      "turn": 4,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-105-0",
+      "predictedDirectScore": 8,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R63，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 63
+          },
+          "score": 59.901467999999994
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "creditunlock-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 143,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-147-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火星 - 奖励：首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记（主星，可重复，R90，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 90
+          },
+          "score": 24.38907
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#3；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "launchrune-candidate-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 6,
+      "round": 1,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-50-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "launchrune-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 13,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "launchrune-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 81,
+      "round": 2,
+      "turn": 11,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫一 - 奖励：获得 10 分；获得 4 能量（木星，R70，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "io",
+            "rocketId": 70
+          },
+          "score": 36.19
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫一，消耗 ，移除火箭，显示卫星登陆标记 木卫一；获得符文2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 4,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "launchrune-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 113,
+      "round": 3,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-135-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#4；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "creditunlock-candidate-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "entry": 6,
+      "round": 1,
+      "turn": 1,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-50-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 2,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "creditunlock-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 13,
+      "round": 1,
+      "turn": 2,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 1,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "creditunlock-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 81,
+      "round": 2,
+      "turn": 11,
+      "cardId": "dlc_1.png",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫一 - 奖励：获得 10 分；获得 4 能量（木星，R70，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "io",
+            "rocketId": 70
+          },
+          "score": 36.19
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫一，消耗 ，移除火箭，显示卫星登陆标记 木卫一；获得符文2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 4,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "creditunlock-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 113,
+      "round": 3,
+      "turn": 4,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-135-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#4；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "launchrune-candidate-21.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 51,
+      "round": 2,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-72-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R21，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 21
+          },
+          "score": 54.358149749999995
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫二，消耗 ，移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 1,
+        "publicity": 3
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "launchrune-candidate-21.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 143,
+      "round": 4,
+      "turn": 3,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-161-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 火星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "creditunlock-candidate-21.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 51,
+      "round": 2,
+      "turn": 2,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-72-0",
+      "predictedDirectScore": 0,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫二 - 奖励：获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2（木星，R21，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 21
+          },
+          "score": 54.358149749999995
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 木卫二，消耗 ，移除火箭，显示卫星登陆标记 木卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 2,
+        "availableData": 1,
+        "publicity": 3
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "creditunlock-candidate-21.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 149,
+      "round": 4,
+      "turn": 4,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-163-0",
+      "predictedDirectScore": 10,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 海王星，消耗 （橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "launchrune-candidate-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R10，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 10
+          },
+          "score": 71.3732
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "creditunlock-candidate-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 12,
+      "round": 1,
+      "turn": 2,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-59-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2（火星，R10，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 10
+          },
+          "score": 71.3732
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 2,
+      "incomeGain": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 3,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "creditunlock-candidate-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "entry": 48,
+      "round": 2,
+      "turn": 1,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-73-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 火星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#4；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 2,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "creditunlock-candidate-22.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 162,
+      "round": 4,
+      "turn": 3,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-160-0",
+      "predictedDirectScore": 12,
+      "selectedLandTargets": [
+        {
+          "label": "登陆木卫三 - 奖励：获得 12 分；获得 5 宣传（木星，R242，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "ganymede",
+            "rocketId": 242
+          },
+          "score": 30.98
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 木卫三，消耗 （橙色3，消耗-1），移除火箭，显示卫星登陆标记 木卫三；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 5
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "launchrune-candidate-23.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 148,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-152-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R47，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 47
+          },
+          "score": 49.06607
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "launchrune-candidate-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 162,
+      "round": 4,
+      "turn": 5,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-160-0",
+      "predictedDirectScore": 13,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，可重复，R122，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 122
+          },
+          "score": 46.326
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 土卫六，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "creditunlock-candidate-23.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 148,
+      "round": 4,
+      "turn": 1,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-152-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R47，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 47
+          },
+          "score": 49.06607
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "creditunlock-candidate-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "entry": 162,
+      "round": 4,
+      "turn": 5,
+      "cardId": "b_29.webp",
+      "cardInstance": "card-160-0",
+      "predictedDirectScore": 13,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，可重复，R122，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 122
+          },
+          "score": 46.326
+        }
+      ],
+      "landingMessages": [
+        "登陆（可重复登陆并获得地点奖励）：登陆 土卫六，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "launchrune-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 62,
+      "round": 2,
+      "turn": 6,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-93-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "launchrune-candidate-24.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 93,
+      "round": 3,
+      "turn": 2,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-99-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R20，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 20
+          },
+          "score": 91.6796041
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "launchrune-candidate-24.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 150,
+      "round": 4,
+      "turn": 2,
+      "cardId": "b_91.webp",
+      "cardInstance": "card-47-pass-3-3",
+      "predictedDirectScore": 7,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2；指定目标登陆：4分（土星，R120，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 120
+          },
+          "score": 56.923488
+        }
+      ],
+      "landingMessages": [
+        "登陆；火星/水星/卫星奖励4分：登陆 土卫六，消耗 （橙色3，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 4 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 1
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "launchrune-candidate-24.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 152,
+      "round": 4,
+      "turn": 3,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-138-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [
+        {
+          "label": "登陆金星 - 奖励：获得 5 分；获得 1 个黄色外星人标记（主星，R152，0）",
+          "target": {
+            "type": "planet",
+            "rocketId": 152
+          },
+          "score": 23.55521
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#3；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 2
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "creditunlock-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "entry": 62,
+      "round": 2,
+      "turn": 6,
+      "cardId": "dlc_31.png",
+      "cardInstance": "card-93-0",
+      "predictedDirectScore": 5,
+      "selectedLandTargets": [],
+      "landingMessages": [
+        "登陆：登陆 金星，消耗 （有环绕，消耗-1；橙色3，消耗-1），移除火箭，显示登陆标记#2；追加 2 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "creditunlock-candidate-24.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "entry": 93,
+      "round": 3,
+      "turn": 2,
+      "cardId": "b_34.webp",
+      "cardInstance": "card-99-0",
+      "predictedDirectScore": 25,
+      "selectedLandTargets": [
+        {
+          "label": "登陆天卫三 - 奖励：获得 25 分（天王星，R20，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titania",
+            "rocketId": 20
+          },
+          "score": 91.6796041
+        }
+      ],
+      "landingMessages": [
+        "登陆（可无橙色4登陆卫星）：登陆 天卫三，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 天卫三；追加 1 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "creditunlock-candidate-24.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "entry": 152,
+      "round": 4,
+      "turn": 3,
+      "cardId": "dlc_6.png",
+      "cardInstance": "card-138-0",
+      "predictedDirectScore": 6,
+      "selectedLandTargets": [
+        {
+          "label": "登陆土卫六 - 奖励：获得 7 分；获得任意外星人标记 1/2；获得任意外星人标记 2/2（土星，R120，0）",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "titan",
+            "rocketId": 120
+          },
+          "score": 56.804993
+        }
+      ],
+      "landingMessages": [
+        "登陆：登陆 土卫六，消耗 （橙色3，消耗-1），移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励"
+      ],
+      "incomeChoices": 0,
+      "incomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 0,
+        "publicity": 0
+      },
+      "nonIncomeGain": {
+        "credits": 0,
+        "energy": 0,
+        "handSize": 0,
+        "availableData": 1,
+        "publicity": 3
+      },
+      "spent": {
+        "credits": 2,
+        "energy": 0,
+        "handSize": 1,
+        "availableData": 0,
+        "publicity": 0
+      }
+    }
+  ],
+  "manifest": [
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-1.json",
+      "sha256": "563af2e168610644fba49a66bf9c326433914be97a1fd210d713e1fb2b15559e"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-1.json",
+      "sha256": "d0bf8a329da911b5b02b26dc5d2a3ec480a1c2912613c5873ce5b8a0d3b29ce9"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-2.json",
+      "sha256": "74c74c3350bbcb23a3268cf2b0e9c5176dbed4c7cfe621fb373696ba9bb2c2a8"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-2.json",
+      "sha256": "5539590e7409d9fe47a0d1e84ae2922867d52efb927e20f4a81df013c02686ca"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-3.json",
+      "sha256": "e80ab48882a6b3469e821c85a848760b47c093383f64e9f1e35c1b973275893f"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-3.json",
+      "sha256": "fbc2a5300e76c64d23f7bfe5ebddb7f7ffa4ba774a495de5f8509b40601892f6"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-4.json",
+      "sha256": "af08cbf206e43bf98ed8deca38a44edc3de3c31ebd55852d9a2bc9780b2649b2"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-4.json",
+      "sha256": "d6be4dcd847847e89dd878dbf22b30e0ebbd6420c3b67927b760910f53da748a"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-5.json",
+      "sha256": "9f16275a673f4715a96ec56995c918bb90b2c5eaeb8a8597b061d44f4dc1c9a2"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-5.json",
+      "sha256": "fb9d24dafd17f0c21d1f254d0cb47b23db5b2bebd6fa7877dd9292095cb064f7"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-6.json",
+      "sha256": "90ae3a18839477d7123b827e4a828af0c9ae5f87e4d28e6035d21608405168d1"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-6.json",
+      "sha256": "990c98687a537efb1cd9c7f7d76e3f91ef732f37843db0062b6b5c95034576a5"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-7.json",
+      "sha256": "113e73e2292a225cfbdcbd0d68ac367bf4848bf43848a0b802258b09fa218646"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-7.json",
+      "sha256": "80071f4c19aea4df616263f0d04b099641814d4e260adee23e68c44ea7e035b9"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-8.json",
+      "sha256": "fd25857488dfcd1ccb0502b9511c92329e65dae416b0dc762d7369b3a5347c96"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-8.json",
+      "sha256": "6706d552e4c3c2905d87868f47b0d01c68026c8c2a2762fd2047d90f9f69b128"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-9.json",
+      "sha256": "da406882cdf9f690c507d0ca2cb531cc96cdce87195ffc07917b88a87a9cebec"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-9.json",
+      "sha256": "7b1c6dac3c18a3b3176c7722bc2fefe619cd74a264950e6e8a642344b08f425b"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-10.json",
+      "sha256": "a6bf6fdfb0de506c6158220c6d572dc6b3322955254079d4abb5b8cf6fb34e54"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-10.json",
+      "sha256": "e0a9375b68139e3571f7b94e424f649053ba1781bcc9ac56f5ec5d96b93832af"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-11.json",
+      "sha256": "7b8b7878ec3d8b8ab9fdf980209a43b6d833722c775dfc9d6b4b7c316e3cfd5b"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-11.json",
+      "sha256": "364afb3d657f0c4d30c0daabcc653551902fc4a49b5b78578191a8fc5a1f3ac4"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-12.json",
+      "sha256": "9194e5b2e270b003801054188b551bff75eda1db64348515b2d1de3859467f62"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-12.json",
+      "sha256": "ffab87fd4978c6b7f8ce6f32f9bc3970223d018df7bf0dd542f2ed0c6c8ab5b6"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-13.json",
+      "sha256": "92189c3d78aa8a24c60fcb155c61b5cfb06e1caabba1f7b0e8b8a90f2365b27e"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-13.json",
+      "sha256": "4cf50661b9db71d28d54aa6cd3b31fd340a71a4952062c6ad653afd30d8ab903"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-14.json",
+      "sha256": "e4fb53c4137acbf07408ffa28ea89681806407cddf7055a88cdb61b3e054e4fb"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-14.json",
+      "sha256": "7f12ceffdef321381894a1af8a775bff2614a0ccbd83e93286b487493548bda4"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-15.json",
+      "sha256": "3583145fe109804cd55cb2ee041a1096ba1707c3762d0fc48bebef259b05306f"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-15.json",
+      "sha256": "6e03058d4d0e74f0c5d1c7abdb1466b8f59c59d14a85aa7a6d223510a3c08213"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-16.json",
+      "sha256": "80fdf54d7cfe095fe1fb6d5dd6197b84b063fa779a3ad359a5bc72158b59f1ed"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-16.json",
+      "sha256": "1474b566a8ab50a7b5de22c2adaf495667c6c31fb7b84a73fcaa08effb643a19"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-17.json",
+      "sha256": "94ae769215a71930d179d2d806366e30fa9809b5ae475ff658eb6f67776c6f55"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-17.json",
+      "sha256": "f45b48a17c6a46502614e61774394b44f7c2a1c3aca5aa05eb9a440a1045a964"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-18.json",
+      "sha256": "b2b19448a9782013baaa438370842d8ee4217fdfb87bcd6c8e504852eeb9605d"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-18.json",
+      "sha256": "2dd73a18061b5bb943cd1094c13451ef206d6c86375104f908a05105c36587c1"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-19.json",
+      "sha256": "49600d5d0ac8566f31df5f440f45c54f6dc18021f27b8af122ac52159a8c6404"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-19.json",
+      "sha256": "a9e5a668c5f0c262057139158488974a5068b547239f64c209df15726529e171"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-20.json",
+      "sha256": "e0597badffda232644322097ffa358920a9ca2f611a193c6501329eebe97031b"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-20.json",
+      "sha256": "5fc5e3108b422c854865f4499775b03d06b2b2f52ea40e204882118e893d3114"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-21.json",
+      "sha256": "3caa87c895d0192f587595a8f1ba542a0b7bd0f4551f45303bc701e639e96f8a"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-21.json",
+      "sha256": "cf26de7089883c14200143ff196270a6094ef7a7dd3afa53adc302472a1b79fe"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-22.json",
+      "sha256": "862798005b206d552d94ccb0380388e7bab9b21a8711e5c536960a1f876f0bd1"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-22.json",
+      "sha256": "0ac328f828c92ac3a3e4122ab06f9da39524b15a36b38a004bd63d5d1bbf3770"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-23.json",
+      "sha256": "4b7445923c41abe9ae69bdab980157c91b80da901c5b718ce9df42eeb1130e51"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-23.json",
+      "sha256": "84d93732400f40ecd28644bd9774506199ec519179209166c08d5f4267dabeb1"
+    },
+    {
+      "side": "baseline",
+      "file": "launchrune-candidate-24.json",
+      "sha256": "da8c1ee83bde911da74d4def52b069b82494a1eac9c915e3297b600bc7684960"
+    },
+    {
+      "side": "candidate",
+      "file": "creditunlock-candidate-24.json",
+      "sha256": "b47758bb547f8cea301493dc392732616c0a862ae61988d90a3902555d624b06"
+    }
+  ]
+}
