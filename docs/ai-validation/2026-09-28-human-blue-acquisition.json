@@ -1,0 +1,4161 @@
+{
+  "scope": "First logged blue-tech acquisition with source text, deduplicated per seat. All current human logs and complete current-default fixed24; no in-progress fresh scores read.",
+  "baselineCommit": "1a72821ec7d5ffdac16a3f12a077559dca372caa",
+  "humanReportSha256": "604d4767791d547d67352e881e4485cca81d5f26e0f9506973e33f957c8119f5",
+  "limitations": [
+    "Human and AI companies, rules versions and seeds differ; descriptive comparison only.",
+    "Missing historical starting tech or rewards remain unknown, not zero. First logged appearance is not proof of optimal acquisition time.",
+    "AI fixed24 uses parser22 and human parser23. The movement-publicity correction does not affect tech identity or blue credit/energy receipts."
+  ],
+  "newPlayers": [
+    {
+      "model": "human",
+      "game": "human-16",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 296,
+      "blue1": 6,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 53,
+          "contextText": "旋转：太阳系旋转：R15随盘旋转->[5,3]#4；R78随盘旋转->[6,2]#4；不可撤销：太阳系旋转：R15随盘旋转->[5,3]#4；R78随盘旋转->[6,2]#4",
+          "directAcquisition": {
+            "entry": 53,
+            "round": 2,
+            "turn": 5,
+            "line": 420,
+            "text": "- [main] 获得科技片：blue1：获得科技：blue1；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 11,
+          "entry": 119,
+          "contextText": "旋转：太阳系旋转：R200随盘旋转->[5,1]#4；不可撤销：太阳系旋转：R200随盘旋转->[5,1]#4",
+          "directAcquisition": {
+            "entry": 119,
+            "round": 3,
+            "turn": 11,
+            "line": 965,
+            "text": "- [main] 获得科技片：blue2：获得科技：blue2；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 8,
+          "entry": 158,
+          "contextText": "旋转：太阳系旋转：R201随盘旋转->[5,1]#4；R223随盘旋转->[6,1]#4；R224随盘旋转->[7,1]#4；R225随盘旋转->[7,1]#0；R246随盘旋转->[7,1]#2；不可撤销：太阳系旋转：R201随盘旋转->[5,1]#4；R223随盘旋转->[6,1]#4；R224随盘旋转->[7,1]#4；R225随盘旋转->[7,1]#0；R246随盘旋转->[7,1]#2",
+          "directAcquisition": {
+            "entry": 158,
+            "round": 4,
+            "turn": 8,
+            "line": 1317,
+            "text": "- [main] 获得科技片：blue3：获得科技：blue3；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        }
+      },
+      "sourceSha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae"
+    },
+    {
+      "model": "human",
+      "game": "human-17",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "白色",
+      "company": "任务中继站",
+      "score": 362,
+      "blue1": 6,
+      "blue2": 5,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 4,
+          "entry": 18,
+          "contextText": "旋转：太阳系旋转：R2随盘旋转->[1,1]#4；R18随盘旋转->[2,1]#4；不可撤销：太阳系旋转：R2随盘旋转->[1,1]#4；R18随盘旋转->[2,1]#4",
+          "directAcquisition": {
+            "entry": 18,
+            "round": 1,
+            "turn": 4,
+            "line": 182,
+            "text": "- [main] 获得科技片：blue1：获得科技：blue1；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 8,
+          "entry": 65,
+          "contextText": "旋转：太阳系旋转：R58随盘旋转->[2,2]#4；不可撤销：太阳系旋转：R58随盘旋转->[2,2]#4",
+          "directAcquisition": {
+            "entry": 65,
+            "round": 2,
+            "turn": 8,
+            "line": 537,
+            "text": "- [main] 获得科技片：blue2：获得科技：blue2；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 11,
+          "entry": 181,
+          "contextText": "旋转：太阳系旋转：R386镂空推动->[6,1]#4（推动到彗星，宣传+1）；不可撤销：太阳系旋转：R386镂空推动->[6,1]#4（推动到彗星，宣传+1）",
+          "directAcquisition": {
+            "entry": 181,
+            "round": 4,
+            "turn": 11,
+            "line": 1519,
+            "text": "- [main] 获得科技片：blue3：获得科技：blue3；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        }
+      },
+      "sourceSha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05"
+    }
+  ],
+  "summary": {
+    "human/异星实验室": {
+      "seats": 2,
+      "blue1": 3.5,
+      "blue2": 4,
+      "analyses": 5.5,
+      "tech": {
+        "blue1": {
+          "owners": 2,
+          "byRound2": 2,
+          "meanFirstLoggedRound": 1
+        },
+        "blue2": {
+          "owners": 2,
+          "byRound2": 2,
+          "meanFirstLoggedRound": 2
+        }
+      }
+    },
+    "human/寰宇动力": {
+      "seats": 4,
+      "blue1": 3.75,
+      "blue2": 2.75,
+      "analyses": 6,
+      "tech": {
+        "blue1": {
+          "owners": 4,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2.75
+        },
+        "blue2": {
+          "owners": 4,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 3.25
+        }
+      }
+    },
+    "human/层云核心": {
+      "seats": 1,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 4,
+      "tech": {
+        "blue1": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 3
+        },
+        "blue2": {
+          "owners": 0,
+          "byRound2": 0,
+          "meanFirstLoggedRound": null
+        }
+      }
+    },
+    "human/赫利昂联合体": {
+      "seats": 1,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 5,
+      "tech": {
+        "blue1": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 4
+        },
+        "blue2": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 3
+        }
+      }
+    },
+    "human/任务中继站": {
+      "seats": 2,
+      "blue1": 4.5,
+      "blue2": 4,
+      "analyses": 6,
+      "tech": {
+        "blue1": {
+          "owners": 2,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2
+        },
+        "blue2": {
+          "owners": 2,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2.5
+        }
+      }
+    },
+    "human/哨兵探测网络": {
+      "seats": 1,
+      "blue1": 4,
+      "blue2": 4,
+      "analyses": 6,
+      "tech": {
+        "blue1": {
+          "owners": 1,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2
+        },
+        "blue2": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 3
+        }
+      }
+    },
+    "human/深空探测": {
+      "seats": 1,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 8,
+      "tech": {
+        "blue1": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 3
+        },
+        "blue2": {
+          "owners": 1,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 4
+        }
+      }
+    },
+    "human/宇宙战略集团": {
+      "seats": 3,
+      "blue1": 4.333333333333333,
+      "blue2": 2,
+      "analyses": 5,
+      "tech": {
+        "blue1": {
+          "owners": 3,
+          "byRound2": 3,
+          "meanFirstLoggedRound": 1.3333333333333333
+        },
+        "blue2": {
+          "owners": 2,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2.5
+        }
+      }
+    },
+    "human/芬威克研究中心": {
+      "seats": 2,
+      "blue1": 2,
+      "blue2": 4,
+      "analyses": 5,
+      "tech": {
+        "blue1": {
+          "owners": 2,
+          "byRound2": 0,
+          "meanFirstLoggedRound": 4
+        },
+        "blue2": {
+          "owners": 2,
+          "byRound2": 1,
+          "meanFirstLoggedRound": 2
+        }
+      }
+    },
+    "current-default-fixed24/寰宇超动力": {
+      "seats": 24,
+      "blue1": 1.4583333333333333,
+      "blue2": 1.1666666666666667,
+      "analyses": 3.0833333333333335,
+      "tech": {
+        "blue1": {
+          "owners": 21,
+          "byRound2": 7,
+          "meanFirstLoggedRound": 2.761904761904762
+        },
+        "blue2": {
+          "owners": 14,
+          "byRound2": 6,
+          "meanFirstLoggedRound": 2.642857142857143
+        }
+      }
+    },
+    "current-default-fixed24/作弊实验室": {
+      "seats": 48,
+      "blue1": 2.375,
+      "blue2": 2.2291666666666665,
+      "analyses": 4.6875,
+      "tech": {
+        "blue1": {
+          "owners": 48,
+          "byRound2": 21,
+          "meanFirstLoggedRound": 2.5416666666666665
+        },
+        "blue2": {
+          "owners": 46,
+          "byRound2": 21,
+          "meanFirstLoggedRound": 2.5
+        }
+      }
+    },
+    "current-default-fixed24/宇宙大战略集团": {
+      "seats": 24,
+      "blue1": 1.625,
+      "blue2": 1.2916666666666667,
+      "analyses": 4.208333333333333,
+      "tech": {
+        "blue1": {
+          "owners": 20,
+          "byRound2": 8,
+          "meanFirstLoggedRound": 2.65
+        },
+        "blue2": {
+          "owners": 16,
+          "byRound2": 5,
+          "meanFirstLoggedRound": 2.75
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "model": "human",
+      "game": "human-1",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\3人局348.md",
+      "player": "白色",
+      "company": "异星实验室",
+      "score": 348,
+      "blue1": 3,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 1,
+          "entry": 4,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 9,
+          "entry": 52,
+          "contextText": "获得科技片：blue2：获得科技：blue2；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 5,
+          "entry": 73,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 11,
+          "entry": 129,
+          "contextText": "获得科技片：blue4：获得科技：blue4；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-2",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\4G哥304寰宇动力.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 304,
+      "blue1": 3,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 1,
+          "entry": 5,
+          "contextText": "旋转：太阳系旋转：R3随盘旋转->[4,1]#4；R4随盘旋转->[4,1]#0；不可撤销：太阳系旋转：R3随盘旋转->[4,1]#4；R4随盘旋转->[4,1]#0"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 8,
+          "entry": 86,
+          "contextText": "旋转：太阳系旋转：R279随盘旋转->[4,1]#4；不可撤销：太阳系旋转：R279随盘旋转->[4,1]#4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 13,
+          "entry": 104,
+          "contextText": "旋转：太阳系旋转：R245随盘旋转->[5,3]#4；R279随盘旋转->[6,1]#4；R280随盘旋转->[7,2]#4；R281随盘旋转->[7,1]#4；不可撤销：太阳系旋转：R245随盘旋转->[5,3]#4；R279随盘旋转->[6,1]#4；R280随盘旋转->[7,2]#4；R281随盘旋转->[7,1]#4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 9,
+          "entry": 144,
+          "contextText": "旋转：太阳系旋转：R280镂空推动->[1,2]#4；R281镂空推动->[1,2]#0；R336随盘旋转->[5,3]#4；R356随盘旋转->[3,1]#4；R357随盘旋转->[3,1]#0；R397随盘旋转->[3,1]#2；不可撤销：太阳系旋转：R280镂空推动->[1,2]#4；R281镂空推动->[1,2]#0；R336随盘旋转->[5,3]#4；R356随盘旋转->[3,1]#4；R357随盘旋转->[3,1]#0；R397随盘旋转->[3,1]#2"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-3",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "player": "白色",
+      "company": "层云核心",
+      "score": 261,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 91,
+          "contextText": "旋转：太阳系旋转：R84随盘旋转->[5,1]#4；R146镂空推动->[4,1]#4；R187随盘旋转->[5,1]#0；不可撤销：太阳系旋转：R84随盘旋转->[5,1]#4；R146镂空推动->[4,1]#4；R187随盘旋转->[5,1]#0"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 6,
+          "entry": 99,
+          "contextText": "旋转：太阳系旋转：R84随盘旋转->[2,1]#4；R146随盘旋转->[0,1]#4；R187随盘旋转->[2,1]#0；R238随盘旋转->[2,1]#2；不可撤销：太阳系旋转：R84随盘旋转->[2,1]#4；R146随盘旋转->[0,1]#4；R187随盘旋转->[2,1]#0；R238随盘旋转->[2,1]#2"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-4",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\赫利昂266.md",
+      "player": "白色",
+      "company": "赫利昂联合体",
+      "score": 266,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 102,
+          "contextText": "旋转：太阳系旋转：R104随盘旋转->[6,1]#4；R105随盘旋转->[6,1]#0；R121随盘旋转->[6,1]#2；R154随盘旋转->[6,1]#6；不可撤销：太阳系旋转：R104随盘旋转->[6,1]#4；R105随盘旋转->[6,1]#0；R121随盘旋转->[6,1]#2；R154随盘旋转->[6,1]#6"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 6,
+          "entry": 135,
+          "contextText": "旋转：太阳系旋转：R104随盘旋转->[5,1]#4；R154随盘旋转->[5,1]#0；R206随盘旋转->[5,1]#2；R207随盘旋转->[5,1]#6；R226随盘旋转->[5,1]#8；R285随盘旋转->[5,1]#1；不可撤销：太阳系旋转：R104随盘旋转->[5,1]#4；R154随盘旋转->[5,1]#0；R206随盘旋转->[5,1]#2；R207随盘旋转->[5,1]#6；R226随盘旋转->[5,1]#8；R285随盘旋转->[5,1]#1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 11,
+          "entry": 154,
+          "contextText": "旋转：太阳系旋转：R104随盘旋转->[2,1]#4；R154随盘旋转->[4,1]#4；R207随盘旋转->[4,1]#0；R285随盘旋转->[0,1]#4；不可撤销：太阳系旋转：R104随盘旋转->[2,1]#4；R154随盘旋转->[4,1]#4；R207随盘旋转->[4,1]#0；R285随盘旋转->[0,1]#4"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-5",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 291,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 7,
+      "cycles": 6,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 6,
+          "entry": 104,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 10,
+          "entry": 119,
+          "contextText": "旋转：太阳系旋转：R153镂空推动->[6,2]#4；R208随盘旋转->[5,1]#4；R224随盘旋转->[4,1]#4；不可撤销：太阳系旋转：R153镂空推动->[6,2]#4；R208随盘旋转->[5,1]#4；R224随盘旋转->[4,1]#4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 4,
+          "entry": 143,
+          "contextText": "旋转：太阳系旋转：R224镂空推动->[3,3]#4；R317随盘旋转->[2,1]#4；R318随盘旋转->[2,1]#0；不可撤销：太阳系旋转：R224镂空推动->[3,3]#4；R317随盘旋转->[2,1]#4；R318随盘旋转->[2,1]#0"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-6",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 285,
+      "blue1": 3,
+      "blue2": 2,
+      "analyses": 7,
+      "cycles": 6,
+      "first": {
+        "blue4": {
+          "round": 3,
+          "turn": 8,
+          "entry": 102,
+          "contextText": "旋转：太阳系旋转：R2随盘旋转->[2,1]#4；R329随盘旋转->[6,1]#4；R330随盘旋转->[6,1]#0；不可撤销：太阳系旋转：R2随盘旋转->[2,1]#4；R329随盘旋转->[6,1]#4；R330随盘旋转->[6,1]#0"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 9,
+          "entry": 106,
+          "contextText": "旋转：太阳系旋转：R2随盘旋转->[1,1]#4；R329随盘旋转->[5,1]#4；R330随盘旋转->[5,1]#0；不可撤销：太阳系旋转：R2随盘旋转->[1,1]#4；R329随盘旋转->[5,1]#4；R330随盘旋转->[5,1]#0"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 7,
+          "entry": 153,
+          "contextText": "旋转：太阳系旋转：R373随盘旋转->[0,1]#4；R374随盘旋转->[4,1]#4；R419随盘旋转->[6,1]#4；R420随盘旋转->[1,2]#4；R421随盘旋转->[0,1]#0；R423随盘旋转->[7,1]#4；不可撤销：太阳系旋转：R373随盘旋转->[0,1]#4；R374随盘旋转->[4,1]#4；R419随盘旋转->[6,1]#4；R420随盘旋转->[1,2]#4；R421随盘旋转->[0,1]#0；R423随盘旋转->[7,1]#4"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-7",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\任务中继站283.md",
+      "player": "白色",
+      "company": "任务中继站",
+      "score": 283,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 3,
+          "entry": 13,
+          "contextText": "旋转：太阳系旋转：R2随盘旋转->[7,2]#4；不可撤销：太阳系旋转：R2随盘旋转->[7,2]#4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 4,
+          "entry": 84,
+          "contextText": "旋转：太阳系旋转：R51随盘旋转->[3,2]#4；R52随盘旋转->[3,2]#0；R132随盘旋转->[6,1]#4；不可撤销：太阳系旋转：R51随盘旋转->[3,2]#4；R52随盘旋转->[3,2]#0；R132随盘旋转->[6,1]#4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 96,
+          "contextText": "旋转：太阳系旋转：R51随盘旋转->[0,2]#4；R132随盘旋转->[2,2]#4；不可撤销：太阳系旋转：R51随盘旋转->[0,2]#4；R132随盘旋转->[2,2]#4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 6,
+          "entry": 149,
+          "contextText": "旋转：太阳系旋转：R242镂空推动->[4,1]#4；R277随盘旋转->[5,1]#4；不可撤销：太阳系旋转：R242镂空推动->[4,1]#4；R277随盘旋转->[5,1]#4"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-8",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\哨兵224.md",
+      "player": "白色",
+      "company": "哨兵探测网络",
+      "score": 224,
+      "blue1": 4,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 3,
+          "entry": 47,
+          "contextText": "旋转：太阳系旋转：R56镂空推动->[3,2]#4（推动到彗星，宣传+1）；不可撤销：太阳系旋转：R56镂空推动->[3,2]#4（推动到彗星，宣传+1）"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 8,
+          "entry": 64,
+          "contextText": "旋转：太阳系旋转：R67随盘旋转->[5,1]#4；R117随盘旋转->[1,1]#4；R118随盘旋转->[2,1]#4；不可撤销：太阳系旋转：R67随盘旋转->[5,1]#4；R117随盘旋转->[1,1]#4；R118随盘旋转->[2,1]#4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 8,
+          "entry": 106,
+          "contextText": "旋转：太阳系旋转：R156随盘旋转->[5,1]#4；R171随盘旋转->[6,1]#4；R187随盘旋转->[6,2]#4；不可撤销：太阳系旋转：R156随盘旋转->[5,1]#4；R171随盘旋转->[6,1]#4；R187随盘旋转->[6,2]#4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 4,
+          "entry": 127,
+          "contextText": "旋转：旋转触发异常 a_2：无奖励；不可撤销：旋转触发异常 a_2：无奖励"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-9",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\深空探测314.md",
+      "player": "白色",
+      "company": "深空探测",
+      "score": 314,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 8,
+      "cycles": 7,
+      "first": {
+        "blue4": {
+          "round": 3,
+          "turn": 2,
+          "entry": 87,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 91,
+          "contextText": "旋转：太阳系旋转：R103随盘旋转->[2,1]#4；R150随盘旋转->[5,1]#4；R153随盘旋转->[6,1]#4；R183随盘旋转->[6,1]#0；不可撤销：太阳系旋转：R103随盘旋转->[2,1]#4；R150随盘旋转->[5,1]#4；R153随盘旋转->[6,1]#4；R183随盘旋转->[6,1]#0"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 3,
+          "entry": 130,
+          "contextText": "旋转：太阳系旋转：R153随盘旋转->[1,1]#4；R249随盘旋转->[3,2]#4；R284随盘旋转->[3,1]#4；R336随盘旋转->[2,1]#4；R337随盘旋转->[2,1]#0；不可撤销：太阳系旋转：R153随盘旋转->[1,1]#4；R249随盘旋转->[3,2]#4；R284随盘旋转->[3,1]#4；R336随盘旋转->[2,1]#4；R337随盘旋转->[2,1]#0"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 5,
+          "entry": 138,
+          "contextText": "旋转：太阳系旋转：R153随盘旋转->[5,1]#4；R249随盘旋转->[1,3]#4；R284随盘旋转->[1,3]#0；R337随盘旋转->[7,1]#4；R338随盘旋转->[7,1]#0；不可撤销：太阳系旋转：R153随盘旋转->[5,1]#4；R249随盘旋转->[1,3]#4；R284随盘旋转->[1,3]#0；R337随盘旋转->[7,1]#4；R338随盘旋转->[7,1]#0"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-10",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\宇宙战略245.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 245,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 5,
+          "entry": 21,
+          "contextText": "旋转：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[0,1]#0；R10随盘旋转->[7,1]#4；R17镂空推动->[7,2]#4；不可撤销：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[0,1]#0；R10随盘旋转->[7,1]#4；R17镂空推动->[7,2]#4"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 2,
+          "entry": 86,
+          "contextText": "旋转：太阳系旋转：R92镂空推动->[1,3]#4；R123随盘旋转->[2,2]#4；R124随盘旋转->[2,1]#4；R125随盘旋转->[2,1]#0；不可撤销：太阳系旋转：R92镂空推动->[1,3]#4；R123随盘旋转->[2,2]#4；R124随盘旋转->[2,1]#4；R125随盘旋转->[2,1]#0"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 8,
+          "entry": 154,
+          "contextText": "旋转：太阳系旋转：R124随盘旋转->[1,3]#4；R125随盘旋转->[1,3]#0；R161随盘旋转->[0,1]#4；R197随盘旋转->[0,1]#0；不可撤销：太阳系旋转：R124随盘旋转->[1,3]#4；R125随盘旋转->[1,3]#0；R161随盘旋转->[0,1]#4；R197随盘旋转->[0,1]#0"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-11",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 374,
+      "blue1": 5,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 5,
+          "entry": 21,
+          "contextText": "旋转：太阳系旋转：R1随盘旋转->[2,1]#4；R2随盘旋转->[0,1]#4；R15随盘旋转->[5,2]#4；不可撤销：太阳系旋转：R1随盘旋转->[2,1]#4；R2随盘旋转->[0,1]#4；R15随盘旋转->[5,2]#4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 3,
+          "entry": 44,
+          "contextText": "旋转：太阳系旋转：R41镂空推动->[4,2]#4；R69随盘旋转->[5,2]#4；不可撤销：太阳系旋转：R41镂空推动->[4,2]#4；R69随盘旋转->[5,2]#4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 2,
+          "entry": 133,
+          "contextText": "旋转：太阳系旋转：R149随盘旋转->[3,1]#4；R203随盘旋转->[3,1]#0；不可撤销：太阳系旋转：R149随盘旋转->[3,1]#4；R203随盘旋转->[3,1]#0"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 5,
+          "entry": 145,
+          "contextText": "旋转：太阳系旋转：R149随盘旋转->[1,1]#4；R203随盘旋转->[7,1]#4；R263随盘旋转->[1,1]#0；不可撤销：太阳系旋转：R149随盘旋转->[1,1]#4；R203随盘旋转->[7,1]#4；R263随盘旋转->[1,1]#0"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-12",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\宇宙战略集团342.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 342,
+      "blue1": 5,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 54,
+          "contextText": "旋转：太阳系旋转，火箭位置不变；不可撤销：太阳系旋转，火箭位置不变"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 117,
+          "contextText": "旋转：太阳系旋转：R246随盘旋转->[7,1]#4；R247随盘旋转->[7,1]#0；不可撤销：太阳系旋转：R246随盘旋转->[7,1]#4；R247随盘旋转->[7,1]#0"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-13",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-014849.md",
+      "player": "白色",
+      "company": "异星实验室",
+      "score": 357,
+      "blue1": 4,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 7,
+          "entry": 30,
+          "contextText": "获得科技片：blue1：获得科技：blue1；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 6,
+          "entry": 62,
+          "contextText": "获得科技片：blue2：获得科技：blue2；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 12,
+          "entry": 134,
+          "contextText": "获得科技片：blue3：获得科技：blue3；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 168,
+          "contextText": "获得科技片：blue4：获得科技：blue4；异星实验室粉色板块已翻面；不可撤销：拿取科技后露出下一张 bonus"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-14",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-233701.md",
+      "player": "白色",
+      "company": "芬威克研究中心",
+      "score": 291,
+      "blue1": 1,
+      "blue2": 3,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 5,
+          "entry": 16,
+          "contextText": "旋转：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[0,1]#0；不可撤销：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[0,1]#0"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 64,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 9,
+          "entry": 110,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-15",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260807-203749.md",
+      "player": "白色",
+      "company": "芬威克研究中心",
+      "score": 297,
+      "blue1": 3,
+      "blue2": 5,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 6,
+          "entry": 26,
+          "contextText": "旋转：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[1,1]#4；R8随盘旋转->[6,3]#4；R9随盘旋转->[1,1]#0；R10随盘旋转->[0,1]#0；R11随盘旋转->[0,1]#2；不可撤销：太阳系旋转：R1随盘旋转->[0,1]#4；R2随盘旋转->[1,1]#4；R8随盘旋转->[6,3]#4；R9随盘旋转->[1,1]#0；R10随盘旋转->[0,1]#0；R11随盘旋转->[0,1]#2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 5,
+          "entry": 130,
+          "contextText": "符文族3：蓝色科技，符文6奖励：符文族3：蓝色科技，符文6奖励 符文6(黑圈2)：1额外公共扫描"
+        }
+      }
+    },
+    {
+      "model": "human",
+      "game": "human-16",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 296,
+      "blue1": 6,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 53,
+          "contextText": "旋转：太阳系旋转：R15随盘旋转->[5,3]#4；R78随盘旋转->[6,2]#4；不可撤销：太阳系旋转：R15随盘旋转->[5,3]#4；R78随盘旋转->[6,2]#4",
+          "directAcquisition": {
+            "entry": 53,
+            "round": 2,
+            "turn": 5,
+            "line": 420,
+            "text": "- [main] 获得科技片：blue1：获得科技：blue1；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 11,
+          "entry": 119,
+          "contextText": "旋转：太阳系旋转：R200随盘旋转->[5,1]#4；不可撤销：太阳系旋转：R200随盘旋转->[5,1]#4",
+          "directAcquisition": {
+            "entry": 119,
+            "round": 3,
+            "turn": 11,
+            "line": 965,
+            "text": "- [main] 获得科技片：blue2：获得科技：blue2；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 8,
+          "entry": 158,
+          "contextText": "旋转：太阳系旋转：R201随盘旋转->[5,1]#4；R223随盘旋转->[6,1]#4；R224随盘旋转->[7,1]#4；R225随盘旋转->[7,1]#0；R246随盘旋转->[7,1]#2；不可撤销：太阳系旋转：R201随盘旋转->[5,1]#4；R223随盘旋转->[6,1]#4；R224随盘旋转->[7,1]#4；R225随盘旋转->[7,1]#0；R246随盘旋转->[7,1]#2",
+          "directAcquisition": {
+            "entry": 158,
+            "round": 4,
+            "turn": 8,
+            "line": 1317,
+            "text": "- [main] 获得科技片：blue3：获得科技：blue3；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        }
+      },
+      "sourceSha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae"
+    },
+    {
+      "model": "human",
+      "game": "human-17",
+      "sourceFile": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "白色",
+      "company": "任务中继站",
+      "score": 362,
+      "blue1": 6,
+      "blue2": 5,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 4,
+          "entry": 18,
+          "contextText": "旋转：太阳系旋转：R2随盘旋转->[1,1]#4；R18随盘旋转->[2,1]#4；不可撤销：太阳系旋转：R2随盘旋转->[1,1]#4；R18随盘旋转->[2,1]#4",
+          "directAcquisition": {
+            "entry": 18,
+            "round": 1,
+            "turn": 4,
+            "line": 182,
+            "text": "- [main] 获得科技片：blue1：获得科技：blue1；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 8,
+          "entry": 65,
+          "contextText": "旋转：太阳系旋转：R58随盘旋转->[2,2]#4；不可撤销：太阳系旋转：R58随盘旋转->[2,2]#4",
+          "directAcquisition": {
+            "entry": 65,
+            "round": 2,
+            "turn": 8,
+            "line": 537,
+            "text": "- [main] 获得科技片：blue2：获得科技：blue2；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 11,
+          "entry": 181,
+          "contextText": "旋转：太阳系旋转：R386镂空推动->[6,1]#4（推动到彗星，宣传+1）；不可撤销：太阳系旋转：R386镂空推动->[6,1]#4（推动到彗星，宣传+1）",
+          "directAcquisition": {
+            "entry": 181,
+            "round": 4,
+            "turn": 11,
+            "line": 1519,
+            "text": "- [main] 获得科技片：blue3：获得科技：blue3；不可撤销：拿取科技后露出下一张 bonus"
+          }
+        }
+      },
+      "sourceSha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05"
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 201,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 100,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 9,
+          "entry": 124,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 10,
+          "entry": 128,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 305,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 4,
+          "entry": 20,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 9,
+          "entry": 79,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 99,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 9,
+          "entry": 123,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 304,
+      "blue1": 2,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 4,
+          "entry": 19,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 1,
+          "turn": 8,
+          "entry": 34,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 54,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 11,
+          "entry": 133,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 237,
+      "blue1": 0,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 3,
+          "turn": 5,
+          "entry": 109,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 2,
+          "entry": 151,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "score": 136,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 1,
+      "cycles": 0,
+      "first": {
+        "blue4": {
+          "round": 3,
+          "turn": 3,
+          "entry": 96,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 6,
+          "entry": 108,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 2,
+          "entry": 152,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 4,
+          "entry": 160,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 221,
+      "blue1": 3,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 2,
+          "entry": 13,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 8,
+          "entry": 63,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 7,
+          "entry": 111,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 4,
+          "entry": 159,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "score": 222,
+      "blue1": 1,
+      "blue2": 2,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 2,
+          "entry": 36,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 97,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 2,
+          "entry": 153,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 6,
+          "entry": 168,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 299,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 2,
+          "entry": 37,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 10,
+          "entry": 71,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 98,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 9,
+          "entry": 118,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 179,
+      "blue1": 0,
+      "blue2": 2,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 6,
+          "entry": 63,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 1,
+          "entry": 91,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 8,
+          "entry": 181,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 279,
+      "blue1": 3,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 6,
+          "entry": 27,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 98,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 7,
+          "entry": 114,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 176,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 324,
+      "blue1": 4,
+      "blue2": 3,
+      "analyses": 7,
+      "cycles": 6,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 3,
+          "entry": 16,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 7,
+          "entry": 65,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 2,
+          "entry": 93,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 5,
+          "entry": 171,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 268,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 2,
+          "entry": 44,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 100,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 3,
+          "entry": 162,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 250,
+      "blue1": 5,
+      "blue2": 4,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 4,
+          "entry": 55,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 4,
+          "entry": 102,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 172,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 306,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 7,
+          "entry": 30,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 6,
+          "entry": 62,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 3,
+          "entry": 97,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 101,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 221,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 6,
+          "entry": 61,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 13,
+          "entry": 137,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 5,
+          "entry": 166,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 6,
+          "entry": 170,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 219,
+      "blue1": 4,
+      "blue2": 3,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 48,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 99,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 3,
+          "entry": 157,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 208,
+      "blue1": 0,
+      "blue2": 0,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 2,
+          "entry": 46,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 1,
+          "entry": 84,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 9,
+          "entry": 116,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 279,
+      "blue1": 4,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 3,
+          "entry": 16,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 4,
+          "entry": 94,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 6,
+          "entry": 102,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 11,
+          "entry": 122,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "score": 228,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 4,
+          "entry": 19,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 85,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 9,
+          "entry": 180,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 318,
+      "blue1": 2,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 3,
+          "entry": 17,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 9,
+          "entry": 72,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 4,
+          "entry": 95,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 3,
+          "entry": 154,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 164,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 54,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 5,
+          "entry": 103,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 207,
+      "blue1": 1,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 2,
+          "entry": 49,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 3,
+          "entry": 94,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 110,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 11,
+          "entry": 126,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 257,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 7,
+          "entry": 31,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 6,
+          "entry": 105,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 109,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 6,
+          "entry": 163,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 247,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 5,
+          "entry": 22,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 6,
+          "entry": 63,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 112,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 157,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 100,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 6,
+          "entry": 112,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 297,
+      "blue1": 3,
+      "blue2": 1,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 4,
+          "entry": 54,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 3,
+          "entry": 99,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 5,
+          "entry": 107,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 12,
+          "entry": 135,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 263,
+      "blue1": 2,
+      "blue2": 1,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 2,
+          "entry": 12,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 8,
+          "entry": 68,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 3,
+          "entry": 98,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 6,
+          "entry": 110,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "score": 223,
+      "blue1": 1,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 6,
+          "entry": 28,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 5,
+          "entry": 56,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 11,
+          "entry": 133,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 7,
+          "entry": 177,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 237,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 108,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 10,
+          "entry": 120,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 229,
+      "blue1": 1,
+      "blue2": 3,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 2,
+          "entry": 46,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 5,
+          "entry": 58,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 3,
+          "entry": 91,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 8,
+          "entry": 164,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 164,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 6,
+          "entry": 28,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 1,
+          "turn": 7,
+          "entry": 31,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 114,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 1,
+          "entry": 139,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 215,
+      "blue1": 0,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {}
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 187,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 51,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 7,
+          "entry": 121,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 173,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 312,
+      "blue1": 3,
+      "blue2": 1,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 4,
+          "entry": 21,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 58,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 120,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 8,
+          "entry": 176,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "score": 130,
+      "blue1": 0,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 6,
+          "entry": 29,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 106,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 3,
+          "entry": 158,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 304,
+      "blue1": 3,
+      "blue2": 3,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 3,
+          "entry": 16,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 7,
+          "entry": 65,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 11,
+          "entry": 83,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 119,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 201,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 56,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 7,
+          "entry": 115,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 12,
+          "entry": 190,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 285,
+      "blue1": 3,
+      "blue2": 4,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 4,
+          "entry": 21,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 10,
+          "entry": 74,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 98,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 10,
+          "entry": 126,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 385,
+      "blue1": 5,
+      "blue2": 2,
+      "analyses": 8,
+      "cycles": 7,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 54,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 6,
+          "entry": 109,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 3,
+          "entry": 157,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 12,
+          "entry": 191,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 252,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 5,
+          "entry": 22,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 8,
+          "entry": 65,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 5,
+          "entry": 108,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 2,
+          "entry": 152,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 193,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 5,
+          "entry": 100,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 5,
+          "entry": 165,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 192,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 5,
+          "entry": 25,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 2,
+          "entry": 154,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 257,
+      "blue1": 2,
+      "blue2": 1,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 4,
+          "entry": 48,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 2,
+          "entry": 86,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 5,
+          "entry": 98,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 6,
+          "entry": 171,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 263,
+      "blue1": 1,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 3,
+          "entry": 45,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 8,
+          "entry": 64,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 107,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 5,
+          "entry": 164,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 223,
+      "blue1": 4,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 4,
+          "entry": 47,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 2,
+          "entry": 130,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 219,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 6,
+          "entry": 26,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 4,
+          "entry": 87,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 319,
+      "blue1": 1,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 4,
+          "entry": 46,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 7,
+          "entry": 59,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 5,
+          "entry": 89,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 11,
+          "entry": 115,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 170,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 72,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 5,
+          "entry": 88,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 6,
+          "entry": 148,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 11,
+          "entry": 166,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 233,
+      "blue1": 0,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 4,
+          "entry": 62,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 203,
+      "blue1": 0,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 3,
+          "turn": 6,
+          "entry": 112,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 322,
+      "blue1": 1,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 7,
+          "entry": 33,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 3,
+          "entry": 57,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 3,
+          "entry": 98,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 102,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 198,
+      "blue1": 4,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 5,
+          "entry": 24,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 250,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 4,
+          "entry": 18,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 106,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 283,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 4,
+          "entry": 21,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 3,
+          "entry": 53,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 93,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 7,
+          "entry": 117,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 332,
+      "blue1": 4,
+      "blue2": 3,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 5,
+          "entry": 60,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 8,
+          "entry": 72,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 4,
+          "entry": 104,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 8,
+          "entry": 120,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "score": 169,
+      "blue1": 3,
+      "blue2": 1,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 95,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 127,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 11,
+          "entry": 188,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 13,
+          "entry": 195,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 174,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 2,
+          "entry": 10,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 2,
+          "entry": 45,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 4,
+          "entry": 149,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 247,
+      "blue1": 3,
+      "blue2": 1,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 3,
+          "entry": 48,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 5,
+          "entry": 56,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 4,
+          "entry": 103,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 160,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "score": 240,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 7,
+          "entry": 31,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 8,
+          "entry": 69,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 5,
+          "entry": 109,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 211,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 7,
+          "entry": 63,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 2,
+          "entry": 94,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 7,
+          "entry": 114,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 7,
+          "entry": 163,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 183,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 3,
+          "entry": 14,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 5,
+          "entry": 161,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 7,
+          "entry": 169,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 147,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 2,
+          "entry": 47,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 7,
+          "entry": 170,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 322,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 7,
+          "entry": 69,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 2,
+          "entry": 98,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 5,
+          "entry": 110,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 118,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 321,
+      "blue1": 3,
+      "blue2": 4,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 8,
+          "entry": 36,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 5,
+          "entry": 111,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 119,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 10,
+          "entry": 131,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 180,
+      "blue1": 0,
+      "blue2": 1,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 8,
+          "entry": 74,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 5,
+          "entry": 110,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 6,
+          "entry": 165,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 180,
+      "blue1": 0,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 3,
+          "entry": 51,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 95,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 2,
+          "entry": 99,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 295,
+      "blue1": 3,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 2,
+          "entry": 48,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 52,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 100,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 6,
+          "entry": 112,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 240,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 6,
+          "entry": 29,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 5,
+          "entry": 61,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 4,
+          "entry": 105,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 9,
+          "entry": 125,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "score": 206,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 3,
+          "entry": 50,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 4,
+          "entry": 54,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 6,
+          "entry": 139,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 210,
+      "blue1": 2,
+      "blue2": 5,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 4,
+          "entry": 53,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 6,
+          "entry": 94,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 2,
+          "entry": 122,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 208,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 3,
+          "entry": 16,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 5,
+          "entry": 89,
+          "contextText": "选择科技：blue4"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 3,
+          "entry": 129,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 9,
+          "entry": 153,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 155,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 6,
+          "entry": 27,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 6,
+          "entry": 96,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 8,
+          "entry": 148,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 162,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 2,
+      "cycles": 1,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 84,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 6,
+          "entry": 161,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "score": 299,
+      "blue1": 3,
+      "blue2": 5,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 5,
+          "entry": 25,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 2,
+          "turn": 8,
+          "entry": 67,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 91,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 7,
+          "entry": 164,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 216,
+      "blue1": 1,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 3,
+          "entry": 47,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 6,
+          "entry": 102,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 4,
+          "entry": 155,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "score": 196,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 1,
+          "entry": 38,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 7,
+          "entry": 62,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "score": 219,
+      "blue1": 0,
+      "blue2": 4,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 1,
+          "turn": 2,
+          "entry": 10,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 6,
+          "entry": 122,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 225,
+      "blue1": 2,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 5,
+          "entry": 23,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 49,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 9,
+          "entry": 135,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 4,
+          "entry": 170,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 294,
+      "blue1": 0,
+      "blue2": 1,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 4,
+          "entry": 55,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 5,
+          "entry": 117,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 9,
+          "entry": 188,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 10,
+          "entry": 192,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 288,
+      "blue1": 5,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 7,
+          "entry": 30,
+          "contextText": "选择科技：blue4"
+        },
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 50,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 4,
+          "entry": 54,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 8,
+          "entry": 128,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "score": 195,
+      "blue1": 0,
+      "blue2": 3,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 3,
+          "entry": 55,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 2,
+          "entry": 90,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 258,
+      "blue1": 2,
+      "blue2": 3,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 5,
+          "entry": 61,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 2,
+          "entry": 88,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 92,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 8,
+          "entry": 112,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 297,
+      "blue1": 3,
+      "blue2": 1,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 2,
+          "entry": 13,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 5,
+          "entry": 101,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 2,
+          "entry": 140,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 4,
+          "turn": 7,
+          "entry": 160,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 203,
+      "blue1": 0,
+      "blue2": 3,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue3": {
+          "round": 1,
+          "turn": 5,
+          "entry": 23,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 1,
+          "entry": 87,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 166,
+      "blue1": 2,
+      "blue2": 0,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 3,
+          "turn": 1,
+          "entry": 97,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 6,
+          "entry": 117,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 170,
+      "blue1": 3,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 8,
+          "entry": 34,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 3,
+          "entry": 106,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 6,
+          "entry": 118,
+          "contextText": "选择科技：blue3"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 308,
+      "blue1": 1,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue4": {
+          "round": 1,
+          "turn": 6,
+          "entry": 27,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 10,
+          "entry": 84,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 11,
+          "entry": 135,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 5,
+          "entry": 169,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 272,
+      "blue1": 2,
+      "blue2": 2,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue4": {
+          "round": 2,
+          "turn": 2,
+          "entry": 53,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 6,
+          "entry": 69,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 2,
+          "turn": 7,
+          "entry": 72,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 2,
+          "entry": 99,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "score": 186,
+      "blue1": 0,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue4": {
+          "round": 3,
+          "turn": 3,
+          "entry": 96,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 4,
+          "entry": 100,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 8,
+          "entry": 174,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "score": 176,
+      "blue1": 1,
+      "blue2": 2,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 9,
+          "entry": 64,
+          "contextText": "选择科技：blue2"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 4,
+          "entry": 101,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 1,
+          "entry": 147,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 10,
+          "entry": 183,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 270,
+      "blue1": 4,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 2,
+          "entry": 37,
+          "contextText": "选择科技：blue1"
+        },
+        "blue3": {
+          "round": 3,
+          "turn": 1,
+          "entry": 86,
+          "contextText": "选择科技：blue3"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 121,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 4,
+          "turn": 8,
+          "entry": 176,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "score": 294,
+      "blue1": 6,
+      "blue2": 6,
+      "analyses": 7,
+      "cycles": 6,
+      "first": {
+        "blue1": {
+          "round": 2,
+          "turn": 3,
+          "entry": 42,
+          "contextText": "选择科技：blue1"
+        },
+        "blue2": {
+          "round": 2,
+          "turn": 10,
+          "entry": 71,
+          "contextText": "选择科技：blue2"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 12,
+          "entry": 132,
+          "contextText": "选择科技：blue4"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "sourceFile": null,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "score": 234,
+      "blue1": 1,
+      "blue2": 3,
+      "analyses": 3,
+      "cycles": 2,
+      "first": {
+        "blue2": {
+          "round": 2,
+          "turn": 2,
+          "entry": 47,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 7,
+          "entry": 113,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "sourceFile": null,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "score": 200,
+      "blue1": 3,
+      "blue2": 0,
+      "analyses": 5,
+      "cycles": 4,
+      "first": {
+        "blue1": {
+          "round": 1,
+          "turn": 3,
+          "entry": 15,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "sourceFile": null,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 260,
+      "blue1": 0,
+      "blue2": 2,
+      "analyses": 6,
+      "cycles": 5,
+      "first": {
+        "blue3": {
+          "round": 3,
+          "turn": 4,
+          "entry": 100,
+          "contextText": "选择科技：blue3"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 112,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 4,
+          "turn": 2,
+          "entry": 145,
+          "contextText": "选择科技：blue2"
+        },
+        "blue1": {
+          "round": 4,
+          "turn": 11,
+          "entry": 181,
+          "contextText": "选择科技：blue1"
+        }
+      }
+    },
+    {
+      "model": "current-default-fixed24",
+      "game": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "sourceFile": null,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 246,
+      "blue1": 1,
+      "blue2": 1,
+      "analyses": 4,
+      "cycles": 3,
+      "first": {
+        "blue3": {
+          "round": 2,
+          "turn": 6,
+          "entry": 61,
+          "contextText": "选择科技：blue3"
+        },
+        "blue1": {
+          "round": 3,
+          "turn": 3,
+          "entry": 95,
+          "contextText": "选择科技：blue1"
+        },
+        "blue4": {
+          "round": 3,
+          "turn": 7,
+          "entry": 111,
+          "contextText": "选择科技：blue4"
+        },
+        "blue2": {
+          "round": 3,
+          "turn": 9,
+          "entry": 122,
+          "contextText": "选择科技：blue2"
+        }
+      }
+    }
+  ]
+}
