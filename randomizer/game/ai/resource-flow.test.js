@@ -2,6 +2,35 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  for (const [label, payout, expected] of [
+    ["当前每个能量收入：1能量", "能量+7", { energy: 7 }],
+    ["当前每个信用收入：3分", "分数+21", { score: 21 }],
+    ["每个非默认盲抽收入：1宣传", "宣传+7", { publicity: 7 }],
+  ]) {
+    const text = `${label}：高于公司默认 7 个，${payout}`;
+    const parsed = flow.parseDeltaText(text);
+    assert.deepEqual(parsed.resourceDeltas, expected);
+    assert.deepEqual(parsed.incomeDeltas, {}, "counting income is not increasing it");
+    assert.equal(flow.classifySourceCategory({ text }), "card");
+  }
+  assert.deepEqual(flow.parseDeltaText("当前每个能量收入：1能量：高于公司默认 0 个，无奖励").incomeDeltas, {});
+  assert.deepEqual(flow.parseDeltaText("将本卡放入收入区：能量+1").incomeDeltas, { energy: 1 });
+  const initial = { id: "p", resources: { energy: 0 }, income: { energy: 8 }, hand: [] };
+  const result = flow.analyzeStructuredActionLog([{ id: 1, roundNumber: 4, playerId: "p", actionType: "playCard",
+    steps: [
+      { source: "main", text: "当前每个能量收入：1能量：高于公司默认 7 个，能量+7" },
+      { source: "main", text: "将本卡放入收入区：能量+1" },
+    ], accountingSnapshot: { players: [{ ...initial, resources: { energy: 8 }, income: { energy: 9 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(result.players[0].nonIncomeGain.energy, 7);
+  assert.equal(result.players[0].incomeGain.energy, 1);
+  assert.equal(result.events[0].sourceCategory, "card");
+  assert.equal(result.events[1].sourceCategory, "income_upgrade_immediate");
+  assert.equal(result.events.filter(e => e.syntheticSnapshotInference).length, 0);
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+}
+
+{
   for (const [detail, expected, start] of [
     ["宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1", { publicity: 3, handSize: -1 }, { publicity: 1, handSize: 1 }],
     ["宣传+1；宣传+1；宣传+1；资源：宣传+1、手牌-1", { publicity: 1, handSize: -1 }, { publicity: 9, handSize: 1 }],

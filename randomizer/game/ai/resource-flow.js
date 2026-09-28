@@ -717,7 +717,10 @@
     const normalizedText = String(text || "").replace(
       /^每个外星人\s*[:：][^；;\n]*?[:：](?=\s*\d+\s*个外星人[，,])/,
       "",
-    );
+    ).replace(
+      /^(?:当前每个能量收入|当前每个信用收入|每个非默认盲抽收入)\s*[:：][^；;\n]*?[:：](?=\s*高于公司默认\s*\d+\s*个)/,
+      "",
+    ).replace(/^将本卡放入收入区\s*[:：]/, "收入：");
     const resourceDeltas = {};
     const incomeDeltas = {};
     const explicitRanges = [];
@@ -817,7 +820,7 @@
       return "tech_bonus_blue2";
     }
     if (
-      /收入(?:提升|增加|升级|调整)|(?:提升|增加|升级).*收入|收入：.*(?:弃掉|弃牌).*已即时获得|income[_\s-]*upgrade/i.test(text)
+      /^将本卡放入收入区[:：]|收入(?:提升|增加|升级|调整)|(?:提升|增加|升级).*收入|收入：.*(?:弃掉|弃牌).*已即时获得|income[_\s-]*upgrade/i.test(text)
     ) {
       return "income_upgrade_immediate";
     }
@@ -829,7 +832,7 @@
       return "tech_bonus_other";
     }
     if (
-      /打出|打牌|卡牌|弃牌|弃掉|手牌收入|收益牌|盲抽|精选|补牌|完成任务|拥有\d+个.*科技|每个己方太阳系探测器或虫族搬运化石/.test(text)
+      /高于公司默认\s*\d+\s*个|打出|打牌|卡牌|弃牌|弃掉|手牌收入|收益牌|盲抽|精选|补牌|完成任务|拥有\d+个.*科技|每个己方太阳系探测器或虫族搬运化石/.test(text)
     ) {
       return "card";
     }
