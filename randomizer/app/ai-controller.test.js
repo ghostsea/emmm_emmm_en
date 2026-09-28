@@ -458,6 +458,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        TUCK_PLAYED_CARD_TO_INCOME: cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME,
         PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_ORBIT: "card_orbit",
         CARD_LAND: "card_land",
@@ -17346,3 +17347,26 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const card = { id: "self-income", cardId: "b_47.webp", incomeGain: { credits: 1 } };
+  card.playEffects = cardEffects.buildPlayEffects(card);
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 1,
+    blueHand: [card], blueInitialSelection: { industry: { id: "industry:寰宇超动力", label: "寰宇超动力" } } });
+  const before = JSON.stringify(h.blue);
+  const profile = h.controller.getAiHuanyuSelfIncomeProfile(card, h.blue);
+  assert.equal(profile.immediateValue, 6);
+  assert.deepEqual(profile.futurePayouts.map(x => x.value), [6, 4.5, 4.5]);
+  assert.equal(profile.value, 21, "self tuck has no second discard cost");
+  const effect = cardEffects.buildPlayEffects(card).find(x => x.type === cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
+  assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue, playedCard: card }), 21);
+  assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue }), 2, "no invented source card");
+  assert.equal(JSON.stringify(h.blue), before);
+  assert.equal(h.controller.getAiHuanyuSelfIncomeProfile({ ...card, cardId: "b_41.webp", playEffects: [] }, h.blue), null);
+  const final = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueInitialSelection: h.blue.initialSelection });
+  assert.equal(final.controller.getAiHuanyuSelfIncomeProfile(card, final.blue).value, 4.5, "final round still pays immediately");
+  h.blue.initialSelection.industry = { id: "industry:作弊实验室", label: "作弊实验室" };
+  assert.equal(h.controller.getAiHuanyuSelfIncomeProfile(card, h.blue), null);
+  assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue, playedCard: card }), 2);
+}

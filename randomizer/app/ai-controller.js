@@ -2686,6 +2686,30 @@
       return immediateGain;
     }
 
+    function getAiHuanyuSelfIncomeProfile(card, player = getCurrentPlayer()) {
+      const company = getAiIndustryCard(player);
+      if (company?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && company?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return null;
+      if (!card || !getAiPlayEffectsForCard(card).some(
+        (effect) => effect?.type === cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME,
+      )) return null;
+      const gain = cards.getIncomeGainForCard?.(card);
+      if (!gain) return null;
+      const immediateGain = getAiImmediateIncomeRewardGain(player, gain);
+      const immediateValue = scoreAiResourceBundle(immediateGain);
+      const futurePayouts = [];
+      for (let round = getAiRoundNumber() + 1; round <= FINAL_ROUND_NUMBER; round += 1) {
+        const resourceValues = round <= 2
+          ? { ...AI_RESOURCE_VALUES, credits: 6, energy: 6.2, handSize: 5.4 }
+          : AI_RESOURCE_VALUES;
+        futurePayouts.push({ round, gain: { ...gain }, value: scoreAiResourceBundle(gain, { resourceValues }) });
+      }
+      // The played physical card is tucked; no second hand card is discarded.
+      // Normal play cost and that card's alternative use remain in the caller.
+      return { gain: { ...gain }, immediateGain, immediateValue, futurePayouts,
+        value: immediateValue + futurePayouts.reduce((total, payout) => total + payout.value, 0) };
+    }
+
     function scoreAiImmediateIncomeRewardValue(player = getCurrentPlayer(), incomeGain = {}) {
       const immediateGain = getAiImmediateIncomeRewardGain(player, incomeGain);
       return scoreAiResourceBundle(immediateGain)
@@ -10866,6 +10890,8 @@
           return 4.5;
         case cardEffects.EFFECT_TYPES.HAND_SCAN:
           return effectOptions.optional ? 2 : 3;
+        case cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME:
+          return getAiHuanyuSelfIncomeProfile(options.playedCard, player)?.value ?? 2;
         case cardEffects.EFFECT_TYPES.COUNT_HAND_INCOME_RESOURCE: {
           const incomeCode = Number(effectOptions.incomeCode);
           const resource = effectOptions.resource || "energy";
@@ -19103,7 +19129,7 @@
       );
       const probeMoveScanPreview = buildAiProbeMoveScanPreview(valuationPlayEffects, currentPlayer);
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true,
+        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true, playedCard: card,
           probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
@@ -19290,6 +19316,7 @@
           directScoreGain,
           effectValue,
           probeMoveScanPreview,
+          huanyuSelfIncome: getAiHuanyuSelfIncomeProfile(card, currentPlayer),
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -26821,6 +26848,7 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      getAiHuanyuSelfIncomeProfile,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
