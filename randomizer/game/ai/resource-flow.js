@@ -1145,6 +1145,15 @@
       if (resourceDeltas[inputKey] == null) resourceDeltas[inputKey] = -Number(cashTrade[1]);
       if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = Number(cashTrade[3]);
     }
+    // These completed fixed-rate trades have no hidden draw/selection result.
+    // Parse the explicit exchange before snapshot reconciliation, so a later
+    // card effect cannot inherit the traded energy or the two-card payment.
+    const handTrade = text.match(/^快速交易：\s*2\s*张牌\s*→\s*1\s*(信用点|能量)(?:；资源：[^；]+)?$/);
+    if (handTrade) {
+      const outputKey = RESOURCE_LABEL_TO_KEY[handTrade[1]];
+      if (resourceDeltas.handSize == null) resourceDeltas.handSize = -2;
+      if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = 1;
+    }
     if (sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate") {
       resourceDeltas = addResourceMaps(resourceDeltas, parsed.incomeDeltas);
     }
