@@ -1,0 +1,20 @@
+{
+  "scope": "Each isolated regression reintroduced into current parser; every mutation fails behavioral assertions.",
+  "rows": [
+    {
+      "control": "owner",
+      "exit": 1,
+      "assertion": "  throw new AssertionError(obj);\r\nAssertionError [ERR_ASSERTION]: trace color is not reward recipient\r"
+    },
+    {
+      "control": "score",
+      "exit": 1,
+      "assertion": "  throw new AssertionError(obj);\r\nAssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\r"
+    },
+    {
+      "control": "reveal",
+      "exit": 1,
+      "assertion": "AssertionError [ERR_ASSERTION]: each explicit reveal recipient must have its own event\r"
+    }
+  ]
+}

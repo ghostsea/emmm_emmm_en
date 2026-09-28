@@ -1,0 +1,471 @@
+{
+  "scope": "Full real-browser replay of fixed candidate case19. Isolated cc14 candidate checkout with only current resource-flow.js replaced. No AI-policy promotion. All1632 semantic decisions,1569 steps and all4 final scores unchanged. Resource-source and card-origin changes are reporting corrections, not new resources or score.",
+  "candidateCommit": "cc14d52c7ed22916dead76d7c608fc7dd0ac68f9",
+  "parserSha256": "87ff1bc9949971bd9b24a0b6a33662bff1b20780287413dcfede6977b1364de2",
+  "summary": {
+    "ok": true,
+    "single": true,
+    "blocked": false,
+    "gameEnded": true,
+    "stoppedBeforeRound": null,
+    "steps": 1569,
+    "maxScore": 284,
+    "minPlayerScore": 180,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      284,
+      201,
+      251,
+      180
+    ],
+    "bugCount": 0,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 2068,
+      "classifiedMagnitude": 2068,
+      "weighted": 1
+    },
+    "message": "游戏已结束"
+  },
+  "identicalSemanticLogs": 1632,
+  "oldEvents": [
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 0,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "打出：嗜极生物研究：资源：信用点-2、手牌-1",
+      "resourceDeltas": {
+        "credits": -2,
+        "handSize": -1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-12-0",
+          "label": "嗜极生物研究",
+          "change": "play",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 1,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 284,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": null,
+      "sourceCategory": "card",
+      "sourceDetail": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置蓝色痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；外星人 2三种首痕迹已满：将在该玩家回合结束时揭示外星人；蓝色痕迹痕迹 1 个：分数+1；资源：分数+4",
+      "resourceDeltas": {
+        "score": 8,
+        "publicity": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "作弊实验室",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 2,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "industry",
+      "sourceDetail": "宇宙战略集团：黄色奖励槽：+1 信用点",
+      "resourceDeltas": {
+        "credits": 1,
+        "handSize": 2
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "alien-yichangdian-7-2",
+          "label": "新物理学",
+          "change": "gain",
+          "origin": "industry"
+        },
+        {
+          "key": "alien-yichangdian-8-3",
+          "label": "生活常态",
+          "change": "gain",
+          "origin": "industry"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 3,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 284,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": null,
+      "sourceCategory": "alien",
+      "sourceDetail": "回合结束揭示外星人：异常点已展示：异常扇区 4、1、7；异常点揭示发牌：蓝色+1，棕色+2",
+      "resourceDeltas": {
+        "handSize": 1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "alien-yichangdian-9-1",
+          "label": "生命迹象",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "techIds": [],
+      "alienId": "异常点",
+      "industryId": "作弊实验室",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 9007199254740981,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 284,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "playCard",
+      "sourceCategory": "cost",
+      "sourceDetail": "snapshot inference: cost",
+      "resourceDeltas": {
+        "publicity": -1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "作弊实验室",
+      "confidence": 0.8,
+      "syntheticSnapshotInference": true
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 9007199254740981,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "playCard",
+      "sourceCategory": "industry",
+      "sourceDetail": "snapshot inference: industry",
+      "resourceDeltas": {
+        "publicity": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "confidence": 0.8,
+      "syntheticSnapshotInference": true
+    }
+  ],
+  "newEvents": [
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 0,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "打出：嗜极生物研究：资源：信用点-2、手牌-1",
+      "resourceDeltas": {
+        "credits": -2,
+        "handSize": -1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-12-0",
+          "label": "嗜极生物研究",
+          "change": "play",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置蓝色痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；外星人 2三种首痕迹已满：将在该玩家回合结束时揭示外星人；蓝色痕迹痕迹 1 个：分数+1；资源：分数+4",
+      "resourceDeltas": {
+        "score": 4,
+        "publicity": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 2,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "industry",
+      "sourceDetail": "宇宙战略集团：黄色奖励槽：+1 信用点",
+      "resourceDeltas": {
+        "credits": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 3,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 284,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": null,
+      "sourceCategory": "alien",
+      "sourceDetail": "回合结束揭示外星人：异常点已展示：异常扇区 4、1、7；异常点揭示发牌：蓝色+1，棕色+2",
+      "resourceDeltas": {
+        "handSize": 1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "alien-yichangdian-9-1",
+          "label": "生命迹象",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "techIds": [],
+      "alienId": "异常点",
+      "industryId": "作弊实验室",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "entryId": 23,
+      "stepIndex": 3,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "alien",
+      "sourceDetail": "回合结束揭示外星人：异常点已展示：异常扇区 4、1、7；异常点揭示发牌：蓝色+1，棕色+2",
+      "resourceDeltas": {
+        "handSize": 2
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "alien-yichangdian-7-2",
+          "label": "新物理学",
+          "change": "gain",
+          "origin": "alien"
+        },
+        {
+          "key": "alien-yichangdian-8-3",
+          "label": "生活常态",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "techIds": [],
+      "alienId": "异常点",
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    }
+  ],
+  "bucketChanges": [
+    {
+      "player": "player-blue",
+      "bucket": "nonIncomeGain",
+      "before": {
+        "score": 188,
+        "credits": 4,
+        "energy": 16,
+        "publicity": 47,
+        "availableData": 50,
+        "handSize": 18
+      },
+      "after": {
+        "score": 180,
+        "credits": 4,
+        "energy": 16,
+        "publicity": 46,
+        "availableData": 50,
+        "handSize": 18
+      }
+    },
+    {
+      "player": "player-blue",
+      "bucket": "spent",
+      "before": {
+        "score": 0,
+        "credits": 20,
+        "energy": 37,
+        "publicity": 48,
+        "availableData": 50,
+        "handSize": 40
+      },
+      "after": {
+        "score": 0,
+        "credits": 20,
+        "energy": 37,
+        "publicity": 47,
+        "availableData": 50,
+        "handSize": 40
+      }
+    },
+    {
+      "player": "player-brown",
+      "bucket": "nonIncomeGain",
+      "before": {
+        "score": 174,
+        "credits": 8,
+        "energy": 10,
+        "publicity": 47,
+        "availableData": 38,
+        "handSize": 21
+      },
+      "after": {
+        "score": 178,
+        "credits": 8,
+        "energy": 10,
+        "publicity": 47,
+        "availableData": 38,
+        "handSize": 21
+      }
+    },
+    {
+      "player": "player-brown",
+      "bucket": "cardUse",
+      "before": {
+        "gainedInGame": 35,
+        "played": 15,
+        "income": 6,
+        "discarded": 9,
+        "movePayments": 1,
+        "unknownRemovals": 16,
+        "playedFromGains": 12,
+        "incomeFromGains": 2,
+        "discardedFromGains": 4,
+        "movePaymentsFromGains": 0,
+        "unknownRemovalsFromGains": 15,
+        "alienGainedInGame": 1,
+        "alienPlayedFromGains": 0,
+        "untracedGains": 2,
+        "knownRemovalUseRate": 0.5454545454545454
+      },
+      "after": {
+        "gainedInGame": 35,
+        "played": 15,
+        "income": 6,
+        "discarded": 9,
+        "movePayments": 1,
+        "unknownRemovals": 16,
+        "playedFromGains": 12,
+        "incomeFromGains": 2,
+        "discardedFromGains": 4,
+        "movePaymentsFromGains": 0,
+        "unknownRemovalsFromGains": 15,
+        "alienGainedInGame": 3,
+        "alienPlayedFromGains": 1,
+        "untracedGains": 2,
+        "knownRemovalUseRate": 0.5454545454545454
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "file": "tmp/ai-20260905/directtracecards-candidate-19.json",
+      "sha256": "a5970ef67387274c85dbbec3abcb3d44041e90f36e9d2845fe826e5bdce17b51"
+    },
+    {
+      "file": "tmp/ai-20260905/trace-ledger-replay-final-19.json",
+      "sha256": "5a40ccef8934f2797c667e8166f4b3c18d69c1a517fb276085d0cf6ca5e4c992"
+    }
+  ],
+  "limitations": [
+    "Only this complete game replayed for source corrections; other frozen games retain their original parser.",
+    "The replay proves parser integration and deterministic policy isolation, not mean-score improvement."
+  ]
+}

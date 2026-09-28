@@ -2,6 +2,57 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  for (const drawn of [0, 1, 2]) {
+    const before = [
+      { id: "blue", color: "blue", resources: {}, hand: [] },
+      { id: "brown", color: "brown", resources: {}, hand: [] },
+    ];
+    const after = before.map(p => ({ ...p,
+      resources: p.id === "brown" ? { credits: 1 } : {},
+      hand: Array.from({ length: p.id === "blue" ? 1 : drawn }, (_, i) => ({ id: p.id + i })),
+    }));
+    const result = flow.analyzeStructuredActionLog([{
+      id: 23, playerId: "brown", actionType: "playCard",
+      steps: [
+        { source: "main", text: "宇宙战略集团：黄色奖励槽：+1 信用点" },
+        { source: "main", text: `回合结束揭示外星人：异常点已展示：异常扇区 4、1、7；异常点揭示发牌：蓝色+1，棕色+${drawn}/2` },
+      ], accountingSnapshot: { players: after },
+    }], { initialPlayerStates: before });
+    const grant = result.events.find(e => e.stepIndex === 1 && e.playerId === "brown");
+    assert(grant, "each explicit reveal recipient must have its own event");
+    assert.equal(grant.resourceDeltas.handSize || 0, drawn, "count actual draws, not expected entitlement");
+    assert.equal(grant.cards.length, drawn);
+    assert(grant.cards.every(c => c.origin === "alien"));
+    assert.deepEqual(result.events[0].resourceDeltas, { credits: 1 }, "company reward did not grant alien cards");
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+}
+
+{
+  // Actual b36 receipt: brown earns first-trace 3VP/1 publicity plus 1VP
+  // for the new blue trace. The trailing impact reports total score 4.
+  for (const color of ["蓝色", "黄色", "粉色"]) {
+    const text = `获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置${color}痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；${color}痕迹痕迹 1 个：分数+1；资源：分数+4`;
+    assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, { publicity: 1, score: 4 });
+    const before = [
+      { id: "blue", color: "blue", resources: { score: 20, publicity: 5 }, hand: [] },
+      { id: "brown", color: "brown", resources: { score: 20, publicity: 5 }, hand: [] },
+    ];
+    const after = before.map(p => p.id === "brown" ? { ...p, resources: { score: 24, publicity: 6 } } : p);
+    const result = flow.analyzeStructuredActionLog([{
+      id: 23, roundNumber: 1, turnNumber: 5, playerId: "brown", actionType: "playCard",
+      steps: [{ source: "main", text }], accountingSnapshot: { players: after },
+    }], { initialPlayerStates: before });
+    assert.equal(result.events[0].playerId, "brown", "trace color is not reward recipient");
+    assert.deepEqual(result.events[0].resourceDeltas, { publicity: 1, score: 4 });
+    assert.equal(result.events.length, 1, "no compensating snapshot inference should hide double counting");
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+  assert.deepEqual(flow.parseDeltaText("蓝色痕迹痕迹 1 个：分数+1；独立奖励：分数+4").resourceDeltas,
+    { score: 5 }, "without an impact summary, independent rewards stay additive");
+}
+
+{
   const events = [
     { gameId: "incomplete", playerId: "p", sourceCategory: "setup", resourceDeltas: { credits: 2, energy: 3 } },
     { gameId: "incomplete", playerId: "p", sourceCategory: "cost", resourceDeltas: { credits: -3, energy: -2 } },

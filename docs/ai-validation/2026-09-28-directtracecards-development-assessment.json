@@ -1,0 +1,163 @@
+{
+  "decision": "hold-no-default-promotion-no-new-random",
+  "models": {
+    "base": "cfdbb7b922421343f58308a61cdae87023dd2044",
+    "candidate": "cc14d52c7ed22916dead76d7c608fc7dd0ac68f9"
+  },
+  "pairs": 24,
+  "meanDelta": -1.9375,
+  "pairedGameStandardError": 2.5197701075549603,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 270.1458333333333,
+      "meanDelta": -1.9166666666666856,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 189.08333333333334,
+      "meanDelta": -7.75,
+      "minimumDelta": -3
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 208.66666666666666,
+      "meanDelta": 3.8333333333333144,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.9375,
+    "min": 0,
+    "p10": 0,
+    "p25": -0.5,
+    "median": -1.5,
+    "p75": -2.75,
+    "max": 0,
+    "topQuartileMean": 0.125,
+    "winnerMean": 1.4166666666666288,
+    "minimumPerGameMean": -3.583333333333343,
+    "seats270Plus": -2,
+    "seats300Plus": -1
+  },
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 234.51041666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197,
+    "median": 227,
+    "p75": 277.25,
+    "max": 385,
+    "topQuartileMean": 309,
+    "winnerMean": 297.3333333333333,
+    "minimumPerGameMean": 174,
+    "seats270Plus": 26,
+    "seats300Plus": 13,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 270.1458333333333,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 189.08333333333334,
+        "min": 133
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 208.66666666666666,
+        "min": 130
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 294.7916666666667,
+    "meanDelta": -14.083333333333334,
+    "improved": 4,
+    "declined": 14,
+    "unchanged": 6
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 174.75,
+    "meanDelta": 3.4583333333333335,
+    "improved": 10,
+    "declined": 9,
+    "unchanged": 5
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1149,
+    "matched": 1149,
+    "intendedCardMatched": 1149,
+    "paid": 1149,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "choiceEvidence": {
+    "plays": 20,
+    "withTraceReceipt": 19,
+    "lost": 0,
+    "byCard": {
+      "b_32.webp": 4,
+      "b_35.webp": 5,
+      "b_27.webp": 7,
+      "b_36.webp": 4
+    },
+    "byCompany": {
+      "寰宇超动力": 2,
+      "作弊实验室": 15,
+      "宇宙大战略集团": 3
+    }
+  },
+  "limitations": [
+    "Seen fixed development seeds; no new random success; +10 target unfinished.",
+    "20 actual same-instance direct-trace card payments, but only19 same-player trace receipts in frozen parser output. Case19 brown b36 trace reward is wrongly assigned to blue because of the words blue trace, and component/total score is double counted as8 rather than4. Scores and actual game resources are unaffected.",
+    "Ledger closure alone does not validate source attribution: snapshot inference can compensate for false rewards. Frozen resource reports below retain this limitation and must not be used as corrected source totals.",
+    "No post-hoc company gate based on the positive GrandStrategy subgroup. Generic trace valuation and specific legal target reward valuation still differ."
+  ]
+}

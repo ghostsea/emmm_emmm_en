@@ -1,0 +1,939 @@
+{
+  "scope": "All24 development pairs. Every selected direct-trace play matched to actual same-instance payment. Trace receipt identified in subsequent main steps of the same transaction. Resource gains cover that main transaction including triggered effects, not an isolated causal trace payout. Do not credit later unrelated quick actions. Next main action is descriptive only.",
+  "summary": {
+    "plays": 20,
+    "withTraceReceipt": 19,
+    "lost": 0,
+    "byCard": {
+      "b_32.webp": 4,
+      "b_35.webp": 5,
+      "b_27.webp": 7,
+      "b_36.webp": 4
+    },
+    "byCompany": {
+      "寰宇超动力": 2,
+      "作弊实验室": 15,
+      "宇宙大战略集团": 3
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 9,
+      "log": 1102,
+      "cardId": "b_32.webp",
+      "cardInstanceId": "card-129-0",
+      "selectedScore": 22.189249999999998,
+      "payment": {
+        "entry": 124,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有黄色痕迹的外星人上再放1个黄色痕迹：虫族黄色痕迹 1号位：4分",
+          "resources": {},
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 3,
+        "turn": 10,
+        "action": "researchTech"
+      }
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "log": 1591,
+      "cardId": "b_35.webp",
+      "cardInstanceId": "card-168-0",
+      "selectedScore": 26.3902,
+      "payment": {
+        "entry": 184,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 3,
+          "source": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：符文族蓝色痕迹 1号位：获得符文2，已补充新 symbol",
+          "resources": {
+            "handSize": 1
+          },
+          "cards": [
+            {
+              "key": "card-177-0",
+              "label": "深度巡天阵列",
+              "change": "gain",
+              "origin": "alien"
+            }
+          ]
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "mainTransactionGainedCards": [
+        {
+          "key": "card-177-0",
+          "label": "深度巡天阵列",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "nextMain": {
+        "round": 4,
+        "turn": 11,
+        "action": "playCard",
+        "card": "b_28.webp"
+      }
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "turn": 7,
+      "log": 488,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-77-0",
+      "selectedScore": 6.82295,
+      "payment": {
+        "entry": 58,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：符文族粉色痕迹 4号位：7分、获得符文4",
+          "resources": {},
+          "cards": []
+        },
+        {
+          "step": 2,
+          "source": "自动分析：获得粉色外星人痕迹，1数据：棕色获得 1/1 个数据",
+          "resources": {
+            "availableData": 1
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 1,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 2,
+        "turn": 8,
+        "action": "analyze"
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 6,
+      "log": 1509,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-140-0",
+      "selectedScore": 13.58495,
+      "payment": {
+        "entry": 173,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：异常点粉色痕迹 1号位：分数+2",
+          "resources": {
+            "score": 2
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 2,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 4,
+        "turn": 7,
+        "action": "playCard",
+        "card": "b_34.webp"
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 8,
+      "log": 1606,
+      "cardId": "b_32.webp",
+      "cardInstanceId": "card-169-0",
+      "selectedScore": 32.70945,
+      "payment": {
+        "entry": 184,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 2,
+          "source": "在已有黄色痕迹的外星人上再放1个黄色痕迹：异常点黄色痕迹 1号位：分数+2",
+          "resources": {
+            "score": 2,
+            "handSize": 1
+          },
+          "cards": [
+            {
+              "key": "card-167-0",
+              "label": "百亿亿次超级计算机",
+              "change": "gain",
+              "origin": "alien"
+            }
+          ]
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 2,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "mainTransactionGainedCards": [
+        {
+          "key": "card-167-0",
+          "label": "百亿亿次超级计算机",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "nextMain": {
+        "round": 4,
+        "turn": 9,
+        "action": "playCard",
+        "card": "b_79.webp"
+      }
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "log": 1638,
+      "cardId": "b_35.webp",
+      "cardInstanceId": "card-167-0",
+      "selectedScore": 19.153824999999998,
+      "payment": {
+        "entry": 189,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：异常点蓝色痕迹 1号位：分数+2",
+          "resources": {
+            "score": 2
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 2,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 8,
+      "log": 558,
+      "cardId": "b_36.webp",
+      "cardInstanceId": "card-36-pass-1-2",
+      "selectedScore": -2.2597499999999995,
+      "payment": {
+        "entry": 69,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置粉色痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；外星人 2三种首痕迹已满：将在该玩家回合结束时揭示外星人；粉色痕迹痕迹 1 个：分数+1；资源：分数+4",
+          "resources": {
+            "score": 8,
+            "publicity": 1
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 8,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 2,
+        "turn": 9,
+        "action": "launch"
+      }
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "log": 305,
+      "cardId": "b_35.webp",
+      "cardInstanceId": "card-84-0",
+      "selectedScore": 7.107574999999998,
+      "payment": {
+        "entry": 40,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：符文族蓝色痕迹 4号位：7分、获得符文2",
+          "resources": {},
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 2,
+        "turn": 2,
+        "action": "launch"
+      }
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 11,
+      "log": 670,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-36-pass-1-2",
+      "selectedScore": 8.815325,
+      "payment": {
+        "entry": 80,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：九折粉色痕迹 4号位：分数+7、信用点+1、威胁度+3",
+          "resources": {
+            "score": 7,
+            "credits": 1
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 7,
+        "credits": 1,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 2,
+        "turn": 11,
+        "action": "playCard",
+        "card": "b_133.webp"
+      }
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 8,
+      "log": 1029,
+      "cardId": "b_36.webp",
+      "cardInstanceId": "card-99-0",
+      "selectedScore": 11.453425,
+      "payment": {
+        "entry": 122,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "获得任意外星人痕迹，并按该颜色痕迹数得分：获得符文族牌：9；资源：手牌+1",
+          "resources": {
+            "handSize": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "source": "符文族5：外星人痕迹，符文6奖励：符文族5：外星人痕迹，符文6奖励 符文6(黑圈1)：1能量",
+          "resources": {
+            "energy": 1
+          },
+          "cards": [
+            {
+              "key": "alien-runezu-9-8",
+              "label": "9",
+              "change": "gain",
+              "origin": "alien"
+            }
+          ]
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "mainTransactionGainedCards": [
+        {
+          "key": "alien-runezu-9-8",
+          "label": "9",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "nextMain": {
+        "round": 3,
+        "turn": 9,
+        "action": "scan"
+      }
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "log": 1493,
+      "cardId": "b_35.webp",
+      "cardInstanceId": "card-149-0",
+      "selectedScore": 31.519199999999998,
+      "payment": {
+        "entry": 175,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：外星人 1 蓝色痕迹 额外 +1（共 5）；外星人 1 state额外痕迹奖励：3分",
+          "resources": {
+            "score": 3
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 3,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 4,
+        "turn": 11,
+        "action": "playCard",
+        "card": "b_9.webp"
+      }
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 11,
+      "log": 1088,
+      "cardId": "b_36.webp",
+      "cardInstanceId": "card-135-0",
+      "selectedScore": 7.243275000000001,
+      "payment": {
+        "entry": 130,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "获得任意外星人痕迹，并按该颜色痕迹数得分：符文族粉色痕迹 1号位：获得符文3，已补充新 symbol；粉色痕迹痕迹 4 个：分数+4",
+          "resources": {
+            "score": 4
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 4,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 3,
+        "turn": 12,
+        "action": "analyze"
+      }
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "log": 1453,
+      "cardId": "b_32.webp",
+      "cardInstanceId": "card-180-0",
+      "selectedScore": 13.648200000000001,
+      "payment": {
+        "entry": 164,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 2,
+          "source": "在已有黄色痕迹的外星人上再放1个黄色痕迹：九折黄色痕迹 1号位：分数+3、宣传+1、威胁度+1",
+          "resources": {
+            "score": 3,
+            "publicity": 1
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 3,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": null
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 11,
+      "log": 1080,
+      "cardId": "b_35.webp",
+      "cardInstanceId": "card-42-pass-2-3",
+      "selectedScore": 13.616574999999997,
+      "payment": {
+        "entry": 133,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：方舟蓝色痕迹 2号位：方舟蓝色痕迹 2号位 基础奖励",
+          "resources": {},
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 2,
+        "credits": 0,
+        "energy": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "mainTransactionGainedCards": [
+        {
+          "key": "card-129-0",
+          "label": "科学普及",
+          "change": "gain",
+          "origin": "alien"
+        }
+      ],
+      "nextMain": {
+        "round": 4,
+        "turn": 1,
+        "action": "playCard",
+        "card": "b_14.webp"
+      }
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 8,
+      "log": 1475,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-143-0",
+      "selectedScore": 20.54337,
+      "payment": {
+        "entry": 178,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：方舟粉色痕迹 1号位：分数+2；方舟粉色痕迹 1号位 基础奖励",
+          "resources": {
+            "score": 2
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 3,
+        "credits": 0,
+        "energy": 1,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 4,
+        "turn": 9,
+        "action": "scan"
+      }
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 6,
+      "log": 1360,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-118-0",
+      "selectedScore": 23.857899999999997,
+      "payment": {
+        "entry": 161,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：符文族粉色痕迹 1号位：获得符文4，已补充新 symbol",
+          "resources": {},
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 4,
+        "turn": 7,
+        "action": "analyze"
+      }
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 9,
+      "log": 1537,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-150-0",
+      "selectedScore": 17.20285,
+      "payment": {
+        "entry": 177,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：外星人 1 粉色痕迹 额外 +1（共 1）；外星人 1 state额外痕迹奖励：3分",
+          "resources": {
+            "score": 3
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 3,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": null
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "turn": 5,
+      "log": 178,
+      "cardId": "b_36.webp",
+      "cardInstanceId": "card-12-0",
+      "selectedScore": 4.5258825000000025,
+      "payment": {
+        "entry": 23,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "mainTransactionGainedCards": [
+        {
+          "key": "alien-yichangdian-7-2",
+          "label": "新物理学",
+          "change": "gain",
+          "origin": "industry"
+        },
+        {
+          "key": "alien-yichangdian-8-3",
+          "label": "生活常态",
+          "change": "gain",
+          "origin": "industry"
+        }
+      ],
+      "nextMain": {
+        "round": 1,
+        "turn": 6,
+        "action": "researchTech"
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 9,
+      "log": 653,
+      "cardId": "b_32.webp",
+      "cardInstanceId": "card-103-0",
+      "selectedScore": 15.309949999999999,
+      "payment": {
+        "entry": 75,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有黄色痕迹的外星人上再放1个黄色痕迹：九折痕迹精选：MUREP创意竞赛；资源：手牌+1",
+          "resources": {
+            "handSize": 1
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 0,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 2,
+        "turn": 10,
+        "action": "playCard",
+        "card": "runezu_8.webp"
+      }
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 1,
+      "log": 59,
+      "cardId": "b_27.webp",
+      "cardInstanceId": "card-9-0",
+      "selectedScore": 2.78645,
+      "payment": {
+        "entry": 8,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "traceReceipts": [
+        {
+          "step": 1,
+          "source": "在已有粉色痕迹的外星人上再放1个粉色痕迹：外星人 2 粉色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分",
+          "resources": {
+            "score": 3
+          },
+          "cards": []
+        }
+      ],
+      "lost": [],
+      "mainTransactionResourceGain": {
+        "score": 3,
+        "credits": 0,
+        "energy": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "mainTransactionGainedCards": [],
+      "nextMain": {
+        "round": 1,
+        "turn": 2,
+        "action": "launch"
+      }
+    }
+  ]
+}

@@ -690,6 +690,15 @@
     };
   }
 
+  function getTraceCountScoreSummary(text) {
+    // Trace placement logs first-marker and trace-count components before an
+    // impact summary. The summary is the total score, not another reward.
+    if (!/痕迹\s*\d+\s*个\s*[:：]/.test(text)) return null;
+    const summary = String(text).match(/(?:^|[；;])\s*资源\s*[:：]([^；;\n]+)$/);
+    const score = summary?.[1].match(/分数\s*([+-]\d+(?:\.\d+)?)/);
+    return score ? Number(score[1]) : null;
+  }
+
   function parseDeltaText(text = "") {
     // Counted-alien rewards log a per-alien formula before the actual payout.
     // Its "+1能量" is part of the label, not an additional resource gain.
@@ -737,6 +746,12 @@
       }
       resourceDeltas[key] = (Number(resourceDeltas[key]) || 0) + Number(value);
       matchedMagnitude += generic.matchedMagnitudeByKey[key] || 0;
+    }
+
+    const traceScoreSummary = getTraceCountScoreSummary(normalizedText);
+    if (traceScoreSummary !== null) {
+      matchedMagnitude -= Math.abs(Number(resourceDeltas.score) || 0) - Math.abs(traceScoreSummary);
+      resourceDeltas.score = traceScoreSummary;
     }
 
     return {
@@ -905,7 +920,7 @@
         `${escapedLabel}\\s+(?:分数|信用点|能量|宣传|数据|手牌)\\s*[+-]\\d`,
       );
       const explicitGain = new RegExp(`${escapedLabel}(?:获得|得到)\\s*\\d`);
-      const explicitOwner = new RegExp(`(?:^|[：；;,，])\\s*${escapedLabel}(?!奖励槽)`);
+      const explicitOwner = new RegExp(`(?:^|[：；;,，])\\s*${escapedLabel}(?!奖励槽|痕迹)`);
       if (explicitDelta.test(text) || explicitGain.test(text) || explicitOwner.test(text)) {
         return player.playerId;
       }
@@ -1085,6 +1100,8 @@
     }
     collapseStructuredDuplicateSignedDeltas(text, parsed.resourceDeltas);
     collectStructuredUnsignedRewards(text, parsed.resourceDeltas);
+    const traceScoreSummary = getTraceCountScoreSummary(text);
+    if (traceScoreSummary !== null) parsed.resourceDeltas.score = traceScoreSummary;
     let resourceDeltas = sourceCategory === "cost"
       ? parseStructuredCostDeltas(text)
       : { ...parsed.resourceDeltas };
@@ -1133,8 +1150,7 @@
     };
   }
 
-  function buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options) {
-    const playerId = findStructuredPlayerId(entry, step, snapshotStates);
+  function buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options, playerId = findStructuredPlayerId(entry, step, snapshotStates)) {
     const snapshotPlayer = snapshotStates?.get(playerId) || null;
     const playerLabel = snapshotPlayer?.playerLabel || entry.playerLabel || playerId;
     const sourceCategory = classifySourceCategory({
@@ -1168,6 +1184,26 @@
       isDataPlacement: /^放置数据/.test(String(step?.text || "")),
       confidence: 1,
     };
+  }
+
+  function buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options) {
+    const event = buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options);
+    const grant = String(step?.text || "").match(/揭示发牌\s*[:：]([^；;\n]+)/);
+    // Reveal grants name several recipients in one step. Preserve each actual
+    // drawn count (before /expected); do not infer their cards onto a company
+    // reward merely because it is the recipient's last event in this entry.
+    if (!grant || Object.keys(event.resourceDeltas).length || event.cards.length) return [event];
+    const grants = grant[1].split(/[，,]/).map(part => {
+      const match = part.trim().match(/^(.+?)\+(\d+)(?:\/\d+)?$/);
+      const player = match && [...snapshotStates.values()].find(p => p.playerLabel === match[1]);
+      return player ? { player, count: Number(match[2]) } : null;
+    });
+    if (!grants.length || grants.some(grant => !grant)) return [event];
+    return grants.map(({ player, count }) => ({
+      ...buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options, player.playerId),
+      sourceCategory: "alien",
+      resourceDeltas: count ? { handSize: count } : {},
+    }));
   }
 
   function getStructuredHandAdditions(beforePlayer, afterPlayer) {
@@ -1574,8 +1610,8 @@
     let inferredMagnitude = 0;
     for (const entry of entries || []) {
       const snapshotStates = extractStructuredSnapshotStates(entry);
-      const entryEvents = (entry.steps || []).map((step, stepIndex) => (
-        buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options)
+      const entryEvents = (entry.steps || []).flatMap((step, stepIndex) => (
+        buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options)
       ));
       if (setupResidualAvailable) {
         appendStructuredSetupResiduals(
