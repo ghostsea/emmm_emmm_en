@@ -1,0 +1,19 @@
+{
+  "scope": "In-memory regressions only; files untouched",
+  "rows": [
+    {
+      "name": "omit-cardName",
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "real cardName must match the scan card, regardless of before-hand order\n\n'重组' !== 'card-154-0'\n"
+      }
+    },
+    {
+      "name": "guess-first-removed-card",
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "two unlabeled removals must not be assigned by hand order\n+ actual - expected\n\n  [\n-   'card-151-0',\n    'card-154-0'\n  ]\n"
+      }
+    }
+  ]
+}

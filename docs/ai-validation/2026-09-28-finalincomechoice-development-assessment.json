@@ -143,9 +143,7 @@
   "choiceEvidence": {
     "games": 24,
     "firstDifferingIncomeChoices": 8,
-    "settledChoices": 115,
     "directImmediateReceipts": 8,
-    "transactionIncomeOnly": 107,
     "companies": {
       "宇宙大战略集团": {
         "choices": 29,
@@ -180,7 +178,9 @@
       "removed-card-instance-plus-income-in-same-transaction": 75,
       "income-type-only-card-identity-unproven": 30,
       "explicit-income-identity-assignment-contradicts-selected-gain": 2
-    }
+    },
+    "candidateChoices": 115,
+    "otherEvidenceRequiresQualification": 107
   },
   "limitations": [
     "Seen fixed development seeds, not a new random success. +10 target remains unfinished.",
@@ -188,5 +188,6 @@
     "115 scoped candidate choices: only8 direct immediate receipts,75 same-transaction removed identity plus income,30 income-type-only,2 contradicted identity assignments. Do not claim115 complete real immediate receipts.",
     "Structured snapshot normalization omits cardName, and removal resolver guesses first remaining identity for nonexplicit labels. A hand scan can be assigned the card actually consumed by subsequent data-income. Fix reporting before using these card-use attributions. Scores and C/E totals do not depend on card identity mapping.",
     "No actualIncomePlacement preview field exists in this current baseline; an empty old-candidate audit is not a passed consistency check."
-  ]
+  ],
+  "reportingFix": "See 2026-09-28-ledger-card-label-runtime.json. Report parser fixed and two default-policy replays verified; this frozen candidate archive retains original outputs, so its old card identity assignments are not retroactively declared correct."
 }

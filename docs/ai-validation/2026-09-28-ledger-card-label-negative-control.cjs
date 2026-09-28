@@ -1,0 +1,6 @@
+const fs=require('fs'),path=require('path'),Module=require('module'),assert=require('node:assert/strict'),file=path.resolve('randomizer/game/ai/resource-flow.js'),test=path.resolve('randomizer/game/ai/resource-flow.test.js'),source=fs.readFileSync(file,'utf8'),rows=[];
+for(const [name,modified,expected]of [
+ ['omit-cardName',source.replace('card?.label || card?.cardName || card?.name','card?.label || card?.name'),/real cardName/],
+ ['guess-first-removed-card',source.replace('const eligible = remaining.filter(candidate => !explicitUseKeys.has(candidate.key));','const eligible = remaining.filter(candidate => !explicitUseKeys.has(candidate.key)).slice(0, 1);'),/two unlabeled removals/],
+]){assert.notEqual(source,modified);delete require.cache[test];const m=new Module(file,module);m.filename=file;m.paths=Module._nodeModulePaths(path.dirname(file));m._compile(modified,file);m.loaded=true;require.cache[file]=m;let failure;try{require(test);}catch(e){failure={code:e.code,message:e.message};}console.log(name,failure);assert.equal(failure?.code,'ERR_ASSERTION');assert.match(failure.message,expected);rows.push({name,failure});}
+fs.writeFileSync('tmp/ai-20260905/ledger-label-negative-control.json',JSON.stringify({scope:'In-memory regressions only; files untouched',rows},null,2)+'\n');console.log(rows);

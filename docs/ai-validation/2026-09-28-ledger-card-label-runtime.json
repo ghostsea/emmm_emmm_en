@@ -1,0 +1,430 @@
+{
+  "scope": "Current default rerun fixed cases1/19 with cardName identity parser correction. Policy unchanged. Compare every semantic AI log, steps, scores and all per-player resource buckets against6e. Direct income-card identities checked against AI selected income gain. Unknown removal remains unknown when data-income text lacks the card name. Old archived card-use attributions require refreshed snapshots before reuse; resource/score totals verified unchanged on these2 games.",
+  "rows": [
+    {
+      "case": 1,
+      "scores": [
+        305,
+        304,
+        201,
+        237
+      ],
+      "steps": 1619,
+      "identicalSemanticLogs": 1691,
+      "allResourceBucketsIdentical": true,
+      "ledgerClosed": true,
+      "incomeChoices": 37,
+      "directIdentityIncomeReceipts": 18,
+      "players": [
+        {
+          "player": "player-brown",
+          "score": 201,
+          "oldCardUse": {
+            "gainedInGame": 19,
+            "played": 11,
+            "income": 3,
+            "discarded": 2,
+            "movePayments": 2,
+            "unknownRemovals": 6,
+            "playedFromGains": 11,
+            "incomeFromGains": 0,
+            "discardedFromGains": 1,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 6,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 1,
+            "knownRemovalUseRate": 0.6666666666666666
+          },
+          "newCardUse": {
+            "gainedInGame": 19,
+            "played": 11,
+            "income": 3,
+            "discarded": 2,
+            "movePayments": 2,
+            "unknownRemovals": 6,
+            "playedFromGains": 11,
+            "incomeFromGains": 0,
+            "discardedFromGains": 1,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 6,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 1,
+            "knownRemovalUseRate": 0.6666666666666666
+          }
+        },
+        {
+          "player": "player-blue",
+          "score": 305,
+          "oldCardUse": {
+            "gainedInGame": 37,
+            "played": 14,
+            "income": 4,
+            "discarded": 16,
+            "movePayments": 4,
+            "unknownRemovals": 8,
+            "playedFromGains": 12,
+            "incomeFromGains": 0,
+            "discardedFromGains": 12,
+            "movePaymentsFromGains": 1,
+            "unknownRemovalsFromGains": 8,
+            "alienGainedInGame": 6,
+            "alienPlayedFromGains": 2,
+            "untracedGains": 4,
+            "knownRemovalUseRate": 0.7575757575757576
+          },
+          "newCardUse": {
+            "gainedInGame": 37,
+            "played": 14,
+            "income": 4,
+            "discarded": 16,
+            "movePayments": 4,
+            "unknownRemovals": 14,
+            "playedFromGains": 12,
+            "incomeFromGains": 0,
+            "discardedFromGains": 9,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 12,
+            "alienGainedInGame": 6,
+            "alienPlayedFromGains": 2,
+            "untracedGains": 4,
+            "knownRemovalUseRate": 0.6363636363636364
+          }
+        },
+        {
+          "player": "player-green",
+          "score": 304,
+          "oldCardUse": {
+            "gainedInGame": 26,
+            "played": 11,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 4,
+            "unknownRemovals": 8,
+            "playedFromGains": 9,
+            "incomeFromGains": 2,
+            "discardedFromGains": 5,
+            "movePaymentsFromGains": 2,
+            "unknownRemovalsFromGains": 7,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 1,
+            "knownRemovalUseRate": 0.72
+          },
+          "newCardUse": {
+            "gainedInGame": 26,
+            "played": 11,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 4,
+            "unknownRemovals": 15,
+            "playedFromGains": 9,
+            "incomeFromGains": 2,
+            "discardedFromGains": 5,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 9,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 1,
+            "knownRemovalUseRate": 0.64
+          }
+        },
+        {
+          "player": "player-white",
+          "score": 237,
+          "oldCardUse": {
+            "gainedInGame": 29,
+            "played": 10,
+            "income": 6,
+            "discarded": 7,
+            "movePayments": 8,
+            "unknownRemovals": 9,
+            "playedFromGains": 8,
+            "incomeFromGains": 2,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 4,
+            "unknownRemovalsFromGains": 9,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.6896551724137931
+          },
+          "newCardUse": {
+            "gainedInGame": 29,
+            "played": 10,
+            "income": 6,
+            "discarded": 7,
+            "movePayments": 8,
+            "unknownRemovals": 14,
+            "playedFromGains": 8,
+            "incomeFromGains": 3,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 2,
+            "unknownRemovalsFromGains": 13,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.5517241379310345
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 172,
+          "stepIndex": 6,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 304,
+          "roundNumber": 4,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": "scan",
+          "sourceCategory": "planet_board",
+          "sourceDetail": "手牌扫描 重组：比邻星 槽位2 替换为绿色token；槽位2 +2分；获得数据；弃除手牌 重组；资源：数据+1、手牌-1",
+          "resourceDeltas": {
+            "availableData": 1,
+            "handSize": -1,
+            "score": 2
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-154-0",
+              "label": "重组",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 172,
+          "stepIndex": 9007199254740989,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "roundNumber": 4,
+          "turnNumber": 7,
+          "pace": "scan",
+          "sourceCategory": "unclassified",
+          "sourceDetail": "snapshot hand removal: purpose unknown",
+          "resourceDeltas": {},
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-151-0",
+              "label": "合同研究",
+              "change": "unknown_removal",
+              "explicitIdentity": true
+            }
+          ],
+          "techIds": [],
+          "industryId": "作弊实验室",
+          "confidence": 1,
+          "syntheticHandRemoval": true
+        }
+      ],
+      "inputs": [
+        {
+          "file": "tmp/ai-20260905/traceready-base-1.json",
+          "sha256": "67fe4273e024a27ea1a4bc1d3c70dab2d2631c8741c36f8412f39238f2b8d6bd"
+        },
+        {
+          "file": "tmp/ai-20260905/ledger-label-check-1.json",
+          "sha256": "73e43f12163b5f0781ae10947dcb4375629235461d83a425a0cc51f5a939e84a"
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "scores": [
+        299,
+        216,
+        196,
+        162
+      ],
+      "steps": 1469,
+      "identicalSemanticLogs": 1529,
+      "allResourceBucketsIdentical": true,
+      "ledgerClosed": true,
+      "incomeChoices": 34,
+      "directIdentityIncomeReceipts": 18,
+      "players": [
+        {
+          "player": "player-white",
+          "score": 162,
+          "oldCardUse": {
+            "gainedInGame": 17,
+            "played": 8,
+            "income": 4,
+            "discarded": 7,
+            "movePayments": 2,
+            "unknownRemovals": 4,
+            "playedFromGains": 6,
+            "incomeFromGains": 2,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 1,
+            "unknownRemovalsFromGains": 2,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.8823529411764706
+          },
+          "newCardUse": {
+            "gainedInGame": 17,
+            "played": 8,
+            "income": 4,
+            "discarded": 7,
+            "movePayments": 2,
+            "unknownRemovals": 10,
+            "playedFromGains": 6,
+            "incomeFromGains": 2,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 6,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.6470588235294118
+          }
+        },
+        {
+          "player": "player-blue",
+          "score": 299,
+          "oldCardUse": {
+            "gainedInGame": 30,
+            "played": 13,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 5,
+            "unknownRemovals": 14,
+            "playedFromGains": 8,
+            "incomeFromGains": 1,
+            "discardedFromGains": 7,
+            "movePaymentsFromGains": 3,
+            "unknownRemovalsFromGains": 11,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.6333333333333333
+          },
+          "newCardUse": {
+            "gainedInGame": 30,
+            "played": 13,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 5,
+            "unknownRemovals": 18,
+            "playedFromGains": 8,
+            "incomeFromGains": 1,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 15,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 0,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.5
+          }
+        },
+        {
+          "player": "player-green",
+          "score": 216,
+          "oldCardUse": {
+            "gainedInGame": 23,
+            "played": 11,
+            "income": 5,
+            "discarded": 8,
+            "movePayments": 2,
+            "unknownRemovals": 9,
+            "playedFromGains": 8,
+            "incomeFromGains": 0,
+            "discardedFromGains": 7,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 8,
+            "alienGainedInGame": 2,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.6521739130434783
+          },
+          "newCardUse": {
+            "gainedInGame": 23,
+            "played": 11,
+            "income": 5,
+            "discarded": 8,
+            "movePayments": 2,
+            "unknownRemovals": 9,
+            "playedFromGains": 8,
+            "incomeFromGains": 0,
+            "discardedFromGains": 7,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 8,
+            "alienGainedInGame": 2,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 0,
+            "knownRemovalUseRate": 0.6521739130434783
+          }
+        },
+        {
+          "player": "player-brown",
+          "score": 196,
+          "oldCardUse": {
+            "gainedInGame": 24,
+            "played": 14,
+            "income": 4,
+            "discarded": 4,
+            "movePayments": 0,
+            "unknownRemovals": 7,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 6,
+            "alienGainedInGame": 2,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 2,
+            "knownRemovalUseRate": 0.7272727272727273
+          },
+          "newCardUse": {
+            "gainedInGame": 24,
+            "played": 14,
+            "income": 4,
+            "discarded": 4,
+            "movePayments": 0,
+            "unknownRemovals": 8,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 0,
+            "unknownRemovalsFromGains": 6,
+            "alienGainedInGame": 2,
+            "alienPlayedFromGains": 1,
+            "untracedGains": 2,
+            "knownRemovalUseRate": 0.7272727272727273
+          }
+        }
+      ],
+      "evidence": [],
+      "inputs": [
+        {
+          "file": "tmp/ai-20260905/traceready-base-19.json",
+          "sha256": "2005cf4666cd04eb2d2942d9a747a2e972a953781e4365d0ac8db4f00500c285"
+        },
+        {
+          "file": "tmp/ai-20260905/ledger-label-check-19.json",
+          "sha256": "bbd0de064c1d0046923130e1d4c8db23d5e10d4e0d428591cb799d16da5f7112"
+        }
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "randomizer/game/ai/resource-flow.js": "5ead3c198bacf4157102182acdc31a3acabffd43709c74a36446d8e2a94c0329",
+    "randomizer/game/ai/resource-flow.test.js": "9b4e11d70f893f724d96b228b9bd1372d8275b21b1bf668a736424289c1fd96e",
+    "randomizer/index.html": "5a04568f3c39090982c510a98e084333709ef3acb66ffcaa969a1e75717aa30e"
+  }
+}

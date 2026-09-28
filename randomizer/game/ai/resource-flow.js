@@ -841,7 +841,7 @@
       income: normalizeResourceMap(player.income || {}),
       hand: hand.map((card, index) => ({
         key: String(card?.id || card?.key || card?.label || `hand-${index + 1}`),
-        label: card?.label || card?.name || card?.id || card?.key || `手牌${index + 1}`,
+        label: card?.label || card?.cardName || card?.name || card?.id || card?.key || `手牌${index + 1}`,
       })),
       industryId: player.initialSelection?.industry?.label
         || player.initialSelection?.industry?.id
@@ -930,7 +930,7 @@
       const played = step.playedCard;
       cards.push({
         key: String(played.id || played.key || played.label || "played-card"),
-        label: played.label || played.name || played.id || "打出的牌",
+        label: played.label || played.cardName || played.name || played.id || "打出的牌",
         change: "play",
         origin: "normal",
       });
@@ -948,7 +948,9 @@
       });
     } else if (/弃牌(?!扫描|堆)|弃掉|弃除手牌/.test(text)) {
       const discarded = text.match(/(?:弃牌(?!扫描|堆)|弃掉|弃除手牌)\s*([^，；：]*)/);
-      const label = discarded?.[1]?.trim() || "未知弃牌";
+      const parsedLabel = discarded?.[1]?.trim() || "";
+      const label = !parsedLabel || /^换\s*\d+\s*(?:数据|移动|信用点|能量|宣传)/.test(parsedLabel)
+        ? "未知弃牌" : parsedLabel;
       cards.push({ key: label, label, change: "discard", origin: "normal" });
     }
     for (const change of step?.fangzhouCardChanges || []) {
@@ -1274,7 +1276,16 @@
         if (index < 0 && card?.label) {
           index = remaining.findIndex((candidate) => candidate.label === card.label && !explicitUseKeys.has(candidate.key));
         }
-        if (index < 0 && !card.explicitIdentity) index = remaining.findIndex(candidate => !explicitUseKeys.has(candidate.key));
+        if (index < 0 && !card.explicitIdentity) {
+          const eligible = remaining.filter(candidate => !explicitUseKeys.has(candidate.key));
+          // Order within the before-hand is not evidence of which card paid a
+          // later cost. Only an unambiguous, noncontradictory removal can fill
+          // a missing label; otherwise preserve its unknown purpose below.
+          if (eligible.length === 1
+            && (card.label === "未知弃牌" || eligible[0].label === eligible[0].key)) {
+            index = remaining.indexOf(eligible[0]);
+          }
+        }
         if (index < 0) return null;
         return remaining.splice(index, 1)[0] || null;
       };

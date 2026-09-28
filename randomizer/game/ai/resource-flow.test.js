@@ -800,3 +800,30 @@ console.log("resource-flow.test.js: all tests passed");
  assert.equal(r.events.flatMap(e=>e.cards).filter(c=>c.change==='gain'&&c.key===special.id).length,1);
  assert.equal(r.reconciliation.residualMagnitude,0);
 }
+
+
+{
+  const incomeCard = { id: "card-151-0", cardName: "合同研究" };
+  const scanCard = { id: "card-154-0", cardName: "重组" };
+  const initial = { id: "p", color: "green", resources: {}, income: {}, hand: [incomeCard, scanCard] };
+  const entries = [{ id: 172, roundNumber: 4, playerId: "p", actionType: "scan", steps: [
+    { source: "main", text: "手牌扫描 重组：获得数据；弃除手牌 重组；资源：数据+1、手牌-1" },
+    { source: "quick", text: "放置数据：资源：信用点+1、手牌-1；收入：信用点+1" },
+  ], accountingSnapshot: { players: [{ ...initial, resources: { credits: 1 }, income: { credits: 1 }, hand: [] }] } }];
+  const result = flow.analyzeStructuredActionLog(entries, { initialPlayerStates: [initial] });
+  const scan = result.events.find(e => e.sourceDetail.startsWith("手牌扫描"));
+  assert.equal(scan.cards.find(c => c.change === "discard").key, scanCard.id, "real cardName must match the scan card, regardless of before-hand order");
+  assert.equal(scan.cards.find(c => c.change === "discard").label, "重组");
+  assert.deepEqual(result.events.filter(e => e.syntheticHandRemoval).flatMap(e => e.cards).map(c => c.key), [incomeCard.id], "unlabeled data-income does not fabricate a known card purpose");
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+
+  const anonymized = { ...initial, hand: initial.hand.map(c => ({ id: c.id })) };
+  const ambiguous = flow.analyzeStructuredActionLog(entries, { initialPlayerStates: [anonymized] });
+  assert.deepEqual(ambiguous.events.filter(e => e.syntheticHandRemoval).flatMap(e => e.cards).map(c => c.key), [incomeCard.id, scanCard.id], "two unlabeled removals must not be assigned by hand order");
+  assert.equal(ambiguous.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "retain the textual evidence when the instance is unknown");
+  assert.equal(ambiguous.reconciliation.residualMagnitude, 0);
+
+  const mismatched = flow.analyzeStructuredActionLog([{ ...entries[0], steps: [entries[0].steps[0]] }], { initialPlayerStates: [{ ...initial, hand: [incomeCard] }] });
+  assert.equal(mismatched.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "one remaining card with a contradictory known name is not a valid fallback");
+  assert.equal(mismatched.events.find(e => e.syntheticHandRemoval).cards[0].key, incomeCard.id);
+}
