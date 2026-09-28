@@ -1,6 +1,34 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+for (const [label, key, tile] of [["能量", "energy", "blue2"], ["信用点", "credits", "blue1"], ["宣传", "publicity", "blue4"], ["分", "score", "blue4"]]) {
+  const initial = { id: "p1", resources: { availableData: 6, [key]: 0 }, hand: [] };
+  const placement = `放置数据：序号 15 自数据池槽位1 → 第三列第二行 (63.88%,81.29%)，额外获得 1 ${label}；获得 1 ${label}`;
+  const result = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", roundNumber: 4, actionType: "playCard",
+    steps: [{ source: "main", text: `选择科技：${tile}` },
+      { source: "quick", text: `拥有3个蓝色外星人标记：1数据：绿色获得 1/1 个数据；${placement}` }],
+    accountingSnapshot: { players: [{ ...initial, resources: { availableData: 6, [key]: 1 } }] },
+  }], { initialPlayerStates: [initial] });
+  const gain = result.events.find(e => e.sourceDetail.includes("获得 1/1 个数据"));
+  const placed = result.events.find(e => e.isDataPlacement);
+  assert.equal(gain.resourceDeltas.availableData, 1);
+  assert.equal(placed.resourceDeltas.availableData, -1);
+  assert.equal(placed.resourceDeltas[key], 1, "description and actual placement reward are one grant");
+  assert.equal(result.events.filter(e => e.syntheticSnapshotInference).length, 0);
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+  if (tile === "blue1") assert.equal(result.players[0].blue1CreditGain, 1);
+  if (tile === "blue2") assert.equal(result.players[0].blue2EnergyGain, 1);
+}
+
+{
+  const initial = { id: "p1", resources: { energy: 0 }, hand: [] };
+  const r = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", actionType: "playCard",
+    steps: [{ source: "main", text: "获得 1 能量；获得 1 能量" }],
+    accountingSnapshot: { players: [{ ...initial, resources: { energy: 2 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(r.events[0].resourceDeltas.energy, 2, "independent repeated grants must not collapse");
+}
+
 for (const [received, requested] of [[0, 1], [1, 1], [2, 3]]) {
   const initial = {id:"p1", resources:{availableData:0}, hand:[]};
   const r = flow.analyzeStructuredActionLog([{id:1,playerId:"p1",actionType:"playCard",steps:[
@@ -8,6 +36,21 @@ for (const [received, requested] of [[0, 1], [1, 1], [2, 3]]) {
   ],accountingSnapshot:{players:[{...initial,resources:{availableData:received}}]}}],{initialPlayerStates:[initial]});
   assert.equal(r.events.find(e=>e.stepIndex===0).resourceDeltas.availableData||0,received,"actual data count precedes capacity denominator");
   assert.equal(r.events.filter(e=>e.syntheticSnapshotInference).length,0);
+}
+
+{
+  const actor = { id: "actor", color: "white", resources: {}, hand: [] };
+  const recipient = { id: "recipient", color: "blue", resources: { availableData: 6, energy: 0 }, hand: [] };
+  const r = flow.analyzeStructuredActionLog([{ id: 1, playerId: actor.id, actionType: "analyze", steps: [
+    { source: "main", text: "奖励：蓝色获得 2/2 个数据；放置数据：序号 1 自数据池槽位1 → 第一列第二行 (1%,1%)，额外获得 1 能量；获得 1 能量；放置数据：序号 2 自数据池槽位2 → 第一排放置位3 (1%,1%)" },
+  ], accountingSnapshot: { players: [actor, { ...recipient, resources: { availableData: 6, energy: 1 } }] } }],
+  { initialPlayerStates: [actor, recipient] });
+  const direct = r.events.filter(e => !e.syntheticSnapshotInference);
+  assert.equal(direct.length, 3);
+  assert(direct.every(e => e.playerId === recipient.id), "nested placements keep the named recipient");
+  assert.equal(direct.filter(e => e.isDataPlacement).length, 2);
+  assert.equal(direct.reduce((n, e) => n + (e.resourceDeltas.availableData || 0), 0), 0);
+  assert.equal(r.events.filter(e => e.syntheticSnapshotInference).length, 0);
 }
 
 {
@@ -993,4 +1036,33 @@ console.log("resource-flow.test.js: all tests passed");
   const mismatched = flow.analyzeStructuredActionLog([{ ...entries[0], steps: [entries[0].steps[0]] }], { initialPlayerStates: [{ ...initial, hand: [incomeCard] }] });
   assert.equal(mismatched.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "one remaining card with a contradictory known name is not a valid fallback");
   assert.equal(mismatched.events.find(e => e.syntheticHandRemoval).cards[0].key, incomeCard.id);
+}
+
+// A completed card-for-resource exchange must remain a trade even when the
+// enclosing main action is an alien card that spends the resource immediately.
+for (const [label,key] of [['能量','energy'],['信用点','credits']]) {
+  const initial={id:'p',resources:{[key]:0,handSize:3},income:{},hand:[{id:'a'},{id:'b'},{id:'target'}]};
+  const result=flow.analyzeStructuredActionLog([{id:1,roundNumber:1,playerId:'p',actionType:'playCard',steps:[
+    {source:'quick',text:'快速交易：2张牌 → 1'+label},
+    {source:'main',text:'打出：半人马卡牌9：资源：'+label+'-1、手牌-1'},
+  ],accountingSnapshot:{players:[{...initial,resources:{[key]:0,handSize:0},hand:[]}]}}],{initialPlayerStates:[initial]});
+  const trade=result.events.find(e=>e.sourceDetail==='快速交易：2张牌 → 1'+label);
+  assert.deepEqual(trade.resourceDeltas,{handSize:-2,[key]:1});
+  assert.equal(trade.sourceCategory,'trade_conversion');
+  assert.equal(result.players[0].nonIncomeGain[key],1);
+  assert.equal(result.players[0].spent[key],1);
+  assert.equal(result.players[0].spent.handSize,3);
+  assert.equal(result.reconciliation.inferredMagnitude,0,'same-transaction use must not net away the exchange');
+  assert.equal(result.reconciliation.residualMagnitude,0);
+  const event=text=>flow.normalizeStructuredActionLog([{id:1,playerId:'p',steps:[{source:'quick',text}]}])[0];
+  assert.deepEqual(event('快速交易：2张牌 → 1'+label+'；资源：手牌-2、'+label+'+1').resourceDeltas,{handSize:-2,[key]:1},'explicit deltas are not duplicated');
+  for(const suffix of ['；失败','；请选择','；取消']) assert.deepEqual(event('快速交易：2张牌 → 1'+label+suffix).resourceDeltas,{},'uncompleted exchange is not a receipt');
+  assert.deepEqual(event('快速交易：2张牌 → 精选1张牌').resourceDeltas,{},'selection remains outside deterministic exchange parser');
+}
+
+for (const actionLabel of ['分析数据','打出半人马卡牌9','宇宙大战略集团能力','研究科技','获得本轮收入']) {
+  for (const text of ['快速交易：2张牌 → 1能量','快速交易：2张牌 → 1信用点','快速交易：2信用点 → 1能量','快速交易：2能量 → 1信用点']) {
+    const [e]=flow.normalizeStructuredActionLog([{id:1,playerId:'p',actionType:'researchTech',actionLabel,steps:[{source:'quick',text}]}]);
+    assert.equal(e.sourceCategory,'trade_conversion','completed exchange owns its source despite '+actionLabel);
+  }
 }

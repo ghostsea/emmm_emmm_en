@@ -793,6 +793,13 @@
       return context.sourceCategory;
     }
 
+    // A completed resource exchange is identified by its own step, even
+    // inside an alien/card/analysis/research main-action transaction.
+    const ownText = String(context.text || context.sourceDetail || "");
+    if (/^快速交易：\s*(?:2\s*张牌\s*→\s*1\s*(?:信用点|能量)|\d+\s*(?:信用点|能量)\s*→\s*\d+\s*(?:信用点|能量))(?:；资源：[^；]+)?$/.test(ownText)) {
+      return "trade_conversion";
+    }
+
     const pace = String(context.pace || context.source || "").toLowerCase();
     const text = [
       context.text,
@@ -1108,7 +1115,12 @@
   }
 
   function parseStructuredStepDeltas(step, sourceCategory) {
-    const text = String(step?.text || "");
+    // The placement message describes the bonus, then its executor repeats
+    // the actual grant. Collapse only that adjacent, identical receipt pair.
+    const text = String(step?.text || "").replace(
+      /(放置数据：序号\s*\d+[^；;\n]*?)，额外获得\s+(\d+)\s+(信用点|能量|宣传|分)\s*[；;]获得\s+\2\s+\3(?=[；;。\n]|$)/g,
+      "$1；获得 $2 $3",
+    );
     const parsed = parseDeltaText(text);
     if (!Number(parsed.resourceDeltas.score)) {
       const signedShortScorePattern = /([+-]\d+(?:\.\d+)?)\s*分(?!数)/g;
@@ -1139,6 +1151,15 @@
       const outputKey = RESOURCE_LABEL_TO_KEY[cashTrade[4]];
       if (resourceDeltas[inputKey] == null) resourceDeltas[inputKey] = -Number(cashTrade[1]);
       if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = Number(cashTrade[3]);
+    }
+    // These completed fixed-rate trades have no hidden draw/selection result.
+    // Parse the explicit exchange before snapshot reconciliation, so a later
+    // card effect cannot inherit the traded energy or the two-card payment.
+    const handTrade = text.match(/^快速交易：\s*2\s*张牌\s*→\s*1\s*(信用点|能量)(?:；资源：[^；]+)?$/);
+    if (handTrade) {
+      const outputKey = RESOURCE_LABEL_TO_KEY[handTrade[1]];
+      if (resourceDeltas.handSize == null) resourceDeltas.handSize = -2;
+      if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = 1;
     }
     if (sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate") {
       resourceDeltas = addResourceMaps(resourceDeltas, parsed.incomeDeltas);
@@ -1209,6 +1230,15 @@
   }
 
   function buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options) {
+    const parts = String(step?.text || "").split(/[；;](?=放置数据：序号\s*\d+)/);
+    if (parts.length > 1) {
+      // A full pool can place existing data inside a reward effect before
+      // gaining its new token. Preserve gross gain and spend as two events.
+      const playerId = findStructuredPlayerId(entry, step, snapshotStates);
+      return parts.map((text, partIndex) => buildStructuredStepEvent(entry,
+        partIndex === 0 ? { ...step, text } : { source: step.source, playerId: step.playerId, text },
+        stepIndex + partIndex / parts.length, snapshotStates, options, playerId));
+    }
     const event = buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options);
     const grant = String(step?.text || "").match(/揭示发牌\s*[:：]([^；;\n]+)/);
     // Reveal grants name several recipients in one step. Preserve each actual
