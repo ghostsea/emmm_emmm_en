@@ -1,0 +1,361 @@
+{
+  "status": "fixed-positive-pending-third-scope-comparison-and-fresh-validation",
+  "pairs": 24,
+  "newGames": 24,
+  "reusedBaselineGames": 24,
+  "candidate": "3c34fe0937de211db049d66ace53d8c0e6c75fe0",
+  "baseline": "2ecf661a32f3aacc2d0bde941b06a023311c7748",
+  "baselineScores": {
+    "games": 24,
+    "seats": 96,
+    "mean": 237.04166666666666,
+    "min": 129,
+    "p10": 169,
+    "p25": 191.75,
+    "median": 225.5,
+    "p75": 274.75,
+    "max": 355,
+    "topQuartileMean": 311.7916666666667,
+    "winnerMean": 298.375,
+    "minimumPerGameMean": 174.70833333333334,
+    "seats270Plus": 27,
+    "seats300Plus": 16,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 277.4583333333333,
+        "min": 190
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 187.04166666666666,
+        "min": 129
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.20833333333334,
+        "min": 133
+      }
+    }
+  },
+  "candidateScores": {
+    "games": 24,
+    "seats": 96,
+    "mean": 239.77083333333334,
+    "min": 138,
+    "p10": 171,
+    "p25": 200.5,
+    "median": 233.5,
+    "p75": 278.5,
+    "max": 345,
+    "topQuartileMean": 312.75,
+    "winnerMean": 302.0833333333333,
+    "minimumPerGameMean": 181.75,
+    "seats270Plus": 27,
+    "seats300Plus": 17,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 276.1666666666667,
+        "min": 197
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 199.875,
+        "min": 138
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.875,
+        "min": 138
+      }
+    }
+  },
+  "delta": {
+    "mean": 2.7291666666666856,
+    "min": 9,
+    "p10": 2,
+    "p25": 8.75,
+    "median": 8,
+    "p75": 3.75,
+    "max": -10,
+    "topQuartileMean": 0.9583333333333144,
+    "winnerMean": 3.7083333333333144,
+    "minimumPerGameMean": 7.041666666666657,
+    "seats270Plus": 0,
+    "seats300Plus": 1
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 277.4583333333333,
+      "candidate": 276.1666666666667,
+      "meanDelta": -1.2916666666666288,
+      "minimumDelta": 7
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 187.04166666666666,
+      "candidate": 199.875,
+      "meanDelta": 12.833333333333343,
+      "minimumDelta": 9
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 206.20833333333334,
+      "candidate": 206.875,
+      "meanDelta": 0.6666666666666572,
+      "minimumDelta": 5
+    }
+  },
+  "pairedSE": 3.8037487666710708,
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 311.7916666666667,
+    "candidateMean": 283.125,
+    "meanDelta": -28.666666666666668,
+    "improved": 5,
+    "declined": 14,
+    "unchanged": 5
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 169.625,
+    "candidateMean": 198.29166666666666,
+    "meanDelta": 28.666666666666668,
+    "improved": 17,
+    "declined": 2,
+    "unchanged": 5
+  },
+  "payments": {
+    "pairs": 24,
+    "plays": 1166,
+    "uniquePayments": 1166,
+    "matchingAmounts": 1166,
+    "issues": []
+  },
+  "choiceGroups": [
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 1,
+      "n": 16,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 55
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 2,
+      "n": 26,
+      "newProfiles": 0,
+      "expected": 35,
+      "actual": 75
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 3,
+      "n": 43,
+      "newProfiles": 0,
+      "expected": 55,
+      "actual": 94
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 4,
+      "n": 11,
+      "newProfiles": 0,
+      "expected": 8,
+      "actual": 9
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 1,
+      "n": 4,
+      "newProfiles": 0,
+      "expected": 0,
+      "actual": 10
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 2,
+      "n": 9,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 15
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 3,
+      "n": 15,
+      "newProfiles": 0,
+      "expected": 13,
+      "actual": 23
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 4,
+      "n": 8,
+      "newProfiles": 0,
+      "expected": 4,
+      "actual": 7
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "n": 7,
+      "newProfiles": 0,
+      "expected": 9,
+      "actual": 19
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "n": 6,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 16
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "n": 14,
+      "newProfiles": 0,
+      "expected": 15,
+      "actual": 24
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "n": 12,
+      "newProfiles": 0,
+      "expected": 8,
+      "actual": 14
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 1,
+      "n": 10,
+      "newProfiles": 0,
+      "expected": 5,
+      "actual": 33
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 2,
+      "n": 23,
+      "newProfiles": 0,
+      "expected": 30,
+      "actual": 73
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 3,
+      "n": 54,
+      "newProfiles": 0,
+      "expected": 65,
+      "actual": 114
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 4,
+      "n": 7,
+      "newProfiles": 0,
+      "expected": 5,
+      "actual": 5
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 1,
+      "n": 12,
+      "newProfiles": 12,
+      "expected": 27.75,
+      "actual": 34
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 2,
+      "n": 4,
+      "newProfiles": 4,
+      "expected": 4.666666666666666,
+      "actual": 11
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 3,
+      "n": 13,
+      "newProfiles": 13,
+      "expected": 10.71875,
+      "actual": 20
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 4,
+      "n": 7,
+      "newProfiles": 0,
+      "expected": 4,
+      "actual": 5
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "n": 4,
+      "newProfiles": 0,
+      "expected": 8,
+      "actual": 11
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "n": 13,
+      "newProfiles": 0,
+      "expected": 15,
+      "actual": 36
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "n": 13,
+      "newProfiles": 0,
+      "expected": 16,
+      "actual": 15
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "n": 10,
+      "newProfiles": 0,
+      "expected": 7,
+      "actual": 7
+    }
+  ],
+  "limitations": [
+    "All24 known development seeds; no fresh generalization claim.",
+    "Baseline all24 replayed with parser26 and exact observed trajectory verified previously; every reused result hash rechecked by collector.",
+    "Only Huanyu policy changed, but shared-game competition can change every company score.",
+    "Do not assign parent all-company Huanyu gain to Huanyu model itself or add historical uplift."
+  ]
+}
