@@ -1,0 +1,751 @@
+{
+  "scope": "Exact-named pickup correction of all paired inputs. Unique physical gain is reattributed within same transaction without consuming explicitly logged reward. Net resource balance, ending inventories, actions, analysis and blue1/2 resources preserved. Income versus non-income hand classification can change; splitting netted pickup and payment can increase gross hand gain/spending equally. Record all changes, retain raw files.",
+  "summary": {
+    "pairs": 24,
+    "inputs": 48,
+    "changedGames": 0,
+    "changedGains": 0,
+    "bucketChanges": 0,
+    "issues": []
+  },
+  "rows": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "bluelifecycle-base-1.json",
+      "sha256": "a285e540ebfbfd827c6b7ddd6381bba7ab28f6fc6142dabd185d03b58843a0ab",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "bluelifecycle-base-2.json",
+      "sha256": "df1d94d22ccdac67a177e02c083d6f3f51439556e757aa72759b70c730479e04",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "bluelifecycle-base-3.json",
+      "sha256": "668029ed7ef5a1027ebe7268fda65300f3e47dc169c882c9866b9e3e3c9a24e7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "bluelifecycle-base-4.json",
+      "sha256": "c8c125a00b8906d02a9dcbbd5459978d0c2f33828b950eb3e09d8a75460d99c7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "bluelifecycle-base-5.json",
+      "sha256": "23ad2adb4c8458a51948275c5d16fe708ba272765b05fd8d5c186282fa19d4f9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "bluelifecycle-base-6.json",
+      "sha256": "1d555732cba5504720b9dfe47f62a8417fc47b19b01957ef015886f721fb5706",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "bluelifecycle-base-7.json",
+      "sha256": "09e6ccc7aeb6bd13fdaf3d860cf32eb59ab005112b68e8479b209cfa3c10d8a1",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "bluelifecycle-base-8.json",
+      "sha256": "7b46e91449747b2f172b9c7c04e3db7732c14c428276d6b03b21835b6699f3d7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "bluelifecycle-base-9.json",
+      "sha256": "2b3868bd67204f4ca165e6993b11fcebb5a6b32b354f8e6100d8464c0384588e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "bluelifecycle-base-10.json",
+      "sha256": "1afcc89705e9f5b7717bff858f793fd628c4328c00530ce79a4229df4b602652",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "bluelifecycle-base-11.json",
+      "sha256": "c66bdc83e0f388a0af5bac84d3cfc9ea118458731113ee05394db5e66f18d6b8",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "bluelifecycle-base-12.json",
+      "sha256": "8d760752bb4f0d2d16d81e92eae8b31bfb96f825161976a8ca37d99950a5d53c",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "bluelifecycle-base-13.json",
+      "sha256": "b8297fcdf1feacf545bbbf4a32ccf34c882ca0b748587aaa7ba7997e005f396d",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "bluelifecycle-base-14.json",
+      "sha256": "a5cc2fdd1ac5399b7128a6d9196803152170257e5aeff972f0d9686ed3c70fb0",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "bluelifecycle-base-15.json",
+      "sha256": "37a5cc8a95826ed7fcbed4b053b1d4f31e31c03e3403ae7b04d6b4f6cb275f30",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "bluelifecycle-base-16.json",
+      "sha256": "ebf3ccaa7197a5c696773315492269df9d29d955e404e450c88293fc314593bd",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "bluelifecycle-base-17.json",
+      "sha256": "d9c88d46c5e417dabbc245081d239ee73f513eb35d288e42e6898ef3c7fe60a7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "bluelifecycle-base-18.json",
+      "sha256": "2eb79289efaee7ea4bd549f200915f73d07508235b9f0f66a3801b4fd583ff0e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "bluelifecycle-base-19.json",
+      "sha256": "3911b469ce14eefa8159448c5cc4a8899aa06a386ba31ecd81a996da428de1e2",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "bluelifecycle-base-20.json",
+      "sha256": "ad2d7e09230b5cb569f05998fa0aa492ee2bd0de0d73c791bfb41e8ca8e15fe8",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "bluelifecycle-base-21.json",
+      "sha256": "f1a07463d21729bb65f282ef0ab7bf6f54a515dab00b352fed7c9941a565f827",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "bluelifecycle-base-22.json",
+      "sha256": "7e9f42c126a96ef189f3c9c9f998b9a5db9b230d4e1e56ac4c6ce7ade5cb7a1c",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "bluelifecycle-base-23.json",
+      "sha256": "d67f480aa69196720d368ccc150ce0d578c0d4f668e6bcc87e9f1582ae26e079",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "bluelifecycle-base-24.json",
+      "sha256": "c6195d980b1df966b452a2a61b1cbd5327acfabdbdb967718310248eabfe05e3",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "huanyuselfincome-candidate-1.json",
+      "sha256": "4487e1a4bab138a5fec061a50ed2089c5c8be68fe18e41c35b844219cccd0592",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "huanyuselfincome-candidate-2.json",
+      "sha256": "2080622255304291ead4981c3af22e1caf555ccac186663c583e431c829f1afc",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "huanyuselfincome-candidate-3.json",
+      "sha256": "a0166851c7449b1f873dc37622d965ed7d3c84badddd5b3e24625e56312b2f7e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "huanyuselfincome-candidate-4.json",
+      "sha256": "51db755ef1cd76fcec5089d4b243879c9287102fa1200019abc31f63a6743b1c",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "huanyuselfincome-candidate-5.json",
+      "sha256": "3193896c6b54339e0e4a49a0cd042a65a371a85dbfa70be14ccee0ec339753fd",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "huanyuselfincome-candidate-6.json",
+      "sha256": "d47ecad4bfe845e461301ebcc86b1cd53f662531775401cc58cdaac45fe3ed19",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "huanyuselfincome-candidate-7.json",
+      "sha256": "9a4888f4478ecc79144fc0d4a76b0ebbfcaf71727a71beb7986898c633039f2f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "huanyuselfincome-candidate-8.json",
+      "sha256": "85458620966b85c347551d5a48aed872a6f84e79701e502684afae3db9120037",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "huanyuselfincome-candidate-9.json",
+      "sha256": "e30b512f894a080337deb1cbff4f0ca5f05a5ba6ba6447ceb77784065cb929d2",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "huanyuselfincome-candidate-10.json",
+      "sha256": "f651700c9bc26852674d729abe2882a37215a43b6394b69c3aa339d87f23b725",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "huanyuselfincome-candidate-11.json",
+      "sha256": "2859120d299f7ef91025370b7eb93924a4a8822f494d32447971fab5402cb7e7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "huanyuselfincome-candidate-12.json",
+      "sha256": "7ce3e174024b5588bb2ab3646bc254920f5cc2100b6d0616ab205b0ce598442e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "huanyuselfincome-candidate-13.json",
+      "sha256": "9d865f9f6dbfe3bd04432847801db04ade0a78aa37d7f5c12f756310c2625e2c",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "huanyuselfincome-candidate-14.json",
+      "sha256": "dcc54a8c1f5fb03a6b37c0f0f0d272a6ad8e00156e5fdc29ab8c4453101f07b4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "huanyuselfincome-candidate-15.json",
+      "sha256": "71ea70a2ab4b3c3b43eb41666a082e6094c89021caa5e4d94af467e49a49e707",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "huanyuselfincome-candidate-16.json",
+      "sha256": "266839ff2dcbb6c84b879f6725351e741a0f4dec869a6b1540e0c4b2f5716de4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "huanyuselfincome-candidate-17.json",
+      "sha256": "9e3191f46dcadd013e7c0ec17225c344d30121a3821ff5646a613b27b1518be4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "huanyuselfincome-candidate-18.json",
+      "sha256": "13c24e041d5327733d4f35cfb80e7a63ed78832ab1e81cb4a3137f4ccd5bdd93",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "huanyuselfincome-candidate-19.json",
+      "sha256": "86c58f94e2ad3f6142dce96bfba41527626e683abdcd41d9fab40d893292bf99",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "huanyuselfincome-candidate-20.json",
+      "sha256": "4c834158241ee61237d82161753e595cbbd5eeffe6392a55b1c5a8d34d9dc8df",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "huanyuselfincome-candidate-21.json",
+      "sha256": "20cf6d13619c871a23363168ab95a7b645453b26a78163eee88505b0b3194e3b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "huanyuselfincome-candidate-22.json",
+      "sha256": "615eb8b409c11bdcb5ba47e02bf2785978e831065c421df38cc01cecdc9fa171",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "huanyuselfincome-candidate-23.json",
+      "sha256": "49ebdcbaced86dc7946411d42f007e5b297e73769ade59fdfd90918d2485fdbc",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "huanyuselfincome-candidate-24.json",
+      "sha256": "eeffdc94324e7b3f9a2f1fda36e646793a677a0b3f38340439f2c1e3f0a5d0bb",
+      "changes": [],
+      "bucketChanges": []
+    }
+  ],
+  "groups": {
+    "baseline": {
+      "all": {
+        "seats": 96,
+        "score": 237.04166666666666,
+        "actions": 36.53125,
+        "analysis": 4.09375,
+        "resources": {
+          "grossGain": {
+            "credits": 23.354166666666668,
+            "energy": 25.520833333333332,
+            "handSize": 28.6875,
+            "availableData": 34.739583333333336,
+            "publicity": 49.34375
+          },
+          "incomeGain": {
+            "credits": 17.333333333333332,
+            "energy": 14.291666666666666,
+            "handSize": 8.802083333333334,
+            "availableData": 0.3125,
+            "publicity": 0.15625
+          },
+          "nonIncomeGain": {
+            "credits": 6.020833333333333,
+            "energy": 11.229166666666666,
+            "handSize": 19.885416666666668,
+            "availableData": 34.427083333333336,
+            "publicity": 49.1875
+          },
+          "spent": {
+            "credits": 25.583333333333332,
+            "energy": 27.697916666666668,
+            "handSize": 35.229166666666664,
+            "availableData": 35.885416666666664,
+            "publicity": 48.708333333333336
+          },
+          "endingInventory": {
+            "credits": 1.0416666666666667,
+            "energy": 0.23958333333333334,
+            "handSize": 0.9375,
+            "availableData": 0.3854166666666667,
+            "publicity": 4.260416666666667
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 187.04166666666666,
+          "actions": 28.291666666666668,
+          "analysis": 2.75,
+          "resources": {
+            "grossGain": {
+              "credits": 19.208333333333332,
+              "energy": 21.916666666666668,
+              "handSize": 23.291666666666668,
+              "availableData": 24.083333333333332,
+              "publicity": 43.041666666666664
+            },
+            "incomeGain": {
+              "credits": 15.333333333333334,
+              "energy": 11.583333333333334,
+              "handSize": 8.125,
+              "availableData": 0.5,
+              "publicity": 0
+            },
+            "nonIncomeGain": {
+              "credits": 3.875,
+              "energy": 10.333333333333334,
+              "handSize": 15.166666666666666,
+              "availableData": 23.583333333333332,
+              "publicity": 43.041666666666664
+            },
+            "spent": {
+              "credits": 20.583333333333332,
+              "energy": 23.708333333333332,
+              "handSize": 26.666666666666668,
+              "availableData": 25.083333333333332,
+              "publicity": 44
+            },
+            "endingInventory": {
+              "credits": 0.7916666666666666,
+              "energy": 0.25,
+              "handSize": 1.0416666666666667,
+              "availableData": 0.75,
+              "publicity": 3.125
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 277.4583333333333,
+          "actions": 42.166666666666664,
+          "analysis": 4.833333333333333,
+          "resources": {
+            "grossGain": {
+              "credits": 24.104166666666668,
+              "energy": 29.875,
+              "handSize": 30.708333333333332,
+              "availableData": 41.0625,
+              "publicity": 54.125
+            },
+            "incomeGain": {
+              "credits": 18.583333333333332,
+              "energy": 16.1875,
+              "handSize": 9.208333333333334,
+              "availableData": 0.25,
+              "publicity": 0.1875
+            },
+            "nonIncomeGain": {
+              "credits": 5.520833333333333,
+              "energy": 13.6875,
+              "handSize": 21.5,
+              "availableData": 40.8125,
+              "publicity": 53.9375
+            },
+            "spent": {
+              "credits": 25.875,
+              "energy": 31.854166666666668,
+              "handSize": 39.166666666666664,
+              "availableData": 42.479166666666664,
+              "publicity": 50.5
+            },
+            "endingInventory": {
+              "credits": 1.4166666666666667,
+              "energy": 0.22916666666666666,
+              "handSize": 1.0208333333333333,
+              "availableData": 0.08333333333333333,
+              "publicity": 5.708333333333333
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 206.20833333333334,
+          "actions": 33.5,
+          "analysis": 3.9583333333333335,
+          "resources": {
+            "grossGain": {
+              "credits": 26,
+              "energy": 20.416666666666668,
+              "handSize": 30.041666666666668,
+              "availableData": 32.75,
+              "publicity": 46.083333333333336
+            },
+            "incomeGain": {
+              "credits": 16.833333333333332,
+              "energy": 13.208333333333334,
+              "handSize": 8.666666666666666,
+              "availableData": 0.25,
+              "publicity": 0.25
+            },
+            "nonIncomeGain": {
+              "credits": 9.166666666666666,
+              "energy": 7.208333333333333,
+              "handSize": 21.375,
+              "availableData": 32.5,
+              "publicity": 45.833333333333336
+            },
+            "spent": {
+              "credits": 30,
+              "energy": 23.375,
+              "handSize": 35.916666666666664,
+              "availableData": 33.5,
+              "publicity": 49.833333333333336
+            },
+            "endingInventory": {
+              "credits": 0.5416666666666666,
+              "energy": 0.25,
+              "handSize": 0.6666666666666666,
+              "availableData": 0.625,
+              "publicity": 2.5
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "seats": 96,
+        "score": 236.61458333333334,
+        "actions": 36.3125,
+        "analysis": 4.083333333333333,
+        "resources": {
+          "grossGain": {
+            "credits": 23.458333333333332,
+            "energy": 25.458333333333332,
+            "handSize": 28.791666666666668,
+            "availableData": 34.739583333333336,
+            "publicity": 48.65625
+          },
+          "incomeGain": {
+            "credits": 17.385416666666668,
+            "energy": 14.3125,
+            "handSize": 8.90625,
+            "availableData": 0.3125,
+            "publicity": 0.09375
+          },
+          "nonIncomeGain": {
+            "credits": 6.072916666666667,
+            "energy": 11.145833333333334,
+            "handSize": 19.885416666666668,
+            "availableData": 34.427083333333336,
+            "publicity": 48.5625
+          },
+          "spent": {
+            "credits": 25.802083333333332,
+            "energy": 27.645833333333332,
+            "handSize": 35.416666666666664,
+            "availableData": 35.791666666666664,
+            "publicity": 48.125
+          },
+          "endingInventory": {
+            "credits": 0.9270833333333334,
+            "energy": 0.22916666666666666,
+            "handSize": 0.8541666666666666,
+            "availableData": 0.4791666666666667,
+            "publicity": 4.15625
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 190.75,
+          "actions": 28.208333333333332,
+          "analysis": 2.875,
+          "resources": {
+            "grossGain": {
+              "credits": 19.5,
+              "energy": 22.166666666666668,
+              "handSize": 23.791666666666668,
+              "availableData": 25.041666666666668,
+              "publicity": 41.291666666666664
+            },
+            "incomeGain": {
+              "credits": 15.375,
+              "energy": 12.041666666666666,
+              "handSize": 8.375,
+              "availableData": 0.5,
+              "publicity": 0
+            },
+            "nonIncomeGain": {
+              "credits": 4.125,
+              "energy": 10.125,
+              "handSize": 15.416666666666666,
+              "availableData": 24.541666666666668,
+              "publicity": 41.291666666666664
+            },
+            "spent": {
+              "credits": 20.916666666666668,
+              "energy": 23.916666666666668,
+              "handSize": 27.291666666666668,
+              "availableData": 26.125,
+              "publicity": 42.208333333333336
+            },
+            "endingInventory": {
+              "credits": 0.75,
+              "energy": 0.2916666666666667,
+              "handSize": 0.9166666666666666,
+              "availableData": 0.6666666666666666,
+              "publicity": 3.1666666666666665
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 275.5625,
+          "actions": 41.729166666666664,
+          "analysis": 4.791666666666667,
+          "resources": {
+            "grossGain": {
+              "credits": 24.041666666666668,
+              "energy": 29.666666666666668,
+              "handSize": 30.3125,
+              "availableData": 40.375,
+              "publicity": 53.25
+            },
+            "incomeGain": {
+              "credits": 18.708333333333332,
+              "energy": 16.083333333333332,
+              "handSize": 9.1875,
+              "availableData": 0.25,
+              "publicity": 0.1875
+            },
+            "nonIncomeGain": {
+              "credits": 5.333333333333333,
+              "energy": 13.583333333333334,
+              "handSize": 21.125,
+              "availableData": 40.125,
+              "publicity": 53.0625
+            },
+            "spent": {
+              "credits": 26,
+              "energy": 31.666666666666668,
+              "handSize": 38.8125,
+              "availableData": 41.791666666666664,
+              "publicity": 50.041666666666664
+            },
+            "endingInventory": {
+              "credits": 1.2291666666666667,
+              "energy": 0.20833333333333334,
+              "handSize": 0.9791666666666666,
+              "availableData": 0.08333333333333333,
+              "publicity": 5.291666666666667
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 204.58333333333334,
+          "actions": 33.583333333333336,
+          "analysis": 3.875,
+          "resources": {
+            "grossGain": {
+              "credits": 26.25,
+              "energy": 20.333333333333332,
+              "handSize": 30.75,
+              "availableData": 33.166666666666664,
+              "publicity": 46.833333333333336
+            },
+            "incomeGain": {
+              "credits": 16.75,
+              "energy": 13.041666666666666,
+              "handSize": 8.875,
+              "availableData": 0.25,
+              "publicity": 0
+            },
+            "nonIncomeGain": {
+              "credits": 9.5,
+              "energy": 7.291666666666667,
+              "handSize": 21.875,
+              "availableData": 32.916666666666664,
+              "publicity": 46.833333333333336
+            },
+            "spent": {
+              "credits": 30.291666666666668,
+              "energy": 23.333333333333332,
+              "handSize": 36.75,
+              "availableData": 33.458333333333336,
+              "publicity": 50.208333333333336
+            },
+            "endingInventory": {
+              "credits": 0.5,
+              "energy": 0.20833333333333334,
+              "handSize": 0.5416666666666666,
+              "availableData": 1.0833333333333333,
+              "publicity": 2.875
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,34 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+for (const [label, key, tile] of [["能量", "energy", "blue2"], ["信用点", "credits", "blue1"], ["宣传", "publicity", "blue4"], ["分", "score", "blue4"]]) {
+  const initial = { id: "p1", resources: { availableData: 6, [key]: 0 }, hand: [] };
+  const placement = `放置数据：序号 15 自数据池槽位1 → 第三列第二行 (63.88%,81.29%)，额外获得 1 ${label}；获得 1 ${label}`;
+  const result = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", roundNumber: 4, actionType: "playCard",
+    steps: [{ source: "main", text: `选择科技：${tile}` },
+      { source: "quick", text: `拥有3个蓝色外星人标记：1数据：绿色获得 1/1 个数据；${placement}` }],
+    accountingSnapshot: { players: [{ ...initial, resources: { availableData: 6, [key]: 1 } }] },
+  }], { initialPlayerStates: [initial] });
+  const gain = result.events.find(e => e.sourceDetail.includes("获得 1/1 个数据"));
+  const placed = result.events.find(e => e.isDataPlacement);
+  assert.equal(gain.resourceDeltas.availableData, 1);
+  assert.equal(placed.resourceDeltas.availableData, -1);
+  assert.equal(placed.resourceDeltas[key], 1, "description and actual placement reward are one grant");
+  assert.equal(result.events.filter(e => e.syntheticSnapshotInference).length, 0);
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+  if (tile === "blue1") assert.equal(result.players[0].blue1CreditGain, 1);
+  if (tile === "blue2") assert.equal(result.players[0].blue2EnergyGain, 1);
+}
+
+{
+  const initial = { id: "p1", resources: { energy: 0 }, hand: [] };
+  const r = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", actionType: "playCard",
+    steps: [{ source: "main", text: "获得 1 能量；获得 1 能量" }],
+    accountingSnapshot: { players: [{ ...initial, resources: { energy: 2 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(r.events[0].resourceDeltas.energy, 2, "independent repeated grants must not collapse");
+}
+
 for (const [received, requested] of [[0, 1], [1, 1], [2, 3]]) {
   const initial = {id:"p1", resources:{availableData:0}, hand:[]};
   const r = flow.analyzeStructuredActionLog([{id:1,playerId:"p1",actionType:"playCard",steps:[
@@ -8,6 +36,21 @@ for (const [received, requested] of [[0, 1], [1, 1], [2, 3]]) {
   ],accountingSnapshot:{players:[{...initial,resources:{availableData:received}}]}}],{initialPlayerStates:[initial]});
   assert.equal(r.events.find(e=>e.stepIndex===0).resourceDeltas.availableData||0,received,"actual data count precedes capacity denominator");
   assert.equal(r.events.filter(e=>e.syntheticSnapshotInference).length,0);
+}
+
+{
+  const actor = { id: "actor", color: "white", resources: {}, hand: [] };
+  const recipient = { id: "recipient", color: "blue", resources: { availableData: 6, energy: 0 }, hand: [] };
+  const r = flow.analyzeStructuredActionLog([{ id: 1, playerId: actor.id, actionType: "analyze", steps: [
+    { source: "main", text: "奖励：蓝色获得 2/2 个数据；放置数据：序号 1 自数据池槽位1 → 第一列第二行 (1%,1%)，额外获得 1 能量；获得 1 能量；放置数据：序号 2 自数据池槽位2 → 第一排放置位3 (1%,1%)" },
+  ], accountingSnapshot: { players: [actor, { ...recipient, resources: { availableData: 6, energy: 1 } }] } }],
+  { initialPlayerStates: [actor, recipient] });
+  const direct = r.events.filter(e => !e.syntheticSnapshotInference);
+  assert.equal(direct.length, 3);
+  assert(direct.every(e => e.playerId === recipient.id), "nested placements keep the named recipient");
+  assert.equal(direct.filter(e => e.isDataPlacement).length, 2);
+  assert.equal(direct.reduce((n, e) => n + (e.resourceDeltas.availableData || 0), 0), 0);
+  assert.equal(r.events.filter(e => e.syntheticSnapshotInference).length, 0);
 }
 
 {

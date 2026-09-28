@@ -1,0 +1,363 @@
+{
+  "scope": "Two full real-browser replays of existing fixed cases8/9 with parser27/current011. Every observed decision, resources, details, type/player/round/turn, scores and steps identical to parser26. Only ISO createdAt/updatedAt/placedAt omitted from semantic comparison; statistical resourceFlow is compared separately against independently repaired historical receipts. Covers energy and score duplicate-placement cases, not all possible games.",
+  "parserCommit": "4ed6c2120a221b3450e24659e685e8a3e26bc2b6",
+  "issues": [],
+  "rows": [
+    {
+      "case": 8,
+      "oldFile": "bluelifecycle-base-8.json",
+      "newFile": "embedded-parser27-replay-8.json",
+      "oldSha256": "7b46e91449747b2f172b9c7c04e3db7732c14c428276d6b03b21835b6699f3d7",
+      "newSha256": "8d9f9b3ab9bd53d929b56acffd2c3c77499b57e5fdd9e11ace540df681d241d4",
+      "scores": [
+        207,
+        218,
+        198,
+        215
+      ],
+      "steps": 1471,
+      "logs": 1550,
+      "changes": 1,
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "score": 218,
+          "mainActions": 33,
+          "blue2Before": 2,
+          "blue2After": 1,
+          "nonIncomeBefore": {
+            "score": 162,
+            "credits": 3,
+            "energy": 13,
+            "publicity": 46,
+            "availableData": 26,
+            "handSize": 15
+          },
+          "nonIncomeAfter": {
+            "score": 162,
+            "credits": 3,
+            "energy": 12,
+            "publicity": 46,
+            "availableData": 26,
+            "handSize": 15
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 23,
+            "energy": 22,
+            "publicity": 45,
+            "availableData": 27,
+            "handSize": 38
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 23,
+            "energy": 21,
+            "publicity": 45,
+            "availableData": 27,
+            "handSize": 38
+          }
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "score": 207,
+          "mainActions": 35,
+          "blue2Before": 3,
+          "blue2After": 3,
+          "nonIncomeBefore": {
+            "score": 125,
+            "credits": 3,
+            "energy": 12,
+            "publicity": 45,
+            "availableData": 29,
+            "handSize": 15
+          },
+          "nonIncomeAfter": {
+            "score": 125,
+            "credits": 3,
+            "energy": 12,
+            "publicity": 45,
+            "availableData": 29,
+            "handSize": 15
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 23,
+            "energy": 25,
+            "publicity": 46,
+            "availableData": 29,
+            "handSize": 35
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 23,
+            "energy": 25,
+            "publicity": 46,
+            "availableData": 29,
+            "handSize": 35
+          }
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "score": 198,
+          "mainActions": 42,
+          "blue2Before": 1,
+          "blue2After": 1,
+          "nonIncomeBefore": {
+            "score": 112,
+            "credits": 4,
+            "energy": 16,
+            "publicity": 50,
+            "availableData": 30,
+            "handSize": 26
+          },
+          "nonIncomeAfter": {
+            "score": 112,
+            "credits": 4,
+            "energy": 16,
+            "publicity": 50,
+            "availableData": 30,
+            "handSize": 26
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 25,
+            "energy": 31,
+            "publicity": 44,
+            "availableData": 32,
+            "handSize": 40
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 25,
+            "energy": 31,
+            "publicity": 44,
+            "availableData": 32,
+            "handSize": 40
+          }
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "score": 215,
+          "mainActions": 35,
+          "blue2Before": 0,
+          "blue2After": 0,
+          "nonIncomeBefore": {
+            "score": 150,
+            "credits": 10,
+            "energy": 5,
+            "publicity": 42,
+            "availableData": 30,
+            "handSize": 26
+          },
+          "nonIncomeAfter": {
+            "score": 150,
+            "credits": 10,
+            "energy": 5,
+            "publicity": 42,
+            "availableData": 30,
+            "handSize": 26
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 29,
+            "energy": 30,
+            "publicity": 46,
+            "availableData": 24,
+            "handSize": 39
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 29,
+            "energy": 30,
+            "publicity": 46,
+            "availableData": 24,
+            "handSize": 39
+          }
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "oldFile": "bluelifecycle-base-9.json",
+      "newFile": "embedded-parser27-replay-9.json",
+      "oldSha256": "2b3868bd67204f4ca165e6993b11fcebb5a6b32b354f8e6100d8464c0384588e",
+      "newSha256": "47cf8c6e251de4cb4cce7c199491557b5edee2788a21b31965b10ffd281068fc",
+      "scores": [
+        259,
+        133,
+        288,
+        174
+      ],
+      "steps": 1542,
+      "logs": 1614,
+      "changes": 1,
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "score": 174,
+          "mainActions": 33,
+          "blue2Before": 0,
+          "blue2After": 0,
+          "nonIncomeBefore": {
+            "score": 119,
+            "credits": 4,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 22
+          },
+          "nonIncomeAfter": {
+            "score": 117,
+            "credits": 4,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 22
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 22,
+            "energy": 22,
+            "publicity": 45,
+            "availableData": 30,
+            "handSize": 35
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 22,
+            "energy": 22,
+            "publicity": 45,
+            "availableData": 30,
+            "handSize": 35
+          }
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "score": 259,
+          "mainActions": 45,
+          "blue2Before": 1,
+          "blue2After": 1,
+          "nonIncomeBefore": {
+            "score": 161,
+            "credits": 6,
+            "energy": 11,
+            "publicity": 59,
+            "availableData": 46,
+            "handSize": 24
+          },
+          "nonIncomeAfter": {
+            "score": 161,
+            "credits": 6,
+            "energy": 11,
+            "publicity": 59,
+            "availableData": 46,
+            "handSize": 24
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 31,
+            "energy": 32,
+            "publicity": 52,
+            "availableData": 48,
+            "handSize": 41
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 31,
+            "energy": 32,
+            "publicity": 52,
+            "availableData": 48,
+            "handSize": 41
+          }
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "score": 133,
+          "mainActions": 31,
+          "blue2Before": 1,
+          "blue2After": 1,
+          "nonIncomeBefore": {
+            "score": 102,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 22,
+            "handSize": 20
+          },
+          "nonIncomeAfter": {
+            "score": 102,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 22,
+            "handSize": 20
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 26,
+            "energy": 24,
+            "publicity": 51,
+            "availableData": 28,
+            "handSize": 34
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 26,
+            "energy": 24,
+            "publicity": 51,
+            "availableData": 28,
+            "handSize": 34
+          }
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "score": 288,
+          "mainActions": 37,
+          "blue2Before": 3,
+          "blue2After": 3,
+          "nonIncomeBefore": {
+            "score": 168,
+            "credits": 6,
+            "energy": 15,
+            "publicity": 53,
+            "availableData": 36,
+            "handSize": 19
+          },
+          "nonIncomeAfter": {
+            "score": 168,
+            "credits": 6,
+            "energy": 15,
+            "publicity": 53,
+            "availableData": 36,
+            "handSize": 19
+          },
+          "spentBefore": {
+            "score": 0,
+            "credits": 27,
+            "energy": 28,
+            "publicity": 49,
+            "availableData": 40,
+            "handSize": 38
+          },
+          "spentAfter": {
+            "score": 0,
+            "credits": 27,
+            "energy": 28,
+            "publicity": 49,
+            "availableData": 40,
+            "handSize": 38
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1161 @@
+{
+  "scope": "All complete paired inputs repaired separately using parser27 and unique same-entry snapshot compensation. Original files/scores/end inventory/main action counts unchanged. Gross resource totals, attribution and placement counts can change. Score is excluded from resource reconciliation; explicit duplicate score is corrected without fabricating compensation, actual finalScore is preserved. No altered policy or new game outcomes.",
+  "parserCommit": "4ed6c2120a221b3450e24659e685e8a3e26bc2b6",
+  "parserHashes": {
+    "randomizer/game/ai/resource-flow.js": "63baf9bd16a458cdcea0d3646cf4352893f181c25bc13b40e3aa196beacf1914",
+    "tools/repair_ai_embedded_placement_resources.js": "7a2f36ec7dedc5c2ba691c8b850d16d53df61ca43bd0e60735cdfeb6a4014be4"
+  },
+  "inputs": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "bluelifecycle-base-1.json",
+      "sha256": "a285e540ebfbfd827c6b7ddd6381bba7ab28f6fc6142dabd185d03b58843a0ab"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-1.json",
+      "sha256": "c25ab5336906921f6b9148f3405228188a40f8f95be8b8e7ece0c0e2f7104c86"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "bluelifecycle-base-2.json",
+      "sha256": "df1d94d22ccdac67a177e02c083d6f3f51439556e757aa72759b70c730479e04"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-2.json",
+      "sha256": "c73cde8fa84aaec0866f7c3ce69611caecbe00b92baa1497f9fea2a9e17089e0"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "bluelifecycle-base-3.json",
+      "sha256": "668029ed7ef5a1027ebe7268fda65300f3e47dc169c882c9866b9e3e3c9a24e7"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-3.json",
+      "sha256": "5ceafd5d3714f7603f33f65db094a0edac262dee2913d7e075149b0f86a7c3eb"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "bluelifecycle-base-4.json",
+      "sha256": "c8c125a00b8906d02a9dcbbd5459978d0c2f33828b950eb3e09d8a75460d99c7"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-4.json",
+      "sha256": "4f6960ef184034cd2b19e53a6f8a0deaabe3834348dc95014eaebb3daa7e8302"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "file": "bluelifecycle-base-5.json",
+      "sha256": "23ad2adb4c8458a51948275c5d16fe708ba272765b05fd8d5c186282fa19d4f9"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-5.json",
+      "sha256": "983aedae383441f623973ce60f46b3fc0925178c59278eb3a553ba2bdc223027"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "bluelifecycle-base-6.json",
+      "sha256": "1d555732cba5504720b9dfe47f62a8417fc47b19b01957ef015886f721fb5706"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-6.json",
+      "sha256": "254c85f14346be0c0d02296b9323731c67a483101a5b33726613a947248cbe01"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "bluelifecycle-base-7.json",
+      "sha256": "09e6ccc7aeb6bd13fdaf3d860cf32eb59ab005112b68e8479b209cfa3c10d8a1"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-7.json",
+      "sha256": "23851853e16e58c22d693bdd0b2a661e5a6bafcc639c6a2bbbb8fd9212544d2f"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "bluelifecycle-base-8.json",
+      "sha256": "7b46e91449747b2f172b9c7c04e3db7732c14c428276d6b03b21835b6699f3d7"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-8.json",
+      "sha256": "740073be6d4c507ad9cd2803948b3c9a3c3ad807d3c187fb45f3ef63e90c6a6d"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "bluelifecycle-base-9.json",
+      "sha256": "2b3868bd67204f4ca165e6993b11fcebb5a6b32b354f8e6100d8464c0384588e"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-9.json",
+      "sha256": "7730b9e022b4197d94b0176ac97edd53ea805acad5654b685bc7ea78168cfc63"
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "bluelifecycle-base-10.json",
+      "sha256": "1afcc89705e9f5b7717bff858f793fd628c4328c00530ce79a4229df4b602652"
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-10.json",
+      "sha256": "d2a530f68dbad27474ade285c1e438ba9312b3c161cef1dfd80551299027e2ff"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "bluelifecycle-base-11.json",
+      "sha256": "c66bdc83e0f388a0af5bac84d3cfc9ea118458731113ee05394db5e66f18d6b8"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-11.json",
+      "sha256": "df86c91108d893cc3f1469792c9f9f2add5ac7e2e591a1d9b55418bdddff575d"
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "bluelifecycle-base-12.json",
+      "sha256": "8d760752bb4f0d2d16d81e92eae8b31bfb96f825161976a8ca37d99950a5d53c"
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-12.json",
+      "sha256": "696a585de9034e77f4be637d5a2d71bc042b193f2919337145c2bb23a160ae55"
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "bluelifecycle-base-13.json",
+      "sha256": "b8297fcdf1feacf545bbbf4a32ccf34c882ca0b748587aaa7ba7997e005f396d"
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-13.json",
+      "sha256": "d99561be4c03ea88eaaec1ecc7e2b7f66143a959cad37edf7ae985311d417f8f"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "bluelifecycle-base-14.json",
+      "sha256": "a5cc2fdd1ac5399b7128a6d9196803152170257e5aeff972f0d9686ed3c70fb0"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-14.json",
+      "sha256": "2b8fc8784b4a4f2e77634791b36cb3c5629f2d728ba1dbb8591c135ac52c3c96"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "bluelifecycle-base-15.json",
+      "sha256": "37a5cc8a95826ed7fcbed4b053b1d4f31e31c03e3403ae7b04d6b4f6cb275f30"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-15.json",
+      "sha256": "12ec55e06a8c7923f540e47edadeca2b3dd148443263d304381d15a17dee174f"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "bluelifecycle-base-16.json",
+      "sha256": "ebf3ccaa7197a5c696773315492269df9d29d955e404e450c88293fc314593bd"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-16.json",
+      "sha256": "c99f394f4bc90568bee8162f0b6e89e521ddd948abdf49b7e08d0b5a66e0389f"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "bluelifecycle-base-17.json",
+      "sha256": "d9c88d46c5e417dabbc245081d239ee73f513eb35d288e42e6898ef3c7fe60a7"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-17.json",
+      "sha256": "d1c85081b37b037259e4d61c9670455158ac42ab508491298629841fa9fb84fc"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "bluelifecycle-base-18.json",
+      "sha256": "2eb79289efaee7ea4bd549f200915f73d07508235b9f0f66a3801b4fd583ff0e"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-18.json",
+      "sha256": "6400d86ef598d75b1d18631806b3137b89c57ddd742ec55796a7b4e04343db0d"
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "bluelifecycle-base-19.json",
+      "sha256": "3911b469ce14eefa8159448c5cc4a8899aa06a386ba31ecd81a996da428de1e2"
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-19.json",
+      "sha256": "278fddf90e9d95789546ea9e36575a109a5c7210cdf39c12a141b894fbec0463"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "bluelifecycle-base-20.json",
+      "sha256": "ad2d7e09230b5cb569f05998fa0aa492ee2bd0de0d73c791bfb41e8ca8e15fe8"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-20.json",
+      "sha256": "a8f967b729cf9fc0edb948ec2064d6e4a223729fefe09c99f01b79c5ebd8d415"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "bluelifecycle-base-21.json",
+      "sha256": "f1a07463d21729bb65f282ef0ab7bf6f54a515dab00b352fed7c9941a565f827"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-21.json",
+      "sha256": "e9b5294628229507381fec61b36c02c278941ccb0fb193042535ee18bb19a422"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "bluelifecycle-base-22.json",
+      "sha256": "7e9f42c126a96ef189f3c9c9f998b9a5db9b230d4e1e56ac4c6ce7ade5cb7a1c"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-22.json",
+      "sha256": "d5671bc188920443980c89c0921c2b77dc579b53af890314ef7978a03ab20ada"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "bluelifecycle-base-23.json",
+      "sha256": "d67f480aa69196720d368ccc150ce0d578c0d4f668e6bcc87e9f1582ae26e079"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-23.json",
+      "sha256": "76087e4d5fc3d8eddab654e3714643e784ab4c008b02a2c13edb164e564306a1"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "bluelifecycle-base-24.json",
+      "sha256": "c6195d980b1df966b452a2a61b1cbd5327acfabdbdb967718310248eabfe05e3"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "huanyubluelifecycle-candidate-24.json",
+      "sha256": "67f6947567e8f82272e84b52b1dcd54f441bb989c517d632b1498e9381322791"
+    }
+  ],
+  "summary": {
+    "games": 48,
+    "changes": 5,
+    "changedPlayerRows": 3,
+    "issues": []
+  },
+  "groups": {
+    "baseline": {
+      "all": {
+        "seats": 96,
+        "score": 237.04166666666666,
+        "mainActions": 36.53125,
+        "analysis": 4.09375,
+        "blue1": 2.0104166666666665,
+        "blue2": 1.7395833333333333,
+        "mainPerCreditEnergySpent": 0.6844510118921548,
+        "cardsPlayed": 12.135416666666666,
+        "newCardsPlayed": 9.864583333333334,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.333333333333332,
+            "energy": 14.291666666666666,
+            "publicity": 0.15625,
+            "availableData": 0.3125,
+            "handSize": 8.802083333333334
+          },
+          "nonIncomeGain": {
+            "credits": 6.020833333333333,
+            "energy": 11.21875,
+            "publicity": 49.1875,
+            "availableData": 34.427083333333336,
+            "handSize": 19.885416666666668
+          },
+          "spent": {
+            "credits": 25.583333333333332,
+            "energy": 27.6875,
+            "publicity": 48.708333333333336,
+            "availableData": 35.885416666666664,
+            "handSize": 35.229166666666664
+          },
+          "endingInventory": {
+            "credits": 1.0416666666666667,
+            "energy": 0.23958333333333334,
+            "publicity": 4.260416666666667,
+            "availableData": 0.3854166666666667,
+            "handSize": 0.9375
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 187.04166666666666,
+          "mainActions": 28.291666666666668,
+          "analysis": 2.75,
+          "blue1": 1.3333333333333333,
+          "blue2": 0.9166666666666666,
+          "mainPerCreditEnergySpent": 0.646089967964826,
+          "cardsPlayed": 9.416666666666666,
+          "newCardsPlayed": 8.083333333333334,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 15.333333333333334,
+              "energy": 11.583333333333334,
+              "publicity": 0,
+              "availableData": 0.5,
+              "handSize": 8.125
+            },
+            "nonIncomeGain": {
+              "credits": 3.875,
+              "energy": 10.291666666666666,
+              "publicity": 43.041666666666664,
+              "availableData": 23.583333333333332,
+              "handSize": 15.166666666666666
+            },
+            "spent": {
+              "credits": 20.583333333333332,
+              "energy": 23.666666666666668,
+              "publicity": 44,
+              "availableData": 25.083333333333332,
+              "handSize": 26.666666666666668
+            },
+            "endingInventory": {
+              "credits": 0.7916666666666666,
+              "energy": 0.25,
+              "publicity": 3.125,
+              "availableData": 0.75,
+              "handSize": 1.0416666666666667
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 277.4583333333333,
+          "mainActions": 42.166666666666664,
+          "analysis": 4.833333333333333,
+          "blue1": 2.4375,
+          "blue2": 2.4166666666666665,
+          "mainPerCreditEnergySpent": 0.7311185005427364,
+          "cardsPlayed": 13,
+          "newCardsPlayed": 10.1875,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 18.583333333333332,
+              "energy": 16.1875,
+              "publicity": 0.1875,
+              "availableData": 0.25,
+              "handSize": 9.208333333333334
+            },
+            "nonIncomeGain": {
+              "credits": 5.520833333333333,
+              "energy": 13.6875,
+              "publicity": 53.9375,
+              "availableData": 40.8125,
+              "handSize": 21.5
+            },
+            "spent": {
+              "credits": 25.875,
+              "energy": 31.854166666666668,
+              "publicity": 50.5,
+              "availableData": 42.479166666666664,
+              "handSize": 39.166666666666664
+            },
+            "endingInventory": {
+              "credits": 1.4166666666666667,
+              "energy": 0.22916666666666666,
+              "publicity": 5.708333333333333,
+              "availableData": 0.08333333333333333,
+              "handSize": 1.0208333333333333
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 206.20833333333334,
+          "mainActions": 33.5,
+          "analysis": 3.9583333333333335,
+          "blue1": 1.8333333333333333,
+          "blue2": 1.2083333333333333,
+          "mainPerCreditEnergySpent": 0.6294770785183202,
+          "cardsPlayed": 13.125,
+          "newCardsPlayed": 11,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 16.833333333333332,
+              "energy": 13.208333333333334,
+              "publicity": 0.25,
+              "availableData": 0.25,
+              "handSize": 8.666666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 9.166666666666666,
+              "energy": 7.208333333333333,
+              "publicity": 45.833333333333336,
+              "availableData": 32.5,
+              "handSize": 21.375
+            },
+            "spent": {
+              "credits": 30,
+              "energy": 23.375,
+              "publicity": 49.833333333333336,
+              "availableData": 33.5,
+              "handSize": 35.916666666666664
+            },
+            "endingInventory": {
+              "credits": 0.5416666666666666,
+              "energy": 0.25,
+              "publicity": 2.5,
+              "availableData": 0.625,
+              "handSize": 0.6666666666666666
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "seats": 96,
+        "score": 239.77083333333334,
+        "mainActions": 36.84375,
+        "analysis": 4.239583333333333,
+        "blue1": 2.03125,
+        "blue2": 1.7604166666666667,
+        "mainPerCreditEnergySpent": 0.6856905688999574,
+        "cardsPlayed": 12.145833333333334,
+        "newCardsPlayed": 9.916666666666666,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.677083333333332,
+            "energy": 14.302083333333334,
+            "publicity": 0.19791666666666666,
+            "availableData": 0.3125,
+            "handSize": 8.739583333333334
+          },
+          "nonIncomeGain": {
+            "credits": 6.208333333333333,
+            "energy": 11.208333333333334,
+            "publicity": 50.302083333333336,
+            "availableData": 35.260416666666664,
+            "handSize": 19.885416666666668
+          },
+          "spent": {
+            "credits": 25.927083333333332,
+            "energy": 27.729166666666668,
+            "publicity": 50.28125,
+            "availableData": 36.729166666666664,
+            "handSize": 35.166666666666664
+          },
+          "endingInventory": {
+            "credits": 1.2291666666666667,
+            "energy": 0.19791666666666666,
+            "publicity": 3.84375,
+            "availableData": 0.375,
+            "handSize": 0.9375
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 199.875,
+          "mainActions": 29.75,
+          "analysis": 3.2083333333333335,
+          "blue1": 2.0416666666666665,
+          "blue2": 0.875,
+          "mainPerCreditEnergySpent": 0.639443515024453,
+          "cardsPlayed": 9.541666666666666,
+          "newCardsPlayed": 8.416666666666666,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 15.458333333333334,
+              "energy": 12.041666666666666,
+              "publicity": 0.08333333333333333,
+              "availableData": 0.5,
+              "handSize": 7.5
+            },
+            "nonIncomeGain": {
+              "credits": 5.125,
+              "energy": 10.75,
+              "publicity": 45,
+              "availableData": 26.458333333333332,
+              "handSize": 16.208333333333332
+            },
+            "spent": {
+              "credits": 22.083333333333332,
+              "energy": 24.75,
+              "publicity": 46.916666666666664,
+              "availableData": 28.083333333333332,
+              "handSize": 27.083333333333332
+            },
+            "endingInventory": {
+              "credits": 0.6666666666666666,
+              "energy": 0.08333333333333333,
+              "publicity": 2.25,
+              "availableData": 0.625,
+              "handSize": 1.0416666666666667
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 276.1666666666667,
+          "mainActions": 41.666666666666664,
+          "analysis": 4.708333333333333,
+          "blue1": 2.375,
+          "blue2": 2.3125,
+          "mainPerCreditEnergySpent": 0.7291255309300011,
+          "cardsPlayed": 12.854166666666666,
+          "newCardsPlayed": 9.916666666666666,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 19.125,
+              "energy": 15.833333333333334,
+              "publicity": 0.14583333333333334,
+              "availableData": 0.22916666666666666,
+              "handSize": 9.291666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 5.458333333333333,
+              "energy": 13.270833333333334,
+              "publicity": 54.458333333333336,
+              "availableData": 39.729166666666664,
+              "handSize": 20.770833333333332
+            },
+            "spent": {
+              "credits": 26.1875,
+              "energy": 31.083333333333332,
+              "publicity": 51.1875,
+              "availableData": 41.208333333333336,
+              "handSize": 38.645833333333336
+            },
+            "endingInventory": {
+              "credits": 1.5833333333333333,
+              "energy": 0.22916666666666666,
+              "publicity": 5.5,
+              "availableData": 0.25,
+              "handSize": 0.8958333333333334
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 206.875,
+          "mainActions": 34.291666666666664,
+          "analysis": 4.333333333333333,
+          "blue1": 1.3333333333333333,
+          "blue2": 1.5416666666666667,
+          "mainPerCreditEnergySpent": 0.6450676987153755,
+          "cardsPlayed": 13.333333333333334,
+          "newCardsPlayed": 11.416666666666666,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 17,
+              "energy": 13.5,
+              "publicity": 0.4166666666666667,
+              "availableData": 0.2916666666666667,
+              "handSize": 8.875
+            },
+            "nonIncomeGain": {
+              "credits": 8.791666666666666,
+              "energy": 7.541666666666667,
+              "publicity": 47.291666666666664,
+              "availableData": 35.125,
+              "handSize": 21.791666666666668
+            },
+            "spent": {
+              "credits": 29.25,
+              "energy": 24,
+              "publicity": 51.833333333333336,
+              "availableData": 36.416666666666664,
+              "handSize": 36.291666666666664
+            },
+            "endingInventory": {
+              "credits": 1.0833333333333333,
+              "energy": 0.25,
+              "publicity": 2.125,
+              "availableData": 0.375,
+              "handSize": 0.9166666666666666
+            }
+          }
+        }
+      }
+    }
+  },
+  "changes": [
+    {
+      "case": 8,
+      "side": "baseline",
+      "entryId": 153,
+      "playerId": "player-green",
+      "stepIndex": 7,
+      "text": "拥有3个蓝色外星人标记：1数据：绿色获得 1/1 个数据；放置数据：序号 15 自数据池槽位1 → 第三列第二行 (63.88%,81.29%)，额外获得 1 能量；获得 1 能量",
+      "adjustments": [
+        {
+          "key": "energy",
+          "oldExplicit": 2,
+          "newExplicit": 1,
+          "oldCompensation": -2,
+          "newCompensation": -1
+        },
+        {
+          "key": "availableData",
+          "oldExplicit": 1,
+          "newExplicit": 0,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        }
+      ],
+      "replacementEvents": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+          "entryId": 153,
+          "stepIndex": 7,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 218,
+          "roundNumber": 4,
+          "turnNumber": 4,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "拥有3个蓝色外星人标记：1数据：绿色获得 1/1 个数据",
+          "resourceDeltas": {
+            "availableData": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+          "entryId": 153,
+          "stepIndex": 7.5,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 218,
+          "roundNumber": 4,
+          "turnNumber": 4,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "data_placement",
+          "sourceDetail": "放置数据：序号 15 自数据池槽位1 → 第三列第二行 (63.88%,81.29%)，额外获得 1 能量；获得 1 能量",
+          "resourceDeltas": {
+            "energy": 1,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": true,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "entryId": 125,
+      "playerId": "player-white",
+      "stepIndex": 2,
+      "text": "低重力研究：获得蓝色外星人痕迹，1数据：白色获得 1/1 个数据；放置数据：序号 14 自数据池槽位1 → 第一排放置位1 (34.66%,67.61%)，额外获得 2 分；获得 2 分",
+      "adjustments": [
+        {
+          "key": "availableData",
+          "oldExplicit": 1,
+          "newExplicit": 0,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        },
+        {
+          "key": "score",
+          "oldExplicit": 4,
+          "newExplicit": 2,
+          "noResourceCompensation": true
+        }
+      ],
+      "replacementEvents": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+          "entryId": 125,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 174,
+          "roundNumber": 3,
+          "turnNumber": 8,
+          "pace": "main",
+          "mainActionType": "analyze",
+          "sourceCategory": "unclassified",
+          "sourceDetail": "低重力研究：获得蓝色外星人痕迹，1数据：白色获得 1/1 个数据",
+          "resourceDeltas": {
+            "availableData": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+          "entryId": 125,
+          "stepIndex": 2.5,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 174,
+          "roundNumber": 3,
+          "turnNumber": 8,
+          "pace": "main",
+          "mainActionType": "analyze",
+          "sourceCategory": "data_placement",
+          "sourceDetail": "放置数据：序号 14 自数据池槽位1 → 第一排放置位1 (34.66%,67.61%)，额外获得 2 分；获得 2 分",
+          "resourceDeltas": {
+            "score": 2,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": true,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "entryId": 165,
+      "playerId": "player-blue",
+      "stepIndex": 3,
+      "text": "蓝色科技：1数据：绿色获得 1/1 个数据；放置数据：序号 9 自数据池槽位1 → 第二列第二行 (49.12%,80.14%)，额外精选 1 张牌；获得卡牌：高级导航系统，公共区已补牌：卡西尼号探测器；资源：手牌+1",
+      "adjustments": [
+        {
+          "key": "availableData",
+          "oldExplicit": 1,
+          "newExplicit": 0,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        }
+      ],
+      "replacementEvents": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+          "entryId": 165,
+          "stepIndex": 3,
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "finalScore": 191,
+          "roundNumber": 4,
+          "turnNumber": 5,
+          "pace": "main",
+          "mainActionType": null,
+          "sourceCategory": "card",
+          "sourceDetail": "蓝色科技：1数据：绿色获得 1/1 个数据",
+          "resourceDeltas": {
+            "availableData": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+          "entryId": 165,
+          "stepIndex": 3.5,
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "finalScore": 191,
+          "roundNumber": 4,
+          "turnNumber": 5,
+          "pace": "main",
+          "mainActionType": null,
+          "sourceCategory": "data_placement",
+          "sourceDetail": "放置数据：序号 9 自数据池槽位1 → 第二列第二行 (49.12%,80.14%)，额外精选 1 张牌；获得卡牌：高级导航系统，公共区已补牌：卡西尼号探测器；资源：手牌+1",
+          "resourceDeltas": {
+            "handSize": 1,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": true,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "entryId": 173,
+      "playerId": "player-blue",
+      "stepIndex": 3,
+      "text": "蓝色科技：1数据：棕色获得 1/1 个数据；放置数据：序号 21 自数据池槽位1 → 第四列第二行 (72.05%,81%)，额外精选 1 张牌；获得卡牌：蜻蜓号，公共区已补牌：夏洛克光谱仪；资源：手牌+1",
+      "adjustments": [
+        {
+          "key": "availableData",
+          "oldExplicit": 1,
+          "newExplicit": 0,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        }
+      ],
+      "replacementEvents": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+          "entryId": 173,
+          "stepIndex": 3,
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "finalScore": 129,
+          "roundNumber": 4,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": null,
+          "sourceCategory": "card",
+          "sourceDetail": "蓝色科技：1数据：棕色获得 1/1 个数据",
+          "resourceDeltas": {
+            "availableData": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+          "entryId": 173,
+          "stepIndex": 3.5,
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "finalScore": 129,
+          "roundNumber": 4,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": null,
+          "sourceCategory": "data_placement",
+          "sourceDetail": "放置数据：序号 21 自数据池槽位1 → 第四列第二行 (72.05%,81%)，额外精选 1 张牌；获得卡牌：蜻蜓号，公共区已补牌：夏洛克光谱仪；资源：手牌+1",
+          "resourceDeltas": {
+            "handSize": 1,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "寰宇超动力",
+          "isDataPlacement": true,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "entryId": 182,
+      "playerId": "player-brown",
+      "stepIndex": 2,
+      "text": "低重力研究：获得蓝色外星人痕迹，1数据：棕色获得 1/1 个数据；放置数据：序号 24 自数据池槽位1 → 第一排放置位1 (34.66%,67.61%)，额外获得 2 分；获得 2 分",
+      "adjustments": [
+        {
+          "key": "availableData",
+          "oldExplicit": 1,
+          "newExplicit": 0,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        },
+        {
+          "key": "score",
+          "oldExplicit": 4,
+          "newExplicit": 2,
+          "noResourceCompensation": true
+        }
+      ],
+      "replacementEvents": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+          "entryId": 182,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 299,
+          "roundNumber": 4,
+          "turnNumber": 10,
+          "pace": "main",
+          "mainActionType": "analyze",
+          "sourceCategory": "unclassified",
+          "sourceDetail": "低重力研究：获得蓝色外星人痕迹，1数据：棕色获得 1/1 个数据",
+          "resourceDeltas": {
+            "availableData": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+          "entryId": 182,
+          "stepIndex": 2.5,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 299,
+          "roundNumber": 4,
+          "turnNumber": 10,
+          "pace": "main",
+          "mainActionType": "analyze",
+          "sourceCategory": "data_placement",
+          "sourceDetail": "放置数据：序号 24 自数据池槽位1 → 第一排放置位1 (34.66%,67.61%)，额外获得 2 分；获得 2 分",
+          "resourceDeltas": {
+            "score": 2,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": true,
+          "confidence": 1
+        }
+      ]
+    }
+  ],
+  "playerChanges": [
+    {
+      "case": 8,
+      "side": "baseline",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "diff": {
+        "blue2EnergyGain": {
+          "before": 2,
+          "after": 1
+        },
+        "nonIncomeGain": {
+          "before": {
+            "score": 162,
+            "credits": 3,
+            "energy": 13,
+            "publicity": 46,
+            "availableData": 26,
+            "handSize": 15
+          },
+          "after": {
+            "score": 162,
+            "credits": 3,
+            "energy": 12,
+            "publicity": 46,
+            "availableData": 26,
+            "handSize": 15
+          }
+        },
+        "spent": {
+          "before": {
+            "score": 0,
+            "credits": 23,
+            "energy": 22,
+            "publicity": 45,
+            "availableData": 27,
+            "handSize": 38
+          },
+          "after": {
+            "score": 0,
+            "credits": 23,
+            "energy": 21,
+            "publicity": 45,
+            "availableData": 27,
+            "handSize": 38
+          }
+        }
+      }
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "diff": {
+        "nonIncomeGain": {
+          "before": {
+            "score": 119,
+            "credits": 4,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 22
+          },
+          "after": {
+            "score": 117,
+            "credits": 4,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 22
+          }
+        }
+      }
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "diff": {
+        "nonIncomeGain": {
+          "before": {
+            "score": 171,
+            "credits": 6,
+            "energy": 15,
+            "publicity": 50,
+            "availableData": 42,
+            "handSize": 24
+          },
+          "after": {
+            "score": 169,
+            "credits": 6,
+            "energy": 15,
+            "publicity": 50,
+            "availableData": 42,
+            "handSize": 24
+          }
+        }
+      }
+    }
+  ]
+}

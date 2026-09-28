@@ -1,0 +1,1391 @@
+{
+  "scope": "Exact-named pickup correction of all paired inputs. Unique physical gain is reattributed within same transaction without consuming explicitly logged reward. Net resource balance, ending inventories, actions, analysis and blue1/2 resources preserved. Income versus non-income hand classification can change; splitting netted pickup and payment can increase gross hand gain/spending equally. Record all changes, retain raw files.",
+  "summary": {
+    "pairs": 64,
+    "inputs": 128,
+    "changedGames": 0,
+    "changedGains": 0,
+    "bucketChanges": 0,
+    "issues": []
+  },
+  "rows": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "cycleabsolute64-base-1.json",
+      "sha256": "e9cb59da95c6d1a93e957884c9d8adee632b540cccb3175b52e0086d7c9e8628",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "cycleabsolute64-base-2.json",
+      "sha256": "b476b899264fcf0302e2ec97fbcbdad990664ddd3b5a119455791e4f3ae5b1d9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "cycleabsolute64-base-3.json",
+      "sha256": "f28cede8905fb1bd8937fe44ea15272bada7f7f8e8aa804bbec1ea0982b3768e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "cycleabsolute64-base-4.json",
+      "sha256": "30b8f7d4af8af8caa9f9b7628c75e50d3dc7b4d4b8b01b4c26995116f898e746",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "cycleabsolute64-base-5.json",
+      "sha256": "03b8b86135853117b512ac3b22a9d7ef7b96386af735a74e76b140fd938bd059",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "cycleabsolute64-base-6.json",
+      "sha256": "2fd31c7dd1f2474071e3f6714fd4c2e12f6dbd91dcb57ffecaed51112e8f42df",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "cycleabsolute64-base-7.json",
+      "sha256": "613a494b53ee36bddc5312009d5f3030d1abfdc293566d0b07f880c948f238fd",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "cycleabsolute64-base-8.json",
+      "sha256": "e6aba9fc1a9375d7032c3a2b9420dd1df489adf5a228afb2f35f1a3c7ef0f362",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "cycleabsolute64-base-9.json",
+      "sha256": "f961b47cc8d956c95a3cdaee055175410071570f223dffc6fd8a69df1f6e093e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "cycleabsolute64-base-10.json",
+      "sha256": "bdd99e6af27439f827015598c1e2e00e92ac260a3e79cb1fcefd636736fbfc96",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "cycleabsolute64-base-11.json",
+      "sha256": "c3a9e9bb68679e7ea56876313bd9d9ac2d8df356d82cbc7ac7b8fe95350654f3",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "cycleabsolute64-base-12.json",
+      "sha256": "395ca454a0118401f9a22606d97bd5636ec681b3c0d2b9bf11a2db21be8c5a0e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "cycleabsolute64-base-13.json",
+      "sha256": "7d381e2272a0cc32177e3b53e23f7625acc19dabad3f6e659bc2132fbc2a6db7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "cycleabsolute64-base-14.json",
+      "sha256": "3c53b6e99a3a04d4a7d20dbe294dc44ae87195277a3fb4b7a3927732bb4092d0",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "cycleabsolute64-base-15.json",
+      "sha256": "4d82717c969e6d4444f3132735eea0362f574707336614754d69b5cc1e32b197",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "cycleabsolute64-base-16.json",
+      "sha256": "5c91fef03dd6d0662f78055477dbc5aaff84299f469f4c27cc72f22f7045e9f1",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "cycleabsolute64-base-17.json",
+      "sha256": "7763b04895b1e268fab6be0aa4422237cd8d226ddb226c8caffed1e55550acae",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "cycleabsolute64-base-18.json",
+      "sha256": "f95b8f1c0be6b0d5ed734f5a8781a12a0d4863bf0fe53a5e57c8590315059144",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "cycleabsolute64-base-19.json",
+      "sha256": "cb8dd4e55db165e6f348024b35575f37724b6fd187f6b2644fb8bc295d3133d2",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "cycleabsolute64-base-20.json",
+      "sha256": "f6923e7b482de79aaf88955b2ef5d1042ffd244c577b9246f3f9222b47a1103a",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "cycleabsolute64-base-21.json",
+      "sha256": "e321294b2aa9d7c4583a5896fe3d615ef2c03953fd5da29faa230f98c05d78fd",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "cycleabsolute64-base-22.json",
+      "sha256": "59776b9737f176bb93460ebf63e32ff44ded1d469197a34c5c895a249e0731ed",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "cycleabsolute64-base-23.json",
+      "sha256": "e57329612d8d7e25d902cc960d2397757fea607ac7320ad0371cdc5a0ed9df6b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "cycleabsolute64-base-24.json",
+      "sha256": "69400eaa9901010e3a84c7ae475cd0f086aa31730263a28f02ecd5ae79219cab",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 25,
+      "file": "cycleabsolute64-base-25.json",
+      "sha256": "991ebbec395cfa03b116609aa9ef052f0ca3b57339dea677b52ac81d99f4e417",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 26,
+      "file": "cycleabsolute64-base-26.json",
+      "sha256": "bd7cca2f9860bc45b60e4587789901bb21e2c9c07034477efdbbaf8104c5bfc4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 27,
+      "file": "cycleabsolute64-base-27.json",
+      "sha256": "b0ef9b3e12558bae0b7d44c389a782e47b6c0bc9ea2c1e81529d2347b65dd87d",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 28,
+      "file": "cycleabsolute64-base-28.json",
+      "sha256": "403b825dbb5e9f27f67d40777fe8a3262d815b063082f1461da1deac6e5cd230",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 29,
+      "file": "cycleabsolute64-base-29.json",
+      "sha256": "4ddca65dc58b984c2d7a4eda85fd66194a64bd269d2c421960d3a6337653985b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 30,
+      "file": "cycleabsolute64-base-30.json",
+      "sha256": "d5b36935bb256e0956189fd25eba77b7ca151f286e444d4976db476f12344bb8",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 31,
+      "file": "cycleabsolute64-base-31.json",
+      "sha256": "27895c23197202b5c71bfe12761c7abe91171e66346109f7463c2370bd8d1420",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 32,
+      "file": "cycleabsolute64-base-32.json",
+      "sha256": "621c164f3d4887c1d4f101ee043f84b6baf4ca05244464f60b576088bf1be12b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 33,
+      "file": "cycleabsolute64-base-33.json",
+      "sha256": "d40d86b37763965dca783723a529b7a6a489f4c94e2603cbbc83ec433f6154f2",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 34,
+      "file": "cycleabsolute64-base-34.json",
+      "sha256": "25c9f5031238094edf916c0cd53fe4592e8dfaab95353e9112f8965307523e35",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 35,
+      "file": "cycleabsolute64-base-35.json",
+      "sha256": "9f52694affe46ebf886fd7d61bde9c87d6f4f6bc827475974e4ec733e0ae9bae",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 36,
+      "file": "cycleabsolute64-base-36.json",
+      "sha256": "e36777d68db715ef4fbd38cb3ab906c7ef430c644c80e831fd8799f224d3125e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 37,
+      "file": "cycleabsolute64-base-37.json",
+      "sha256": "91f0255b7223d1bffb7fdd73a16bf088009863e7a80d6ebae117149132d27a09",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 38,
+      "file": "cycleabsolute64-base-38.json",
+      "sha256": "3af7dc3d9ff3920fe9a1e4e5d1e1e16a57faa11594767cffeb42a2b99623f95f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 39,
+      "file": "cycleabsolute64-base-39.json",
+      "sha256": "ae751fb316b99e3ae188c5a3f7cd376c2aa189e18d5a957f1e8e5ec4b9b9bc11",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 40,
+      "file": "cycleabsolute64-base-40.json",
+      "sha256": "b201a39194db3d2e04a642c40c6f5a9f850ec06f1cfb059a742eeec01c05a006",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 41,
+      "file": "cycleabsolute64-base-41.json",
+      "sha256": "07ad1b9a5147e32db86b41c6be7d43ec53e345ec0f1e1502678abac477eff808",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 42,
+      "file": "cycleabsolute64-base-42.json",
+      "sha256": "e9d2fa7881219f092e0f103499f5a6f9d91fcb4223f143ef4239e6dd7b85c64b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 43,
+      "file": "cycleabsolute64-base-43.json",
+      "sha256": "e105ae61202b62bd293437854c8f1b0804c43692f2fba64a303cfbdcf0a9c473",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 44,
+      "file": "cycleabsolute64-base-44.json",
+      "sha256": "91d31b036ddc856d927925176ddc4cc16c7e059af945d09146e811879d09ab20",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 45,
+      "file": "cycleabsolute64-base-45.json",
+      "sha256": "453fdcbe3aa472ffdcd9de61483112ff7d67f2d31de45739267e0eefa131e426",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 46,
+      "file": "cycleabsolute64-base-46.json",
+      "sha256": "bff6fd0dedd4c657014ee002fc5c2393a1e84463f014d65d7157d69ac8575037",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 47,
+      "file": "cycleabsolute64-base-47.json",
+      "sha256": "15157170543b75b32fd063b6c03c76d678c9c098aad944b71a375addc395abd9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 48,
+      "file": "cycleabsolute64-base-48.json",
+      "sha256": "e0f05272b20d0e25caf81d11c02e058d2550671e22abf9107b2d0445575dda85",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 49,
+      "file": "cycleabsolute64-base-49.json",
+      "sha256": "c5f9f5cf1896970378060625be9556d428f15140f232d71d23ffb2d8e574e46a",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 50,
+      "file": "cycleabsolute64-base-50.json",
+      "sha256": "67fcda702950283614d016f101afc2c4d728b35331243a5668b1275e28129e2e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 51,
+      "file": "cycleabsolute64-base-51.json",
+      "sha256": "8854d949fa84c5b504b8cd8416bc06ee1664091d06e33be619fc63132d2965f1",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 52,
+      "file": "cycleabsolute64-base-52.json",
+      "sha256": "008676615bc4d9b8ec9d933cb2c3d9bc7a2d59a55abef7ca91937963c9578e38",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 53,
+      "file": "cycleabsolute64-base-53.json",
+      "sha256": "619d2a30b17a0d9763431d6f568ef915276094b25f0031cecbc2ce52eb704f87",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 54,
+      "file": "cycleabsolute64-base-54.json",
+      "sha256": "4eadf65d93e74a9fb5c6c801d46f2142ba567e95ff9c7ad52b3bb492532c0875",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 55,
+      "file": "cycleabsolute64-base-55.json",
+      "sha256": "f76d3ca745493c518ae8a83ead6caaa3d1b6b5a98213eacb08c3cc79d25205c6",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 56,
+      "file": "cycleabsolute64-base-56.json",
+      "sha256": "097177d9951efd68497478fbbb395b7c53d846a8acc73499fb776f6d1ccde945",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 57,
+      "file": "cycleabsolute64-base-57.json",
+      "sha256": "3ecde32babd1bc3ab675eaecc46d40121b1362b6021aa1ac56322d5cc2675b42",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 58,
+      "file": "cycleabsolute64-base-58.json",
+      "sha256": "4601f15f48f088b79763b2216b7b815f8d17be90dc2479ada7742bc05b522e3d",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 59,
+      "file": "cycleabsolute64-base-59.json",
+      "sha256": "66daa7bf3b391bb14b209f1094597318a60c4660631b43d2ce13b3e7c7afde0d",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 60,
+      "file": "cycleabsolute64-base-60.json",
+      "sha256": "f0b6c83ccec286bcee15cc544f51faba36c60518aca6ef61ac48294e76b4c4d5",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 61,
+      "file": "cycleabsolute64-base-61.json",
+      "sha256": "34eccd2c41d18e1d1dd555701d9e146214bb4fd36f52607d3805182618746004",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 62,
+      "file": "cycleabsolute64-base-62.json",
+      "sha256": "09c8958fbe287c05699440e8c988b12c0e29372f0b865014b98bacb4d244eab5",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 63,
+      "file": "cycleabsolute64-base-63.json",
+      "sha256": "5716462b9e8907161bdfddb03082105874f6b133001d80f92d1d33557ef0aa87",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "baseline",
+      "case": 64,
+      "file": "cycleabsolute64-base-64.json",
+      "sha256": "e58c163fa4faffa3126a71bb7b24255c63a4ebe62590c2eaba98f5f3ade61e64",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "cycleabsolute64-candidate-1.json",
+      "sha256": "552ad97f9222e52dc311554de9c02efdbe058b19b5da69ac1cbf25947af4d835",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "cycleabsolute64-candidate-2.json",
+      "sha256": "7d30a25faff746488a1fcb343d949b76f653bdb41ff988079c6214b2ba4965e3",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "cycleabsolute64-candidate-3.json",
+      "sha256": "3fe9560d3d284246c24b6a6dac407831581e747a4e26472366b82aeab017c173",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "cycleabsolute64-candidate-4.json",
+      "sha256": "3db56f04983be32272d60d25316ae11884733cdb881c0b378f49f65498f404d9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "cycleabsolute64-candidate-5.json",
+      "sha256": "9ff726c4d9fd3f035121866735fd699980cfeb8748f86c3eabae3981ee28085e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "cycleabsolute64-candidate-6.json",
+      "sha256": "065e84dd07e00fae48fe34b5296c330f9b0d178f2e839dce99cb0a993dee3f78",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "cycleabsolute64-candidate-7.json",
+      "sha256": "306fe942cbdd03725b70da32e064a5976d816b58fec463d388e38ec9f32fe609",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "cycleabsolute64-candidate-8.json",
+      "sha256": "2de9307e655397488770e973894c46d25bedff2623ec2badca4b54281f373a40",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "cycleabsolute64-candidate-9.json",
+      "sha256": "28657045f19df553935330ee438277e1722aaed820882fa1c6d2e22a9650bc10",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "cycleabsolute64-candidate-10.json",
+      "sha256": "c01e1bb87c670b8c35859c5818694357855dc17a733c82b62438c1e942bb73bd",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "cycleabsolute64-candidate-11.json",
+      "sha256": "4a470d640751a396de12160261e24155bb4917e932314f55a3767d49991551c5",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "cycleabsolute64-candidate-12.json",
+      "sha256": "334d8f02a0ce449f2366db8b195c2152e640f40522755d91c683dc55c33c0aa3",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "cycleabsolute64-candidate-13.json",
+      "sha256": "54be80f4122a82898b53a61d0b86f014a831e46ec5059ceefdc8e3ffc47d5532",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "cycleabsolute64-candidate-14.json",
+      "sha256": "f948dc5fb31ec7a1974ffd866b905f492cb4d8b7c69e7f131d16f6b4331fba5b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "cycleabsolute64-candidate-15.json",
+      "sha256": "32b948547c93b86aa95970ae4e950d0c6400f1394e7fd5ba4373ac6ed8d01bea",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "cycleabsolute64-candidate-16.json",
+      "sha256": "21ee66a07960fac0c1025ae82c5223b676245eeaa2f6bcce151836d3b7e8e07f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "cycleabsolute64-candidate-17.json",
+      "sha256": "c5aeb8cfe8face948f0dedb6a40fa65a63392058e4edb9a4b526f4e0e0a29d47",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "cycleabsolute64-candidate-18.json",
+      "sha256": "abd3e4839f34a500acff8fe586c0928a04fc5418a0deb6a7eb24d29032a24171",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "cycleabsolute64-candidate-19.json",
+      "sha256": "417b6229b4da004f762c4bd5979ed92dd0d0506cff033f0893ef20256be70e2a",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "cycleabsolute64-candidate-20.json",
+      "sha256": "6e637e7cb2789ca841434b12214f13bf4a040e7000168b58fa426fc150b9786a",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "cycleabsolute64-candidate-21.json",
+      "sha256": "7830991f2441e04b536728c83156ec1f779fe9731fa2737e8eccdbd25a428913",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "cycleabsolute64-candidate-22.json",
+      "sha256": "8fe87a13a9eda72668524141a65f2e60722d7994cd3bbe2eef0aef2fcfdad862",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "cycleabsolute64-candidate-23.json",
+      "sha256": "ff456eb9854b31eae23ae93a31047fd282a97de560c5ce55d866bb11d80cfec4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "cycleabsolute64-candidate-24.json",
+      "sha256": "1a1ef603870622fbbd0828e7df78efd345a8f54639fcb4041c07f14be76a4a9b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 25,
+      "file": "cycleabsolute64-candidate-25.json",
+      "sha256": "c183e1ebb4c95cd6f1d69aa085458efa511ba354ccf6ff73962326dbff40f3fa",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 26,
+      "file": "cycleabsolute64-candidate-26.json",
+      "sha256": "aae95213181f0e6108ca6a127fa9a6c4c0c492b7750d7e3b0fdd41c63ad2a67e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 27,
+      "file": "cycleabsolute64-candidate-27.json",
+      "sha256": "70dd4214644dc823fd3d2d0294e04e80e796c79bbde92b56c5ceba49366bf7fe",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 28,
+      "file": "cycleabsolute64-candidate-28.json",
+      "sha256": "0216c6996763452b790c78f2530eb9315da802b4a33a294c5daf967c51f37fd8",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 29,
+      "file": "cycleabsolute64-candidate-29.json",
+      "sha256": "a914a752205330373191fc680cb899bc753e896a0b921f680f436f4d68238be9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 30,
+      "file": "cycleabsolute64-candidate-30.json",
+      "sha256": "82f2f3988c0bd6a11cf81e0637f76b305b9098ee96aaa7c73403d105479b7899",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 31,
+      "file": "cycleabsolute64-candidate-31.json",
+      "sha256": "3236a06e62be627c40e912574f4bd0c9b1f4e9fde0a03bf269bbaba357409214",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 32,
+      "file": "cycleabsolute64-candidate-32.json",
+      "sha256": "5a27c3c65474d68cb4ef213510513f6def1182b271dfcd15c8a4e796f4579ec2",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 33,
+      "file": "cycleabsolute64-candidate-33.json",
+      "sha256": "55cf6146b03c266e2b311e113dfa5da9dd49977d06911c3da6dd205095f330b4",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 34,
+      "file": "cycleabsolute64-candidate-34.json",
+      "sha256": "b296296b79ed6aa7a04dae4903d93539506bb57a6ec0b99c58db8fd2692aa6f9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 35,
+      "file": "cycleabsolute64-candidate-35.json",
+      "sha256": "ef11ae4a2ffb4561527d64555e76f9278aea9e1983ea438df1f2a24d31155b91",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 36,
+      "file": "cycleabsolute64-candidate-36.json",
+      "sha256": "ec8233a3177369a318a982180e5f51096906eff033af9506a3972c17461f7408",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 37,
+      "file": "cycleabsolute64-candidate-37.json",
+      "sha256": "cffd1e56c291ad90ade15f210d97747f7366dde4c7298bac7ece721278b11ccc",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 38,
+      "file": "cycleabsolute64-candidate-38.json",
+      "sha256": "5c87b5ef9dc0625602cacd63ed6aa8f601ac8842cfe30613bc44705add001a65",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 39,
+      "file": "cycleabsolute64-candidate-39.json",
+      "sha256": "688aba232b2f66849c277b4372bad37b45f6de730efa673d2bc31286b4d77f9b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 40,
+      "file": "cycleabsolute64-candidate-40.json",
+      "sha256": "8bea1ffaa0b5ef1060d9ca761d62508e18985073a0c7109aebb7f1101146916f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 41,
+      "file": "cycleabsolute64-candidate-41.json",
+      "sha256": "eaaf4ec9fa04a1425f666740d9876c78838e92a28f687028fcb074ab3a0d33ee",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 42,
+      "file": "cycleabsolute64-candidate-42.json",
+      "sha256": "c43bf2a06f1c8bb00359f1169fc4fe6f57e772b856e4c072c2dcc51dfd303286",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 43,
+      "file": "cycleabsolute64-candidate-43.json",
+      "sha256": "62bd38c33b6f99511c0f655b8d429c6ab6c38a58e61930f759e3d444a986a1b8",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 44,
+      "file": "cycleabsolute64-candidate-44.json",
+      "sha256": "86792d420d4c87146e1eb0732d49b34b4a4d4a3a1dfe99c5da5c57cc5210799d",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 45,
+      "file": "cycleabsolute64-candidate-45.json",
+      "sha256": "81a8c9e9774b5e32599f0e5b778aa93a3279ee8bd0176122282ab38b15f8e7c6",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 46,
+      "file": "cycleabsolute64-candidate-46.json",
+      "sha256": "8cbea042e083709e027225ddea96acb516d89d86718604f237a72add2679b98b",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 47,
+      "file": "cycleabsolute64-candidate-47.json",
+      "sha256": "99db4680936a2280a575bc071fd067dfcdf2f1571f7fedb79c11adbc55ad2796",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 48,
+      "file": "cycleabsolute64-candidate-48.json",
+      "sha256": "f58cfc635a3fddd90f9aa4c890ed8e86f9d6b887de574705a0b7232c1db8fb22",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 49,
+      "file": "cycleabsolute64-candidate-49.json",
+      "sha256": "3e2c8e1aa12c79e884cd75bd7f5d7d8688c286e908917140bb4cec4e05c6d88f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 50,
+      "file": "cycleabsolute64-candidate-50.json",
+      "sha256": "287a0443314e2ad6bac0cc7d97720e14c57152fcefc060d9f4f803a5c1ee0258",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 51,
+      "file": "cycleabsolute64-candidate-51.json",
+      "sha256": "82097d7a8e6986d1e40530ffd375a27eb43053d60685fde6198ca24ee39df349",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 52,
+      "file": "cycleabsolute64-candidate-52.json",
+      "sha256": "f2b97c8b3f4d2a853fe2ad4282678bcfd5a5435d3a8c59ccb6043ff8558075ad",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 53,
+      "file": "cycleabsolute64-candidate-53.json",
+      "sha256": "e918a365b6ca75bb219eb594cc31678e7a9f0b5ce90b8fad9c6a19881180cfbc",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 54,
+      "file": "cycleabsolute64-candidate-54.json",
+      "sha256": "c8d923b1c89f80a77fff31f0d7bd8c02a9875a6ba5fd4fc20cc766dfa245a0aa",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 55,
+      "file": "cycleabsolute64-candidate-55.json",
+      "sha256": "eb9daea153e9c2476017c1f669ff908f1ffd4f6f64c43893b3f5f331f8cd45f5",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 56,
+      "file": "cycleabsolute64-candidate-56.json",
+      "sha256": "1b97991268f0a5d7d2dde0dd150696f21346e7b174ea46acb486af423ed5e6f1",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 57,
+      "file": "cycleabsolute64-candidate-57.json",
+      "sha256": "d316bff067b3d7ccc5ee3fe977a6c2d1aa0a31b5ee915783d07dd3fe7893b54c",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 58,
+      "file": "cycleabsolute64-candidate-58.json",
+      "sha256": "f9caefa26d6071b9ab2d463ce32288479c72b1ec52ee4ea4d1293c524facdad6",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 59,
+      "file": "cycleabsolute64-candidate-59.json",
+      "sha256": "a969f135baa9ceb23e30bf6fd4740dd961fa8cc6547d77f3f6103149d967e55e",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 60,
+      "file": "cycleabsolute64-candidate-60.json",
+      "sha256": "62929043db4c6d8c998a6da87f7b96cabcce28e234aa2a7260087dfe4dc7f6e9",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 61,
+      "file": "cycleabsolute64-candidate-61.json",
+      "sha256": "e82ca7c0a7e65ab258bfc44d5b31fdab12c807147fd33ca16433a7c26e384ad7",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 62,
+      "file": "cycleabsolute64-candidate-62.json",
+      "sha256": "8ecbd81cc27670bd75bbf07fb66431803d6aa42fe60f1505c8428a0f2729944f",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 63,
+      "file": "cycleabsolute64-candidate-63.json",
+      "sha256": "aeaa2c5f9a7a094f58ee88fa0deb5736cbf2b9c259f7d899e553abb70290e449",
+      "changes": [],
+      "bucketChanges": []
+    },
+    {
+      "side": "candidate",
+      "case": 64,
+      "file": "cycleabsolute64-candidate-64.json",
+      "sha256": "3ea014e8e5cf3af578a6107dfda38a6ab1df9696c184faeec2cc5b850663bedd",
+      "changes": [],
+      "bucketChanges": []
+    }
+  ],
+  "groups": {
+    "baseline": {
+      "all": {
+        "seats": 256,
+        "score": 225.03125,
+        "actions": 35.10546875,
+        "analysis": 3.921875,
+        "resources": {
+          "grossGain": {
+            "credits": 22.8984375,
+            "energy": 24.2421875,
+            "handSize": 27.6875,
+            "availableData": 32.9453125,
+            "publicity": 46.3125
+          },
+          "incomeGain": {
+            "credits": 17.58203125,
+            "energy": 13.46875,
+            "handSize": 8.55859375,
+            "availableData": 0.4296875,
+            "publicity": 0.21484375
+          },
+          "nonIncomeGain": {
+            "credits": 5.31640625,
+            "energy": 10.7734375,
+            "handSize": 19.12890625,
+            "availableData": 32.515625,
+            "publicity": 46.09765625
+          },
+          "spent": {
+            "credits": 25.29296875,
+            "energy": 26.39453125,
+            "handSize": 34.015625,
+            "availableData": 34.16015625,
+            "publicity": 46.859375
+          },
+          "endingInventory": {
+            "credits": 0.90234375,
+            "energy": 0.26171875,
+            "handSize": 1.02734375,
+            "availableData": 0.2890625,
+            "publicity": 3.171875
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 64,
+          "score": 195.546875,
+          "actions": 28.625,
+          "analysis": 2.796875,
+          "resources": {
+            "grossGain": {
+              "credits": 19.8125,
+              "energy": 21.640625,
+              "handSize": 23.96875,
+              "availableData": 22.96875,
+              "publicity": 44.09375
+            },
+            "incomeGain": {
+              "credits": 16.265625,
+              "energy": 11.265625,
+              "handSize": 8.109375,
+              "availableData": 0.125,
+              "publicity": 0.078125
+            },
+            "nonIncomeGain": {
+              "credits": 3.546875,
+              "energy": 10.375,
+              "handSize": 15.859375,
+              "availableData": 22.84375,
+              "publicity": 44.015625
+            },
+            "spent": {
+              "credits": 21.65625,
+              "energy": 23.296875,
+              "handSize": 27.375,
+              "availableData": 24.5,
+              "publicity": 45.9375
+            },
+            "endingInventory": {
+              "credits": 0.4375,
+              "energy": 0.421875,
+              "handSize": 0.953125,
+              "availableData": 0.140625,
+              "publicity": 2.359375
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 128,
+          "score": 251.859375,
+          "actions": 39.671875,
+          "analysis": 4.5625,
+          "resources": {
+            "grossGain": {
+              "credits": 22.75,
+              "energy": 27.7421875,
+              "handSize": 28.640625,
+              "availableData": 38.640625,
+              "publicity": 48.4375
+            },
+            "incomeGain": {
+              "credits": 18.2109375,
+              "energy": 15.2265625,
+              "handSize": 8.7265625,
+              "availableData": 0.6171875,
+              "publicity": 0.2890625
+            },
+            "nonIncomeGain": {
+              "credits": 4.5390625,
+              "energy": 12.515625,
+              "handSize": 19.9140625,
+              "availableData": 38.0234375,
+              "publicity": 48.1484375
+            },
+            "spent": {
+              "credits": 24.7734375,
+              "energy": 29.7421875,
+              "handSize": 37.0546875,
+              "availableData": 39.8203125,
+              "publicity": 46.703125
+            },
+            "endingInventory": {
+              "credits": 1.2578125,
+              "energy": 0.1796875,
+              "handSize": 0.984375,
+              "availableData": 0.1953125,
+              "publicity": 3.9609375
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "score": 200.859375,
+          "actions": 32.453125,
+          "analysis": 3.765625,
+          "resources": {
+            "grossGain": {
+              "credits": 26.28125,
+              "energy": 19.84375,
+              "handSize": 29.5,
+              "availableData": 31.53125,
+              "publicity": 44.28125
+            },
+            "incomeGain": {
+              "credits": 17.640625,
+              "energy": 12.15625,
+              "handSize": 8.671875,
+              "availableData": 0.359375,
+              "publicity": 0.203125
+            },
+            "nonIncomeGain": {
+              "credits": 8.640625,
+              "energy": 7.6875,
+              "handSize": 20.828125,
+              "availableData": 31.171875,
+              "publicity": 44.078125
+            },
+            "spent": {
+              "credits": 29.96875,
+              "energy": 22.796875,
+              "handSize": 34.578125,
+              "availableData": 32.5,
+              "publicity": 48.09375
+            },
+            "endingInventory": {
+              "credits": 0.65625,
+              "energy": 0.265625,
+              "handSize": 1.1875,
+              "availableData": 0.625,
+              "publicity": 2.40625
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "seats": 256,
+        "score": 227.71484375,
+        "actions": 35.265625,
+        "analysis": 3.765625,
+        "resources": {
+          "grossGain": {
+            "credits": 22.76171875,
+            "energy": 24.1328125,
+            "handSize": 27.4453125,
+            "availableData": 32.93359375,
+            "publicity": 46.5625
+          },
+          "incomeGain": {
+            "credits": 17.484375,
+            "energy": 13.33984375,
+            "handSize": 8.5234375,
+            "availableData": 0.43359375,
+            "publicity": 0.20703125
+          },
+          "nonIncomeGain": {
+            "credits": 5.27734375,
+            "energy": 10.79296875,
+            "handSize": 18.921875,
+            "availableData": 32.5,
+            "publicity": 46.35546875
+          },
+          "spent": {
+            "credits": 25.33984375,
+            "energy": 26.3359375,
+            "handSize": 33.72265625,
+            "availableData": 33.9453125,
+            "publicity": 47.01953125
+          },
+          "endingInventory": {
+            "credits": 0.71875,
+            "energy": 0.2109375,
+            "handSize": 1.078125,
+            "availableData": 0.4921875,
+            "publicity": 3.26171875
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 64,
+          "score": 196.96875,
+          "actions": 28.875,
+          "analysis": 2.734375,
+          "resources": {
+            "grossGain": {
+              "credits": 19.484375,
+              "energy": 21.390625,
+              "handSize": 23.71875,
+              "availableData": 23.984375,
+              "publicity": 44.21875
+            },
+            "incomeGain": {
+              "credits": 15.734375,
+              "energy": 10.953125,
+              "handSize": 7.734375,
+              "availableData": 0.09375,
+              "publicity": 0.0625
+            },
+            "nonIncomeGain": {
+              "credits": 3.75,
+              "energy": 10.4375,
+              "handSize": 15.984375,
+              "availableData": 23.890625,
+              "publicity": 44.15625
+            },
+            "spent": {
+              "credits": 21.28125,
+              "energy": 23.09375,
+              "handSize": 26.921875,
+              "availableData": 25.203125,
+              "publicity": 46.015625
+            },
+            "endingInventory": {
+              "credits": 0.484375,
+              "energy": 0.375,
+              "handSize": 1.15625,
+              "availableData": 0.453125,
+              "publicity": 2.40625
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 128,
+          "score": 256.5859375,
+          "actions": 39.7890625,
+          "analysis": 4.2421875,
+          "resources": {
+            "grossGain": {
+              "credits": 22.875,
+              "energy": 27.3828125,
+              "handSize": 28.4453125,
+              "availableData": 37.5546875,
+              "publicity": 49.0234375
+            },
+            "incomeGain": {
+              "credits": 18.3359375,
+              "energy": 15.1015625,
+              "handSize": 8.921875,
+              "availableData": 0.640625,
+              "publicity": 0.25
+            },
+            "nonIncomeGain": {
+              "credits": 4.5390625,
+              "energy": 12.28125,
+              "handSize": 19.5234375,
+              "availableData": 36.9140625,
+              "publicity": 48.7734375
+            },
+            "spent": {
+              "credits": 25.2421875,
+              "energy": 29.453125,
+              "handSize": 36.8203125,
+              "availableData": 38.3125,
+              "publicity": 47.234375
+            },
+            "endingInventory": {
+              "credits": 0.9140625,
+              "energy": 0.109375,
+              "handSize": 1.0234375,
+              "availableData": 0.6171875,
+              "publicity": 4.015625
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "score": 200.71875,
+          "actions": 32.609375,
+          "analysis": 3.84375,
+          "resources": {
+            "grossGain": {
+              "credits": 25.8125,
+              "energy": 20.375,
+              "handSize": 29.171875,
+              "availableData": 32.640625,
+              "publicity": 43.984375
+            },
+            "incomeGain": {
+              "credits": 17.53125,
+              "energy": 12.203125,
+              "handSize": 8.515625,
+              "availableData": 0.359375,
+              "publicity": 0.265625
+            },
+            "nonIncomeGain": {
+              "credits": 8.28125,
+              "energy": 8.171875,
+              "handSize": 20.65625,
+              "availableData": 32.28125,
+              "publicity": 43.71875
+            },
+            "spent": {
+              "credits": 29.59375,
+              "energy": 23.34375,
+              "handSize": 34.328125,
+              "availableData": 33.953125,
+              "publicity": 47.59375
+            },
+            "endingInventory": {
+              "credits": 0.5625,
+              "energy": 0.25,
+              "handSize": 1.109375,
+              "availableData": 0.28125,
+              "publicity": 2.609375
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,788 @@
+{
+  "scope": "All48 full fixed inputs. Unique physical-card payment entry plus same-entry main self-tuck step: actual+1 income, actual+1 immediate matching resource, no second card discard. Future payout model is reported but these receipt assertions do not prove extra future actions or causally attribute aggregate round income.",
+  "inputs": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "bluelifecycle-base-1.json",
+      "sha256": "a285e540ebfbfd827c6b7ddd6381bba7ab28f6fc6142dabd185d03b58843a0ab"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-1.json",
+      "sha256": "4487e1a4bab138a5fec061a50ed2089c5c8be68fe18e41c35b844219cccd0592"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "bluelifecycle-base-2.json",
+      "sha256": "df1d94d22ccdac67a177e02c083d6f3f51439556e757aa72759b70c730479e04"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-2.json",
+      "sha256": "2080622255304291ead4981c3af22e1caf555ccac186663c583e431c829f1afc"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "bluelifecycle-base-3.json",
+      "sha256": "668029ed7ef5a1027ebe7268fda65300f3e47dc169c882c9866b9e3e3c9a24e7"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-3.json",
+      "sha256": "a0166851c7449b1f873dc37622d965ed7d3c84badddd5b3e24625e56312b2f7e"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "bluelifecycle-base-4.json",
+      "sha256": "c8c125a00b8906d02a9dcbbd5459978d0c2f33828b950eb3e09d8a75460d99c7"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-4.json",
+      "sha256": "51db755ef1cd76fcec5089d4b243879c9287102fa1200019abc31f63a6743b1c"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "file": "bluelifecycle-base-5.json",
+      "sha256": "23ad2adb4c8458a51948275c5d16fe708ba272765b05fd8d5c186282fa19d4f9"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-5.json",
+      "sha256": "3193896c6b54339e0e4a49a0cd042a65a371a85dbfa70be14ccee0ec339753fd"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "bluelifecycle-base-6.json",
+      "sha256": "1d555732cba5504720b9dfe47f62a8417fc47b19b01957ef015886f721fb5706"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-6.json",
+      "sha256": "d47ecad4bfe845e461301ebcc86b1cd53f662531775401cc58cdaac45fe3ed19"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "bluelifecycle-base-7.json",
+      "sha256": "09e6ccc7aeb6bd13fdaf3d860cf32eb59ab005112b68e8479b209cfa3c10d8a1"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-7.json",
+      "sha256": "9a4888f4478ecc79144fc0d4a76b0ebbfcaf71727a71beb7986898c633039f2f"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "bluelifecycle-base-8.json",
+      "sha256": "7b46e91449747b2f172b9c7c04e3db7732c14c428276d6b03b21835b6699f3d7"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-8.json",
+      "sha256": "85458620966b85c347551d5a48aed872a6f84e79701e502684afae3db9120037"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "bluelifecycle-base-9.json",
+      "sha256": "2b3868bd67204f4ca165e6993b11fcebb5a6b32b354f8e6100d8464c0384588e"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-9.json",
+      "sha256": "e30b512f894a080337deb1cbff4f0ca5f05a5ba6ba6447ceb77784065cb929d2"
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "bluelifecycle-base-10.json",
+      "sha256": "1afcc89705e9f5b7717bff858f793fd628c4328c00530ce79a4229df4b602652"
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-10.json",
+      "sha256": "f651700c9bc26852674d729abe2882a37215a43b6394b69c3aa339d87f23b725"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "bluelifecycle-base-11.json",
+      "sha256": "c66bdc83e0f388a0af5bac84d3cfc9ea118458731113ee05394db5e66f18d6b8"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-11.json",
+      "sha256": "2859120d299f7ef91025370b7eb93924a4a8822f494d32447971fab5402cb7e7"
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "bluelifecycle-base-12.json",
+      "sha256": "8d760752bb4f0d2d16d81e92eae8b31bfb96f825161976a8ca37d99950a5d53c"
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-12.json",
+      "sha256": "7ce3e174024b5588bb2ab3646bc254920f5cc2100b6d0616ab205b0ce598442e"
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "bluelifecycle-base-13.json",
+      "sha256": "b8297fcdf1feacf545bbbf4a32ccf34c882ca0b748587aaa7ba7997e005f396d"
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-13.json",
+      "sha256": "9d865f9f6dbfe3bd04432847801db04ade0a78aa37d7f5c12f756310c2625e2c"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "bluelifecycle-base-14.json",
+      "sha256": "a5cc2fdd1ac5399b7128a6d9196803152170257e5aeff972f0d9686ed3c70fb0"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-14.json",
+      "sha256": "dcc54a8c1f5fb03a6b37c0f0f0d272a6ad8e00156e5fdc29ab8c4453101f07b4"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "bluelifecycle-base-15.json",
+      "sha256": "37a5cc8a95826ed7fcbed4b053b1d4f31e31c03e3403ae7b04d6b4f6cb275f30"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-15.json",
+      "sha256": "71ea70a2ab4b3c3b43eb41666a082e6094c89021caa5e4d94af467e49a49e707"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "bluelifecycle-base-16.json",
+      "sha256": "ebf3ccaa7197a5c696773315492269df9d29d955e404e450c88293fc314593bd"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-16.json",
+      "sha256": "266839ff2dcbb6c84b879f6725351e741a0f4dec869a6b1540e0c4b2f5716de4"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "bluelifecycle-base-17.json",
+      "sha256": "d9c88d46c5e417dabbc245081d239ee73f513eb35d288e42e6898ef3c7fe60a7"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-17.json",
+      "sha256": "9e3191f46dcadd013e7c0ec17225c344d30121a3821ff5646a613b27b1518be4"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "bluelifecycle-base-18.json",
+      "sha256": "2eb79289efaee7ea4bd549f200915f73d07508235b9f0f66a3801b4fd583ff0e"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-18.json",
+      "sha256": "13c24e041d5327733d4f35cfb80e7a63ed78832ab1e81cb4a3137f4ccd5bdd93"
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "bluelifecycle-base-19.json",
+      "sha256": "3911b469ce14eefa8159448c5cc4a8899aa06a386ba31ecd81a996da428de1e2"
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-19.json",
+      "sha256": "86c58f94e2ad3f6142dce96bfba41527626e683abdcd41d9fab40d893292bf99"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "bluelifecycle-base-20.json",
+      "sha256": "ad2d7e09230b5cb569f05998fa0aa492ee2bd0de0d73c791bfb41e8ca8e15fe8"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-20.json",
+      "sha256": "4c834158241ee61237d82161753e595cbbd5eeffe6392a55b1c5a8d34d9dc8df"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "bluelifecycle-base-21.json",
+      "sha256": "f1a07463d21729bb65f282ef0ab7bf6f54a515dab00b352fed7c9941a565f827"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-21.json",
+      "sha256": "20cf6d13619c871a23363168ab95a7b645453b26a78163eee88505b0b3194e3b"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "bluelifecycle-base-22.json",
+      "sha256": "7e9f42c126a96ef189f3c9c9f998b9a5db9b230d4e1e56ac4c6ce7ade5cb7a1c"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-22.json",
+      "sha256": "615eb8b409c11bdcb5ba47e02bf2785978e831065c421df38cc01cecdc9fa171"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "bluelifecycle-base-23.json",
+      "sha256": "d67f480aa69196720d368ccc150ce0d578c0d4f668e6bcc87e9f1582ae26e079"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-23.json",
+      "sha256": "49ebdcbaced86dc7946411d42f007e5b297e73769ade59fdfd90918d2485fdbc"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "bluelifecycle-base-24.json",
+      "sha256": "c6195d980b1df966b452a2a61b1cbd5327acfabdbdb967718310248eabfe05e3"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "huanyuselfincome-candidate-24.json",
+      "sha256": "eeffdc94324e7b3f9a2f1fda36e646793a677a0b3f38340439f2c1e3f0a5d0bb"
+    }
+  ],
+  "summary": {
+    "games": 48,
+    "actualPlays": 18,
+    "profilePlays": 3,
+    "issues": [],
+    "counts": {
+      "baseline": {
+        "寰宇超动力": 0,
+        "作弊实验室": 6,
+        "宇宙大战略集团": 1
+      },
+      "candidate": {
+        "寰宇超动力": 3,
+        "作弊实验室": 7,
+        "宇宙大战略集团": 1
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "log": 502,
+      "card": "b_47.webp",
+      "instance": "card-12-0",
+      "entry": 52,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1",
+      "profile": {
+        "gain": {
+          "credits": 1
+        },
+        "immediateGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 0,
+          "additionalPublicScan": 0,
+          "publicity": 0,
+          "availableData": 0
+        },
+        "immediateValue": 6,
+        "futurePayouts": [
+          {
+            "round": 3,
+            "gain": {
+              "credits": 1
+            },
+            "value": 4.5
+          },
+          {
+            "round": 4,
+            "gain": {
+              "credits": 1
+            },
+            "value": 4.5
+          }
+        ],
+        "value": 15
+      }
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 4,
+      "log": 1598,
+      "card": "b_42.webp",
+      "instance": "card-175-0",
+      "entry": 183,
+      "step": 2,
+      "resource": "energy",
+      "income": {
+        "energy": 1
+      },
+      "immediate": {
+        "energy": 1
+      },
+      "text": "将本卡放入收入区：能量+1"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 4,
+      "log": 1598,
+      "card": "b_42.webp",
+      "instance": "card-175-0",
+      "entry": 183,
+      "step": 2,
+      "resource": "energy",
+      "income": {
+        "energy": 1
+      },
+      "immediate": {
+        "energy": 1
+      },
+      "text": "将本卡放入收入区：能量+1",
+      "profile": null
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "log": 1171,
+      "card": "b_79.webp",
+      "instance": "card-133-0",
+      "entry": 138,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "log": 1171,
+      "card": "b_79.webp",
+      "instance": "card-133-0",
+      "entry": 138,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": null
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "log": 199,
+      "card": "b_79.webp",
+      "instance": "card-63-0",
+      "entry": 27,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "log": 199,
+      "card": "b_79.webp",
+      "instance": "card-63-0",
+      "entry": 27,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": null
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 3,
+      "log": 713,
+      "card": "b_47.webp",
+      "instance": "card-100-0",
+      "entry": 92,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 3,
+      "log": 713,
+      "card": "b_47.webp",
+      "instance": "card-100-0",
+      "entry": 92,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1",
+      "profile": null
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "log": 175,
+      "card": "b_47.webp",
+      "instance": "card-56-0",
+      "entry": 24,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "log": 175,
+      "card": "b_47.webp",
+      "instance": "card-56-0",
+      "entry": 24,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1",
+      "profile": null
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 1,
+      "log": 34,
+      "card": "b_79.webp",
+      "instance": "card-50-0",
+      "entry": 6,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": {
+        "gain": {
+          "handSize": 1
+        },
+        "immediateGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 1,
+          "additionalPublicScan": 0,
+          "publicity": 0,
+          "availableData": 0
+        },
+        "immediateValue": 5.4,
+        "futurePayouts": [
+          {
+            "round": 2,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 5.4
+          },
+          {
+            "round": 3,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 4.3
+          },
+          {
+            "round": 4,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 4.3
+          }
+        ],
+        "value": 19.4
+      }
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "log": 1084,
+      "card": "b_79.webp",
+      "instance": "card-141-0",
+      "entry": 124,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "log": 1084,
+      "card": "b_79.webp",
+      "instance": "card-141-0",
+      "entry": 124,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": null
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "log": 1095,
+      "card": "b_79.webp",
+      "instance": "card-115-0",
+      "entry": 132,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "log": 1095,
+      "card": "b_79.webp",
+      "instance": "card-115-0",
+      "entry": 132,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": null
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 1,
+      "log": 34,
+      "card": "b_79.webp",
+      "instance": "card-4-0",
+      "entry": 6,
+      "step": 3,
+      "resource": "handSize",
+      "income": {
+        "handSize": 1
+      },
+      "immediate": {
+        "handSize": 1
+      },
+      "text": "将本卡放入收入区：手牌+1",
+      "profile": {
+        "gain": {
+          "handSize": 1
+        },
+        "immediateGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 1,
+          "additionalPublicScan": 0,
+          "publicity": 0,
+          "availableData": 0
+        },
+        "immediateValue": 5.4,
+        "futurePayouts": [
+          {
+            "round": 2,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 5.4
+          },
+          {
+            "round": 3,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 4.3
+          },
+          {
+            "round": 4,
+            "gain": {
+              "handSize": 1
+            },
+            "value": 4.3
+          }
+        ],
+        "value": 19.4
+      }
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 3,
+      "log": 602,
+      "card": "b_47.webp",
+      "instance": "card-110-0",
+      "entry": 77,
+      "step": 2,
+      "resource": "credits",
+      "income": {
+        "credits": 1
+      },
+      "immediate": {
+        "credits": 1
+      },
+      "text": "将本卡放入收入区：信用点+1",
+      "profile": null
+    }
+  ]
+}
