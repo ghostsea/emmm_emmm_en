@@ -439,6 +439,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
         PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
+        DISCARD_CARD_CORNER_REPEAT: cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
         CARD_ORBIT: "card_orbit",
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
@@ -17324,4 +17325,53 @@ for (const roundNumber of [1, 2]) {
     const unrelated = [expanded[0], { ...expanded[1], id: "unrelated-scan" }];
     assert.equal(h.controller.coalesceAiProbeScanEffects(unrelated).length, 2);
   }
+}
+
+{
+  const source = { id: "repeat-source", cardId: "dlc_20.png", price: 1, resourceReward: { gain: { energy: 1 } } };
+  const credit = { id: "credit", cardId: "unmodeled-credit", resourceReward: { gain: { credits: 1 } } };
+  const dataCard = { id: "data", cardId: "unmodeled-data", resourceReward: { dataCount: 1 } };
+  const alien = { id: "alien", cardId: "amiba_0.webp", resourceReward: { gain: { credits: 10 } } };
+  source.model = cardEffects.getCardModel(source);
+  source.playEffects = source.model.playEffects;
+  const effect = source.playEffects[1];
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: [source],
+    blueResources: { credits: 3, energy: 3, availableData: 5, publicity: 9 }, realisticCanAfford: true });
+  assert.equal(h.controller.canAiResolvePlayCardEffects([effect], h.blue, { sourceCard: source }).ok, false);
+  assert.equal(h.controller.buildAiPlayCardCandidate(source, 0, h.blue), null, "cannot discard the paid card itself");
+  h.blue.hand.push(alien);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([effect], h.blue, { sourceCard: source }).ok, false);
+  h.blue.hand = [credit, dataCard, alien];
+  const before = JSON.stringify(h.blue);
+  const ranked = h.controller.rankAiRepeatCornerChoices(effect, h.blue);
+  assert.equal(ranked.length, 2);
+  assert.equal(ranked.find(x => x.cardInstanceId === "credit").actualGain.credits, 3);
+  assert.equal(ranked.find(x => x.cardInstanceId === "data").actualGain.availableData, 1);
+  assert(ranked.every(x => x.opportunityCost >= 3));
+  assert.equal(h.controller.chooseAiDiscardCornerRepeatCard({ effect, choices: h.blue.hand }, h.blue).id, ranked[0].cardInstanceId);
+  assert.equal(JSON.stringify(h.blue), before, "ranking cannot mutate hand or resources");
+  h.blue.hand = [source, credit];
+  const raw = h.controller.buildAiPlayCardCandidate(source, 0, h.blue);
+  assert(raw, "legal second card enables DLC20");
+  assert.equal(raw.valueBreakdown.repeatCornerPreview.cardInstanceId, credit.id);
+  h.blue.hand = [source, { ...source, id: "repeat-copy" }];
+  assert.equal(h.controller.buildAiPlayCardCandidate(source, 0, h.blue).valueBreakdown.repeatCornerPreview.cardInstanceId,
+    "repeat-copy", "second physical copy remains a legal discard without recursive valuation");
+}
+
+{
+  const own = { id: 1, playerId: "player-blue", sectorX: 2, sectorY: 2, sector: { x: 2, y: 2 } };
+  const mover = { id: "move", cardId: "unmodeled-move", moveReward: { movementPoints: 1 } };
+  const effect = cardEffects.getCardModel({ cardId: "dlc_20.png" }).playEffects[1];
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: [mover],
+    rocketState: { rockets: [own] }, movableTokens: [own], allowedMoveDeltas: [{ deltaX: 1, deltaY: 0 }],
+    findAvailableSlotIndex: () => 0, canPayForMove: true, chooseTurnAction: xs => xs.slice().sort((a,b) => b.score-a.score)[0] });
+  const before = JSON.stringify({ player: h.blue, own });
+  const row = h.controller.rankAiRepeatCornerChoices(effect, h.blue)[0];
+  assert.equal(row.movementPoints, 3);
+  assert.equal(row.bestMove.to.x, 3);
+  assert.equal(row.bestMove.paymentRequired, 0);
+  assert.equal(JSON.stringify({ player: h.blue, own }), before);
+  const blocked = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: [mover] });
+  assert.equal(blocked.controller.rankAiRepeatCornerChoices(effect, blocked.blue)[0].movementValue, 0);
 }

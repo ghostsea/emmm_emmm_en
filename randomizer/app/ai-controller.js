@@ -18913,7 +18913,6 @@
         cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION,
         cardEffects.EFFECT_TYPES.DISCARD_ANY_FOR_INCOME,
-        cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
         cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE,
         cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND,
         cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
@@ -18930,6 +18929,10 @@
             : index === 1 && buildAiProbeMoveScanPreview(playEffects, effectPlayer))) {
             return { ok: false, message: "探测器扫描需要可执行的当前目标或一步移动后目标" };
           }
+        }
+        if (effect?.type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT
+          && !getAiRepeatCornerChoices(effect, effectPlayer, options.sourceCard, effectPlayer?.hand || [], !options.sourceCard).length) {
+          return { ok: false, message: "没有其它可弃置的非外星角标牌" };
         }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
@@ -19048,6 +19051,8 @@
 
     function buildAiPlayCardCandidate(card, handIndex, currentPlayer = getCurrentPlayer()) {
       if (!isAiSupportedHandPlayCard(card)) return null;
+      if (aiRepeatCornerPreviewDepth > 0 && getAiPlayEffectsForCard(card).some(
+        (effect) => effect.type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT)) return null;
       const cost = getCardPlayCost(card);
       if (!players.canAfford(currentPlayer, cost)) return null;
       const price = getCardPrice(card);
@@ -19078,6 +19083,7 @@
         ? playEffects.filter((effect) => !skippedUnresolvableEffectSet.has(effect))
         : playEffects;
       const effectCheck = canAiResolvePlayCardEffects(playEffects, currentPlayer, {
+        sourceCard: card,
         allowCappedOptionalLaunchSkip: skippedCappedLaunchSet.size > 0,
         allowUnresolvableMoveSkip: skippedUnresolvableMoveSet.size > 0,
       });
@@ -19097,10 +19103,27 @@
         readyTaskCashout,
         currentPlayer,
       );
+      const repeatCornerEffect = valuationPlayEffects.find(
+        (effect) => effect.type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT);
+      let repeatCornerPreview = null;
+      if (repeatCornerEffect) {
+        const projected = structuredClone(currentPlayer);
+        projected.hand = projected.hand.filter((entry) => entry.id !== card.id);
+        projected.resources.handSize = projected.hand.length;
+        Object.entries(cost).forEach(([key, value]) => { projected.resources[key] -= value; });
+        // DLC20 has one fixed publicity reward before the discard, without intervening choices.
+        for (const effect of valuationPlayEffects.slice(0, valuationPlayEffects.indexOf(repeatCornerEffect))) {
+          if (effect.type !== "gain_resources") return null;
+          const gain = getAiActualResourceGain(effect.options?.gain || {}, projected);
+          Object.entries(gain).forEach(([key, value]) => { projected.resources[key] = aiNumber(projected.resources[key]) + value; });
+        }
+        repeatCornerPreview = rankAiRepeatCornerChoices(repeatCornerEffect, projected)[0] || null;
+        if (!repeatCornerPreview) return null;
+      }
       const probeMoveScanPreview = buildAiProbeMoveScanPreview(valuationPlayEffects, currentPlayer);
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true,
-          probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
+        total + (effect === repeatCornerEffect ? repeatCornerPreview.score : scoreAiEffectValue(effect, { player: currentPlayer, immediate: true,
+          probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null }))
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
         player: currentPlayer,
@@ -19307,6 +19330,7 @@
           skippedUnresolvableLaunchCount: skippedCappedLaunchSet.size,
           skippedUnresolvableMoveBeforeLaterEffect: skippedUnresolvableMoveSet.size > 0,
           skippedUnresolvableMoveCount: skippedUnresolvableMoveSet.size,
+          repeatCornerPreview,
           chongTaskChainValue,
           banrenmaThresholdSetupValue,
           playCardConversionPressure,
@@ -20693,15 +20717,62 @@
       return 0;
     }
 
+    let aiRepeatCornerPreviewDepth = 0;
+
+    function getAiRepeatCornerChoices(effect, player, sourceCard = null, choices = player?.hand || [], excludeUnidentifiedSource = false) {
+      return choices.filter((card) => card?.id && card.id !== sourceCard?.id)
+        .filter((card) => !excludeUnidentifiedSource || !getAiPlayEffectsForCard(card).some(
+          (node) => node.type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT))
+        .filter((card) => effect?.options?.excludeAlienCards === false
+          || !(String(card.set || "").startsWith("alien:")
+            || /^(aomomo|yichangdian|chong|amiba|jiuzhe|banrenma|fangzhou|runezu)_/.test(card.cardId)))
+        .filter((card) => cards.getDiscardActionRewardForCard(card) || cards.getDiscardActionMoveRewardForCard?.(card));
+    }
+
+    function rankAiRepeatCornerChoices(effect, player, choices = player?.hand || []) {
+      if (!effect || !player || aiRepeatCornerPreviewDepth > 0) return [];
+      const repeat = Math.max(1, Math.round(aiNumber(effect.options?.cornerRepeat || effect.options?.repeat || 1)));
+      aiRepeatCornerPreviewDepth += 1;
+      try {
+        return getAiRepeatCornerChoices(effect, player, null, choices).map((card, index) => {
+          const resourceReward = cards.getDiscardActionRewardForCard(card);
+          const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+          const requestedGain = {};
+          for (const reward of [resourceReward, moveReward]) {
+            for (const [key, value] of Object.entries(reward?.gain || {})) {
+              requestedGain[key] = aiNumber(requestedGain[key]) + repeat * aiNumber(value);
+            }
+          }
+          requestedGain.availableData = aiNumber(requestedGain.availableData)
+            + repeat * Math.max(0, Math.round(aiNumber(resourceReward?.dataCount)));
+          const actualGain = getAiActualResourceGain(requestedGain, player);
+          const afterDiscard = { ...player, hand: player.hand.filter((entry) => entry.id !== card.id),
+            resources: { ...player.resources, handSize: player.hand.length - 1 } };
+          const resourceValue = scoreAiCountedResourceGain(actualGain, afterDiscard);
+          for (const [key, value] of Object.entries(actualGain)) {
+            afterDiscard.resources[key] = aiNumber(afterDiscard.resources[key]) + value;
+          }
+          const movementPoints = moveReward ? repeat * Math.max(1, Math.round(aiNumber(moveReward.movementPoints || 1))) : 0;
+          const moves = movementPoints ? listAiEffectMoveCandidates({ id: "repeatCornerMovePreview", player: afterDiscard,
+            effect: { type: cardEffects.EFFECT_TYPES.CARD_MOVE, options: { movementPoints } }, poolRemaining: movementPoints }) : [];
+          const bestMove = moves.length ? (ai?.policy?.chooseTurnAction?.(moves, { playerState, turnState, currentPlayer: afterDiscard }) || moves[0]) : null;
+          // Pool value plus one current route assessment. Do not multiply a target/landing reward by repeat.
+          const movementValue = bestMove && bestMove.score >= 0
+            ? movementPoints * AI_RESOURCE_VALUES.movement + Math.max(0, bestMove.score) * 0.45 : 0;
+          const playCandidate = buildAiPlayCardCandidate(card, player.hand.findIndex((entry) => entry.id === card.id), player);
+          const opportunityCost = getAiDiscardedCardOpportunityCost(card, playCandidate);
+          return { cardId: card.cardId, cardInstanceId: card.id, index, repeat, requestedGain, actualGain,
+            resourceValue, movementPoints, movementValue, opportunityCost,
+            bestMove: bestMove ? { rocketId: bestMove.rocketId, from: bestMove.from, to: bestMove.to,
+              direction: bestMove.direction, paymentRequired: bestMove.paymentRequired, score: bestMove.score } : null,
+            score: resourceValue + movementValue - opportunityCost };
+        }).sort((left, right) => right.score - left.score || left.index - right.index);
+      } finally { aiRepeatCornerPreviewDepth -= 1; }
+    }
+
     function chooseAiDiscardCornerRepeatCard(pending, player) {
-      return (pending?.choices || player?.hand || [])
-        .map((card, index) => ({
-          card,
-          index,
-          score: scoreAiCardCornerOpportunity(card) - Math.max(0, getCardPrice(card)) * 0.1,
-        }))
-        .filter((entry) => entry.card?.id && Number.isFinite(entry.score))
-        .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.card || null;
+      const ranked = rankAiRepeatCornerChoices(pending.effect, player, pending.choices || player.hand);
+      return (pending.choices || player.hand).find((card) => card.id === ranked[0]?.cardInstanceId) || null;
     }
 
     function chooseAiProbeSectorScanChoices(pending) {
@@ -21054,12 +21125,14 @@
       }
 
       if (pendingType === "discard_corner_repeat") {
-        const selectedCard = chooseAiDiscardCornerRepeatCard(pending, player);
+        const previews = rankAiRepeatCornerChoices(pending.effect, player, pending.choices || player.hand);
+        const selectedCard = (pending.choices || player.hand).find((card) => card.id === previews[0]?.cardInstanceId);
         const cardId = selectedCard?.id || chooseFirstAiButton("[data-discard-corner-card-id]")?.dataset?.discardCornerCardId || null;
         if (!cardId) return { ok: false, blocked: true, message: "AI 没有可重复角标的弃牌" };
         recordAiAutoBattleLog("rare-scan-target", `${player.colorLabel}AI 选择重复角标弃牌`, {
           logPlayerId: player.id,
           cardId,
+          repeatCornerPreviews: previews,
         });
         return handleDiscardCornerRepeatChoice(cardId);
       }
@@ -26835,6 +26908,8 @@
       buildAiPlayCardCandidate,
       getAiPlayableProbeScanProfile,
       canAiResolvePlayCardEffects,
+      rankAiRepeatCornerChoices,
+      chooseAiDiscardCornerRepeatCard,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
