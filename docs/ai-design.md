@@ -48,6 +48,8 @@
 
 2026-09-28 直接痕迹具体目标估值b9ef7abe完整固定24组：236.447917→235.791667（增量-0.656250，配对SE2.065000）。48局0 bug、192席账本/配置、1172次实际打牌付款一致。24次直接痕迹牌中24次实际目标对应合法预览、19次取得同一估值，5次选择较低估值目标；后续选择器尚未计入b36痕迹数量额外分，不能称全部预估收益兑现。新默认24局与旧统计器基线终分/步骤/语义决策逐条保持，来源/外星牌归属变化单列。均分未改善，不合入、不扩随机。见[完整评估](ai-validation/2026-09-28-tracetargetvalues-development-assessment.json)、[目标逐条核对](ai-validation/2026-09-28-tracetargetvalues-development-trace-preview.json)、[资源](ai-validation/2026-09-28-tracetargetvalues-development-resources.md)。
 
+2026-09-28 直接痕迹预估/执行统一42f5426e完整固定24组：236.447917→235.1875（−1.260417，配对SE2.116430），寰宇−5.583333、大战略+1.5、作弊−0.479167；高四分位−2.416667，最高385→362。48局0 bug、192席账本/配置、1173次实际打牌付款一致。23次直接痕迹牌实际目标和预估价值全部一致，原5次较低估值落点消失；但相对上一版b9ef7abe均分仍−0.604167。第3组粉痕迹及第7/18组b36三次首次改选前的完整语义前缀相同；后两次分别将数量得分4→7、2→4，后续整局变化仍须完整计入。一致性不证明收益权重正确，负向候选不合入、不扩随机，继续回到低分公司的资源行动转换。见[完整评估](ai-validation/2026-09-28-traceexecution-development-assessment.json)、[上一版配对与同前缀证据](ai-validation/2026-09-28-traceexecution-development-predecessor-comparison.json)、[资源](ai-validation/2026-09-28-traceexecution-development-resources.md)。
+
 以下为保留的验证记录与设计说明；最新补充同时位于文末及 docs/ai-validation。
 
 2026-09-28 符文默认策略上的第二个独立组合1b01a06f：移除标准扫描随次数递增的7/10点罚分，保留真实奖励、池满积压、资源预留与首扫建立价值。54测试通过，真实寰宇扫描支付1信用2能量并获得2数据。此前同项单独新随机64整体+2.296875且各公司点估计均正，但不能代替当前组合验收。固定24候选已开始，复用正在完整重跑的52af符文基线；与扫描牌覆盖28f组合分开，完成后同时报告当前默认增量和相对f542原始基线的绝对整体收益，禁止相加推定。见[计划](ai-validation/2026-09-28-rune-scan-current-development-plan.json)、[实际付款](ai-validation/2026-09-28-rune-scan-current-browser.json)。

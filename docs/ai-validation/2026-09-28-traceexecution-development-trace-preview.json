@@ -1,0 +1,6294 @@
+{
+  "scope": "Exact paid card instance and same raw-turn subsequent trace selection before next own turn-action. Enumerated prediction compared to first concrete selector target; omitted slot remains unknown. Main transaction receipts include triggered rewards and are not isolated causal effects. Direct-card target picker uses the shared valuation. Any lower value or unknown match is reported, not hidden.",
+  "summary": {
+    "games": 24,
+    "plays": 23,
+    "matchedLegalTarget": 23,
+    "sameValue": 23,
+    "lowerActualTarget": 0,
+    "unknown": 0
+  },
+  "rows": [
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 9,
+      "rawTurn": 35,
+      "card": "b_32.webp",
+      "instance": "card-129-0",
+      "payment": {
+        "entry": 124,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "chong-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 4
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "fossilPanel": false,
+            "chooseFossilRewardOnly": false
+          },
+          "value": 8.2,
+          "directScore": 4
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "chong-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 4
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "fossilPanel": false,
+              "chooseFossilRewardOnly": false
+            },
+            "value": 8.2,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 8.2,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "chong-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 4
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "fossilPanel": false,
+            "chooseFossilRewardOnly": false
+          },
+          "value": 8.2,
+          "directScore": 4
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "yellow",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "chong-grid",
+        "position": 1,
+        "reward": {
+          "gain": {
+            "score": 4
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "fossilPanel": false,
+          "chooseFossilRewardOnly": false
+        },
+        "value": 8.2,
+        "directScore": 4
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 8.2,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "chong-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 4
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "fossilPanel": false,
+              "chooseFossilRewardOnly": false
+            },
+            "value": 8.2,
+            "directScore": 4
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有黄色痕迹的外星人上再放1个黄色痕迹：虫族黄色痕迹 1号位：4分",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 6,
+      "rawTurn": 21,
+      "card": "b_27.webp",
+      "instance": "card-140-0",
+      "payment": {
+        "entry": 173,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_1",
+            "symbolId": null
+          },
+          "value": 9.65,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 9.65,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 5.8,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": 1,
+        "score": 9.65,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_1",
+            "symbolId": null
+          },
+          "value": 9.65,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "pink",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_1",
+          "symbolId": null
+        },
+        "value": 9.65,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": 1,
+          "score": 9.65,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 9.65,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有粉色痕迹的外星人上再放1个粉色痕迹：符文族粉色痕迹 1号位：获得符文6，已补充新 symbol",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 8,
+      "rawTurn": 32,
+      "card": "b_32.webp",
+      "instance": "card-169-0",
+      "payment": {
+        "entry": 184,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 7.95,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 7.95,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 5.8,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 7.95,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 7.95,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "yellow",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_2",
+          "symbolId": null
+        },
+        "value": 7.95,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 7.95,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 7.95,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 2,
+          "text": "在已有黄色痕迹的外星人上再放1个黄色痕迹：符文族黄色痕迹 1号位：获得符文2，已补充新 symbol",
+          "resources": {
+            "handSize": 1
+          },
+          "cards": [
+            {
+              "key": "card-167-0",
+              "label": "百亿亿次超级计算机",
+              "change": "gain",
+              "origin": "alien"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "rawTurn": 37,
+      "card": "b_35.webp",
+      "instance": "card-167-0",
+      "payment": {
+        "entry": 189,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_3",
+            "symbolId": null
+          },
+          "value": 11.45,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 11.45,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 5.8,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 1,
+        "score": 11.45,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_3",
+            "symbolId": null
+          },
+          "value": 11.45,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "blue",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_3",
+          "symbolId": null
+        },
+        "value": 11.45,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 1,
+          "score": 11.45,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 11.45,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：符文族蓝色痕迹 1号位：获得符文1，已补充新 symbol",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "rawTurn": 2,
+      "card": "b_36.webp",
+      "instance": "card-36-pass-1-2",
+      "payment": {
+        "entry": 41,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 5,
+              "publicity": 1
+            }
+          },
+          "value": 43.923,
+          "directScore": 6
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 43.923,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 43.923,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": null,
+        "score": 43.923,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 5,
+              "publicity": 1
+            }
+          },
+          "value": 43.923,
+          "directScore": 6
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "pink",
+        "afterScore": 1,
+        "mode": "trace-board",
+        "kind": "state-first",
+        "reward": {
+          "gain": {
+            "score": 5,
+            "publicity": 1
+          }
+        },
+        "value": 43.923,
+        "directScore": 6
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": null,
+          "score": 43.923,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 43.923,
+            "directScore": 6
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 1 放置粉色痕迹；外星人 1首痕迹奖励：5分+1宣传；粉色痕迹痕迹 1 个：分数+1；资源：分数+6",
+          "resources": {
+            "score": 6,
+            "publicity": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "rawTurn": 2,
+      "card": "b_35.webp",
+      "instance": "card-84-0",
+      "payment": {
+        "entry": 40,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": false,
+            "panelSymbolSlotId": "panel_6",
+            "symbolId": null
+          },
+          "value": 16.57,
+          "directScore": 7
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": "panel_6",
+              "symbolId": null
+            },
+            "value": 16.57,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 16.39,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 15.49,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 13.232,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 4,
+        "score": 16.57,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": false,
+            "panelSymbolSlotId": "panel_6",
+            "symbolId": null
+          },
+          "value": 16.57,
+          "directScore": 7
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "blue",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 4,
+        "reward": {
+          "gain": {
+            "score": 7
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": "panel_6",
+          "symbolId": null
+        },
+        "value": 16.57,
+        "directScore": 7
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 4,
+          "score": 16.57,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": "panel_6",
+              "symbolId": null
+            },
+            "value": 16.57,
+            "directScore": 7
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：符文族蓝色痕迹 4号位：7分、获得符文2",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 11,
+      "rawTurn": 41,
+      "card": "b_27.webp",
+      "instance": "card-36-pass-1-2",
+      "payment": {
+        "entry": 79,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "jiuzhe-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7,
+              "credits": 1
+            },
+            "dataCount": 0,
+            "pickCard": false,
+            "threat": 3
+          },
+          "value": 16.8,
+          "directScore": 7
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7,
+                "credits": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 3
+            },
+            "value": 16.8,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 5,
+                "credits": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 2
+            },
+            "value": 13.55,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 4,
+                "credits": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 2
+            },
+            "value": 12.6,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 9.11,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 1
+            },
+            "value": 8.05,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-white",
+        "logPlayerColor": "white",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": 4,
+        "score": 16.8,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "jiuzhe-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7,
+              "credits": 1
+            },
+            "dataCount": 0,
+            "pickCard": false,
+            "threat": 3
+          },
+          "value": 16.8,
+          "directScore": 7
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "pink",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "jiuzhe-grid",
+        "position": 4,
+        "reward": {
+          "gain": {
+            "score": 7,
+            "credits": 1
+          },
+          "dataCount": 0,
+          "pickCard": false,
+          "threat": 3
+        },
+        "value": 16.8,
+        "directScore": 7
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": 4,
+          "score": 16.8,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7,
+                "credits": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 3
+            },
+            "value": 16.8,
+            "directScore": 7
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有粉色痕迹的外星人上再放1个粉色痕迹：九折粉色痕迹 4号位：分数+7、信用点+1、威胁度+3",
+          "resources": {
+            "score": 7,
+            "credits": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "九折碰线打牌：白色：达到 65 分：1信用点打出：已放弃九折打出机会",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 8,
+      "rawTurn": 31,
+      "card": "b_36.webp",
+      "instance": "card-99-0",
+      "payment": {
+        "entry": 122,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 2,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 3,
+          "reward": {
+            "gain": {
+              "score": 3
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": true,
+            "panelSymbol": false,
+            "refillPanelSymbol": false,
+            "panelSymbolSlotId": null,
+            "symbolId": null
+          },
+          "value": 15.61,
+          "directScore": 5
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 15.61,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 4,
+                "credits": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 2
+            },
+            "value": 15.6,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 2,
+                "energy": 1
+              },
+              "dataCount": 0,
+              "pickCard": true,
+              "threat": 2
+            },
+            "value": 15.55,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 14.71,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 1,
+                "energy": 1
+              },
+              "dataCount": 0,
+              "pickCard": true,
+              "threat": 2
+            },
+            "value": 14.6,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 12.8,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 11.8,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 1,
+                "publicity": 1
+              },
+              "dataCount": 1,
+              "pickCard": false,
+              "threat": 2
+            },
+            "value": 11.1,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 1
+            },
+            "value": 11.05,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 1
+            },
+            "value": 10.05,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 9.7,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 3,
+        "score": 15.61,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 2,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 3,
+          "reward": {
+            "gain": {
+              "score": 3
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": true,
+            "panelSymbol": false,
+            "refillPanelSymbol": false,
+            "panelSymbolSlotId": null,
+            "symbolId": null
+          },
+          "value": 15.61,
+          "directScore": 5
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "yellow",
+        "afterScore": 2,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 3,
+        "reward": {
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": true,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "value": 15.61,
+        "directScore": 5
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 3,
+          "score": 15.61,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 15.61,
+            "directScore": 5
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：获得符文族牌：9；资源：手牌+1",
+          "resources": {
+            "handSize": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "符文族5：外星人痕迹，符文6奖励：符文族5：外星人痕迹，符文6奖励 符文6(黑圈1)：1能量",
+          "resources": {
+            "energy": 1
+          },
+          "cards": [
+            {
+              "key": "alien-runezu-9-8",
+              "label": "9",
+              "change": "gain",
+              "origin": "alien"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 9,
+      "rawTurn": 35,
+      "card": "b_32.webp",
+      "instance": "card-147-0",
+      "payment": {
+        "entry": 180,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 10.55,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 10.55,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 10.55,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 10.55,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "yellow",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_2",
+          "symbolId": null
+        },
+        "value": 10.55,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 10.55,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 10.55,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有黄色痕迹的外星人上再放1个黄色痕迹：符文族黄色痕迹 1号位：获得符文4，已补充新 symbol",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 11,
+      "rawTurn": 41,
+      "card": "b_36.webp",
+      "instance": "card-135-0",
+      "payment": {
+        "entry": 130,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 7,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 15.35,
+          "directScore": 7
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 7,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 15.35,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 4,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 13.8,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 12.8,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 7,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 12.8,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 4,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 3,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 12.3,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 3,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 11.3,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 7,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 10,
+            "directScore": 10
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 7,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 10,
+            "directScore": 10
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 4,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 9.8,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 8.8,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 4,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 7,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 4,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 7,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 15.35,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 7,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 15.35,
+          "directScore": 7
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "yellow",
+        "afterScore": 7,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_2",
+          "symbolId": null
+        },
+        "value": 15.35,
+        "directScore": 7
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 15.35,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 7,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 15.35,
+            "directScore": 7
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：符文族黄色痕迹 1号位：获得符文2，已补充新 symbol；黄色痕迹痕迹 7 个：分数+7",
+          "resources": {
+            "score": 7
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 1,
+      "rawTurn": 4,
+      "card": "b_36.webp",
+      "instance": "card-62-0",
+      "payment": {
+        "entry": 9,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            }
+          },
+          "value": 39.623,
+          "directScore": 4
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 34.973,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 34.973,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 4,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 3.73,
+            "directScore": 6
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": null,
+        "score": 39.623,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            }
+          },
+          "value": 39.623,
+          "directScore": 4
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "pink",
+        "afterScore": 1,
+        "mode": "trace-board",
+        "kind": "state-first",
+        "reward": {
+          "gain": {
+            "score": 3,
+            "publicity": 1
+          }
+        },
+        "value": 39.623,
+        "directScore": 4
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": null,
+          "score": 39.623,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置粉色痕迹；外星人 2首痕迹奖励：3分+1宣传；粉色痕迹痕迹 1 个：分数+1；资源：分数+4",
+          "resources": {
+            "score": 4,
+            "publicity": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 9,
+      "rawTurn": 34,
+      "card": "b_27.webp",
+      "instance": "card-171-0",
+      "payment": {
+        "entry": 175,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "mode": "trace-board",
+          "kind": "state-extra",
+          "reward": {
+            "gain": {
+              "score": 3
+            }
+          },
+          "value": 3,
+          "directScore": 3
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": null,
+        "score": 3,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "mode": "trace-board",
+          "kind": "state-extra",
+          "reward": {
+            "gain": {
+              "score": 3
+            }
+          },
+          "value": 3,
+          "directScore": 3
+        },
+        "b1TraceValue": {
+          "score": -1.44,
+          "counts": {
+            "yellow": 3,
+            "pink": 7,
+            "blue": 3
+          },
+          "currentBase": 3,
+          "nextBase": 3,
+          "multiplier": 8,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 1.44
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "pink",
+        "afterScore": 0,
+        "mode": "trace-board",
+        "kind": "state-extra",
+        "reward": {
+          "gain": {
+            "score": 3
+          }
+        },
+        "value": 3,
+        "directScore": 3
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": null,
+          "score": 3,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          "b1TraceValue": {
+            "score": -1.44,
+            "counts": {
+              "yellow": 3,
+              "pink": 7,
+              "blue": 3
+            },
+            "currentBase": 3,
+            "nextBase": 3,
+            "multiplier": 8,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 1.44
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有粉色痕迹的外星人上再放1个粉色痕迹：外星人 1 粉色痕迹 额外 +1（共 7）；外星人 1 state额外痕迹奖励：3分",
+          "resources": {
+            "score": 3
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 9,
+      "rawTurn": 33,
+      "card": "b_36.webp",
+      "instance": "card-175-0",
+      "payment": {
+        "entry": 181,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 5,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 16.45,
+          "directScore": 5
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 5,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 16.45,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 7,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 15.85,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 6,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 3,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 14.3,
+            "directScore": 8
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 6,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 13.95,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 7,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 12.8,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 6,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 11.8,
+            "directScore": 8
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 5,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 10.8,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 7,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 10,
+            "directScore": 10
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 7,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 10,
+            "directScore": 10
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 6,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 9,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 6,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 9,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 5,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 8,
+            "directScore": 8
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 5,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 8,
+            "directScore": 8
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-white",
+        "logPlayerColor": "white",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 16.45,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 5,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_2",
+            "symbolId": null
+          },
+          "value": 16.45,
+          "directScore": 5
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "yellow",
+        "afterScore": 5,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_2",
+          "symbolId": null
+        },
+        "value": 16.45,
+        "directScore": 5
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 16.45,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 5,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 16.45,
+            "directScore": 5
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 2,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：符文族黄色痕迹 1号位：获得符文1，已补充新 symbol；黄色痕迹痕迹 5 个：分数+5",
+          "resources": {
+            "score": 5
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "rawTurn": 40,
+      "card": "b_32.webp",
+      "instance": "card-180-0",
+      "payment": {
+        "entry": 164,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "jiuzhe-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            },
+            "dataCount": 0,
+            "pickCard": false,
+            "threat": 1
+          },
+          "value": 8.05,
+          "directScore": 3
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 1
+            },
+            "value": 8.05,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 8.05,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "jiuzhe-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            },
+            "dataCount": 0,
+            "pickCard": false,
+            "threat": 1
+          },
+          "value": 8.05,
+          "directScore": 3
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "yellow",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "jiuzhe-grid",
+        "position": 1,
+        "reward": {
+          "gain": {
+            "score": 3,
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "pickCard": false,
+          "threat": 1
+        },
+        "value": 8.05,
+        "directScore": 3
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 8.05,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "jiuzhe-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              },
+              "dataCount": 0,
+              "pickCard": false,
+              "threat": 1
+            },
+            "value": 8.05,
+            "directScore": 3
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 2,
+          "text": "在已有黄色痕迹的外星人上再放1个黄色痕迹：九折黄色痕迹 1号位：分数+3、宣传+1、威胁度+1",
+          "resources": {
+            "score": 3,
+            "publicity": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "turn": 9,
+      "rawTurn": 36,
+      "card": "b_36.webp",
+      "instance": "card-111-0",
+      "payment": {
+        "entry": 127,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 2,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7
+            },
+            "basicRewardCount": 1
+          },
+          "value": 17.45,
+          "directScore": 9
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "basicRewardCount": 1
+            },
+            "value": 17.45,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "banrenma-grid",
+            "position": 4,
+            "reward": {
+              "payData": 0,
+              "gain": {
+                "score": 3
+              },
+              "pickAlienCard": true,
+              "alienTrace": false,
+              "label": null
+            },
+            "value": 17.11,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 5
+              },
+              "basicRewardCount": 1
+            },
+            "value": 14.55,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "banrenma-grid",
+            "position": 3,
+            "reward": {
+              "payData": 0,
+              "gain": {
+                "score": 5
+              },
+              "pickAlienCard": false,
+              "alienTrace": false,
+              "label": null
+            },
+            "value": 12.9,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 2,
+            "reward": {
+              "gain": {},
+              "basicRewardCount": 2
+            },
+            "value": 12.3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 2,
+            "reward": {
+              "gain": {},
+              "basicRewardCount": 2
+            },
+            "value": 11.3,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 2,
+            "reward": {
+              "gain": {},
+              "basicRewardCount": 2
+            },
+            "value": 11.3,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 3,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 11.05,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 10.05,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 10.05,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 3,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 6,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 4,
+        "score": 17.45,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 2,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 4,
+          "reward": {
+            "gain": {
+              "score": 7
+            },
+            "basicRewardCount": 1
+          },
+          "value": 17.45,
+          "directScore": 9
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "yellow",
+        "afterScore": 2,
+        "kind": "grid",
+        "mode": "fangzhou-grid",
+        "position": 4,
+        "reward": {
+          "gain": {
+            "score": 7
+          },
+          "basicRewardCount": 1
+        },
+        "value": 17.45,
+        "directScore": 9
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 4,
+          "score": 17.45,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "basicRewardCount": 1
+            },
+            "value": 17.45,
+            "directScore": 9
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        },
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 4,
+          "score": 48.13699999999999,
+          "directCardTraceValue": null,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：方舟黄色痕迹 4号位：分数+7；方舟黄色痕迹 4号位 基础奖励；黄色痕迹痕迹 2 个：分数+2",
+          "resources": {
+            "score": 9
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "方舟奖励 0：分数+1：棕色 分数+1",
+          "resources": {
+            "score": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 3,
+          "text": "方舟奖励 0：能量+1：棕色 能量+1",
+          "resources": {
+            "energy": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 10,
+      "rawTurn": 38,
+      "card": "b_35.webp",
+      "instance": "card-42-pass-2-3",
+      "payment": {
+        "entry": 129,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 2,
+          "reward": {
+            "gain": {},
+            "basicRewardCount": 2
+          },
+          "value": 9.3,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 2,
+            "reward": {
+              "gain": {},
+              "basicRewardCount": 2
+            },
+            "value": 9.3,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 8.05,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 2,
+        "score": 9.3,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 2,
+          "reward": {
+            "gain": {},
+            "basicRewardCount": 2
+          },
+          "value": 9.3,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "blue",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "fangzhou-grid",
+        "position": 2,
+        "reward": {
+          "gain": {},
+          "basicRewardCount": 2
+        },
+        "value": 9.3,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 2,
+          "score": 9.3,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 2,
+            "reward": {
+              "gain": {},
+              "basicRewardCount": 2
+            },
+            "value": 9.3,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：方舟蓝色痕迹 2号位：方舟蓝色痕迹 2号位 基础奖励",
+          "resources": {},
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "方舟奖励 4：分数+4：蓝色 分数+4",
+          "resources": {
+            "score": 4
+          },
+          "cards": []
+        },
+        {
+          "step": 3,
+          "text": "方舟奖励 3：分数+1：蓝色 分数+1",
+          "resources": {
+            "score": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 3：额外弃牌扫描 +1：公共弃牌扫描 +1；资源：额外公共扫描+1",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 7,
+      "rawTurn": 25,
+      "card": "b_32.webp",
+      "instance": "card-135-0",
+      "payment": {
+        "entry": 172,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 2
+            },
+            "basicRewardCount": 1
+          },
+          "value": 8.05,
+          "directScore": 2
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 8.05,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": 1,
+        "score": 8.05,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "fangzhou-grid",
+          "position": 1,
+          "reward": {
+            "gain": {
+              "score": 2
+            },
+            "basicRewardCount": 1
+          },
+          "value": 8.05,
+          "directScore": 2
+        },
+        "b1TraceValue": {
+          "score": 0.6,
+          "counts": {
+            "yellow": 4,
+            "pink": 3,
+            "blue": 5
+          },
+          "currentBase": 3,
+          "nextBase": 3,
+          "multiplier": 6,
+          "directMarginal": 0,
+          "potentialValue": 0.6,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "yellow",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "fangzhou-grid",
+        "position": 1,
+        "reward": {
+          "gain": {
+            "score": 2
+          },
+          "basicRewardCount": 1
+        },
+        "value": 8.05,
+        "directScore": 2
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 8.05,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "fangzhou-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "basicRewardCount": 1
+            },
+            "value": 8.05,
+            "directScore": 2
+          },
+          "b1TraceValue": {
+            "score": 0.6,
+            "counts": {
+              "yellow": 4,
+              "pink": 3,
+              "blue": 5
+            },
+            "currentBase": 3,
+            "nextBase": 3,
+            "multiplier": 6,
+            "directMarginal": 0,
+            "potentialValue": 0.6,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有黄色痕迹的外星人上再放1个黄色痕迹：方舟黄色痕迹 1号位：分数+2；方舟黄色痕迹 1号位 基础奖励",
+          "resources": {
+            "score": 2
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "方舟奖励 0：分数+1：蓝色 分数+1",
+          "resources": {
+            "score": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 3,
+          "text": "方舟奖励 0：能量+1：蓝色 能量+1",
+          "resources": {
+            "energy": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 6,
+      "rawTurn": 23,
+      "card": "b_27.webp",
+      "instance": "card-118-0",
+      "payment": {
+        "entry": 116,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "chong-grid",
+          "position": 2,
+          "reward": {
+            "gain": {
+              "score": 5
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "fossilPanel": false,
+            "chooseFossilRewardOnly": false
+          },
+          "value": 10.8,
+          "directScore": 5
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "chong-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 5
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "fossilPanel": false,
+              "chooseFossilRewardOnly": false
+            },
+            "value": 10.8,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "chong-grid",
+            "position": 1,
+            "reward": {
+              "gain": {
+                "score": 4
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "fossilPanel": false,
+              "chooseFossilRewardOnly": false
+            },
+            "value": 8.2,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": 2,
+        "score": 10.8,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "chong-grid",
+          "position": 2,
+          "reward": {
+            "gain": {
+              "score": 5
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "fossilPanel": false,
+            "chooseFossilRewardOnly": false
+          },
+          "value": 10.8,
+          "directScore": 5
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "pink",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "chong-grid",
+        "position": 2,
+        "reward": {
+          "gain": {
+            "score": 5
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "fossilPanel": false,
+          "chooseFossilRewardOnly": false
+        },
+        "value": 10.8,
+        "directScore": 5
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": 2,
+          "score": 10.8,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "chong-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 5
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "fossilPanel": false,
+              "chooseFossilRewardOnly": false
+            },
+            "value": 10.8,
+            "directScore": 5
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有粉色痕迹的外星人上再放1个粉色痕迹：虫族粉色痕迹 2号位：5分",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 11,
+      "rawTurn": 44,
+      "card": "b_35.webp",
+      "instance": "card-152-0",
+      "payment": {
+        "entry": 187,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_3",
+            "symbolId": null
+          },
+          "value": 7.95,
+          "directScore": 0
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 7.95,
+            "directScore": 0
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 1,
+        "score": 7.95,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "runezu-grid",
+          "position": 1,
+          "reward": {
+            "gain": {},
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": true,
+            "refillPanelSymbol": true,
+            "panelSymbolSlotId": "panel_3",
+            "symbolId": null
+          },
+          "value": 7.95,
+          "directScore": 0
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "blue",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "runezu-grid",
+        "position": 1,
+        "reward": {
+          "gain": {},
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": true,
+          "refillPanelSymbol": true,
+          "panelSymbolSlotId": "panel_3",
+          "symbolId": null
+        },
+        "value": 7.95,
+        "directScore": 0
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 1,
+          "score": 7.95,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 7.95,
+            "directScore": 0
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有蓝色痕迹的外星人上再放1个蓝色痕迹：符文族蓝色痕迹 1号位：获得符文5，已补充新 symbol",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 9,
+      "rawTurn": 35,
+      "card": "b_36.webp",
+      "instance": "card-138-0",
+      "payment": {
+        "entry": 152,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 4,
+          "kind": "grid",
+          "mode": "aomomo-grid",
+          "position": 1,
+          "reward": {
+            "payFossils": 1,
+            "gain": {
+              "score": 6
+            },
+            "pickAlienCard": false
+          },
+          "value": 10.4,
+          "directScore": 10
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 4,
+            "kind": "grid",
+            "mode": "aomomo-grid",
+            "position": 1,
+            "reward": {
+              "payFossils": 1,
+              "gain": {
+                "score": 6
+              },
+              "pickAlienCard": false
+            },
+            "value": 10.4,
+            "directScore": 10
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "aomomo-grid",
+            "position": 1,
+            "reward": {
+              "payFossils": 1,
+              "gain": {
+                "score": 6
+              },
+              "pickAlienCard": false
+            },
+            "value": 8.4,
+            "directScore": 8
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "aomomo-grid",
+            "position": 1,
+            "reward": {
+              "payFossils": 1,
+              "gain": {
+                "score": 6
+              },
+              "pickAlienCard": false
+            },
+            "value": 8.4,
+            "directScore": 8
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 4,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 7,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 4,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 7,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-white",
+        "logPlayerColor": "white",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 1,
+        "score": 10.4,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "blue",
+          "afterScore": 4,
+          "kind": "grid",
+          "mode": "aomomo-grid",
+          "position": 1,
+          "reward": {
+            "payFossils": 1,
+            "gain": {
+              "score": 6
+            },
+            "pickAlienCard": false
+          },
+          "value": 10.4,
+          "directScore": 10
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "blue",
+        "afterScore": 4,
+        "kind": "grid",
+        "mode": "aomomo-grid",
+        "position": 1,
+        "reward": {
+          "payFossils": 1,
+          "gain": {
+            "score": 6
+          },
+          "pickAlienCard": false
+        },
+        "value": 10.4,
+        "directScore": 10
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 1,
+          "score": 10.4,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 4,
+            "kind": "grid",
+            "mode": "aomomo-grid",
+            "position": 1,
+            "reward": {
+              "payFossils": 1,
+              "gain": {
+                "score": 6
+              },
+              "pickAlienCard": false
+            },
+            "value": 10.4,
+            "directScore": 10
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 2,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：奥陌陌蓝色痕迹 1号位：支付1化石、分数+6；蓝色痕迹痕迹 4 个：分数+4",
+          "resources": {
+            "score": 10
+          },
+          "cards": []
+        },
+        {
+          "step": 3,
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "turn": 2,
+      "rawTurn": 6,
+      "card": "b_36.webp",
+      "instance": "card-12-0",
+      "payment": {
+        "entry": 11,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            }
+          },
+          "value": 39.623,
+          "directScore": 4
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 34.973,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 34.973,
+            "directScore": 6
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 4,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 3.73,
+            "directScore": 6
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "yellow",
+        "position": null,
+        "score": 39.623,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "yellow",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 3,
+              "publicity": 1
+            }
+          },
+          "value": 39.623,
+          "directScore": 4
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "yellow",
+        "afterScore": 1,
+        "mode": "trace-board",
+        "kind": "state-first",
+        "reward": {
+          "gain": {
+            "score": 3,
+            "publicity": 1
+          }
+        },
+        "value": 39.623,
+        "directScore": 4
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": null,
+          "score": 39.623,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 1,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 3,
+                "publicity": 1
+              }
+            },
+            "value": 39.623,
+            "directScore": 4
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置黄色痕迹；外星人 2首痕迹奖励：3分+1宣传；黄色痕迹痕迹 1 个：分数+1；资源：分数+4",
+          "resources": {
+            "score": 4,
+            "publicity": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "rawTurn": 37,
+      "card": "b_27.webp",
+      "instance": "card-168-0",
+      "payment": {
+        "entry": 177,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "yichangdian-grid",
+          "position": 1,
+          "reward": {
+            "traceType": null,
+            "gain": {
+              "score": 2
+            },
+            "dataCount": 0,
+            "pickAlienCard": false,
+            "pickCard": false
+          },
+          "value": 5.8,
+          "directScore": 2
+        },
+        "options": [
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 5.8,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 3,
+            "directScore": 3
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": 1,
+        "score": 5.8,
+        "directCardTraceValue": {
+          "alienSlotId": 2,
+          "traceType": "pink",
+          "afterScore": 0,
+          "kind": "grid",
+          "mode": "yichangdian-grid",
+          "position": 1,
+          "reward": {
+            "traceType": null,
+            "gain": {
+              "score": 2
+            },
+            "dataCount": 0,
+            "pickAlienCard": false,
+            "pickCard": false
+          },
+          "value": 5.8,
+          "directScore": 2
+        },
+        "b1TraceValue": {
+          "score": -0.48,
+          "counts": {
+            "yellow": 3,
+            "pink": 6,
+            "blue": 5
+          },
+          "currentBase": 3,
+          "nextBase": 3,
+          "multiplier": 4,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0.48
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 2,
+        "traceType": "pink",
+        "afterScore": 0,
+        "kind": "grid",
+        "mode": "yichangdian-grid",
+        "position": 1,
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "value": 5.8,
+        "directScore": 2
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": 1,
+          "score": 5.8,
+          "directCardTraceValue": {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 0,
+            "kind": "grid",
+            "mode": "yichangdian-grid",
+            "position": 1,
+            "reward": {
+              "traceType": null,
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "pickAlienCard": false,
+              "pickCard": false
+            },
+            "value": 5.8,
+            "directScore": 2
+          },
+          "b1TraceValue": {
+            "score": -0.48,
+            "counts": {
+              "yellow": 3,
+              "pink": 6,
+              "blue": 5
+            },
+            "currentBase": 3,
+            "nextBase": 3,
+            "multiplier": 4,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0.48
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "在已有粉色痕迹的外星人上再放1个粉色痕迹：异常点粉色痕迹 1号位：分数+2",
+          "resources": {
+            "score": 2
+          },
+          "cards": []
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "rawTurn": 3,
+      "card": "b_36.webp",
+      "instance": "card-86-0",
+      "payment": {
+        "entry": 43,
+        "resources": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "preview": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 2,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 5,
+              "publicity": 1
+            }
+          },
+          "value": 57.723,
+          "directScore": 7
+        },
+        "options": [
+          {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 57.723,
+            "directScore": 7
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": "panel_4",
+              "symbolId": null
+            },
+            "value": 21.835,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 4,
+            "reward": {
+              "gain": {
+                "score": 7
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": "panel_5",
+              "symbolId": null
+            },
+            "value": 18.57,
+            "directScore": 9
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 18.39,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 18.39,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 3,
+            "reward": {
+              "gain": {
+                "score": 3
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 18.39,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 17.49,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 17.49,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 2,
+            "reward": {
+              "gain": {
+                "score": 2
+              },
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": true,
+              "panelSymbol": false,
+              "refillPanelSymbol": false,
+              "panelSymbolSlotId": null,
+              "symbolId": null
+            },
+            "value": 17.49,
+            "directScore": 4
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_2",
+              "symbolId": null
+            },
+            "value": 13.535,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_3",
+              "symbolId": null
+            },
+            "value": 13.535,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "kind": "grid",
+            "mode": "runezu-grid",
+            "position": 1,
+            "reward": {
+              "gain": {},
+              "dataCount": 0,
+              "drawCards": 0,
+              "pickCard": false,
+              "pickAlienCard": false,
+              "panelSymbol": true,
+              "refillPanelSymbol": true,
+              "panelSymbolSlotId": "panel_1",
+              "symbolId": null
+            },
+            "value": 10.27,
+            "directScore": 2
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 1,
+            "traceType": "blue",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "yellow",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          },
+          {
+            "alienSlotId": 2,
+            "traceType": "blue",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-extra",
+            "reward": {
+              "gain": {
+                "score": 3
+              }
+            },
+            "value": 5,
+            "directScore": 5
+          }
+        ]
+      },
+      "actual": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "pink",
+        "position": null,
+        "score": 57.723,
+        "directCardTraceValue": {
+          "alienSlotId": 1,
+          "traceType": "pink",
+          "afterScore": 2,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 5,
+              "publicity": 1
+            }
+          },
+          "value": 57.723,
+          "directScore": 7
+        },
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "actualMatchesLegalPreview": true,
+      "sameEstimatedValue": true,
+      "selectedValueGap": 0,
+      "actualPredictedTarget": {
+        "alienSlotId": 1,
+        "traceType": "pink",
+        "afterScore": 2,
+        "mode": "trace-board",
+        "kind": "state-first",
+        "reward": {
+          "gain": {
+            "score": 5,
+            "publicity": 1
+          }
+        },
+        "value": 57.723,
+        "directScore": 7
+      },
+      "traceLogs": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "pink",
+          "position": null,
+          "score": 57.723,
+          "directCardTraceValue": {
+            "alienSlotId": 1,
+            "traceType": "pink",
+            "afterScore": 2,
+            "mode": "trace-board",
+            "kind": "state-first",
+            "reward": {
+              "gain": {
+                "score": 5,
+                "publicity": 1
+              }
+            },
+            "value": 57.723,
+            "directScore": 7
+          },
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "receipts": [
+        {
+          "step": 1,
+          "text": "获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 1 放置粉色痕迹，三种首标记已满，可揭示；外星人 1首痕迹奖励：5分+1宣传；外星人 1三种首痕迹已满：将在该玩家回合结束时揭示外星人；粉色痕迹痕迹 2 个：分数+2；资源：分数+7",
+          "resources": {
+            "score": 7,
+            "publicity": 1
+          },
+          "cards": []
+        },
+        {
+          "step": 2,
+          "text": "回合结束揭示外星人：九折已展示：免费打出阈值 64 分，1信用点阈值 84 分",
+          "resources": {},
+          "cards": []
+        }
+      ]
+    }
+  ]
+}

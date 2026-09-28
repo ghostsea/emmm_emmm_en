@@ -1,0 +1,184 @@
+{
+  "decision": "hold-no-default-promotion-no-new-random",
+  "models": {
+    "base": "1a72821ec7d5ffdac16a3f12a077559dca372caa",
+    "candidate": "42f5426e94eeb55e6c621264dee078fc578960ee"
+  },
+  "pairs": 24,
+  "newGames": 24,
+  "reusedBaselineGames": 24,
+  "meanDelta": -1.2604166666666572,
+  "pairedGameStandardError": 2.1164298177853933,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 271.5833333333333,
+      "meanDelta": -0.4791666666666856,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 191.25,
+      "meanDelta": -5.583333333333343,
+      "minimumDelta": -3
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 206.33333333333334,
+      "meanDelta": 1.5,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.2604166666666572,
+    "min": 0,
+    "p10": 0.5,
+    "p25": -1,
+    "median": 0,
+    "p75": 4,
+    "max": -23,
+    "topQuartileMean": -2.4166666666666856,
+    "winnerMean": -1.9166666666666856,
+    "minimumPerGameMean": -2.2916666666666856,
+    "seats270Plus": 1,
+    "seats300Plus": -3
+  },
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 235.1875,
+    "min": 130,
+    "p10": 170,
+    "p25": 196.5,
+    "median": 228.5,
+    "p75": 284,
+    "max": 362,
+    "topQuartileMean": 306.4583333333333,
+    "winnerMean": 294,
+    "minimumPerGameMean": 175.29166666666666,
+    "seats270Plus": 29,
+    "seats300Plus": 11,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 271.5833333333333,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 191.25,
+        "min": 133
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.33333333333334,
+        "min": 130
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 295.75,
+    "meanDelta": -13.125,
+    "improved": 4,
+    "declined": 14,
+    "unchanged": 6
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 173.95833333333334,
+    "meanDelta": 2.6666666666666665,
+    "improved": 10,
+    "declined": 4,
+    "unchanged": 10
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1173,
+    "matched": 1173,
+    "intendedCardMatched": 1173,
+    "paid": 1173,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "choiceEvidence": {
+    "games": 24,
+    "plays": 23,
+    "matchedLegalTarget": 23,
+    "sameValue": 23,
+    "lowerActualTarget": 0,
+    "unknown": 0
+  },
+  "predecessorIncrement": {
+    "mean": -0.6041666666666572,
+    "se": 0.37977535153410136,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "baseline": 273.3958333333333,
+        "candidate": 271.5833333333333,
+        "meanDelta": -1.8125,
+        "minimumDelta": 0
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "baseline": 190.45833333333334,
+        "candidate": 191.25,
+        "meanDelta": 0.7916666666666572,
+        "minimumDelta": 0
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "baseline": 205.91666666666666,
+        "candidate": 206.33333333333334,
+        "meanDelta": 0.4166666666666856,
+        "minimumDelta": 0
+      }
+    }
+  },
+  "limitations": [
+    "Seen fixed development seeds; no fresh-random success or +10 achievement claimed.",
+    "23 actual chosen legal target values match the card preview; consistency does not prove utility weights or whole-game improvement.",
+    "Three first selection corrections have an identical full semantic prefix: case3 direct pink trace,cases7/18 b36 count choices. Later case3 choices follow changed states and are not same-state counterfactuals.",
+    "The mean and high-quartile regressions reject adoption. No post-hoc company gate; stop increasing the priority of these cards on this evidence."
+  ]
+}
