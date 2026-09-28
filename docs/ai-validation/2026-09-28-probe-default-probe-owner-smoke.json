@@ -1,0 +1,111 @@
+{
+  "result": {
+    "type": "object",
+    "value": [
+      {
+        "cardId": "b_50.webp",
+        "before": {
+          "credits": 10,
+          "energy": 10,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 7
+        },
+        "after": {
+          "credits": 8,
+          "energy": 10,
+          "publicity": 5,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 7
+        },
+        "probeChoices": [
+          {
+            "id": 33,
+            "type": "probe-sector-scan",
+            "roundNumber": 1,
+            "turnNumber": 1,
+            "rawTurnNumber": 1,
+            "playerId": "player-brown",
+            "playerLabel": "棕色",
+            "playerResources": {
+              "score": 7,
+              "credits": 8,
+              "energy": 10,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 0
+            },
+            "scoreboard": [
+              {
+                "playerId": "player-blue",
+                "playerLabel": "蓝色",
+                "score": 8,
+                "credits": 6,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 2,
+                "handSize": 7,
+                "reservedCount": 0,
+                "techCount": 0
+              },
+              {
+                "playerId": "player-green",
+                "playerLabel": "绿色",
+                "score": 8,
+                "credits": 8,
+                "energy": 3,
+                "publicity": 8,
+                "availableData": 0,
+                "handSize": 4,
+                "reservedCount": 0,
+                "techCount": 0
+              },
+              {
+                "playerId": "player-brown",
+                "playerLabel": "棕色",
+                "score": 7,
+                "credits": 8,
+                "energy": 10,
+                "publicity": 5,
+                "availableData": 0,
+                "handSize": 0,
+                "reservedCount": 0,
+                "techCount": 0
+              },
+              {
+                "playerId": "player-white",
+                "playerLabel": "白色",
+                "score": 10,
+                "credits": 4,
+                "energy": 4,
+                "publicity": 3,
+                "availableData": 0,
+                "handSize": 7,
+                "reservedCount": 0,
+                "techCount": 0
+              }
+            ],
+            "message": "棕色AI 选择探测器扇区扫描",
+            "details": {
+              "logPlayerId": "player-brown",
+              "selectedRocketIds": [
+                7,
+                8,
+                9
+              ],
+              "maxTargets": 3
+            },
+            "createdAt": "2026-09-28T02:23:35.774Z"
+          }
+        ],
+        "bugs": []
+      }
+    ]
+  }
+}

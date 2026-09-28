@@ -1,0 +1,182 @@
+{
+  "decision": "adopt-small-positive-probe-coverage-after-main-verification",
+  "comparison": "probeincremental64",
+  "models": {
+    "base": "7124816dc270ace9c3aabd11e053c3838a022a50",
+    "candidate": "0fc957021a4c6e1af19e378121dfaa9a62f020e9"
+  },
+  "pairs": 64,
+  "meanDelta": 0.3984375,
+  "pairedGameStandardError": 1.461398975371125,
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 263.859375,
+      "candidate": 265.390625,
+      "meanDelta": 1.53125,
+      "minimumDelta": -30
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 196.921875,
+      "candidate": 194.015625,
+      "meanDelta": -2.90625,
+      "minimumDelta": -17
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 200.046875,
+      "candidate": 201.484375,
+      "meanDelta": 1.4375,
+      "minimumDelta": 17
+    }
+  },
+  "distribution": {
+    "mean": 0.3984375,
+    "min": -3,
+    "p10": -2.5,
+    "p25": 1.25,
+    "median": -1,
+    "p75": 0.25,
+    "max": 10,
+    "topQuartileMean": 2.84375,
+    "winnerMean": 1.375,
+    "minimumPerGameMean": -1.53125,
+    "seats270Plus": 1,
+    "seats300Plus": 4
+  },
+  "baseline": {
+    "games": 64,
+    "seats": 256,
+    "mean": 231.171875,
+    "min": 122,
+    "p10": 173,
+    "p25": 191.5,
+    "median": 226,
+    "p75": 267,
+    "max": 347,
+    "topQuartileMean": 296.921875,
+    "winnerMean": 290.75,
+    "minimumPerGameMean": 180.34375,
+    "seats270Plus": 59,
+    "seats300Plus": 27,
+    "companies": {
+      "作弊实验室": {
+        "seats": 128,
+        "mean": 263.859375,
+        "min": 170
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "mean": 196.921875,
+        "min": 136
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "mean": 200.046875,
+        "min": 122
+      }
+    }
+  },
+  "candidate": {
+    "games": 64,
+    "seats": 256,
+    "mean": 231.5703125,
+    "min": 119,
+    "p10": 170.5,
+    "p25": 192.75,
+    "median": 225,
+    "p75": 267.25,
+    "max": 357,
+    "topQuartileMean": 299.765625,
+    "winnerMean": 292.125,
+    "minimumPerGameMean": 178.8125,
+    "seats270Plus": 60,
+    "seats300Plus": 31,
+    "companies": {
+      "作弊实验室": {
+        "seats": 128,
+        "mean": 265.390625,
+        "min": 140
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "mean": 194.015625,
+        "min": 119
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "mean": 201.484375,
+        "min": 139
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 64,
+    "baselineMean": 296.921875,
+    "candidateMean": 290.6875,
+    "meanDelta": -6.234375,
+    "improved": 18,
+    "declined": 38,
+    "unchanged": 8
+  },
+  "baselineLowCohort": {
+    "seats": 64,
+    "baselineMean": 171.765625,
+    "candidateMean": 178.046875,
+    "meanDelta": 6.28125,
+    "improved": 30,
+    "declined": 24,
+    "unchanged": 10
+  },
+  "highestBaselineSeat": {
+    "case": 39,
+    "player": "player-white",
+    "company": "作弊实验室",
+    "baseline": 347,
+    "candidate": 339,
+    "delta": -8
+  },
+  "uniquePaidPlays": 3102,
+  "probe": {
+    "games": 64,
+    "plays": 80,
+    "scans": 141,
+    "data": 116,
+    "movingPreviews": 46,
+    "dataMismatches": 0,
+    "scoreMismatches": 0,
+    "cards": {
+      "b_22.webp": 12,
+      "b_96.webp": 5,
+      "b_54.webp": 22,
+      "b_64.webp": 10,
+      "b_58.webp": 14,
+      "b_53.webp": 16,
+      "b_50.webp": 1
+    }
+  },
+  "approximate95Interval": [
+    -2.4659044917274047,
+    3.2627794917274047
+  ],
+  "validation": {
+    "uniqueNewGamesAcrossBothComparisons": 192,
+    "ledgerSeatsPerComparison": 512,
+    "candidateUniquePaidPlays": 3102,
+    "nodeTestFiles": 54,
+    "mainIntegration": "2026-09-28-probe-default-integration.json"
+  },
+  "goal": {
+    "targetMeanGain": 10,
+    "achieved": false
+  },
+  "rationale": "Fixed24 and fresh64 incremental means are both slightly positive; fresh high-score distribution improves. Adopt supported legal probe-scan coverage under mean-first/high-score-second priorities, not as statistically established improvement.",
+  "risks": [
+    "Incremental+0.3984375 with game-paired SE1.461399 includes zero in its approximate95 interval.",
+    "Grand Strategy incremental mean falls2.90625; per-game minimum falls1.53125 and baseline-selected high seats fall6.234375.",
+    "Resource conversion is not improved consistently: Huanyu and Grand Strategy main actions and all-company analyses decline.",
+    "Absolute+6.703125 is measured directly against the original safe policy on this same64; do not add earlier effect estimates.",
+    "Repeat scan preview fixes targets and excludes payment/arrival triggers;46 observed move previews agree but unobserved states remain an approximation."
+  ]
+}

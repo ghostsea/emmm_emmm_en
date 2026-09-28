@@ -1,0 +1,41 @@
+{
+  "result": {
+    "type": "object",
+    "value": [
+      {
+        "cardId": "b_22.webp",
+        "expectedData": 2,
+        "actualData": 2,
+        "steps": 2,
+        "bugs": [],
+        "probeChoices": []
+      },
+      {
+        "cardId": "b_50.webp",
+        "expectedData": 3,
+        "actualData": 3,
+        "steps": 5,
+        "bugs": [],
+        "probeChoices": [
+          {
+            "logPlayerId": "player-brown",
+            "selectedRocketIds": [
+              6,
+              7,
+              8
+            ],
+            "maxTargets": 3
+          }
+        ]
+      },
+      {
+        "cardId": "b_96.webp",
+        "expectedData": 0,
+        "actualData": 0,
+        "steps": 3,
+        "bugs": [],
+        "probeChoices": []
+      }
+    ]
+  }
+}

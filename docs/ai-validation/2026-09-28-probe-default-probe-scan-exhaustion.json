@@ -1,0 +1,252 @@
+{
+  "result": {
+    "type": "object",
+    "value": [
+      {
+        "candidate": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_22.webp",
+          "cardInstanceId": "card-68-0",
+          "cardLabel": "钱愆拉空间天文台",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 2,
+          "reservesAfterPlay": true,
+          "effectTypes": [
+            "card_probe_sector_scan"
+          ],
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "task",
+            "label": "打牌推进任务牌",
+            "score": 0.658430736,
+            "cardId": "b_22.webp",
+            "taskCount": 1
+          },
+          "finalFormulaDeltas": {
+            "c1": 0.37,
+            "c2": 0.26
+          },
+          "directScoreGain": 0,
+          "score": -7.364517747424001,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 29.35,
+            "directScoreGain": 0,
+            "effectValue": 4.75,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0.38,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0.658430736,
+            "standardActionPremium": 3.2386191359999996,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        "cardId": "b_22.webp",
+        "expectedData": 1,
+        "actualData": 1,
+        "totalResourceDataDelta": 1,
+        "scans": [
+          "选择己方探测器所在扇区扫描两次 1/2：开普勒22：开普勒22 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+          "选择己方探测器所在扇区扫描两次 2/2：开普勒22：开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据"
+        ],
+        "moves": [],
+        "steps": 7,
+        "bugs": [],
+        "probeChoices": []
+      },
+      {
+        "candidate": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_50.webp",
+          "cardInstanceId": "card-136-0",
+          "cardLabel": "大型轨遒天文台计划",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_probe_sector_scan"
+          ],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -15.180000000000001,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 27,
+            "directScoreGain": 0,
+            "effectValue": 5,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 2.9699999999999993,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        "cardId": "b_50.webp",
+        "expectedData": 1,
+        "actualData": 1,
+        "totalResourceDataDelta": 1,
+        "scans": [
+          "选择最多3个探测器，各扫描所在扇区：织女一：织女一 槽位4 替换为白色token；获得数据；资源：数据+1",
+          "选择最多3个探测器，各扫描所在扇区：织女一：织女一 已无未替换数据，追加白色扫描计数；不获得数据",
+          "选择最多3个探测器，各扫描所在扇区：织女一：织女一 已无未替换数据，追加白色扫描计数；不获得数据"
+        ],
+        "moves": [],
+        "steps": 11,
+        "bugs": [],
+        "probeChoices": [
+          {
+            "logPlayerId": "player-white",
+            "selectedRocketIds": [
+              6,
+              7,
+              8
+            ],
+            "maxTargets": 3
+          }
+        ]
+      },
+      {
+        "candidate": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_96.webp",
+          "cardInstanceId": "card-203-0",
+          "cardLabel": "柏拉图探测器",
+          "alienCard": false,
+          "price": 1,
+          "cost": {
+            "credits": 1
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_probe_sector_scan"
+          ],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -7.814575,
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 21.743499999999997,
+            "directScoreGain": 0,
+            "effectValue": 3.5,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 2.9699999999999993,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        "cardId": "b_96.webp",
+        "expectedData": 0,
+        "actualData": 0,
+        "totalResourceDataDelta": 0,
+        "scans": [
+          "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：绘架座β：绘架座β 槽位5 替换为白色token；不获得数据",
+          "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：绘架座β：绘架座β 已无未替换数据，追加白色扫描计数；不获得数据",
+          "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：绘架座β：绘架座β 已无未替换数据，追加白色扫描计数；不获得数据"
+        ],
+        "moves": [],
+        "steps": 9,
+        "bugs": [],
+        "probeChoices": []
+      }
+    ]
+  }
+}
