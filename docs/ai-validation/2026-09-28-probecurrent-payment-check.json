@@ -1,0 +1,36 @@
+{
+  "scope": "Exact played card instance, player/round/turn, unused payment step. Compare expected candidate cost with negative actual credit/energy/publicity/fossil payment fields; no step may satisfy two plays. Immediate gains are not treated as costs; any netted-payment mismatch requires review, never silently accepted.",
+  "candidate": "5945ce4e32b92ac344305babc756520f0a6d6ea3",
+  "summary": {
+    "pairs": 24,
+    "plays": 1165,
+    "uniquePayments": 1165,
+    "matchingAmounts": 1165,
+    "issues": []
+  },
+  "negativeControl": {
+    "changed": "Only in-memory first predicted credit cost increased by1; frozen game files untouched",
+    "issues": [
+      {
+        "case": 1,
+        "player": "player-green",
+        "round": 1,
+        "turn": 1,
+        "instance": "card-58-0",
+        "card": "b_3.webp",
+        "uniquePayment": true,
+        "entry": 8,
+        "step": 0,
+        "amounts": {
+          "credits": {
+            "expectedSpent": 2,
+            "actualSpent": 1
+          }
+        },
+        "matching": false,
+        "text": "打出：阿尔冈金射电天文台：资源：信用点-1、手牌-1"
+      }
+    ]
+  },
+  "rawAuditSha256": "e3648f30fdb7494f6cadfffe847823285012d0826d228c5e7f9b3f2645aac0f4"
+}
