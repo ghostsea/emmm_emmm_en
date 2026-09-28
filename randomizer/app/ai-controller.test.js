@@ -17379,6 +17379,8 @@ verifyActualContinuationGains();
   const other = make({ company: "寰宇动力" });
   assert.equal(other.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, other.blue), null, "unmeasured human company must not borrow an AI prior");
   assert.equal(h.controller.getAiBlueLifecycleProfile({ tileId: "blue3", techType: "blue" }, h.blue), null);
-  const lab = make({ company: "作弊实验室" });
-  assert(lab.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, lab.blue).futureValue > p.futureValue, "company throughput differs in current measured cohort");
+  for (const company of ["作弊实验室", "宇宙大战略集团"]) {
+    const legacy = make({ company });
+    assert.equal(legacy.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, legacy.blue), null, "company-scope ablation preserves the other companies' legacy valuation");
+  }
 }
