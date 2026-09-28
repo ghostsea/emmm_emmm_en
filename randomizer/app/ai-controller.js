@@ -334,7 +334,7 @@
     const AI_STRATEGY_WEIGHT_DEFAULTS = Object.freeze({
       ...AI_STRATEGY_WEIGHT_KEYS.reduce((weights, key) => ({ ...weights, [key]: 1 }), {}),
       engine: 1.30,
-      playCard: 1.44,
+      playCard: 1.60,
       tech: 1.16,
       scan: 1.18,
       route: 0.76,

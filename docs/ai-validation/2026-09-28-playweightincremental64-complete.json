@@ -1,0 +1,4245 @@
+{
+  "resourceCompanies": {
+    "baseline": {
+      "寰宇超动力": {
+        "playerCount": 64,
+        "averageFinalScore": 199.515625,
+        "setupGainWeighted": 33.640625,
+        "incomeGainWeighted": 107.054688,
+        "nonIncomeGainWeighted": 171.953125,
+        "weightedActionCost": 304.460938,
+        "mainActionsPerWeightedCost": 0.09678,
+        "analysisActionCount": 2.890625,
+        "dataTurnoverCount": 2.53125,
+        "fullDataCycleCount": 1.890625,
+        "drawToPlayRate": 0.367118,
+        "incomeCardConversionRate": 0.086343,
+        "alienCardToPlayRate": 0.426034,
+        "blue1CreditGain": 1.296875,
+        "blue2EnergyGain": 0.875,
+        "utilizationCredits": 0.982657,
+        "utilizationEnergy": 0.98601,
+        "utilizationPublicity": 0.956335,
+        "utilizationAvailableData": 0.982135,
+        "utilizationHandSize": 0.963184,
+        "sameRoundReinvestmentWeighted": 146.765625,
+        "sameRoundReinvestmentRate": 0.853256,
+        "confirmedMainActions": 29.390625
+      },
+      "作弊实验室": {
+        "playerCount": 128,
+        "averageFinalScore": 254.75,
+        "setupGainWeighted": 49.382813,
+        "incomeGainWeighted": 128.628906,
+        "nonIncomeGainWeighted": 218.070313,
+        "weightedActionCost": 383.4375,
+        "mainActionsPerWeightedCost": 0.105405,
+        "analysisActionCount": 4.429688,
+        "dataTurnoverCount": 4.109375,
+        "fullDataCycleCount": 3.429688,
+        "drawToPlayRate": 0.384467,
+        "incomeCardConversionRate": 0.040656,
+        "alienCardToPlayRate": 0.507691,
+        "blue1CreditGain": 2,
+        "blue2EnergyGain": 2.101563,
+        "utilizationCredits": 0.950168,
+        "utilizationEnergy": 0.993081,
+        "utilizationPublicity": 0.916069,
+        "utilizationAvailableData": 0.992118,
+        "utilizationHandSize": 0.974968,
+        "sameRoundReinvestmentWeighted": 193.269531,
+        "sameRoundReinvestmentRate": 0.885005,
+        "confirmedMainActions": 40.4140625
+      },
+      "宇宙大战略集团": {
+        "playerCount": 64,
+        "averageFinalScore": 200.671875,
+        "setupGainWeighted": 50.507813,
+        "incomeGainWeighted": 114.921875,
+        "nonIncomeGainWeighted": 202.992188,
+        "weightedActionCost": 359.375,
+        "mainActionsPerWeightedCost": 0.091472,
+        "analysisActionCount": 3.96875,
+        "dataTurnoverCount": 3.671875,
+        "fullDataCycleCount": 2.96875,
+        "drawToPlayRate": 0.395757,
+        "incomeCardConversionRate": 0.060633,
+        "alienCardToPlayRate": 0.463072,
+        "blue1CreditGain": 1.78125,
+        "blue2EnergyGain": 1.21875,
+        "utilizationCredits": 0.98746,
+        "utilizationEnergy": 0.991212,
+        "utilizationPublicity": 0.949115,
+        "utilizationAvailableData": 0.98529,
+        "utilizationHandSize": 0.961279,
+        "sameRoundReinvestmentWeighted": 176.257813,
+        "sameRoundReinvestmentRate": 0.86523,
+        "confirmedMainActions": 32.875
+      }
+    },
+    "candidate": {
+      "寰宇超动力": {
+        "playerCount": 64,
+        "averageFinalScore": 201.15625,
+        "setupGainWeighted": 33.640625,
+        "incomeGainWeighted": 107.25,
+        "nonIncomeGainWeighted": 169.78125,
+        "weightedActionCost": 302.546875,
+        "mainActionsPerWeightedCost": 0.096173,
+        "analysisActionCount": 2.90625,
+        "dataTurnoverCount": 2.59375,
+        "fullDataCycleCount": 1.90625,
+        "drawToPlayRate": 0.361696,
+        "incomeCardConversionRate": 0.092282,
+        "alienCardToPlayRate": 0.422814,
+        "blue1CreditGain": 1.3125,
+        "blue2EnergyGain": 0.8125,
+        "utilizationCredits": 0.981464,
+        "utilizationEnergy": 0.989243,
+        "utilizationPublicity": 0.948987,
+        "utilizationAvailableData": 0.98505,
+        "utilizationHandSize": 0.96549,
+        "sameRoundReinvestmentWeighted": 144.445313,
+        "sameRoundReinvestmentRate": 0.848595,
+        "confirmedMainActions": 29.09375
+      },
+      "作弊实验室": {
+        "playerCount": 128,
+        "averageFinalScore": 256.921875,
+        "setupGainWeighted": 49.382813,
+        "incomeGainWeighted": 128.976563,
+        "nonIncomeGainWeighted": 219.316406,
+        "weightedActionCost": 385.835938,
+        "mainActionsPerWeightedCost": 0.105001,
+        "analysisActionCount": 4.429688,
+        "dataTurnoverCount": 4.117188,
+        "fullDataCycleCount": 3.429688,
+        "drawToPlayRate": 0.383188,
+        "incomeCardConversionRate": 0.040898,
+        "alienCardToPlayRate": 0.503017,
+        "blue1CreditGain": 2.054688,
+        "blue2EnergyGain": 2.039063,
+        "utilizationCredits": 0.960664,
+        "utilizationEnergy": 0.993777,
+        "utilizationPublicity": 0.918403,
+        "utilizationAvailableData": 0.989665,
+        "utilizationHandSize": 0.974407,
+        "sameRoundReinvestmentWeighted": 194.679688,
+        "sameRoundReinvestmentRate": 0.886063,
+        "confirmedMainActions": 40.453125
+      },
+      "宇宙大战略集团": {
+        "playerCount": 64,
+        "averageFinalScore": 203.75,
+        "setupGainWeighted": 50.507813,
+        "incomeGainWeighted": 113.734375,
+        "nonIncomeGainWeighted": 202.078125,
+        "weightedActionCost": 357.3125,
+        "mainActionsPerWeightedCost": 0.092455,
+        "analysisActionCount": 3.796875,
+        "dataTurnoverCount": 3.5,
+        "fullDataCycleCount": 2.796875,
+        "drawToPlayRate": 0.423873,
+        "incomeCardConversionRate": 0.051946,
+        "alienCardToPlayRate": 0.498718,
+        "blue1CreditGain": 1.703125,
+        "blue2EnergyGain": 1.3125,
+        "utilizationCredits": 0.987132,
+        "utilizationEnergy": 0.990692,
+        "utilizationPublicity": 0.953462,
+        "utilizationAvailableData": 0.977848,
+        "utilizationHandSize": 0.963918,
+        "sameRoundReinvestmentWeighted": 175.164063,
+        "sameRoundReinvestmentRate": 0.86384,
+        "confirmedMainActions": 33.015625
+      }
+    }
+  },
+  "completedAt": "2026-09-28T12:12:12.069Z",
+  "frozenAt": "2026-09-28T11:33:29.863Z",
+  "seedGeneratedAt": "2026-09-28T11:33:29.864Z",
+  "modelFingerprints": {
+    "base": "4903172f57bf05485bd10510a2ed20bdc1fb1116382589aa7665c31efe68c946",
+    "candidate": "6747445d032799ce9bbfd838a1d50d010d792362373a5facffab4cda8963357b"
+  },
+  "report": {
+    "baseline": {
+      "games": 64,
+      "seats": 256,
+      "mean": 227.421875,
+      "min": 114,
+      "p10": 179,
+      "p25": 196,
+      "median": 222,
+      "p75": 256,
+      "max": 350,
+      "topQuartileMean": 285.203125,
+      "winnerMean": 276.265625,
+      "minimumPerGameMean": 181.28125,
+      "seats270Plus": 40,
+      "seats300Plus": 15,
+      "companies": {
+        "作弊实验室": {
+          "seats": 128,
+          "mean": 254.75,
+          "min": 145
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "mean": 200.671875,
+          "min": 132
+        },
+        "寰宇超动力": {
+          "seats": 64,
+          "mean": 199.515625,
+          "min": 114
+        }
+      }
+    },
+    "candidate": {
+      "games": 64,
+      "seats": 256,
+      "mean": 229.6875,
+      "min": 118,
+      "p10": 174.5,
+      "p25": 197.75,
+      "median": 227.5,
+      "p75": 257.25,
+      "max": 358,
+      "topQuartileMean": 288.140625,
+      "winnerMean": 280.984375,
+      "minimumPerGameMean": 180.890625,
+      "seats270Plus": 46,
+      "seats300Plus": 20,
+      "companies": {
+        "作弊实验室": {
+          "seats": 128,
+          "mean": 256.921875,
+          "min": 162
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "mean": 203.75,
+          "min": 147
+        },
+        "寰宇超动力": {
+          "seats": 64,
+          "mean": 201.15625,
+          "min": 118
+        }
+      }
+    },
+    "companies": {
+      "作弊实验室": {
+        "seats": 128,
+        "baseline": 254.75,
+        "candidate": 256.921875,
+        "meanDelta": 2.171875,
+        "minimumDelta": 17
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "baseline": 200.671875,
+        "candidate": 203.75,
+        "meanDelta": 3.078125,
+        "minimumDelta": 15
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "baseline": 199.515625,
+        "candidate": 201.15625,
+        "meanDelta": 1.640625,
+        "minimumDelta": 4
+      }
+    },
+    "delta": {
+      "mean": 2.265625,
+      "min": 4,
+      "p10": -4.5,
+      "p25": 1.75,
+      "median": 5.5,
+      "p75": 1.25,
+      "max": 8,
+      "topQuartileMean": 2.9375,
+      "winnerMean": 4.71875,
+      "minimumPerGameMean": -0.390625,
+      "seats270Plus": 6,
+      "seats300Plus": 5
+    },
+    "pairedGameMeanDeltaStandardError": 1.5884148075809608,
+    "gamesImproved": 38,
+    "gamesRegressed": 24,
+    "pairs": [
+      {
+        "seed": "codex-ai-play-weight-20260928:0b342cd98691230e3274a2e5",
+        "meanDelta": -5.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 312,
+            "candidate": 269,
+            "delta": -43
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 216,
+            "candidate": 223,
+            "delta": 7
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 196,
+            "candidate": 183,
+            "delta": -13
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 271,
+            "delta": 26
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:bd0e24b7701c4866e0dcc6de",
+        "meanDelta": -19.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 216,
+            "candidate": 174,
+            "delta": -42
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 164,
+            "candidate": 155,
+            "delta": -9
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 298,
+            "candidate": 257,
+            "delta": -41
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 226,
+            "candidate": 239,
+            "delta": 13
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:0bd35d137bd3d046665f05d5",
+        "meanDelta": -10.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 278,
+            "candidate": 240,
+            "delta": -38
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 226,
+            "candidate": 201,
+            "delta": -25
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 186,
+            "candidate": 215,
+            "delta": 29
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 222,
+            "candidate": 215,
+            "delta": -7
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:084c7c41f385dd544bd0ba9a",
+        "meanDelta": -3.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 187,
+            "candidate": 168,
+            "delta": -19
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 179,
+            "candidate": 226,
+            "delta": 47
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 335,
+            "candidate": 268,
+            "delta": -67
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 259,
+            "candidate": 283,
+            "delta": 24
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:8d5e4e2874bd313e6aa2bba9",
+        "meanDelta": 35.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 236,
+            "candidate": 358,
+            "delta": 122
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 223,
+            "candidate": 246,
+            "delta": 23
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 210,
+            "candidate": 216,
+            "delta": 6
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 254,
+            "candidate": 244,
+            "delta": -10
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:6c80c67e1a4f3be072c3d6b1",
+        "meanDelta": -4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 172,
+            "candidate": 162,
+            "delta": -10
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 249,
+            "candidate": 246,
+            "delta": -3
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 301,
+            "candidate": 299,
+            "delta": -2
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 166,
+            "candidate": 164,
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:44a87049366c28603853956b",
+        "meanDelta": 7.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 261,
+            "candidate": 251,
+            "delta": -10
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 230,
+            "candidate": 250,
+            "delta": 20
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 251,
+            "delta": -8
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 209,
+            "candidate": 237,
+            "delta": 28
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:9362dec1f6deba754bcf74c2",
+        "meanDelta": 1,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 237,
+            "candidate": 237,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 198,
+            "candidate": 198,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 185,
+            "candidate": 185,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 289,
+            "candidate": 293,
+            "delta": 4
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:eb5f6d4c3c58c47e1fb316ba",
+        "meanDelta": -12,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 260,
+            "candidate": 232,
+            "delta": -28
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 180,
+            "candidate": 179,
+            "delta": -1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 213,
+            "candidate": 206,
+            "delta": -7
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 299,
+            "candidate": 287,
+            "delta": -12
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:b5476c6bfa85592a02b4cd61",
+        "meanDelta": -4.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 210,
+            "candidate": 170,
+            "delta": -40
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 258,
+            "candidate": 315,
+            "delta": 57
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 194,
+            "candidate": 171,
+            "delta": -23
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 350,
+            "candidate": 337,
+            "delta": -13
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:9f2b6f6354d3fbd76b0b51e4",
+        "meanDelta": -6.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 197,
+            "candidate": 175,
+            "delta": -22
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 227,
+            "candidate": 205,
+            "delta": -22
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 249,
+            "candidate": 258,
+            "delta": 9
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 229,
+            "candidate": 237,
+            "delta": 8
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:43aeb364bee9efefd80544e1",
+        "meanDelta": 3,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 215,
+            "candidate": 251,
+            "delta": 36
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 164,
+            "candidate": 155,
+            "delta": -9
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 267,
+            "candidate": 242,
+            "delta": -25
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 188,
+            "candidate": 198,
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:4d795647e9b89a272cb3dcb4",
+        "meanDelta": 13.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 272,
+            "candidate": 274,
+            "delta": 2
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 138,
+            "candidate": 147,
+            "delta": 9
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 235,
+            "candidate": 233,
+            "delta": -2
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 236,
+            "candidate": 282,
+            "delta": 46
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:cfeeb6a9f3c00a4e65dacaa2",
+        "meanDelta": 23.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 140,
+            "candidate": 155,
+            "delta": 15
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 181,
+            "candidate": 253,
+            "delta": 72
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 220,
+            "candidate": 204,
+            "delta": -16
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 235,
+            "candidate": 257,
+            "delta": 22
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:110c5b2d0932ae69330c824f",
+        "meanDelta": -8.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 203,
+            "candidate": 203,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 277,
+            "candidate": 274,
+            "delta": -3
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 230,
+            "delta": -13
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 238,
+            "candidate": 219,
+            "delta": -19
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:5f56e60ed1635151e85ef725",
+        "meanDelta": -17.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 250,
+            "candidate": 224,
+            "delta": -26
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 255,
+            "candidate": 247,
+            "delta": -8
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 246,
+            "candidate": 183,
+            "delta": -63
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 225,
+            "candidate": 253,
+            "delta": 28
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:de781dffae102c1a4cccc878",
+        "meanDelta": -6.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 292,
+            "candidate": 238,
+            "delta": -54
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 183,
+            "candidate": 160,
+            "delta": -23
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 218,
+            "candidate": 244,
+            "delta": 26
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 289,
+            "candidate": 315,
+            "delta": 26
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:7efc4ab65d0f453ab0ee6117",
+        "meanDelta": -8,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 226,
+            "candidate": 220,
+            "delta": -6
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 164,
+            "candidate": 163,
+            "delta": -1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 199,
+            "candidate": 211,
+            "delta": 12
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 208,
+            "delta": -37
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:48ed2763204f21c895c09659",
+        "meanDelta": 7,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 229,
+            "candidate": 232,
+            "delta": 3
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 237,
+            "candidate": 262,
+            "delta": 25
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 203,
+            "candidate": 196,
+            "delta": -7
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 114,
+            "candidate": 121,
+            "delta": 7
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:7dc15ac14ae6e3a258f1a7fb",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 297,
+            "candidate": 297,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 199,
+            "candidate": 199,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 301,
+            "candidate": 301,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 198,
+            "candidate": 198,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:14d521b3539f9ece9df4d868",
+        "meanDelta": 2,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 247,
+            "candidate": 270,
+            "delta": 23
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 222,
+            "candidate": 224,
+            "delta": 2
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 216,
+            "candidate": 203,
+            "delta": -13
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 215,
+            "candidate": 211,
+            "delta": -4
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:2580bd24292ad06c100a1d9a",
+        "meanDelta": 5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 163,
+            "candidate": 190,
+            "delta": 27
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 317,
+            "candidate": 311,
+            "delta": -6
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 274,
+            "candidate": 250,
+            "delta": -24
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 226,
+            "candidate": 249,
+            "delta": 23
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:e02ebc7cdef8ec721f147f42",
+        "meanDelta": 18.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 192,
+            "candidate": 190,
+            "delta": -2
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 231,
+            "candidate": 277,
+            "delta": 46
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 268,
+            "candidate": 249,
+            "delta": -19
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 145,
+            "candidate": 193,
+            "delta": 48
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:09711de4de81018a2592515b",
+        "meanDelta": -24.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 255,
+            "candidate": 194,
+            "delta": -61
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 254,
+            "delta": 9
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 218,
+            "candidate": 118,
+            "delta": -100
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 188,
+            "candidate": 241,
+            "delta": 53
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:0c382dc5129bbbd7e18b6fe7",
+        "meanDelta": 2.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 196,
+            "candidate": 196,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 257,
+            "candidate": 267,
+            "delta": 10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 254,
+            "candidate": 254,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 254,
+            "candidate": 254,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:6930c52a63759ce399c8953d",
+        "meanDelta": -11.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 293,
+            "candidate": 257,
+            "delta": -36
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 189,
+            "candidate": 235,
+            "delta": 46
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 223,
+            "candidate": 168,
+            "delta": -55
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:7ff5dd06312ac8db8b449e55",
+        "meanDelta": 0.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 181,
+            "candidate": 181,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 319,
+            "candidate": 319,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 302,
+            "delta": 2
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 197,
+            "candidate": 197,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:8dfac5e6df9549794064f0e6",
+        "meanDelta": -5.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 240,
+            "candidate": 252,
+            "delta": 12
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 241,
+            "delta": -2
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 286,
+            "candidate": 261,
+            "delta": -25
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 181,
+            "candidate": 174,
+            "delta": -7
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:a03aa5a3837172ff2f3ddefd",
+        "meanDelta": -12.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 273,
+            "candidate": 247,
+            "delta": -26
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 163,
+            "candidate": 162,
+            "delta": -1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 231,
+            "candidate": 209,
+            "delta": -22
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 269,
+            "candidate": 269,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:e0f41a0fa39fd890ea04a0e6",
+        "meanDelta": 9.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 213,
+            "candidate": 235,
+            "delta": 22
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 275,
+            "candidate": 277,
+            "delta": 2
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 317,
+            "candidate": 332,
+            "delta": 15
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 191,
+            "candidate": 189,
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:6149c040e169a3c1184d86a6",
+        "meanDelta": 15.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 265,
+            "candidate": 279,
+            "delta": 14
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 197,
+            "candidate": 221,
+            "delta": 24
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 287,
+            "candidate": 286,
+            "delta": -1
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 193,
+            "candidate": 219,
+            "delta": 26
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:7e5669705434f28380e4f647",
+        "meanDelta": -9.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 191,
+            "candidate": 178,
+            "delta": -13
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 268,
+            "candidate": 309,
+            "delta": 41
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 282,
+            "candidate": 238,
+            "delta": -44
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 251,
+            "candidate": 229,
+            "delta": -22
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:e2273c54c95902c242777b3e",
+        "meanDelta": 7.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 157,
+            "candidate": 151,
+            "delta": -6
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 206,
+            "candidate": 250,
+            "delta": 44
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 242,
+            "delta": -3
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 232,
+            "candidate": 227,
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:8f335ab3da99660ecacc5ca9",
+        "meanDelta": -14.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 218,
+            "candidate": 220,
+            "delta": 2
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 254,
+            "candidate": 208,
+            "delta": -46
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 257,
+            "candidate": 268,
+            "delta": 11
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 180,
+            "candidate": 155,
+            "delta": -25
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:f0bcd20e34778cdbf3da6e07",
+        "meanDelta": 4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 276,
+            "candidate": 257,
+            "delta": -19
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 249,
+            "candidate": 253,
+            "delta": 4
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 197,
+            "candidate": 199,
+            "delta": 2
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 202,
+            "candidate": 232,
+            "delta": 30
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:dc3375e7d31e5b2a6fdbc2ed",
+        "meanDelta": -5.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 218,
+            "candidate": 203,
+            "delta": -15
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 231,
+            "candidate": 217,
+            "delta": -14
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 215,
+            "candidate": 228,
+            "delta": 13
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 253,
+            "delta": -6
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:b1495357146c5bfffab3aef1",
+        "meanDelta": 5.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 269,
+            "candidate": 258,
+            "delta": -11
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 214,
+            "candidate": 207,
+            "delta": -7
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 200,
+            "candidate": 220,
+            "delta": 20
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 232,
+            "candidate": 253,
+            "delta": 21
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:c356043dc7b9b4a0985eb621",
+        "meanDelta": 3,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 268,
+            "candidate": 269,
+            "delta": 1
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 178,
+            "candidate": 194,
+            "delta": 16
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 172,
+            "candidate": 171,
+            "delta": -1
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 295,
+            "candidate": 291,
+            "delta": -4
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:bb0c2ac04892119bd1623043",
+        "meanDelta": -8,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 180,
+            "candidate": 198,
+            "delta": 18
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 219,
+            "candidate": 236,
+            "delta": 17
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 284,
+            "candidate": 264,
+            "delta": -20
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 233,
+            "candidate": 186,
+            "delta": -47
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:f8cd7568e8e2318063d3a1fa",
+        "meanDelta": 14,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 292,
+            "candidate": 306,
+            "delta": 14
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 185,
+            "candidate": 213,
+            "delta": 28
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 291,
+            "candidate": 274,
+            "delta": -17
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 222,
+            "candidate": 253,
+            "delta": 31
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:6efc685abe5988b9b84507aa",
+        "meanDelta": 3.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 219,
+            "candidate": 241,
+            "delta": 22
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 263,
+            "candidate": 281,
+            "delta": 18
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 201,
+            "candidate": 171,
+            "delta": -30
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 253,
+            "candidate": 258,
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:b47ee534f6dbdcd8d85ffaa2",
+        "meanDelta": 3.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 232,
+            "candidate": 248,
+            "delta": 16
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 187,
+            "candidate": 163,
+            "delta": -24
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 132,
+            "candidate": 209,
+            "delta": 77
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 185,
+            "delta": -54
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:756acf93ee7f2cf44e7d9a3d",
+        "meanDelta": 4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 194,
+            "candidate": 202,
+            "delta": 8
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 208,
+            "candidate": 270,
+            "delta": 62
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 324,
+            "candidate": 304,
+            "delta": -20
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 225,
+            "candidate": 192,
+            "delta": -33
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:fb3433f6491e57dc6e330ef5",
+        "meanDelta": 8.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 195,
+            "candidate": 215,
+            "delta": 20
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 209,
+            "candidate": 195,
+            "delta": -14
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 181,
+            "candidate": 197,
+            "delta": 16
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 338,
+            "candidate": 350,
+            "delta": 12
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:c98f2bf86efcec6b7a007997",
+        "meanDelta": -2.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 260,
+            "delta": 17
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 162,
+            "candidate": 176,
+            "delta": 14
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 164,
+            "candidate": 165,
+            "delta": 1
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 322,
+            "candidate": 280,
+            "delta": -42
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:7a7917f5be3f1576b6f77a65",
+        "meanDelta": 28.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 175,
+            "candidate": 226,
+            "delta": 51
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 200,
+            "candidate": 195,
+            "delta": -5
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 188,
+            "candidate": 239,
+            "delta": 51
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 221,
+            "candidate": 239,
+            "delta": 18
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:59439c1317770551a51f3fd4",
+        "meanDelta": 21,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 198,
+            "candidate": 213,
+            "delta": 15
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 206,
+            "candidate": 242,
+            "delta": 36
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 255,
+            "candidate": 289,
+            "delta": 34
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 208,
+            "candidate": 207,
+            "delta": -1
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:de522493110cf39dd218a8f0",
+        "meanDelta": 5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 189,
+            "candidate": 178,
+            "delta": -11
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 178,
+            "candidate": 177,
+            "delta": -1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 198,
+            "candidate": 217,
+            "delta": 19
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 265,
+            "candidate": 278,
+            "delta": 13
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:68511edd6a7214660ce4c4d3",
+        "meanDelta": 9.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 250,
+            "candidate": 288,
+            "delta": 38
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 212,
+            "candidate": 205,
+            "delta": -7
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 196,
+            "candidate": 212,
+            "delta": 16
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 206,
+            "candidate": 198,
+            "delta": -8
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:0bf6f0447d8e60a34e3d1230",
+        "meanDelta": 19.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 212,
+            "candidate": 206,
+            "delta": -6
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 166,
+            "candidate": 216,
+            "delta": 50
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 212,
+            "candidate": 196,
+            "delta": -16
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 251,
+            "candidate": 302,
+            "delta": 51
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:fb4665fd80b60b45456a57c2",
+        "meanDelta": 22.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 240,
+            "candidate": 281,
+            "delta": 41
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 214,
+            "candidate": 222,
+            "delta": 8
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 159,
+            "candidate": 178,
+            "delta": 19
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 188,
+            "candidate": 210,
+            "delta": 22
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:0cee5d0155a75a82022d88f4",
+        "meanDelta": 1.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 269,
+            "delta": 13
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 253,
+            "candidate": 248,
+            "delta": -5
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 189,
+            "candidate": 202,
+            "delta": 13
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 176,
+            "candidate": 160,
+            "delta": -16
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:29a7cb847fd771da1da7f2ed",
+        "meanDelta": 19,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 196,
+            "candidate": 182,
+            "delta": -14
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 203,
+            "candidate": 201,
+            "delta": -2
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 214,
+            "candidate": 267,
+            "delta": 53
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 182,
+            "candidate": 221,
+            "delta": 39
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:fe5a5758a49ad028f1c0f6d1",
+        "meanDelta": 12.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 195,
+            "candidate": 193,
+            "delta": -2
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 251,
+            "candidate": 260,
+            "delta": 9
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 267,
+            "candidate": 311,
+            "delta": 44
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 179,
+            "candidate": 179,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:f8173b3011b0e6dddc98743f",
+        "meanDelta": 1,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 266,
+            "candidate": 253,
+            "delta": -13
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 199,
+            "candidate": 181,
+            "delta": -18
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 200,
+            "candidate": 204,
+            "delta": 4
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 206,
+            "candidate": 237,
+            "delta": 31
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:fc651f5938660b2a4004c901",
+        "meanDelta": 16.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 211,
+            "candidate": 221,
+            "delta": 10
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 211,
+            "candidate": 216,
+            "delta": 5
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 210,
+            "candidate": 206,
+            "delta": -4
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 294,
+            "candidate": 350,
+            "delta": 56
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:39350588a07a73443962be9a",
+        "meanDelta": -4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 234,
+            "candidate": 184,
+            "delta": -50
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 206,
+            "candidate": 216,
+            "delta": 10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 184,
+            "candidate": 188,
+            "delta": 4
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 250,
+            "candidate": 269,
+            "delta": 19
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:5872ad619343a0307bb75c30",
+        "meanDelta": 12,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 186,
+            "candidate": 155,
+            "delta": -31
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 327,
+            "delta": 71
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 229,
+            "delta": -30
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 174,
+            "candidate": 212,
+            "delta": 38
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:01f47f8f63c14181c75b6413",
+        "meanDelta": -7.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 238,
+            "candidate": 231,
+            "delta": -7
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 286,
+            "candidate": 274,
+            "delta": -12
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 185,
+            "candidate": 192,
+            "delta": 7
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 199,
+            "candidate": 182,
+            "delta": -17
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:a416ed57baec0ccad9ff98f0",
+        "meanDelta": 9.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 218,
+            "candidate": 208,
+            "delta": -10
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 199,
+            "candidate": 231,
+            "delta": 32
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 260,
+            "delta": 21
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 258,
+            "candidate": 252,
+            "delta": -6
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:3f74d68a30ec6a0a8cc5171a",
+        "meanDelta": -34.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 323,
+            "candidate": 227,
+            "delta": -96
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 133,
+            "candidate": 162,
+            "delta": 29
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 325,
+            "candidate": 277,
+            "delta": -48
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 239,
+            "candidate": 215,
+            "delta": -24
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:d854316811eba69d1abff910",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 241,
+            "candidate": 241,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 207,
+            "candidate": 207,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 257,
+            "candidate": 257,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 200,
+            "candidate": 200,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:a9422d81d1c3d70b93133628",
+        "meanDelta": 7.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 269,
+            "candidate": 240,
+            "delta": -29
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 173,
+            "candidate": 183,
+            "delta": 10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 304,
+            "candidate": 305,
+            "delta": 1
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 236,
+            "candidate": 283,
+            "delta": 47
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-play-weight-20260928:80b0573b12b5fc83749fc8a9",
+        "meanDelta": 7.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 292,
+            "candidate": 300,
+            "delta": 8
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 290,
+            "candidate": 316,
+            "delta": 26
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 203,
+            "candidate": 189,
+            "delta": -14
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 189,
+            "candidate": 200,
+            "delta": 11
+          }
+        ]
+      }
+    ]
+  },
+  "ledger": [
+    {
+      "seed": "codex-ai-play-weight-20260928:0b342cd98691230e3274a2e5",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 76,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0b342cd98691230e3274a2e5",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 84,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:bd0e24b7701c4866e0dcc6de",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 73,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:bd0e24b7701c4866e0dcc6de",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 70,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0bd35d137bd3d046665f05d5",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 69,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0bd35d137bd3d046665f05d5",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:084c7c41f385dd544bd0ba9a",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 69,
+        "inferredEventCount": 99
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:084c7c41f385dd544bd0ba9a",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 70,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8d5e4e2874bd313e6aa2bba9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8d5e4e2874bd313e6aa2bba9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 101,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6c80c67e1a4f3be072c3d6b1",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 63,
+        "inferredEventCount": 74
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6c80c67e1a4f3be072c3d6b1",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 57,
+        "inferredEventCount": 71
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:44a87049366c28603853956b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 61,
+        "inferredEventCount": 83
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:44a87049366c28603853956b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 75,
+        "inferredEventCount": 99
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:9362dec1f6deba754bcf74c2",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 70,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:9362dec1f6deba754bcf74c2",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 72,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:eb5f6d4c3c58c47e1fb316ba",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 106,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:eb5f6d4c3c58c47e1fb316ba",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 104,
+        "inferredEventCount": 121
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b5476c6bfa85592a02b4cd61",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b5476c6bfa85592a02b4cd61",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 76,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:9f2b6f6354d3fbd76b0b51e4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:9f2b6f6354d3fbd76b0b51e4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:43aeb364bee9efefd80544e1",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 67,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:43aeb364bee9efefd80544e1",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 74,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:4d795647e9b89a272cb3dcb4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 91
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:4d795647e9b89a272cb3dcb4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 95,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:cfeeb6a9f3c00a4e65dacaa2",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 117,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:cfeeb6a9f3c00a4e65dacaa2",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 73,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:110c5b2d0932ae69330c824f",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 102,
+        "inferredEventCount": 116
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:110c5b2d0932ae69330c824f",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 55,
+        "inferredEventCount": 81
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:5f56e60ed1635151e85ef725",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 83,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:5f56e60ed1635151e85ef725",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 110,
+        "inferredEventCount": 124
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:de781dffae102c1a4cccc878",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:de781dffae102c1a4cccc878",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 67,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7efc4ab65d0f453ab0ee6117",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7efc4ab65d0f453ab0ee6117",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 89,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:48ed2763204f21c895c09659",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 75,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:48ed2763204f21c895c09659",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 106
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7dc15ac14ae6e3a258f1a7fb",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7dc15ac14ae6e3a258f1a7fb",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:14d521b3539f9ece9df4d868",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 86,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:14d521b3539f9ece9df4d868",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:2580bd24292ad06c100a1d9a",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 92,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:2580bd24292ad06c100a1d9a",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 102,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e02ebc7cdef8ec721f147f42",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 86,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e02ebc7cdef8ec721f147f42",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 92,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:09711de4de81018a2592515b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 76,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:09711de4de81018a2592515b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 74,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0c382dc5129bbbd7e18b6fe7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 92,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0c382dc5129bbbd7e18b6fe7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 114
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6930c52a63759ce399c8953d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6930c52a63759ce399c8953d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 91,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7ff5dd06312ac8db8b449e55",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7ff5dd06312ac8db8b449e55",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 89
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8dfac5e6df9549794064f0e6",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8dfac5e6df9549794064f0e6",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 95,
+        "inferredEventCount": 93
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a03aa5a3837172ff2f3ddefd",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 111,
+        "inferredEventCount": 106
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a03aa5a3837172ff2f3ddefd",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 95,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e0f41a0fa39fd890ea04a0e6",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e0f41a0fa39fd890ea04a0e6",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 88,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6149c040e169a3c1184d86a6",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 74,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6149c040e169a3c1184d86a6",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7e5669705434f28380e4f647",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7e5669705434f28380e4f647",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 91,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e2273c54c95902c242777b3e",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 71,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:e2273c54c95902c242777b3e",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 71,
+        "inferredEventCount": 93
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8f335ab3da99660ecacc5ca9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 79,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:8f335ab3da99660ecacc5ca9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 68,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f0bcd20e34778cdbf3da6e07",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f0bcd20e34778cdbf3da6e07",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:dc3375e7d31e5b2a6fdbc2ed",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 116,
+        "inferredEventCount": 121
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:dc3375e7d31e5b2a6fdbc2ed",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b1495357146c5bfffab3aef1",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b1495357146c5bfffab3aef1",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 115,
+        "inferredEventCount": 116
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:c356043dc7b9b4a0985eb621",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 73,
+        "inferredEventCount": 89
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:c356043dc7b9b4a0985eb621",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 79,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:bb0c2ac04892119bd1623043",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 94,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:bb0c2ac04892119bd1623043",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 80,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f8cd7568e8e2318063d3a1fa",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f8cd7568e8e2318063d3a1fa",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 107,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6efc685abe5988b9b84507aa",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 94,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:6efc685abe5988b9b84507aa",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b47ee534f6dbdcd8d85ffaa2",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 74,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:b47ee534f6dbdcd8d85ffaa2",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 88,
+        "inferredEventCount": 106
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:756acf93ee7f2cf44e7d9a3d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 101,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:756acf93ee7f2cf44e7d9a3d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 96,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fb3433f6491e57dc6e330ef5",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 96,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fb3433f6491e57dc6e330ef5",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 96,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:c98f2bf86efcec6b7a007997",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 92,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:c98f2bf86efcec6b7a007997",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 81,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7a7917f5be3f1576b6f77a65",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:7a7917f5be3f1576b6f77a65",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 70,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:59439c1317770551a51f3fd4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 64,
+        "inferredEventCount": 91
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:59439c1317770551a51f3fd4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 62,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:de522493110cf39dd218a8f0",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:de522493110cf39dd218a8f0",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 95,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:68511edd6a7214660ce4c4d3",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 71,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:68511edd6a7214660ce4c4d3",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 76,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0bf6f0447d8e60a34e3d1230",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 73,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0bf6f0447d8e60a34e3d1230",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 103,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fb4665fd80b60b45456a57c2",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 62,
+        "inferredEventCount": 87
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fb4665fd80b60b45456a57c2",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 68,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0cee5d0155a75a82022d88f4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 66,
+        "inferredEventCount": 87
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:0cee5d0155a75a82022d88f4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 67,
+        "inferredEventCount": 88
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:29a7cb847fd771da1da7f2ed",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 84,
+        "inferredEventCount": 91
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:29a7cb847fd771da1da7f2ed",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 88,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fe5a5758a49ad028f1c0f6d1",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 59,
+        "inferredEventCount": 84
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fe5a5758a49ad028f1c0f6d1",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 52,
+        "inferredEventCount": 76
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f8173b3011b0e6dddc98743f",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 86,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:f8173b3011b0e6dddc98743f",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 79,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fc651f5938660b2a4004c901",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 96,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:fc651f5938660b2a4004c901",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 109,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:39350588a07a73443962be9a",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 84,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:39350588a07a73443962be9a",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 58,
+        "inferredEventCount": 89
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:5872ad619343a0307bb75c30",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 94,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:5872ad619343a0307bb75c30",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:01f47f8f63c14181c75b6413",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 78,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:01f47f8f63c14181c75b6413",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 74,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a416ed57baec0ccad9ff98f0",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 94,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a416ed57baec0ccad9ff98f0",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 70,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:3f74d68a30ec6a0a8cc5171a",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 104
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:3f74d68a30ec6a0a8cc5171a",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 85,
+        "inferredEventCount": 89
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:d854316811eba69d1abff910",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 67,
+        "inferredEventCount": 84
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:d854316811eba69d1abff910",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 67,
+        "inferredEventCount": 84
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a9422d81d1c3d70b93133628",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 69,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:a9422d81d1c3d70b93133628",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 78,
+        "inferredEventCount": 94
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:80b0573b12b5fc83749fc8a9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 87,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-play-weight-20260928:80b0573b12b5fc83749fc8a9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 93,
+        "inferredEventCount": 103
+      }
+    }
+  ]
+}
