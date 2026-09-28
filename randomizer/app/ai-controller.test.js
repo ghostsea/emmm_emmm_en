@@ -16,6 +16,45 @@ const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
 const industryModule = require("../game/industry");
 
+function testCardGraphRanking() {
+  const h = createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: 3,
+    blueResources: { score: 100, credits: 3, energy: 4 },
+    actionGraph: {
+      buildActionGraph: (candidates) => candidates.map((candidate) => ({
+        ...candidate, gain: candidate.score, cost: 0, finalMarginal: 0,
+        goalBonus: candidate.cardId === "route-card" ? 25 : 0,
+        feasibility: 1, net: candidate.score + (candidate.cardId === "route-card" ? 25 : 0),
+        breakdown: { existingScore: candidate.score },
+      })),
+    },
+  });
+  const route = { cardId: "route-card", cardInstanceId: "route-instance", score: 23,
+    available: true, plan: { type: "card-synergy", actionId: "scan" }, valueBreakdown: {} };
+  const resource = { cardId: "resource-card", cardInstanceId: "resource-instance", score: 24,
+    available: true, valueBreakdown: {} };
+  const rejected = { cardId: "unaffordable", cardInstanceId: "unaffordable-instance", score: 999, available: false };
+  const before = JSON.stringify([route, resource, rejected]);
+  const first = h.controller.selectAiPlayCardTurnCandidate([resource, route, rejected], h.blue);
+  assert.equal(first.cardInstanceId, route.cardInstanceId,
+    "a lower raw card must remain selectable when its final graph is better");
+  assert.deepEqual(first.plan, route.plan);
+  assert.equal(first.cardGraphAlternatives.length, 2, "unavailable cards never enter the graph shortlist");
+  const raised = { ...resource, score: 31 };
+  const second = h.controller.selectAiPlayCardTurnCandidate([raised, route], h.blue);
+  assert.equal(second.cardInstanceId, route.cardInstanceId,
+    "raising a competing raw score must not hide the unchanged better graph alternative");
+  const graph = h.controller.buildAiAdjustedTurnGraph([second], h.controller.buildAiTurnGraphState(h.blue), h.blue)[0];
+  assert.equal(graph.actionGraph.net, second.cardGraphAlternatives[0].net,
+    "rerunning the main-action graph must retain the selected card's own nested score");
+  const stronger = h.controller.selectAiPlayCardTurnCandidate([{ ...resource, score: 100 }, route], h.blue);
+  assert.equal(stronger.cardInstanceId, resource.cardInstanceId, "a genuinely higher graph must still win");
+  assert.equal(JSON.stringify([route, resource, rejected]), before, "ranking must not mutate input candidates");
+  assert.equal(h.controller.selectAiPlayCardTurnCandidate([rejected], h.blue).available, false);
+}
+
+testCardGraphRanking();
+
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
   if (!match) return null;

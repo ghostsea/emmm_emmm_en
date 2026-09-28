@@ -9618,6 +9618,10 @@
           ? rawCandidate.takeable
           : null;
       if (!Array.isArray(nested) || !nested.length) return null;
+      if (rawCandidate.id === "playCard" && rawCandidate.cardInstanceId) {
+        const selected = nested.find((candidate) => candidate.cardInstanceId === rawCandidate.cardInstanceId);
+        if (selected) return aiNumber(selected.score);
+      }
       return nested.reduce((best, candidate) => (
         Math.max(best, aiNumber(candidate?.score))
       ), -Infinity);
@@ -23324,6 +23328,63 @@
       return result;
     }
 
+    function buildAiPlayCardTurnCandidate(bestPlayCardCandidate, playCardCandidates, currentPlayer) {
+      const bestPlayCardScore = Number(bestPlayCardCandidate?.score || 0);
+      const bestPlayCardBreakdown = bestPlayCardCandidate?.valueBreakdown || {};
+      return {
+        id: "playCard",
+        kind: "main",
+        available: playCardCandidates.length > 0,
+        reason: playCardCandidates.length > 0
+          ? null
+          : "没有资源可支付的普通手牌",
+        playableCards: playCardCandidates,
+        cardId: bestPlayCardCandidate?.cardId || null,
+        cardInstanceId: bestPlayCardCandidate?.cardInstanceId || null,
+        cardLabel: getAiCardDisplayLabel(bestPlayCardCandidate, currentPlayer),
+        plan: bestPlayCardCandidate?.plan || null,
+        effectTypes: bestPlayCardCandidate?.effectTypes || [],
+        finalFormulaDeltas: bestPlayCardCandidate?.finalFormulaDeltas || null,
+        directScoreGain: Math.max(0, aiNumber(bestPlayCardCandidate?.directScoreGain)),
+        finalMarkCashoutIncluded: true,
+        score: applyAiStrategyWeight(bestPlayCardScore, "engine", 0.5),
+        valueBreakdown: {
+          directScoreGain: Math.max(0, aiNumber(bestPlayCardCandidate?.directScoreGain)),
+          c2Type3ProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.c2Type3ProgressValue)),
+          cFinalTaskProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.cFinalTaskProgressValue)),
+          endGameExpectedScore: Math.max(0, aiNumber(bestPlayCardBreakdown.endGameExpectedScore)),
+          playCardConversionPressure: Math.max(0, aiNumber(bestPlayCardBreakdown.playCardConversionPressure)),
+          finalUnreadyTaskSetupSuppressed: Boolean(bestPlayCardBreakdown.finalUnreadyTaskSetupSuppressed),
+        },
+      };
+    }
+
+    function selectAiPlayCardTurnCandidate(playCardCandidates = [], currentPlayer = getCurrentPlayer()) {
+      const legal = playCardCandidates.filter((candidate) => candidate?.available !== false);
+      if (!legal.length) return buildAiPlayCardTurnCandidate(null, [], currentPlayer);
+      // Every legal card reaches the same graph/style valuation as other main actions.
+      // A higher raw score must not hide another card with a better graph value.
+      const graphState = buildAiTurnGraphState(currentPlayer);
+      const alternatives = legal.map((card) => buildAiPlayCardTurnCandidate(card, [card], currentPlayer));
+      const ranked = buildAiAdjustedTurnGraph(alternatives, graphState, currentPlayer)
+        .sort((left, right) => (
+          aiNumber(right.actionGraph?.net ?? right.score) - aiNumber(left.actionGraph?.net ?? left.score)
+          || aiNumber(right.score) - aiNumber(left.score)
+        ));
+      const selected = ranked[0];
+      const card = legal.find((candidate) => candidate.cardInstanceId === selected.cardInstanceId
+        && candidate.cardId === selected.cardId);
+      return {
+        ...buildAiPlayCardTurnCandidate(card, legal, currentPlayer),
+        cardGraphAlternatives: ranked.map((candidate) => ({
+          cardId: candidate.cardId,
+          cardInstanceId: candidate.cardInstanceId,
+          score: candidate.score,
+          net: candidate.actionGraph?.net ?? null,
+        })),
+      };
+    }
+
     function enumerateAiTurnActions() {
       const context = createActionContext();
       const currentPlayer = getCurrentPlayer();
@@ -23618,36 +23679,7 @@
         valueBreakdown: analyzeBreakdown,
       });
       const playCardCandidates = listAiPlayCardCandidates(getCurrentPlayer());
-      const bestPlayCardCandidate = [...playCardCandidates]
-        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null;
-      const bestPlayCardScore = Number(bestPlayCardCandidate?.score || 0);
-      const bestPlayCardBreakdown = bestPlayCardCandidate?.valueBreakdown || {};
-      candidates.push({
-        id: "playCard",
-        kind: "main",
-        available: playCardCandidates.length > 0,
-        reason: playCardCandidates.length > 0
-          ? null
-          : "没有资源可支付的普通手牌",
-        playableCards: playCardCandidates,
-        cardId: bestPlayCardCandidate?.cardId || null,
-        cardInstanceId: bestPlayCardCandidate?.cardInstanceId || null,
-        cardLabel: getAiCardDisplayLabel(bestPlayCardCandidate, currentPlayer),
-        plan: bestPlayCardCandidate?.plan || null,
-        effectTypes: bestPlayCardCandidate?.effectTypes || [],
-        finalFormulaDeltas: bestPlayCardCandidate?.finalFormulaDeltas || null,
-        directScoreGain: Math.max(0, aiNumber(bestPlayCardCandidate?.directScoreGain)),
-        finalMarkCashoutIncluded: true,
-        score: applyAiStrategyWeight(bestPlayCardScore, "engine", 0.5),
-        valueBreakdown: {
-          directScoreGain: Math.max(0, aiNumber(bestPlayCardCandidate?.directScoreGain)),
-          c2Type3ProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.c2Type3ProgressValue)),
-          cFinalTaskProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.cFinalTaskProgressValue)),
-          endGameExpectedScore: Math.max(0, aiNumber(bestPlayCardBreakdown.endGameExpectedScore)),
-          playCardConversionPressure: Math.max(0, aiNumber(bestPlayCardBreakdown.playCardConversionPressure)),
-          finalUnreadyTaskSetupSuppressed: Boolean(bestPlayCardBreakdown.finalUnreadyTaskSetupSuppressed),
-        },
-      });
+      candidates.push(selectAiPlayCardTurnCandidate(playCardCandidates, currentPlayer));
       const scanCandidate = candidates.find((candidate) => candidate?.id === "scan");
       const researchTechCandidate = candidates.find((candidate) => candidate?.id === "researchTech");
       const playCardCandidate = candidates.find((candidate) => candidate?.id === "playCard");
@@ -23854,7 +23886,11 @@
       ));
       if (!playCardCandidate || !passCandidate) return null;
 
-      const bestPlayableCard = playCardCandidate.playableCards
+      const intended = playCardCandidate.cardInstanceId
+        ? playCardCandidate.playableCards.find((candidate) => candidate.available !== false
+          && candidate.cardInstanceId === playCardCandidate.cardInstanceId)
+        : null;
+      const bestPlayableCard = intended || playCardCandidate.playableCards
         .filter((candidate) => candidate?.available !== false)
         .slice()
         .sort((left, right) => aiNumber(right?.score) - aiNumber(left?.score))[0] || null;
@@ -25469,15 +25505,10 @@
       };
     }
 
-    function runAiTurnActionDecision() {
-      const currentPlayer = getCurrentPlayer();
-      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
-        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
-      }
-      const rawCandidates = enumerateAiTurnActions();
+    function buildAiTurnGraphState(currentPlayer = getCurrentPlayer()) {
       const markedFinalFormulas = getAiMarkedFinalFormulaEntries(currentPlayer);
       const traceCompetition = getAiTraceCompetitionState(currentPlayer);
-      const graphState = {
+      return {
         playerState,
         turnState,
         alienGameState,
@@ -25486,6 +25517,11 @@
         aiMarkedFinalFormulas: markedFinalFormulas,
         aiTraceCompetition: traceCompetition,
       };
+    }
+
+    function buildAiAdjustedTurnGraph(rawCandidates, graphState, currentPlayer = getCurrentPlayer()) {
+      const markedFinalFormulas = graphState.aiMarkedFinalFormulas;
+      const traceCompetition = graphState.aiTraceCompetition;
       const graphCandidates = ai?.actionGraph?.buildActionGraph
         ? ai.actionGraph.buildActionGraph(rawCandidates, graphState, currentPlayer?.id, {
           markedFormulas: markedFinalFormulas,
@@ -25493,7 +25529,7 @@
           traceCompetition,
         })
         : null;
-      const graphAdjustedCandidates = Array.isArray(graphCandidates) && graphCandidates.length === rawCandidates.length
+      return Array.isArray(graphCandidates) && graphCandidates.length === rawCandidates.length
         ? graphCandidates.map((candidate, index) => {
           const adjustedCandidate = adjustAiActionGraphCandidateForStyle(
             rawCandidates[index],
@@ -25515,6 +25551,16 @@
           };
         })
         : rawCandidates;
+    }
+
+    function runAiTurnActionDecision() {
+      const currentPlayer = getCurrentPlayer();
+      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
+        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
+      }
+      const rawCandidates = enumerateAiTurnActions();
+      const graphState = buildAiTurnGraphState(currentPlayer);
+      const graphAdjustedCandidates = buildAiAdjustedTurnGraph(rawCandidates, graphState, currentPlayer);
       const candidates = applyAiTurnActionSelectionPressure(graphAdjustedCandidates);
       let selectableCandidates = candidates;
       const rejectedActions = [];
@@ -26833,6 +26879,9 @@
       coalesceAiProbeScanEffects,
       buildAiProbeMoveScanPreview,
       buildAiPlayCardCandidate,
+      selectAiPlayCardTurnCandidate,
+      buildAiTurnGraphState,
+      buildAiAdjustedTurnGraph,
       getAiPlayableProbeScanProfile,
       canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,
