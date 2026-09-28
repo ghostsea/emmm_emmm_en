@@ -1,0 +1,11 @@
+const fs=require('fs'),assert=require('node:assert/strict'),cp=require('child_process'),d='tmp/ai-20260905/';
+const read=side=>JSON.parse(fs.readFileSync(d+'final-return-exact-'+side+'.json')).result.value;
+const a=read('base'),b=read('candidate'),clean=x=>JSON.parse(JSON.stringify(x,(k,v)=>['createdAt','updatedAt','placedAt'].includes(k)&&typeof v==='string'&&/^\d{4}-\d\d-\d\dT/.test(v)?undefined:v));
+assert.deepEqual(clean(a.snapshot.state),clean(b.snapshot.state));
+for(const k of ['before','afterEnergy','after','ready'])assert.deepEqual(a[k],b[k],k);
+assert.equal(a.card.valueBreakdown.finalRoundResourceDrainPenalty,10);assert.equal(b.card.valueBreakdown.finalRoundResourceDrainPenalty,3);assert(Math.abs(b.card.score-a.card.score-7)<1e-6);
+assert.deepEqual(b.card.valueBreakdown.finalCardResourceReturn.afterGuaranteedReturn,{credits:2,energy:1});
+assert.equal(b.afterEnergy.credits,2);assert.equal(b.afterEnergy.energy,1);assert(b.ready.ok);assert.equal(b.randomCalls,0);assert.equal(b.bugs.length,0);
+const negative=cp.spawnSync(process.execPath,[d+'final-return-negative.cjs'],{encoding:'utf8'});fs.writeFileSync(d+'final-return-negative.log',negative.stdout+negative.stderr);assert.notEqual(negative.status,0);assert(negative.stderr.includes('returned energy funds the ready analysis'));
+const report={sameFullState:true,oldPenalty:10,newPenalty:3,oldScore:a.card.score,newScore:b.card.score,actualPayment:3,actualEnergyReturn:1,analysisPayable:b.ready.ok,negativeControlDetected:true,issues:[]};
+fs.writeFileSync(d+'final-return-proof.json',JSON.stringify(report,null,2)+'\n');console.log(report);

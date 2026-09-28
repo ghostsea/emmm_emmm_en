@@ -1,0 +1,27 @@
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: returned energy funds the ready analysis, without claiming scan energy
+
+0 !== 7
+
+    at Object.<anonymous> (D:\code\seti\tmp\ai-20260905\final-resource-return\randomizer\app\ai-controller.test.js:17364:10)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\code\seti\tmp\ai-20260905\final-return-negative.cjs:1:566) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 7,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.0
