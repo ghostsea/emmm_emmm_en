@@ -1,0 +1,346 @@
+{
+  "scope": "Five forced actual runtime pairs: identical player resource/rocket states, payment and outcome/path. Does not prove autonomous selection or whole-game strength. Fourth movement b2-free-move is pre-existing navigation trigger, not DLC20 pool. Candidate preview cannot mutate live player/solar/rocket state; snapshot assertion performed in browser.",
+  "hashes": {
+    "repeat-browser-base.json": "0fa6a1a17c4fc79eaa6f586a026a3af544b1d6c9697c13d8826a54da7a176c40",
+    "repeat-browser.json": "21f8796b8d22a6513dba30acf5b8b5d6418aa1e2fdf044a6ce6bd73c61d057ec",
+    "repeat-page.js": "ce1084d12d1e34315cecd6ff353c36af2c40dd025fa7830b369a1e92b814c21f"
+  },
+  "rows": [
+    {
+      "name": "publicity",
+      "discardCard": "b_2.webp",
+      "before": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 59
+      },
+      "afterPayment": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 59
+      },
+      "after": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 59
+      },
+      "candidatePreview": {
+        "cardId": "b_2.webp",
+        "cardInstanceId": "repeat-discard",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 26.34,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 23.34
+      },
+      "baselineRawScore": null,
+      "candidateRawScore": 37.1835,
+      "moves": [],
+      "bugs": [],
+      "matched": true
+    },
+    {
+      "name": "publicity-cap",
+      "discardCard": "b_2.webp",
+      "before": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 8,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 59
+      },
+      "afterPayment": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 8,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 59
+      },
+      "after": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 10,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 59
+      },
+      "candidatePreview": null,
+      "baselineRawScore": null,
+      "candidateRawScore": null,
+      "moves": [],
+      "bugs": [],
+      "matched": true
+    },
+    {
+      "name": "data-room",
+      "discardCard": "b_3.webp",
+      "before": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 59
+      },
+      "afterPayment": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 59
+      },
+      "after": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 59
+      },
+      "candidatePreview": {
+        "cardId": "b_3.webp",
+        "cardInstanceId": "repeat-discard",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "availableData": 3
+        },
+        "actualGain": {
+          "availableData": 3
+        },
+        "resourceValue": 6.638,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 12.393951359999997,
+        "bestMove": null,
+        "score": -5.755951359999997
+      },
+      "baselineRawScore": null,
+      "candidateRawScore": 7.795048640000003,
+      "moves": [],
+      "bugs": [],
+      "matched": true
+    },
+    {
+      "name": "data-overflow",
+      "discardCard": "b_3.webp",
+      "before": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 59
+      },
+      "afterPayment": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 59
+      },
+      "after": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 6,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 59
+      },
+      "candidatePreview": {
+        "cardId": "b_3.webp",
+        "cardInstanceId": "repeat-discard",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "availableData": 3
+        },
+        "actualGain": {
+          "availableData": 1
+        },
+        "resourceValue": 5.351,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 12.057090359999998,
+        "bestMove": null,
+        "score": -6.706090359999998
+      },
+      "baselineRawScore": null,
+      "candidateRawScore": 6.844909640000003,
+      "moves": [],
+      "bugs": [],
+      "matched": true
+    },
+    {
+      "name": "movement",
+      "discardCard": "b_1.webp",
+      "before": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 59
+      },
+      "afterPayment": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 59
+      },
+      "after": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 8,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 59
+      },
+      "candidatePreview": {
+        "cardId": "b_1.webp",
+        "cardInstanceId": "repeat-discard",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "availableData": 0
+        },
+        "actualGain": {
+          "availableData": 0
+        },
+        "resourceValue": 0,
+        "movementPoints": 3,
+        "movementValue": 17.422014004416006,
+        "opportunityCost": 12.2304423748416,
+        "bestMove": {
+          "rocketId": 116,
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 2
+          },
+          "direction": "cw",
+          "paymentRequired": 0,
+          "score": 28.715586676480008
+        },
+        "score": 5.1915716295744065
+      },
+      "baselineRawScore": null,
+      "candidateRawScore": 18.742571629574407,
+      "moves": [
+        {
+          "id": "dlc20-repeat-corner-move-repeat-discard",
+          "pool": 3,
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 2
+          },
+          "cost": {}
+        },
+        {
+          "id": "dlc20-repeat-corner-move-repeat-discard",
+          "pool": 2,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 1
+          },
+          "cost": {}
+        },
+        {
+          "id": "dlc20-repeat-corner-move-repeat-discard",
+          "pool": 1,
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "to": {
+            "x": 3,
+            "y": 2
+          },
+          "cost": {}
+        },
+        {
+          "id": "b2-free-move",
+          "pool": 1,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 1
+          },
+          "cost": {}
+        }
+      ],
+      "bugs": [],
+      "matched": true
+    }
+  ]
+}
