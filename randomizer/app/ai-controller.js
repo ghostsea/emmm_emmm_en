@@ -18499,29 +18499,70 @@
     }
 
     function canAiGrandStrategyOpenAnalyzeWithProjectedScanData(player = getCurrentPlayer(), effects = null) {
-      if (!player || getAiRoundNumber() !== 1) return false;
-      const industryCard = getAiIndustryCard(player);
-      if (
-        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
-        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
-      ) return false;
-      const requiredComputerCount = Math.max(1, aiNumber(data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6));
-      const placedComputerCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
-      if (placedComputerCount !== requiredComputerCount - 2 || getAiAvailableDataRoom(player) < 2) return false;
-      const scanEffectsList = effects || scanEffects.buildScanEffectQueue(player, {
+      return buildAiScanAnalyzeProjection(player, effects)?.canOpenAnalyze === true;
+    }
+
+    function buildAiScanAnalyzeProjection(player = getCurrentPlayer(), effects = null) {
+      if (!player) return null;
+      const projectedPlayer = structuredClone(player);
+      const cost = scanEffects.getStandardScanCost(projectedPlayer) || {};
+      if (!players.canAfford(projectedPlayer, cost)) return null;
+      const scanEffectsList = effects || scanEffects.buildScanEffectQueue(projectedPlayer, {
         fullScanAction: true,
         turnState,
         roundNumber: turnState.roundNumber,
         turnNumber: turnState.turnNumber,
       });
-      const dataProducingTypes = new Set([
-        scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN,
-        scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN,
-        scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN,
-        scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN,
-        scanEffects.EFFECT_TYPES.HAND_SCAN,
-      ]);
-      return scanEffectsList.filter((effect) => dataProducingTypes.has(effect?.type)).length >= 2;
+      // Use a lower bound over visible legal targets. Merely having two effect
+      // nodes does not imply two data: targets can be full or share their last token.
+      // Optional scans are not prepaid; later rewards are not borrowed as fuel.
+      const previousPossibleHits = new Map();
+      const scans = [];
+      let targetsStable = true;
+      for (const effect of scanEffectsList) {
+        let choices = [];
+        if (effect.type === scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN
+          || effect.type === scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN) {
+          choices = getEarthSectorCoordinate?.() ? getAiSectorScanChoicesForEffect(effect.type, projectedPlayer) : [];
+        } else if (effect.type === scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN) {
+          choices = (cardState.publicCards || []).filter(Boolean).flatMap(card => {
+            const result = getPublicScanChoicesForCard(card);
+            return result?.ok ? result.choices || [] : [];
+          });
+        } else continue;
+        const targets = [...new Set((choices || []).filter(choice => !choice.disabled && choice.nebulaId)
+          .map(choice => choice.nebulaId))];
+        const remaining = targets.map(nebulaId => {
+          const open = (data.listNebulaTokens?.(nebulaDataState, nebulaId) || []).filter(token => !aiTokenHasOwner(token)).length;
+          return Math.max(0, open - (previousPossibleHits.get(nebulaId) || 0));
+        });
+        const guaranteedData = targetsStable && targets.length && remaining.every(count => count > 0) ? 1 : 0;
+        scans.push({ effectType: effect.type, targets, minimumOpen: remaining.length ? Math.min(...remaining) : 0, targetsStable, guaranteedData });
+        // Finishing a sector may reveal an alien and change later choices.
+        // Its current data is known; do not pre-credit subsequent target sets.
+        if (remaining.some(count => count <= 1)) targetsStable = false;
+        for (const nebulaId of targets) previousPossibleHits.set(nebulaId, (previousPossibleHits.get(nebulaId) || 0) + 1);
+      }
+      const guaranteedData = Math.min(getAiAvailableDataRoom(projectedPlayer), scans.reduce((sum, scan) => sum + scan.guaranteedData, 0));
+      const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
+      const occupiedCore = new Set((data.listComputerPlacedTokens?.(projectedPlayer) || []).map(token => Number(token.placementSlot)));
+      const missingCore = Array.from({ length: requiredSlot }, (_, i) => i + 1).filter(slot => !occupiedCore.has(slot)).length;
+      const occupiedBlue = new Set((data.listBlueBonusPlacedTokens?.(projectedPlayer) || []).map(token => Number(token.blueSlot)));
+      // Reserve enough data even if the placement policy takes every remaining
+      // blue reward before filling the core; do not silently count that data twice.
+      const blueSlotsReserved = missingCore > 0 ? [1, 2, 3, 4].filter(slot => (
+        data.getBlueTechTileInBoardSlot?.(projectedPlayer, slot) && !occupiedBlue.has(slot)
+      )) : [];
+      const optionalLaunchEnergy = scanEffectsList.some(effect => effect.type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4)
+        ? Math.max(0, aiNumber(scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY ?? 1)) : 0;
+      const energyAfterScanLowerBound = aiNumber(projectedPlayer.resources?.energy) - aiNumber(cost.energy) - optionalLaunchEnergy;
+      const availableData = Math.max(0, aiNumber(projectedPlayer.resources?.availableData));
+      return {
+        scans, guaranteedData, missingCore, blueSlotsReserved, cost, optionalLaunchEnergy, energyAfterScanLowerBound,
+        canOpenAnalyze: missingCore > 0 && availableData < missingCore + blueSlotsReserved.length
+          && availableData + guaranteedData >= missingCore + blueSlotsReserved.length
+          && energyAfterScanLowerBound >= getAiAnalyzeEnergyCost(projectedPlayer),
+      };
     }
 
     function scoreAiLateScanResourceDrainPenalty(player = getCurrentPlayer()) {
@@ -23557,7 +23598,8 @@
       const rawScanEnergyReservationPenalty = scanCheck.ok
         ? scoreAiScanEnergyReservationPenalty(currentPlayer)
         : 0;
-      const scanProjectedAnalyzeUnlock = canAiGrandStrategyOpenAnalyzeWithProjectedScanData(currentPlayer);
+      const scanAnalyzeProjection = buildAiScanAnalyzeProjection(currentPlayer);
+      const scanProjectedAnalyzeUnlock = scanAnalyzeProjection?.canOpenAnalyze === true;
       const grandStrategyReservedScanAnalyzeUnlock = rawScanEnergyReservationPenalty > 0
         && scanProjectedAnalyzeUnlock;
       const scanEnergyReservationPenalty = grandStrategyReservedScanAnalyzeUnlock
@@ -23607,6 +23649,7 @@
           rawScanEnergyReservationPenalty,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
+          scanAnalyzeProjection,
           analyzeCashoutScore,
           weakFinalAnalyzeEnergyCap,
         },
@@ -26826,6 +26869,7 @@
       applyAiStrategyTuningRecommendation,
       applyAiStrategyWeight,
       canAiGrandStrategyOpenAnalyzeWithProjectedScanData,
+      buildAiScanAnalyzeProjection,
       cardTriggerNeedsFreeMove,
       clearAiStrategyTuningHistory,
       configureAiAutoBattle,

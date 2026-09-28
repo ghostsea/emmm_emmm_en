@@ -1218,6 +1218,9 @@ function makeYichangdianAlienState(options = {}) {
     { type: scanTypes.EARTH_SECTOR_SCAN },
     { type: scanTypes.PUBLIC_CARD_SCAN },
   ];
+  let openTokens = 3;
+  let blueSlots = [];
+  let placedBlue = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 1,
@@ -1225,9 +1228,16 @@ function makeYichangdianAlienState(options = {}) {
       industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
     },
     blueResources: { credits: 2, energy: 4, availableData: 0 },
+    publicCards: [{ id: "visible-scan-card" }],
+    getEarthSectorCoordinate: () => ({ x: 0, y: 1 }),
+    buildSectorScanChoicesForX: () => [{ nebulaId: "sector-1-a" }],
+    getPublicScanChoicesForCard: () => ({ ok: true, choices: [{ nebulaId: "sector-1-a" }] }),
     data: {
       ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
-      listComputerPlacedTokens: () => Array.from({ length: 4 }, (_, index) => ({ index })),
+      listComputerPlacedTokens: () => Array.from({ length: 4 }, (_, index) => ({ placementSlot: index + 1 })),
+      listNebulaTokens: () => Array.from({ length: openTokens }, (_, index) => ({ slotIndex: index + 1 })),
+      listBlueBonusPlacedTokens: () => placedBlue.map(blueSlot => ({ blueSlot })),
+      getBlueTechTileInBoardSlot: (_player, slot) => blueSlots.includes(slot) ? "blue1" : null,
     },
     scanEffects: {
       EFFECT_TYPES: scanTypes,
@@ -1253,16 +1263,39 @@ function makeYichangdianAlienState(options = {}) {
   harness.turnState.roundNumber = 2;
   assert.equal(
     harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
-    false,
-    "the projected analyze correction should stay scoped to the first round",
+    true,
+    "the same executable data route remains valid after the first round",
   );
   harness.turnState.roundNumber = 1;
   harness.blue.initialSelection.industry = { id: "industry:宇宙战略集团", label: "宇宙战略集团" };
   assert.equal(
     harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
-    false,
-    "the projected analyze correction should not alter the ordinary strategy company",
+    true,
+    "ordinary companies can use the same actual data route",
   );
+  const before = JSON.stringify(harness.blue);
+  openTokens = 1;
+  assert.equal(harness.controller.buildAiScanAnalyzeProjection(harness.blue).guaranteedData, 1,
+    "the two scans cannot both collect the shared sector's last token");
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue), false);
+  openTokens = 0;
+  assert.equal(harness.controller.buildAiScanAnalyzeProjection(harness.blue).guaranteedData, 0);
+  openTokens = 3;
+  blueSlots = [2];
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue), false,
+    "reserve data for a blue reward instead of spending it on the core twice");
+  placedBlue = [2];
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue), true);
+  assert.equal(JSON.stringify(harness.blue), before, "projection must not mutate the live player");
+  harness.blue.resources.energy = 2;
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue), false,
+    "scan payment must leave the actual analyze energy cost");
+  harness.blue.resources.energy = 3;
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue), true);
+  scanTypes.SCAN_ACTION_4 = "scan_action_4";
+  assert.equal(harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue,
+    [...projectedScanEffects, { type: scanTypes.SCAN_ACTION_4 }]), false,
+  "optional purple4 launch can consume the last analysis energy");
 }
 
 {
