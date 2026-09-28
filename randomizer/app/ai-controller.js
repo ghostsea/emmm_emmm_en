@@ -1982,6 +1982,22 @@
       return finalizePendingDiscardSelection();
     }
 
+    function getAiFinalIncomeChoiceSettlement(player, gain = {}) {
+      if (!player || getAiRoundNumber() !== FINAL_ROUND_NUMBER || countAiFinalMarksForPlayer(player) < 3) return null;
+      const beforePlayer = cloneAiValue(player);
+      const afterPlayer = cloneAiValue(player);
+      afterPlayer.income = addAiIncomeGain(afterPlayer.income, gain);
+      const before = computePlayerFinalScoreBreakdown(beforePlayer);
+      const after = computePlayerFinalScoreBreakdown(afterPlayer);
+      if (!Number.isFinite(before?.totalScore) || !Number.isFinite(after?.totalScore)) return null;
+      const immediateGain = getAiImmediateIncomeRewardGain(player, gain);
+      return {
+        immediateGain,
+        immediateValue: scoreAiResourceBundle(immediateGain),
+        incomeFinalScoreGain: after.totalScore - before.totalScore,
+      };
+    }
+
     function getAiIncomeDiscardPreview(
       player,
       count,
@@ -1999,9 +2015,10 @@
         .map((card, index) => {
           const gain = incomeGainByIndex[index] || null;
           if (!gain) return null;
-          const incomeScore = scoreAiIncomeOpportunityValue(player, gain);
-          const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(player, gain, incomeFormulaEntries);
-          const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(player, gain);
+          const finalIncomeChoiceSettlement = getAiFinalIncomeChoiceSettlement(player, gain);
+          const incomeScore = finalIncomeChoiceSettlement?.immediateValue ?? scoreAiIncomeOpportunityValue(player, gain);
+          const finalFormulaFit = finalIncomeChoiceSettlement?.incomeFinalScoreGain ?? scoreAiIncomeDiscardFinalFormulaFit(player, gain, incomeFormulaEntries);
+          const routeEnergyFit = finalIncomeChoiceSettlement ? 0 : scoreAiIncomeDiscardRouteEnergyFit(player, gain);
           const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
             player,
             gain,
@@ -2018,6 +2035,7 @@
             cardId: card.cardId || card.id || null,
             cardLabel: getAiCardDisplayLabel({ card, cardId: card.cardId || card.id || null }, player),
             incomeGain: gain,
+            finalIncomeChoiceSettlement,
             incomeScore: roundAiScore(incomeScore),
             finalFormulaFit: roundAiScore(finalFormulaFit),
             routeEnergyFit: roundAiScore(routeEnergyFit),
@@ -2234,9 +2252,10 @@
           if (selectedSet.has(index)) return null;
           const gain = incomeGainByIndex[index] || null;
           if (!gain) return null;
-          const incomeScore = scoreAiIncomeOpportunityValue(simulatedPlayer, gain);
-          const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(simulatedPlayer, gain, incomeFormulaEntries);
-          const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(simulatedPlayer, gain);
+          const finalIncomeChoiceSettlement = getAiFinalIncomeChoiceSettlement(simulatedPlayer, gain);
+          const incomeScore = finalIncomeChoiceSettlement?.immediateValue ?? scoreAiIncomeOpportunityValue(simulatedPlayer, gain);
+          const finalFormulaFit = finalIncomeChoiceSettlement?.incomeFinalScoreGain ?? scoreAiIncomeDiscardFinalFormulaFit(simulatedPlayer, gain, incomeFormulaEntries);
+          const routeEnergyFit = finalIncomeChoiceSettlement ? 0 : scoreAiIncomeDiscardRouteEnergyFit(simulatedPlayer, gain);
           const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
             simulatedPlayer,
             gain,
@@ -26705,6 +26724,7 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      getAiFinalIncomeChoiceSettlement,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,

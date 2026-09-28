@@ -17217,3 +17217,49 @@ for (const roundNumber of [1, 2]) {
     assert.equal(executions[0]?.preserveHandIndex,0,'execution must preserve the card used by the unlock valuation');
   }
 }
+
+
+{
+  const realFinalScoring = require("../game/final-scoring");
+  for (const companyBaseIncome of [
+    { credits: 3, energy: 1, handSize: 1 },
+    { credits: 1, energy: 3, handSize: 2 },
+  ]) for (const variant of [1, 2]) for (const slotIndex of [1, 2, 3]) {
+    const state = realFinalScoring.createFinalScoringState();
+    realFinalScoring.setTileVariants(state, { a: variant });
+    for (const id of ["a", "b", "c"]) state.tiles[id].marks = [{ playerId: "player-blue", slotIndex, threshold: 70 }];
+    const pendingDiscardAction = { type: "initial_income", selectedIndexes: [] };
+    const options = {
+      currentPlayerColor: "blue", roundNumber: 4, pendingDiscardAction, discardCount: 1,
+      blueResources: { credits: 0, energy: 0, handSize: 2, score: 80 },
+      blueCompanyBaseIncome: companyBaseIncome,
+      blueIncome: { credits: companyBaseIncome.credits + 2, energy: companyBaseIncome.energy + 1, handSize: companyBaseIncome.handSize + 2 },
+      blueHand: [{ id: "credit", incomeGain: { credits: 1 } }, { id: "energy", incomeGain: { energy: 1 } }],
+      finalScoringState: state, finalTileVariants: { a: variant },
+      computePlayerFinalScoreBreakdown: (player) => endGameScoring.computePlayerFinalScore({
+        currentPlayer: player, finalScoringState: state,
+        nebulaDataState: { sectorSettlements: { winsByPlayerId: {} }, nebulae: {}, sectorExtraMarks: {} },
+        alienGameState: { aliens: {} }, planetStatsState: { planets: {} }, cardEffects,
+        getPlayerCompanyBaseIncome: () => companyBaseIncome,
+      }),
+    };
+    const harness = createAiControllerHarness(null, options);
+    const before = JSON.stringify(harness.blue);
+    const credit = harness.controller.getAiFinalIncomeChoiceSettlement(harness.blue, { credits: 1 });
+    const energy = harness.controller.getAiFinalIncomeChoiceSettlement(harness.blue, { energy: 1 });
+    const multiplier = (variant === 1 ? [5, 4, 3] : [11, 8, 5])[slotIndex - 1];
+    assert.equal(credit.incomeFinalScoreGain, variant === 1 ? multiplier : 0, "a1 maximum / a2 minimum uses actual slot and excludes company base");
+    assert.equal(energy.incomeFinalScoreGain, variant === 2 ? multiplier : 0, "a2 completed minimum gets exactly the real score multiplier");
+    assert.equal(energy.immediateGain.energy, 1);
+    assert.ok(energy.immediateValue > 0, "last-round income still pays its immediate resource");
+    assert.equal(JSON.stringify(harness.blue), before, "income preview must not mutate player");
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    assert.equal(pendingDiscardAction.selectedIndexes[0], variant === 1 ? 0 : 1, "actual discard selection follows marked income score marginal");
+    harness.blue.income.credits = companyBaseIncome.credits + 1;
+    if (variant === 2) assert.equal(harness.controller.getAiFinalIncomeChoiceSettlement(harness.blue, { energy: 1 }).incomeFinalScoreGain, 0, "lifting only one of two tied minimums is not a final score gain");
+    assert.equal(createAiControllerHarness(null, { ...options, roundNumber: 3 }).controller.getAiFinalIncomeChoiceSettlement(harness.blue, { energy: 1 }), null, "earlier rounds keep existing income planning");
+    state.tiles.c.marks = [];
+    assert.equal(harness.controller.getAiFinalIncomeChoiceSettlement(harness.blue, { energy: 1 }), null, "unclaimed final mark keeps existing planning");
+  }
+}
