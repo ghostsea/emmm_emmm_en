@@ -1,0 +1,3548 @@
+{
+  "version": 1,
+  "meta": {
+    "roundNumber": 3,
+    "turnNumber": 1,
+    "actionCycleNumber": 1,
+    "currentPlayerId": "player-white",
+    "entryId": null,
+    "label": null
+  },
+  "state": {
+    "solarState": {
+      "wheelSteps": [
+        0,
+        -1,
+        -23,
+        -16,
+        -10
+      ],
+      "rotation": {
+        "wheel1Steps": -1,
+        "wheel2Steps": -23,
+        "wheel3Steps": -16,
+        "wheel4Steps": -10,
+        "rotationCount": 0
+      },
+      "sectorBySlot": {
+        "1": 1,
+        "2": 4,
+        "3": 2,
+        "4": 3
+      },
+      "aomomoActive": false
+    },
+    "nebulaDataState": {
+      "nebulae": {
+        "sector-1-a": {
+          "tokens": [
+            {
+              "id": "nebula-data-1",
+              "index": 1,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 1,
+              "percentX": 46.56,
+              "percentY": 60.12,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-2",
+              "index": 2,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 2,
+              "percentX": 53.24,
+              "percentY": 55.62,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-3",
+              "index": 3,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 3,
+              "percentX": 60.44,
+              "percentY": 50.8,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-4",
+              "index": 4,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 4,
+              "percentX": 67.88,
+              "percentY": 47.26,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-5",
+              "index": 5,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 5,
+              "percentX": 75.32,
+              "percentY": 44.69,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        },
+        "sector-1-b": {
+          "tokens": [
+            {
+              "id": "nebula-data-6",
+              "index": 6,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 1,
+              "percentX": 23.36,
+              "percentY": 44.05,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-7",
+              "index": 7,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 2,
+              "percentX": 31.06,
+              "percentY": 46.3,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-8",
+              "index": 8,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 3,
+              "percentX": 38.26,
+              "percentY": 49.83,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-9",
+              "index": 9,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 4,
+              "percentX": 45.7,
+              "percentY": 54.01,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        },
+        "sector-2-a": {
+          "tokens": [
+            {
+              "id": "nebula-data-10",
+              "index": 10,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 1,
+              "percentX": 42.52,
+              "percentY": 62.05,
+              "replacedByPlayerId": "player-blue",
+              "replacedByPlayerColor": "blue",
+              "replacedByPlayerLabel": "蓝色",
+              "playerTokenSrc": "../assets/tokens/normal_token-blue.png",
+              "replacedAt": "2026-09-28T02:37:56.085Z",
+              "replacementOrder": 5
+            },
+            {
+              "id": "nebula-data-11",
+              "index": 11,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 2,
+              "percentX": 48.94,
+              "percentY": 56.92,
+              "replacedByPlayerId": "player-blue",
+              "replacedByPlayerColor": "blue",
+              "replacedByPlayerLabel": "蓝色",
+              "playerTokenSrc": "../assets/tokens/normal_token-blue.png",
+              "replacedAt": "2026-09-28T02:37:56.085Z",
+              "replacementOrder": 6
+            },
+            {
+              "id": "nebula-data-12",
+              "index": 12,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 3,
+              "percentX": 56.38,
+              "percentY": 51.46,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-13",
+              "index": 13,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 4,
+              "percentX": 64.08,
+              "percentY": 47.61,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-14",
+              "index": 14,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 5,
+              "percentX": 71.52,
+              "percentY": 44.4,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-15",
+              "index": 15,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 6,
+              "percentX": 78.96,
+              "percentY": 42.16,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {
+            "blue": 2
+          },
+          "lastReplacedPlayerId": "player-blue",
+          "lastReplacedPlayerColor": "blue",
+          "lastReplacedPlayerLabel": "蓝色"
+        },
+        "sector-2-b": {
+          "tokens": [
+            {
+              "id": "nebula-data-16",
+              "index": 16,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 1,
+              "percentX": 19.54,
+              "percentY": 41.52,
+              "replacedByPlayerId": "player-green",
+              "replacedByPlayerColor": "green",
+              "replacedByPlayerLabel": "绿色",
+              "playerTokenSrc": "../assets/tokens/normal_token-green.png",
+              "replacedAt": "2026-09-28T02:37:56.084Z",
+              "replacementOrder": 3
+            },
+            {
+              "id": "nebula-data-17",
+              "index": 17,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 2,
+              "percentX": 26.98,
+              "percentY": 44.08,
+              "replacedByPlayerId": "player-green",
+              "replacedByPlayerColor": "green",
+              "replacedByPlayerLabel": "绿色",
+              "playerTokenSrc": "../assets/tokens/normal_token-green.png",
+              "replacedAt": "2026-09-28T02:37:56.084Z",
+              "replacementOrder": 4
+            },
+            {
+              "id": "nebula-data-18",
+              "index": 18,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 3,
+              "percentX": 34.42,
+              "percentY": 46.65,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-19",
+              "index": 19,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 4,
+              "percentX": 41.6,
+              "percentY": 50.18,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-20",
+              "index": 20,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 5,
+              "percentX": 48.28,
+              "percentY": 54.35,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {
+            "green": 2
+          },
+          "lastReplacedPlayerId": "player-green",
+          "lastReplacedPlayerColor": "green",
+          "lastReplacedPlayerLabel": "绿色"
+        },
+        "sector-3-a": {
+          "tokens": [
+            {
+              "id": "nebula-data-21",
+              "index": 21,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 1,
+              "percentX": 46.56,
+              "percentY": 58.49,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-22",
+              "index": 22,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 2,
+              "percentX": 53.5,
+              "percentY": 53.67,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-23",
+              "index": 23,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 3,
+              "percentX": 60.68,
+              "percentY": 49.5,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-24",
+              "index": 24,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 4,
+              "percentX": 67.88,
+              "percentY": 46.29,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-25",
+              "index": 25,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 5,
+              "percentX": 75.32,
+              "percentY": 43.71,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        },
+        "sector-3-b": {
+          "tokens": [
+            {
+              "id": "nebula-data-26",
+              "index": 26,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 1,
+              "percentX": 15.38,
+              "percentY": 40.82,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-27",
+              "index": 27,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 2,
+              "percentX": 22.84,
+              "percentY": 42.75,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-28",
+              "index": 28,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 3,
+              "percentX": 30.54,
+              "percentY": 45.32,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-29",
+              "index": 29,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 4,
+              "percentX": 37.48,
+              "percentY": 48.53,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-30",
+              "index": 30,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 5,
+              "percentX": 44.66,
+              "percentY": 52.39,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-31",
+              "index": 31,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 6,
+              "percentX": 51.34,
+              "percentY": 57.21,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        },
+        "sector-4-a": {
+          "tokens": [
+            {
+              "id": "nebula-data-32",
+              "index": 32,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 1,
+              "percentX": 41.98,
+              "percentY": 62.64,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-33",
+              "index": 33,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 2,
+              "percentX": 48.14,
+              "percentY": 57.49,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-34",
+              "index": 34,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 3,
+              "percentX": 55.32,
+              "percentY": 52.68,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-35",
+              "index": 35,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 4,
+              "percentX": 62.52,
+              "percentY": 48.5,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-36",
+              "index": 36,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 5,
+              "percentX": 69.96,
+              "percentY": 45.29,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-37",
+              "index": 37,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 6,
+              "percentX": 77.92,
+              "percentY": 42.72,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        },
+        "sector-4-b": {
+          "tokens": [
+            {
+              "id": "nebula-data-38",
+              "index": 38,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 1,
+              "percentX": 18.5,
+              "percentY": 42.07,
+              "replacedByPlayerId": "player-white",
+              "replacedByPlayerColor": "white",
+              "replacedByPlayerLabel": "白色",
+              "playerTokenSrc": "../assets/tokens/normal_token-white.png",
+              "replacedAt": "2026-09-28T02:37:56.084Z",
+              "replacementOrder": 1
+            },
+            {
+              "id": "nebula-data-39",
+              "index": 39,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 2,
+              "percentX": 26.22,
+              "percentY": 44,
+              "replacedByPlayerId": "player-white",
+              "replacedByPlayerColor": "white",
+              "replacedByPlayerLabel": "白色",
+              "playerTokenSrc": "../assets/tokens/normal_token-white.png",
+              "replacedAt": "2026-09-28T02:37:56.084Z",
+              "replacementOrder": 2
+            },
+            {
+              "id": "nebula-data-40",
+              "index": 40,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 3,
+              "percentX": 34.18,
+              "percentY": 47.21,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-41",
+              "index": 41,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 4,
+              "percentX": 41.62,
+              "percentY": 51.07,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            },
+            {
+              "id": "nebula-data-42",
+              "index": 42,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 5,
+              "percentX": 48.56,
+              "percentY": 55.57,
+              "replacedByPlayerId": null,
+              "replacedByPlayerColor": null,
+              "replacedByPlayerLabel": null,
+              "playerTokenSrc": null,
+              "replacedAt": null,
+              "replacementOrder": null
+            }
+          ],
+          "playerTokenCounts": {
+            "white": 2
+          },
+          "lastReplacedPlayerId": "player-white",
+          "lastReplacedPlayerColor": "white",
+          "lastReplacedPlayerLabel": "白色"
+        },
+        "aomomo": {
+          "tokens": [],
+          "playerTokenCounts": {},
+          "lastReplacedPlayerId": null,
+          "lastReplacedPlayerColor": null,
+          "lastReplacedPlayerLabel": null
+        }
+      },
+      "sectorExtraMarks": {},
+      "sectorSettlements": {
+        "sectors": {},
+        "winsByPlayerId": {}
+      }
+    },
+    "alienGameState": {
+      "revealPoolAlienIds": [
+        "九折",
+        "半人马",
+        "奥陌陌",
+        "异常点",
+        "方舟",
+        "符文族",
+        "虫",
+        "阿米巴"
+      ],
+      "neutralScoreTraceMarks": {},
+      "aliens": {
+        "1": {
+          "revealed": false,
+          "assignedAlienId": null,
+          "alienId": null,
+          "traces": {
+            "yellow": {
+              "firstPlaced": false,
+              "ownerPlayerColor": null,
+              "extraCount": 0,
+              "extraMarkers": []
+            },
+            "pink": {
+              "firstPlaced": false,
+              "ownerPlayerColor": null,
+              "extraCount": 0,
+              "extraMarkers": []
+            },
+            "blue": {
+              "firstPlaced": false,
+              "ownerPlayerColor": null,
+              "extraCount": 0,
+              "extraMarkers": []
+            }
+          }
+        },
+        "2": {
+          "revealed": false,
+          "assignedAlienId": null,
+          "alienId": null,
+          "traces": {
+            "yellow": {
+              "firstPlaced": true,
+              "ownerPlayerColor": "brown",
+              "extraCount": 0,
+              "extraMarkers": [],
+              "neutral": false
+            },
+            "pink": {
+              "firstPlaced": false,
+              "ownerPlayerColor": null,
+              "extraCount": 0,
+              "extraMarkers": []
+            },
+            "blue": {
+              "firstPlaced": false,
+              "ownerPlayerColor": null,
+              "extraCount": 0,
+              "extraMarkers": []
+            }
+          }
+        }
+      },
+      "jiuzhe": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "freeScoreThreshold": null,
+        "paidScoreThreshold": null,
+        "traceSlotsByAlienSlotId": {},
+        "playerCardsById": {},
+        "playerThreatById": {},
+        "playerThreatByColor": {},
+        "cardsDealt": false,
+        "revealInitialized": false
+      },
+      "yichangdian": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "revealEarthX": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "anomalies": [],
+        "nextAnomalySectorX": null,
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "revealInitialized": false
+      },
+      "fangzhou": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "playerCard2ById": {},
+        "unlockCountByPlayerId": {},
+        "card1Deck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "card1Revealed": [],
+        "card1RevealedSinceShuffle": 0,
+        "displayedCard1Index": null,
+        "revealInitialized": false,
+        "pendingRevealBasicRewards": []
+      },
+      "banrenma": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "scoreMarksByPlayerId": {},
+        "bonusSlots": {},
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "nextScoreMarkId": 1,
+        "revealInitialized": false
+      },
+      "chong": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "revealInitialized": false,
+        "fossilsById": {},
+        "planetFossilIds": {
+          "jupiter": [],
+          "saturn": []
+        },
+        "panelFossilSlots": {},
+        "unlockedBluePositions": [
+          7,
+          8,
+          9
+        ],
+        "transportTasksByRocketId": {},
+        "completedTransports": []
+      },
+      "amiba": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "symbolSlots": {},
+        "symbolsById": {},
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "revealInitialized": false
+      },
+      "aomomo": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "orbitMarkers": [],
+        "landingMarkers": [],
+        "nextOrbitSequence": 1,
+        "nextLandingSequence": 1,
+        "revealInitialized": false
+      },
+      "runezu": {
+        "revealedSlotId": null,
+        "revealedByPlayerId": null,
+        "revealedByPlayerColor": null,
+        "traceSlotsByAlienSlotId": {},
+        "nextTraceSequence": 1,
+        "availableSymbols": [],
+        "sourceSymbolSlots": {},
+        "panelSymbolSlots": {},
+        "faceSymbolSlots": {},
+        "displayedCardIndex": null,
+        "cardDeck": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "nextCardSequence": 1,
+        "revealInitialized": false
+      }
+    },
+    "finalScoringState": {
+      "thresholds": [
+        25,
+        50,
+        70
+      ],
+      "tiles": {
+        "a": {
+          "id": "a",
+          "marks": []
+        },
+        "b": {
+          "id": "b",
+          "marks": []
+        },
+        "c": {
+          "id": "c",
+          "marks": []
+        },
+        "d": {
+          "id": "d",
+          "marks": []
+        }
+      },
+      "pendingMarks": [],
+      "tileVariants": {
+        "a": 2,
+        "b": 1,
+        "c": 1,
+        "d": 1
+      }
+    },
+    "playerState": {
+      "players": [
+        {
+          "id": "player-blue",
+          "color": "blue",
+          "colorLabel": "蓝色",
+          "name": "蓝色玩家",
+          "resources": {
+            "credits": 5,
+            "energy": 4,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 6,
+            "score": 6
+          },
+          "income": {
+            "credits": 4,
+            "energy": 3,
+            "handSize": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "additionalPublicScan": 0
+          },
+          "hand": [
+            {
+              "id": "card-1-0",
+              "cardId": "b_9.webp",
+              "set": "basic",
+              "cardName": "阿番西博天文台",
+              "src": "../assets/cards/basic/split/b_9.webp",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 0,
+              "discardActionCode": 0,
+              "scanActionCode": 0,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-3-0",
+              "cardId": "dlc_24.png",
+              "set": "space-agency",
+              "cardName": "太空电梯",
+              "src": "../assets/cards/space-agency/split/dlc_24.png",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 1,
+              "discardActionCode": 0,
+              "scanActionCode": 0,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-57-0",
+              "cardId": "b_56.webp",
+              "set": "basic",
+              "cardName": "离子推迸系统",
+              "src": "../assets/cards/basic/split/b_56.webp",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 0,
+              "discardActionCode": 0,
+              "scanActionCode": 1,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-59-0",
+              "cardId": "b_53.webp",
+              "set": "basic",
+              "cardName": "赫歇尔空间天文台",
+              "src": "../assets/cards/basic/split/b_53.webp",
+              "faceUp": true,
+              "price": 1,
+              "cardTypeCode": 2,
+              "discardActionCode": 2,
+              "scanActionCode": 1,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-60-0",
+              "cardId": "b_1.webp",
+              "set": "basic",
+              "cardName": "观测室女座",
+              "src": "../assets/cards/basic/split/b_1.webp",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 2,
+              "discardActionCode": 2,
+              "scanActionCode": 2,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-61-0",
+              "cardId": "dlc_11.png",
+              "set": "space-agency",
+              "cardName": "八灵神星探测器",
+              "src": "../assets/cards/space-agency/split/dlc_11.png",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 2,
+              "discardActionCode": 1,
+              "scanActionCode": 1,
+              "incomeCode": 2
+            }
+          ],
+          "reservedCards": [],
+          "techState": {
+            "ownedTiles": {},
+            "disabledTiles": {},
+            "blueBoardSlots": {}
+          },
+          "scoreSources": {
+            "initialScore": 4,
+            "scanScore": 2
+          },
+          "orbitCount": 1,
+          "completedTaskCount": 0,
+          "industryRoundMarkRound": 0,
+          "industryRoundMarkTurn": 0,
+          "industryBorrowedTechTileId": null,
+          "industryBorrowedTechRound": 0,
+          "industryBorrowedTechTurn": 0,
+          "industrySentinelArmedRound": 0,
+          "industrySentinelArmedTurn": 0,
+          "industryPlayedCardThisRound": false,
+          "industryLastPlayedCardThisRound": null,
+          "industryPlayedCardRound": 0,
+          "industryPlayedCardTurn": 0,
+          "industryHuanyuFreeMoveRound": 0,
+          "industryHuanyuFreeMoveTurn": 0,
+          "industryHuanyuFreeMovesLeft": 0,
+          "industryHuanyuMovedRocketIds": [],
+          "industryStrategyPlayInteractionRound": 0,
+          "industryStrategyPlayScanCode": null,
+          "industryStrategyPlayInteractionPending": false,
+          "dataState": {
+            "poolTokens": [
+              {
+                "id": "data-token-6",
+                "index": 1,
+                "slotIndex": 1,
+                "percentX": 17.74,
+                "percentY": 66.08
+              },
+              {
+                "id": "data-token-7",
+                "index": 2,
+                "slotIndex": 2,
+                "percentX": 21.77,
+                "percentY": 66.08
+              }
+            ],
+            "placedTokens": [],
+            "discardedCount": 0
+          },
+          "initialSelection": {
+            "industry": {
+              "id": "industry:作弊实验室",
+              "kind": "industry",
+              "label": "作弊实验室",
+              "src": "../assets/industry/异星实验室.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "removedInitialCards": [
+              {
+                "id": "initial:9",
+                "kind": "initial",
+                "label": "初始牌 9",
+                "src": "../assets/initial_card/split/9.png",
+                "width": 744,
+                "height": 1039
+              },
+              {
+                "id": "initial:1",
+                "kind": "initial",
+                "label": "初始牌 1",
+                "src": "../assets/initial_card/split/1.png",
+                "width": 744,
+                "height": 1039
+              }
+            ]
+          },
+          "aiDifficulty": "laughable",
+          "aiDifficultyLabel": "令人发笑的",
+          "industryFutureSpan": {
+            "card": null,
+            "targetScore": 0,
+            "playing": false
+          },
+          "runezuSymbols": {
+            "symbol_1": 0,
+            "symbol_2": 0,
+            "symbol_3": 0,
+            "symbol_4": 0,
+            "symbol_5": 0,
+            "symbol_6": 0,
+            "symbol_7": 0
+          },
+          "aiStyle": "scanner",
+          "openingPlan": {
+            "score": 111.5,
+            "goals": {
+              "FIRST_ROUND_SCORE_25": 1,
+              "GRAB_TRACE_PINK": 2,
+              "GRAB_TRACE_BLUE": 0.7,
+              "GRAB_TRACE_YELLOW": 0.35,
+              "OPENING_INCOME": 5.25
+            },
+            "summary": {
+              "resourceScore": 0,
+              "immediatePublicity": 1,
+              "credits": 3,
+              "energy": 2,
+              "hand": 6,
+              "data": 0,
+              "baseIncomeCredits": 2,
+              "baseIncomeEnergy": 1,
+              "baseIncomeHand": 1,
+              "baseIncomeData": 0,
+              "scan": 2,
+              "incomeIncreases": 4,
+              "traces": 0,
+              "orbits": 1,
+              "rawValue": 76,
+              "huanyuUnsupportedSecondOrbitPenalty": 0,
+              "longTermCredits": 5
+            },
+            "topPlans": [
+              {
+                "score": 111.5,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  9,
+                  1
+                ],
+                "summary": {
+                  "resourceScore": 0,
+                  "immediatePublicity": 1,
+                  "credits": 3,
+                  "energy": 2,
+                  "hand": 6,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 76,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 5.25
+                }
+              },
+              {
+                "score": 110.15,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  9,
+                  14
+                ],
+                "summary": {
+                  "resourceScore": 3,
+                  "immediatePublicity": 1,
+                  "credits": 3,
+                  "energy": 3,
+                  "hand": 7,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 0,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 85,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 5.25
+                }
+              },
+              {
+                "score": 107.65,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  1,
+                  14
+                ],
+                "summary": {
+                  "resourceScore": 3,
+                  "immediatePublicity": 1,
+                  "credits": 3,
+                  "energy": 3,
+                  "hand": 6,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 0,
+                  "rawValue": 76,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "OPENING_INCOME": 5.25
+                }
+              }
+            ],
+            "forcedIndustryLabel": "作弊实验室",
+            "aiStyle": "scanner",
+            "aiDifficulty": "laughable",
+            "aiDifficultyLabel": "令人发笑的"
+          },
+          "industryAlienLabPanels": {
+            "blue": true,
+            "yellow": true,
+            "pink": true
+          },
+          "industryAlienLabInitialized": true,
+          "industryCheatLabRoundStartRound": 1
+        },
+        {
+          "id": "player-green",
+          "color": "green",
+          "colorLabel": "绿色",
+          "name": "绿色玩家",
+          "resources": {
+            "credits": 5,
+            "energy": 4,
+            "publicity": 2,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 6,
+            "score": 8
+          },
+          "income": {
+            "credits": 4,
+            "energy": 2,
+            "handSize": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "additionalPublicScan": 0
+          },
+          "hand": [
+            {
+              "id": "card-8-0",
+              "cardId": "b_105.webp",
+              "set": "basic",
+              "cardName": "罗盎塔号探测器",
+              "src": "../assets/cards/basic/split/b_105.webp",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 2,
+              "discardActionCode": 0,
+              "scanActionCode": 2,
+              "incomeCode": 1
+            },
+            {
+              "id": "card-53-0",
+              "cardId": "b_97.webp",
+              "set": "basic",
+              "cardName": "科学普及",
+              "src": "../assets/cards/basic/split/b_97.webp",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 1,
+              "discardActionCode": 1,
+              "scanActionCode": 1,
+              "incomeCode": 0
+            },
+            {
+              "id": "card-54-0",
+              "cardId": "dlc_8.png",
+              "set": "space-agency",
+              "cardName": "量子数据存储",
+              "src": "../assets/cards/space-agency/split/dlc_8.png",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 3,
+              "discardActionCode": 0,
+              "scanActionCode": 0,
+              "incomeCode": 1
+            },
+            {
+              "id": "card-55-0",
+              "cardId": "dlc_10.png",
+              "set": "space-agency",
+              "cardName": "太空第一人",
+              "src": "../assets/cards/space-agency/split/dlc_10.png",
+              "faceUp": true,
+              "price": 4,
+              "cardTypeCode": 3,
+              "discardActionCode": 2,
+              "scanActionCode": 1,
+              "incomeCode": 1
+            },
+            {
+              "id": "card-56-0",
+              "cardId": "b_37.webp",
+              "set": "basic",
+              "cardName": "猎鹰虿型运戟火箭",
+              "src": "../assets/cards/basic/split/b_37.webp",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 0,
+              "discardActionCode": 2,
+              "scanActionCode": 0,
+              "incomeCode": 0
+            },
+            {
+              "id": "card-65-0",
+              "cardId": "dlc_18.png",
+              "set": "space-agency",
+              "cardName": "合同研究",
+              "src": "../assets/cards/space-agency/split/dlc_18.png",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 0,
+              "discardActionCode": 1,
+              "scanActionCode": 1,
+              "incomeCode": 0
+            }
+          ],
+          "reservedCards": [],
+          "techState": {
+            "ownedTiles": {},
+            "disabledTiles": {},
+            "blueBoardSlots": {}
+          },
+          "scoreSources": {
+            "initialScore": 6,
+            "scanScore": 2
+          },
+          "orbitCount": 1,
+          "completedTaskCount": 0,
+          "industryRoundMarkRound": 0,
+          "industryRoundMarkTurn": 0,
+          "industryBorrowedTechTileId": null,
+          "industryBorrowedTechRound": 0,
+          "industryBorrowedTechTurn": 0,
+          "industrySentinelArmedRound": 0,
+          "industrySentinelArmedTurn": 0,
+          "industryPlayedCardThisRound": false,
+          "industryLastPlayedCardThisRound": null,
+          "industryPlayedCardRound": 0,
+          "industryPlayedCardTurn": 0,
+          "industryHuanyuFreeMoveRound": 0,
+          "industryHuanyuFreeMoveTurn": 0,
+          "industryHuanyuFreeMovesLeft": 0,
+          "industryHuanyuMovedRocketIds": [],
+          "industryStrategyPlayInteractionRound": 0,
+          "industryStrategyPlayScanCode": null,
+          "industryStrategyPlayInteractionPending": false,
+          "dataState": {
+            "poolTokens": [
+              {
+                "id": "data-token-4",
+                "index": 1,
+                "slotIndex": 1,
+                "percentX": 17.74,
+                "percentY": 66.08
+              },
+              {
+                "id": "data-token-5",
+                "index": 2,
+                "slotIndex": 2,
+                "percentX": 21.77,
+                "percentY": 66.08
+              }
+            ],
+            "placedTokens": [],
+            "discardedCount": 0
+          },
+          "initialSelection": {
+            "industry": {
+              "id": "industry:作弊实验室",
+              "kind": "industry",
+              "label": "作弊实验室",
+              "src": "../assets/industry/异星实验室.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "removedInitialCards": [
+              {
+                "id": "initial:4",
+                "kind": "initial",
+                "label": "初始牌 4",
+                "src": "../assets/initial_card/split/4.png",
+                "width": 744,
+                "height": 1039
+              },
+              {
+                "id": "initial:12",
+                "kind": "initial",
+                "label": "初始牌 12",
+                "src": "../assets/initial_card/split/12.png",
+                "width": 744,
+                "height": 1039
+              }
+            ]
+          },
+          "aiDifficulty": "laughable",
+          "aiDifficultyLabel": "令人发笑的",
+          "industryFutureSpan": {
+            "card": null,
+            "targetScore": 0,
+            "playing": false
+          },
+          "runezuSymbols": {
+            "symbol_1": 0,
+            "symbol_2": 0,
+            "symbol_3": 0,
+            "symbol_4": 0,
+            "symbol_5": 0,
+            "symbol_6": 0,
+            "symbol_7": 0
+          },
+          "aiStyle": "scanner",
+          "openingPlan": {
+            "score": 111.15,
+            "goals": {
+              "FIRST_ROUND_SCORE_25": 1,
+              "GRAB_TRACE_PINK": 2,
+              "GRAB_TRACE_BLUE": 0.7,
+              "GRAB_TRACE_YELLOW": 0.35,
+              "OPENING_INCOME": 5.25
+            },
+            "summary": {
+              "resourceScore": 3,
+              "immediatePublicity": 2,
+              "credits": 3,
+              "energy": 3,
+              "hand": 5,
+              "data": 0,
+              "baseIncomeCredits": 2,
+              "baseIncomeEnergy": 1,
+              "baseIncomeHand": 1,
+              "baseIncomeData": 0,
+              "scan": 2,
+              "incomeIncreases": 4,
+              "traces": 0,
+              "orbits": 1,
+              "rawValue": 74,
+              "huanyuUnsupportedSecondOrbitPenalty": 0,
+              "longTermCredits": 5
+            },
+            "topPlans": [
+              {
+                "score": 111.15,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  4,
+                  12
+                ],
+                "summary": {
+                  "resourceScore": 3,
+                  "immediatePublicity": 2,
+                  "credits": 3,
+                  "energy": 3,
+                  "hand": 5,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 74,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 5.25
+                }
+              },
+              {
+                "score": 109.8,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  4,
+                  2
+                ],
+                "summary": {
+                  "resourceScore": 6,
+                  "immediatePublicity": 2,
+                  "credits": 4,
+                  "energy": 3,
+                  "hand": 6,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 0,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 83,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 6
+                },
+                "goals": {
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 5.5
+                }
+              },
+              {
+                "score": 107.65,
+                "industryLabel": "作弊实验室",
+                "initialNumbers": [
+                  2,
+                  12
+                ],
+                "summary": {
+                  "resourceScore": 3,
+                  "immediatePublicity": 1,
+                  "credits": 4,
+                  "energy": 2,
+                  "hand": 6,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 4,
+                  "traces": 0,
+                  "orbits": 0,
+                  "rawValue": 76,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 6
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "OPENING_INCOME": 5.5
+                }
+              }
+            ],
+            "forcedIndustryLabel": "作弊实验室",
+            "aiStyle": "scanner",
+            "aiDifficulty": "laughable",
+            "aiDifficultyLabel": "令人发笑的"
+          },
+          "industryAlienLabPanels": {
+            "blue": true,
+            "yellow": true,
+            "pink": true
+          },
+          "industryAlienLabInitialized": true,
+          "industryCheatLabRoundStartRound": 1
+        },
+        {
+          "id": "player-brown",
+          "color": "brown",
+          "colorLabel": "棕色",
+          "name": "棕色玩家",
+          "resources": {
+            "credits": 6,
+            "energy": 5,
+            "publicity": 7,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 7
+          },
+          "income": {
+            "credits": 2,
+            "energy": 3,
+            "handSize": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "additionalPublicScan": 0
+          },
+          "hand": [
+            {
+              "id": "card-9-0",
+              "cardId": "b_76.webp",
+              "set": "basic",
+              "cardName": "飞掠水星",
+              "src": "../assets/cards/basic/split/b_76.webp",
+              "faceUp": true,
+              "price": 1,
+              "cardTypeCode": 0,
+              "discardActionCode": 0,
+              "scanActionCode": 1,
+              "incomeCode": 1
+            },
+            {
+              "id": "card-11-0",
+              "cardId": "dlc_38.png",
+              "set": "space-agency",
+              "cardName": "太空交会",
+              "src": "../assets/cards/space-agency/split/dlc_38.png",
+              "faceUp": true,
+              "price": 1,
+              "cardTypeCode": 0,
+              "discardActionCode": 1,
+              "scanActionCode": 0,
+              "incomeCode": 1
+            },
+            {
+              "id": "card-50-0",
+              "cardId": "b_125.webp",
+              "set": "basic",
+              "cardName": "轨遒修正",
+              "src": "../assets/cards/basic/split/b_125.webp",
+              "faceUp": true,
+              "price": 1,
+              "cardTypeCode": 0,
+              "discardActionCode": 1,
+              "scanActionCode": 2,
+              "incomeCode": 2
+            },
+            {
+              "id": "card-64-0",
+              "cardId": "b_113.webp",
+              "set": "basic",
+              "cardName": "夏洛克光谱仪",
+              "src": "../assets/cards/basic/split/b_113.webp",
+              "faceUp": true,
+              "price": 3,
+              "cardTypeCode": 3,
+              "discardActionCode": 2,
+              "scanActionCode": 2,
+              "incomeCode": 1
+            }
+          ],
+          "reservedCards": [],
+          "techState": {
+            "ownedTiles": {},
+            "disabledTiles": {},
+            "blueBoardSlots": {}
+          },
+          "scoreSources": {
+            "initialScore": 4,
+            "alienTraceYellowScore": 3
+          },
+          "orbitCount": 1,
+          "completedTaskCount": 0,
+          "industryRoundMarkRound": 0,
+          "industryRoundMarkTurn": 0,
+          "industryBorrowedTechTileId": null,
+          "industryBorrowedTechRound": 0,
+          "industryBorrowedTechTurn": 0,
+          "industrySentinelArmedRound": 0,
+          "industrySentinelArmedTurn": 0,
+          "industryPlayedCardThisRound": false,
+          "industryLastPlayedCardThisRound": null,
+          "industryPlayedCardRound": 0,
+          "industryPlayedCardTurn": 0,
+          "industryHuanyuFreeMoveRound": 0,
+          "industryHuanyuFreeMoveTurn": 0,
+          "industryHuanyuFreeMovesLeft": 0,
+          "industryHuanyuMovedRocketIds": [],
+          "industryStrategyPlayInteractionRound": 0,
+          "industryStrategyPlayScanCode": null,
+          "industryStrategyPlayInteractionPending": false,
+          "dataState": {
+            "poolTokens": [],
+            "placedTokens": [],
+            "discardedCount": 0
+          },
+          "initialSelection": {
+            "industry": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "removedInitialCards": [
+              {
+                "id": "initial:8",
+                "kind": "initial",
+                "label": "初始牌 8",
+                "src": "../assets/initial_card/split/8.png",
+                "width": 744,
+                "height": 1039
+              },
+              {
+                "id": "initial:10",
+                "kind": "initial",
+                "label": "初始牌 10",
+                "src": "../assets/initial_card/split/10.png",
+                "width": 744,
+                "height": 1039
+              }
+            ]
+          },
+          "aiDifficulty": "laughable",
+          "aiDifficultyLabel": "令人发笑的",
+          "industryFutureSpan": {
+            "card": null,
+            "targetScore": 0,
+            "playing": false
+          },
+          "runezuSymbols": {
+            "symbol_1": 0,
+            "symbol_2": 0,
+            "symbol_3": 0,
+            "symbol_4": 0,
+            "symbol_5": 0,
+            "symbol_6": 0,
+            "symbol_7": 0
+          },
+          "aiStyle": "task",
+          "openingPlan": {
+            "score": 112.6,
+            "goals": {
+              "FIRST_ROUND_SCORE_25": 1,
+              "GRAB_TRACE_YELLOW": 1.35,
+              "OPENING_INCOME": 5
+            },
+            "summary": {
+              "resourceScore": 2,
+              "immediatePublicity": 6,
+              "credits": 6,
+              "energy": 3,
+              "hand": 2,
+              "data": 0,
+              "baseIncomeCredits": 2,
+              "baseIncomeEnergy": 1,
+              "baseIncomeHand": 1,
+              "baseIncomeData": 0,
+              "scan": 0,
+              "incomeIncreases": 3,
+              "traces": 1,
+              "orbits": 1,
+              "rawValue": 77,
+              "huanyuUnsupportedSecondOrbitPenalty": 0,
+              "longTermCredits": 8
+            },
+            "topPlans": [
+              {
+                "score": 112.6,
+                "industryLabel": "宇宙大战略集团",
+                "initialNumbers": [
+                  8,
+                  10
+                ],
+                "summary": {
+                  "resourceScore": 2,
+                  "immediatePublicity": 6,
+                  "credits": 6,
+                  "energy": 3,
+                  "hand": 2,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 0,
+                  "incomeIncreases": 3,
+                  "traces": 1,
+                  "orbits": 1,
+                  "rawValue": 77,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 8
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_YELLOW": 1.35,
+                  "OPENING_INCOME": 5
+                }
+              },
+              {
+                "score": 111.6,
+                "industryLabel": "宇宙大战略集团",
+                "initialNumbers": [
+                  17,
+                  8
+                ],
+                "summary": {
+                  "resourceScore": 2,
+                  "immediatePublicity": 6,
+                  "credits": 6,
+                  "energy": 3,
+                  "hand": 2,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 3,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 77,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 8
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 5
+                }
+              },
+              {
+                "score": 109,
+                "industryLabel": "宇宙大战略集团",
+                "initialNumbers": [
+                  17,
+                  10
+                ],
+                "summary": {
+                  "resourceScore": 0,
+                  "immediatePublicity": 5,
+                  "credits": 4,
+                  "energy": 3,
+                  "hand": 2,
+                  "data": 0,
+                  "baseIncomeCredits": 2,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 3,
+                  "traces": 1,
+                  "orbits": 0,
+                  "rawValue": 68,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 6
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 0.7,
+                  "GRAB_TRACE_YELLOW": 1,
+                  "OPENING_INCOME": 4.5
+                }
+              }
+            ],
+            "forcedIndustryLabel": "宇宙大战略集团",
+            "aiStyle": "task",
+            "aiDifficulty": "laughable",
+            "aiDifficultyLabel": "令人发笑的"
+          },
+          "industryStrategyPassiveSlots": {
+            "yellow": false,
+            "red": false,
+            "blue": false
+          },
+          "industryAlienLabPanels": {
+            "blue": true,
+            "yellow": true,
+            "pink": true
+          },
+          "industryStrategyPassiveInitialized": true,
+          "industryGrandStrategyRoundStartRound": 1
+        },
+        {
+          "id": "player-white",
+          "color": "white",
+          "colorLabel": "白色",
+          "name": "白色玩家",
+          "resources": {
+            "credits": 2,
+            "energy": 6,
+            "publicity": 5,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 59
+          },
+          "income": {
+            "credits": 4,
+            "energy": 1,
+            "handSize": 2,
+            "publicity": 0,
+            "availableData": 1,
+            "additionalPublicScan": 0
+          },
+          "hand": [
+            {
+              "id": "card-66-0",
+              "cardId": "b_74.webp",
+              "set": "basic",
+              "cardName": "火星科学实验室",
+              "src": "../assets/cards/basic/split/b_74.webp",
+              "faceUp": true,
+              "price": 2,
+              "cardTypeCode": 3,
+              "discardActionCode": 2,
+              "scanActionCode": 1,
+              "incomeCode": 0
+            }
+          ],
+          "reservedCards": [],
+          "techState": {
+            "ownedTiles": {},
+            "disabledTiles": {},
+            "blueBoardSlots": {}
+          },
+          "scoreSources": {
+            "initialScore": 1,
+            "scanScore": 2
+          },
+          "orbitCount": 1,
+          "completedTaskCount": 0,
+          "industryRoundMarkRound": 0,
+          "industryRoundMarkTurn": 0,
+          "industryBorrowedTechTileId": null,
+          "industryBorrowedTechRound": 0,
+          "industryBorrowedTechTurn": 0,
+          "industrySentinelArmedRound": 0,
+          "industrySentinelArmedTurn": 0,
+          "industryPlayedCardThisRound": false,
+          "industryLastPlayedCardThisRound": null,
+          "industryPlayedCardRound": 0,
+          "industryPlayedCardTurn": 0,
+          "industryHuanyuFreeMoveRound": 0,
+          "industryHuanyuFreeMoveTurn": 0,
+          "industryHuanyuFreeMovesLeft": 0,
+          "industryHuanyuMovedRocketIds": [],
+          "industryStrategyPlayInteractionRound": 0,
+          "industryStrategyPlayScanCode": null,
+          "industryStrategyPlayInteractionPending": false,
+          "industryFutureSpan": {
+            "card": null,
+            "targetScore": 0,
+            "playing": false
+          },
+          "runezuSymbols": {
+            "symbol_1": 0,
+            "symbol_2": 0,
+            "symbol_3": 0,
+            "symbol_4": 0,
+            "symbol_5": 0,
+            "symbol_6": 0,
+            "symbol_7": 0
+          },
+          "dataState": {
+            "poolTokens": [],
+            "placedTokens": [],
+            "discardedCount": 0
+          },
+          "initialSelection": {
+            "industry": {
+              "id": "industry:宇宙大战略集团",
+              "label": "宇宙大战略集团"
+            },
+            "removedInitialCards": [
+              {
+                "id": "initial:7",
+                "kind": "initial",
+                "label": "初始牌 7",
+                "src": "../assets/initial_card/split/7.png",
+                "width": 744,
+                "height": 1039
+              },
+              {
+                "id": "initial:13",
+                "kind": "initial",
+                "label": "初始牌 13",
+                "src": "../assets/initial_card/split/13.png",
+                "width": 744,
+                "height": 1039
+              }
+            ]
+          },
+          "aiDifficulty": "laughable",
+          "aiDifficultyLabel": "令人发笑的",
+          "aiStyle": "route",
+          "openingPlan": {
+            "score": 99.5,
+            "goals": {
+              "FIRST_ROUND_SCORE_25": 1,
+              "GRAB_TRACE_PINK": 2,
+              "GRAB_TRACE_BLUE": 1.7,
+              "GRAB_TRACE_YELLOW": 0.35,
+              "OPENING_INCOME": 3.25
+            },
+            "summary": {
+              "resourceScore": 0,
+              "immediatePublicity": 3,
+              "credits": 2,
+              "energy": 2,
+              "hand": 0,
+              "data": 1,
+              "baseIncomeCredits": 3,
+              "baseIncomeEnergy": 1,
+              "baseIncomeHand": 1,
+              "baseIncomeData": 0,
+              "scan": 2,
+              "incomeIncreases": 2,
+              "traces": 0,
+              "orbits": 1,
+              "rawValue": 64.5,
+              "huanyuUnsupportedSecondOrbitPenalty": 0,
+              "longTermCredits": 5
+            },
+            "topPlans": [
+              {
+                "score": 99.5,
+                "industryLabel": "寰宇超动力",
+                "initialNumbers": [
+                  7,
+                  13
+                ],
+                "summary": {
+                  "resourceScore": 0,
+                  "immediatePublicity": 3,
+                  "credits": 2,
+                  "energy": 2,
+                  "hand": 0,
+                  "data": 1,
+                  "baseIncomeCredits": 3,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 2,
+                  "incomeIncreases": 2,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 64.5,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 2,
+                  "GRAB_TRACE_BLUE": 1.7,
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 3.25
+                }
+              },
+              {
+                "score": 96.2,
+                "industryLabel": "寰宇超动力",
+                "initialNumbers": [
+                  7,
+                  15
+                ],
+                "summary": {
+                  "resourceScore": 4,
+                  "immediatePublicity": 4,
+                  "credits": 2,
+                  "energy": 2,
+                  "hand": 0,
+                  "data": 1,
+                  "baseIncomeCredits": 3,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 1,
+                  "incomeIncreases": 2,
+                  "traces": 0,
+                  "orbits": 1,
+                  "rawValue": 71,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "GRAB_TRACE_BLUE": 1.35,
+                  "GRAB_TRACE_YELLOW": 0.35,
+                  "OPENING_INCOME": 3.25
+                }
+              },
+              {
+                "score": 94.7,
+                "industryLabel": "寰宇超动力",
+                "initialNumbers": [
+                  13,
+                  15
+                ],
+                "summary": {
+                  "resourceScore": 4,
+                  "immediatePublicity": 4,
+                  "credits": 2,
+                  "energy": 2,
+                  "hand": 0,
+                  "data": 0,
+                  "baseIncomeCredits": 3,
+                  "baseIncomeEnergy": 1,
+                  "baseIncomeHand": 1,
+                  "baseIncomeData": 0,
+                  "scan": 3,
+                  "incomeIncreases": 2,
+                  "traces": 0,
+                  "orbits": 0,
+                  "rawValue": 66.5,
+                  "huanyuUnsupportedSecondOrbitPenalty": 0,
+                  "longTermCredits": 5
+                },
+                "goals": {
+                  "FIRST_ROUND_SCORE_25": 1,
+                  "GRAB_TRACE_PINK": 3,
+                  "GRAB_TRACE_BLUE": 1.0499999999999998,
+                  "OPENING_INCOME": 3.25
+                }
+              }
+            ],
+            "forcedIndustryLabel": "寰宇超动力",
+            "aiStyle": "route",
+            "aiDifficulty": "laughable",
+            "aiDifficultyLabel": "令人发笑的"
+          },
+          "industryHuanyuSuperdriveRoundStartRound": 1,
+          "industryStrategyPassiveSlots": {
+            "yellow": true,
+            "red": true,
+            "blue": true
+          },
+          "industryAlienLabPanels": {
+            "blue": true,
+            "yellow": true,
+            "pink": true
+          },
+          "industryGrandStrategyRoundStartRound": 3
+        }
+      ],
+      "currentPlayerId": "player-white"
+    },
+    "turnState": {
+      "roundNumber": 3,
+      "turnNumber": 1,
+      "actionCycleNumber": 1,
+      "activePlayerCount": 4,
+      "turnOrderPlayerIds": [
+        "player-white",
+        "player-brown",
+        "player-green",
+        "player-blue"
+      ],
+      "activePlayerIds": [
+        "player-white",
+        "player-brown",
+        "player-green",
+        "player-blue"
+      ],
+      "startPlayerId": "player-white",
+      "passedPlayerIds": [],
+      "completedTurnPlayerIds": [],
+      "cardTurnEventBonuses": [],
+      "visitedPlanetsByPlayerId": {},
+      "finalScoreMarkingPlayerId": null,
+      "gameEnded": false,
+      "gameEndReason": null
+    },
+    "rocketState": {
+      "nextRocketId": 7,
+      "activeRocketId": 6,
+      "rockets": [
+        {
+          "id": 1,
+          "playerId": "player-white",
+          "color": "white",
+          "surface": "solar-board",
+          "planetsReference": null,
+          "sectorX": 4,
+          "sectorY": 1,
+          "slotIndex": 4,
+          "radius": 84.68,
+          "angleDegrees": 112.5,
+          "launchGrid": {
+            "x": 4,
+            "y": 1
+          },
+          "launchSectorCoordinate": {
+            "x": 4,
+            "y": 1
+          },
+          "playerSequence": 1
+        },
+        {
+          "id": 2,
+          "playerId": "player-white",
+          "color": "white",
+          "surface": "solar-board",
+          "planetsReference": null,
+          "sectorX": 4,
+          "sectorY": 1,
+          "slotIndex": 0,
+          "radius": 69.42,
+          "angleDegrees": 99.9,
+          "launchGrid": {
+            "x": 4,
+            "y": 1
+          },
+          "launchSectorCoordinate": {
+            "x": 4,
+            "y": 1
+          },
+          "playerSequence": 2
+        },
+        {
+          "id": 3,
+          "playerId": "player-green",
+          "color": "green",
+          "referencePlacement": {
+            "planetId": "venus",
+            "planetName": "金星",
+            "kind": "orbit",
+            "sequence": 1,
+            "angleOffsetDegrees": 0,
+            "center": {
+              "x": 249,
+              "y": 303
+            },
+            "x": 155.33,
+            "y": 207.96,
+            "isPlanetMarker": true,
+            "playerId": "player-green",
+            "color": "green",
+            "referenceOffsetTokenWidths": 0
+          },
+          "surface": "planets-reference",
+          "planetsReference": {
+            "x": 155.33,
+            "y": 207.96,
+            "percentX": 9.29,
+            "percentY": 22.1,
+            "width": 1672,
+            "height": 941
+          },
+          "radius": null,
+          "angleDegrees": null,
+          "sectorX": null,
+          "sectorY": null,
+          "slotIndex": null
+        },
+        {
+          "id": 4,
+          "playerId": "player-brown",
+          "color": "brown",
+          "referencePlacement": {
+            "planetId": "mercury",
+            "planetName": "水星",
+            "kind": "orbit",
+            "sequence": 1,
+            "angleOffsetDegrees": 0,
+            "center": {
+              "x": 175,
+              "y": 666
+            },
+            "x": 126.4,
+            "y": 606.66,
+            "isPlanetMarker": true,
+            "playerId": "player-brown",
+            "color": "brown",
+            "referenceOffsetTokenWidths": 0
+          },
+          "surface": "planets-reference",
+          "planetsReference": {
+            "x": 126.4,
+            "y": 606.66,
+            "percentX": 7.56,
+            "percentY": 64.47,
+            "width": 1672,
+            "height": 941
+          },
+          "radius": null,
+          "angleDegrees": null,
+          "sectorX": null,
+          "sectorY": null,
+          "slotIndex": null
+        },
+        {
+          "id": 5,
+          "playerId": "player-blue",
+          "color": "blue",
+          "referencePlacement": {
+            "planetId": "uranus",
+            "planetName": "天王星",
+            "kind": "orbit",
+            "sequence": 1,
+            "angleOffsetDegrees": 0,
+            "center": {
+              "x": 1017,
+              "y": 693
+            },
+            "x": 928.63,
+            "y": 607.89,
+            "isPlanetMarker": true,
+            "playerId": "player-blue",
+            "color": "blue",
+            "referenceOffsetTokenWidths": 0
+          },
+          "surface": "planets-reference",
+          "planetsReference": {
+            "x": 928.63,
+            "y": 607.89,
+            "percentX": 55.54,
+            "percentY": 64.6,
+            "width": 1672,
+            "height": 941
+          },
+          "radius": null,
+          "angleDegrees": null,
+          "sectorX": null,
+          "sectorY": null,
+          "slotIndex": null
+        },
+        {
+          "id": 6,
+          "playerId": "player-white",
+          "color": "white",
+          "referencePlacement": {
+            "planetId": "neptune",
+            "planetName": "海王星",
+            "kind": "orbit",
+            "sequence": 1,
+            "angleOffsetDegrees": 0,
+            "center": {
+              "x": 1407,
+              "y": 692
+            },
+            "x": 1311.68,
+            "y": 607.89,
+            "isPlanetMarker": true,
+            "playerId": "player-white",
+            "color": "white",
+            "referenceOffsetTokenWidths": 0
+          },
+          "surface": "planets-reference",
+          "planetsReference": {
+            "x": 1311.68,
+            "y": 607.89,
+            "percentX": 78.45,
+            "percentY": 64.6,
+            "width": 1672,
+            "height": 941
+          },
+          "radius": null,
+          "angleDegrees": null,
+          "sectorX": null,
+          "sectorY": null,
+          "slotIndex": null
+        }
+      ],
+      "playerRocketSequences": {
+        "player-white": {}
+      },
+      "statusNote": "已取消打牌"
+    },
+    "planetStatsState": {
+      "planets": {
+        "earth": {
+          "orbits": 0,
+          "landings": 0,
+          "orbitMarkers": [],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "mercury": {
+          "orbits": 1,
+          "landings": 0,
+          "orbitMarkers": [
+            {
+              "sequence": 1,
+              "playerId": "player-brown",
+              "color": "brown",
+              "displayed": true,
+              "displaySlot": 1
+            }
+          ],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "venus": {
+          "orbits": 1,
+          "landings": 0,
+          "orbitMarkers": [
+            {
+              "sequence": 1,
+              "playerId": "player-green",
+              "color": "green",
+              "displayed": true,
+              "displaySlot": 1
+            }
+          ],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "mars": {
+          "orbits": 0,
+          "landings": 0,
+          "orbitMarkers": [],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "saturn": {
+          "orbits": 0,
+          "landings": 0,
+          "orbitMarkers": [],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "jupiter": {
+          "orbits": 0,
+          "landings": 0,
+          "orbitMarkers": [],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "aomomo": {
+          "orbits": 0,
+          "landings": 0,
+          "orbitMarkers": [],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "uranus": {
+          "orbits": 1,
+          "landings": 0,
+          "orbitMarkers": [
+            {
+              "sequence": 1,
+              "playerId": "player-blue",
+              "color": "blue",
+              "displayed": true,
+              "displaySlot": 1
+            }
+          ],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        },
+        "neptune": {
+          "orbits": 1,
+          "landings": 0,
+          "orbitMarkers": [
+            {
+              "sequence": 1,
+              "playerId": "player-white",
+              "color": "white",
+              "displayed": true,
+              "displaySlot": 1
+            }
+          ],
+          "landingMarkers": [],
+          "satelliteLandings": []
+        }
+      }
+    },
+    "techGameState": {
+      "board": {
+        "stacks": {
+          "blue1": {
+            "tileId": "blue1",
+            "techType": "blue",
+            "stackIndex": 1,
+            "bonusQueue": [
+              "bonus_3f",
+              "bonus_1p",
+              "bonus_1c",
+              "bonus_1m"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_3f",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "blue2": {
+            "tileId": "blue2",
+            "techType": "blue",
+            "stackIndex": 2,
+            "bonusQueue": [
+              "bonus_3f",
+              "bonus_1m",
+              "bonus_1c",
+              "bonus_1p"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_3f",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "blue3": {
+            "tileId": "blue3",
+            "techType": "blue",
+            "stackIndex": 3,
+            "bonusQueue": [
+              "bonus_1m",
+              "bonus_1c",
+              "bonus_1p",
+              "bonus_3f"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1m",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "blue4": {
+            "tileId": "blue4",
+            "techType": "blue",
+            "stackIndex": 4,
+            "bonusQueue": [
+              "bonus_1c",
+              "bonus_1p",
+              "bonus_3f",
+              "bonus_1m"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1c",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "orange1": {
+            "tileId": "orange1",
+            "techType": "orange",
+            "stackIndex": 1,
+            "bonusQueue": [
+              "bonus_1c",
+              "bonus_1p",
+              "bonus_1m",
+              "bonus_3f"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1c",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "orange2": {
+            "tileId": "orange2",
+            "techType": "orange",
+            "stackIndex": 2,
+            "bonusQueue": [
+              "bonus_1m",
+              "bonus_1p",
+              "bonus_3f",
+              "bonus_1c"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1m",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "orange3": {
+            "tileId": "orange3",
+            "techType": "orange",
+            "stackIndex": 3,
+            "bonusQueue": [
+              "bonus_1m",
+              "bonus_1p",
+              "bonus_1c",
+              "bonus_3f"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1m",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "orange4": {
+            "tileId": "orange4",
+            "techType": "orange",
+            "stackIndex": 4,
+            "bonusQueue": [
+              "bonus_3f",
+              "bonus_1c",
+              "bonus_1p",
+              "bonus_1m"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_3f",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "purple1": {
+            "tileId": "purple1",
+            "techType": "purple",
+            "stackIndex": 1,
+            "bonusQueue": [
+              "bonus_1p",
+              "bonus_1m",
+              "bonus_1c",
+              "bonus_3f"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1p",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "purple2": {
+            "tileId": "purple2",
+            "techType": "purple",
+            "stackIndex": 2,
+            "bonusQueue": [
+              "bonus_3f",
+              "bonus_1c",
+              "bonus_1p",
+              "bonus_1m"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_3f",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "purple3": {
+            "tileId": "purple3",
+            "techType": "purple",
+            "stackIndex": 3,
+            "bonusQueue": [
+              "bonus_1m",
+              "bonus_3f",
+              "bonus_1p",
+              "bonus_1c"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1m",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          },
+          "purple4": {
+            "tileId": "purple4",
+            "techType": "purple",
+            "stackIndex": 4,
+            "bonusQueue": [
+              "bonus_1p",
+              "bonus_1m",
+              "bonus_3f",
+              "bonus_1c"
+            ],
+            "bonusIndex": 0,
+            "bonusId": "bonus_1p",
+            "remaining": 4,
+            "firstTakeClaimedBy": null,
+            "depleted": false
+          }
+        }
+      },
+      "ui": {
+        "cheatModeEnabled": false,
+        "techSelectionActive": false,
+        "allowedTechTypes": null,
+        "pendingTileId": null,
+        "selectedTileId": null,
+        "selectedBlueSlot": null,
+        "statusNote": "",
+        "industryBorrowMode": false
+      }
+    },
+    "cardState": {
+      "publicCards": [
+        {
+          "id": "card-17-0",
+          "cardId": "b_79.webp",
+          "set": "basic",
+          "cardName": "NASA每日-圈",
+          "src": "../assets/cards/basic/split/b_79.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 0,
+          "discardActionCode": 1,
+          "scanActionCode": 2,
+          "incomeCode": 2
+        },
+        {
+          "id": "card-18-0",
+          "cardId": "b_137.webp",
+          "set": "basic",
+          "cardName": "建造叶夫帕托里亚望远锐",
+          "src": "../assets/cards/basic/split/b_137.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 0,
+          "discardActionCode": 2,
+          "scanActionCode": 2,
+          "incomeCode": 2
+        },
+        {
+          "id": "card-19-0",
+          "cardId": "b_31.webp",
+          "set": "basic",
+          "cardName": "建造埃菲尔斯贝格望远锐",
+          "src": "../assets/cards/basic/split/b_31.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 2,
+          "incomeCode": 1
+        }
+      ],
+      "discardPile": [
+        {
+          "id": "card-16-0",
+          "cardId": "b_20.webp",
+          "set": "basic",
+          "cardName": "卡纳维拉尔角太空军基地",
+          "src": "../assets/cards/basic/split/b_20.webp",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 1,
+          "discardActionCode": 0,
+          "scanActionCode": 3,
+          "incomeCode": 2
+        },
+        {
+          "id": "card-13-0",
+          "cardId": "b_102.webp",
+          "set": "basic",
+          "cardName": "观测比邻星",
+          "src": "../assets/cards/basic/split/b_102.webp",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 2,
+          "discardActionCode": 2,
+          "scanActionCode": 0,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-10-0",
+          "cardId": "dlc_9.png",
+          "set": "space-agency",
+          "cardName": "月坑射电望远镜",
+          "src": "../assets/cards/space-agency/split/dlc_9.png",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 2,
+          "discardActionCode": 1,
+          "scanActionCode": 2,
+          "incomeCode": 2
+        },
+        {
+          "id": "card-12-0",
+          "cardId": "b_111.webp",
+          "set": "basic",
+          "cardName": "SETI研究所",
+          "src": "../assets/cards/basic/split/b_111.webp",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 1,
+          "discardActionCode": 1,
+          "scanActionCode": 1,
+          "incomeCode": 1
+        },
+        {
+          "id": "card-51-0",
+          "cardId": "b_104.webp",
+          "set": "basic",
+          "cardName": "罗曼空间望远锐",
+          "src": "../assets/cards/basic/split/b_104.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 2,
+          "discardActionCode": 0,
+          "scanActionCode": 1,
+          "incomeCode": 1
+        },
+        {
+          "id": "card-5-0",
+          "cardId": "dlc_32.png",
+          "set": "space-agency",
+          "cardName": "MUREP创意竞赛",
+          "src": "../assets/cards/space-agency/split/dlc_32.png",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 0,
+          "discardActionCode": 1,
+          "scanActionCode": 1,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-52-0",
+          "cardId": "b_98.webp",
+          "set": "basic",
+          "cardName": "发射前试验",
+          "src": "../assets/cards/basic/split/b_98.webp",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 0,
+          "incomeCode": 2
+        },
+        {
+          "id": "card-6-0",
+          "cardId": "b_95.webp",
+          "set": "basic",
+          "cardName": "行星地质测绘",
+          "src": "../assets/cards/basic/split/b_95.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 2,
+          "discardActionCode": 0,
+          "scanActionCode": 0,
+          "incomeCode": 1
+        },
+        {
+          "id": "card-7-0",
+          "cardId": "b_118.webp",
+          "set": "basic",
+          "cardName": "平方公里阵",
+          "src": "../assets/cards/basic/split/b_118.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 2,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-62-0",
+          "cardId": "b_40.webp",
+          "set": "basic",
+          "cardName": "专项研究",
+          "src": "../assets/cards/basic/split/b_40.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 1,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-4-0",
+          "cardId": "b_22.webp",
+          "set": "basic",
+          "cardName": "钱愆拉空间天文台",
+          "src": "../assets/cards/basic/split/b_22.webp",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 2,
+          "discardActionCode": 2,
+          "scanActionCode": 2,
+          "incomeCode": 1
+        },
+        {
+          "id": "card-2-0",
+          "cardId": "b_99.webp",
+          "set": "basic",
+          "cardName": "新闻发言",
+          "src": "../assets/cards/basic/split/b_99.webp",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 0,
+          "discardActionCode": 1,
+          "scanActionCode": 1,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-58-0",
+          "cardId": "b_94.webp",
+          "set": "basic",
+          "cardName": "行星猎手",
+          "src": "../assets/cards/basic/split/b_94.webp",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 1,
+          "incomeCode": 1
+        }
+      ],
+      "drawPileCardIds": [],
+      "passReservePiles": {
+        "1": [
+          {
+            "id": "card-35-pass-1-1",
+            "cardId": "b_11.webp",
+            "set": "basic",
+            "cardName": "飞掠小行星",
+            "src": "../assets/cards/basic/split/b_11.webp",
+            "faceUp": true,
+            "price": 0,
+            "cardTypeCode": 1,
+            "discardActionCode": 0,
+            "scanActionCode": 1,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-36-pass-1-2",
+            "cardId": "dlc_41.png",
+            "set": "space-agency",
+            "cardName": "系外行星巡天",
+            "src": "../assets/cards/space-agency/split/dlc_41.png",
+            "faceUp": true,
+            "price": 2,
+            "cardTypeCode": 2,
+            "discardActionCode": 2,
+            "scanActionCode": 2,
+            "incomeCode": 1
+          },
+          {
+            "id": "card-37-pass-1-3",
+            "cardId": "b_106.webp",
+            "set": "basic",
+            "cardName": "采样返回",
+            "src": "../assets/cards/basic/split/b_106.webp",
+            "faceUp": true,
+            "price": 1,
+            "cardTypeCode": 0,
+            "discardActionCode": 0,
+            "scanActionCode": 2,
+            "incomeCode": 1
+          },
+          {
+            "id": "card-38-pass-1-4",
+            "cardId": "dlc_35.png",
+            "set": "space-agency",
+            "cardName": "NASA系外行星档案",
+            "src": "../assets/cards/space-agency/split/dlc_35.png",
+            "faceUp": true,
+            "price": 1,
+            "cardTypeCode": 2,
+            "discardActionCode": 0,
+            "scanActionCode": 0,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-39-pass-1-5",
+            "cardId": "b_54.webp",
+            "set": "basic",
+            "cardName": "哈勃空间望远锐",
+            "src": "../assets/cards/basic/split/b_54.webp",
+            "faceUp": true,
+            "price": 1,
+            "cardTypeCode": 0,
+            "discardActionCode": 0,
+            "scanActionCode": 1,
+            "incomeCode": 2
+          }
+        ],
+        "2": [
+          {
+            "id": "card-40-pass-2-1",
+            "cardId": "b_138.webp",
+            "set": "basic",
+            "cardName": "月球门户空间站",
+            "src": "../assets/cards/basic/split/b_138.webp",
+            "faceUp": true,
+            "price": 3,
+            "cardTypeCode": 1,
+            "discardActionCode": 0,
+            "scanActionCode": 1,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-41-pass-2-2",
+            "cardId": "b_109.webp",
+            "set": "basic",
+            "cardName": "科学合作",
+            "src": "../assets/cards/basic/split/b_109.webp",
+            "faceUp": true,
+            "price": 3,
+            "cardTypeCode": 0,
+            "discardActionCode": 1,
+            "scanActionCode": 2,
+            "incomeCode": 1
+          },
+          {
+            "id": "card-42-pass-2-3",
+            "cardId": "b_64.webp",
+            "set": "basic",
+            "cardName": "开普勒空间望远锐",
+            "src": "../assets/cards/basic/split/b_64.webp",
+            "faceUp": true,
+            "price": 2,
+            "cardTypeCode": 0,
+            "discardActionCode": 0,
+            "scanActionCode": 2,
+            "incomeCode": 0
+          },
+          {
+            "id": "card-43-pass-2-4",
+            "cardId": "b_90.webp",
+            "set": "basic",
+            "cardName": "帕克斯天文台",
+            "src": "../assets/cards/basic/split/b_90.webp",
+            "faceUp": true,
+            "price": 2,
+            "cardTypeCode": 0,
+            "discardActionCode": 2,
+            "scanActionCode": 0,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-44-pass-2-5",
+            "cardId": "b_117.webp",
+            "set": "basic",
+            "cardName": "航天飞机",
+            "src": "../assets/cards/basic/split/b_117.webp",
+            "faceUp": true,
+            "price": 3,
+            "cardTypeCode": 2,
+            "discardActionCode": 2,
+            "scanActionCode": 3,
+            "incomeCode": 2
+          }
+        ],
+        "3": [
+          {
+            "id": "card-45-pass-3-1",
+            "cardId": "b_38.webp",
+            "set": "basic",
+            "cardName": "造500米口径球面射电望远锐",
+            "src": "../assets/cards/basic/split/b_38.webp",
+            "faceUp": true,
+            "price": 4,
+            "cardTypeCode": 0,
+            "discardActionCode": 2,
+            "scanActionCode": 3,
+            "incomeCode": 0
+          },
+          {
+            "id": "card-46-pass-3-2",
+            "cardId": "dlc_27.png",
+            "set": "space-agency",
+            "cardName": "更优太阳能板",
+            "src": "../assets/cards/space-agency/split/dlc_27.png",
+            "faceUp": true,
+            "price": 0,
+            "cardTypeCode": 0,
+            "discardActionCode": 0,
+            "scanActionCode": 1,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-47-pass-3-3",
+            "cardId": "b_66.webp",
+            "set": "basic",
+            "cardName": "光帆",
+            "src": "../assets/cards/basic/split/b_66.webp",
+            "faceUp": true,
+            "price": 2,
+            "cardTypeCode": 0,
+            "discardActionCode": 0,
+            "scanActionCode": 1,
+            "incomeCode": 0
+          },
+          {
+            "id": "card-48-pass-3-4",
+            "cardId": "b_80.webp",
+            "set": "basic",
+            "cardName": "NASA研究中心",
+            "src": "../assets/cards/basic/split/b_80.webp",
+            "faceUp": true,
+            "price": 1,
+            "cardTypeCode": 1,
+            "discardActionCode": 2,
+            "scanActionCode": 2,
+            "incomeCode": 2
+          },
+          {
+            "id": "card-49-pass-3-5",
+            "cardId": "b_29.webp",
+            "set": "basic",
+            "cardName": "蜻蜓号",
+            "src": "../assets/cards/basic/split/b_29.webp",
+            "faceUp": true,
+            "price": 1,
+            "cardTypeCode": 0,
+            "discardActionCode": 2,
+            "scanActionCode": 2,
+            "incomeCode": 0
+          }
+        ]
+      },
+      "ui": {
+        "selectionActive": false,
+        "discardSelectionActive": false,
+        "discardRemaining": 0,
+        "playCardSelectionActive": false
+      }
+    },
+    "cardTaskState": {
+      "playerId": "player-white",
+      "readyType2Tasks": [],
+      "readyType2ByCardId": {},
+      "type1ReservedCards": [],
+      "type2ReservedTasks": []
+    },
+    "setupSelectionState": {
+      "phase": "complete",
+      "currentPlayerId": null,
+      "offersByPlayerId": {
+        "player-white": {
+          "playerId": "player-white",
+          "industryOptions": [
+            {
+              "id": "industry:赫利昂联合体.png",
+              "kind": "industry",
+              "label": "赫利昂联合体",
+              "src": "../assets/industry/赫利昂联合体.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:芬威克研究中心.png",
+              "kind": "industry",
+              "label": "芬威克研究中心",
+              "src": "../assets/industry/芬威克研究中心.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:寰宇超动力",
+              "kind": "industry",
+              "label": "寰宇超动力",
+              "src": "../assets/industry/寰宇动力.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            }
+          ],
+          "initialOptions": [
+            {
+              "id": "initial:7",
+              "kind": "initial",
+              "label": "初始牌 7",
+              "src": "../assets/initial_card/split/7.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:13",
+              "kind": "initial",
+              "label": "初始牌 13",
+              "src": "../assets/initial_card/split/13.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:15",
+              "kind": "initial",
+              "label": "初始牌 15",
+              "src": "../assets/initial_card/split/15.png",
+              "width": 744,
+              "height": 1039
+            }
+          ],
+          "selectedIndustryId": "industry:寰宇超动力",
+          "selectedInitialIds": [
+            "initial:7",
+            "initial:13"
+          ],
+          "confirmed": true
+        },
+        "player-brown": {
+          "playerId": "player-brown",
+          "industryOptions": [
+            {
+              "id": "industry:宇宙战略集团.png",
+              "kind": "industry",
+              "label": "宇宙战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:任务中继站.png",
+              "kind": "industry",
+              "label": "任务中继站",
+              "src": "../assets/industry/任务中继站.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            }
+          ],
+          "initialOptions": [
+            {
+              "id": "initial:17",
+              "kind": "initial",
+              "label": "初始牌 17",
+              "src": "../assets/initial_card/split/17.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:8",
+              "kind": "initial",
+              "label": "初始牌 8",
+              "src": "../assets/initial_card/split/8.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:10",
+              "kind": "initial",
+              "label": "初始牌 10",
+              "src": "../assets/initial_card/split/10.png",
+              "width": 744,
+              "height": 1039
+            }
+          ],
+          "selectedIndustryId": "industry:宇宙大战略集团",
+          "selectedInitialIds": [
+            "initial:8",
+            "initial:10"
+          ],
+          "confirmed": true
+        },
+        "player-green": {
+          "playerId": "player-green",
+          "industryOptions": [
+            {
+              "id": "industry:层云核心.png",
+              "kind": "industry",
+              "label": "层云核心",
+              "src": "../assets/industry/层云核心.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:未来跨度研究所.png",
+              "kind": "industry",
+              "label": "未来跨度研究所",
+              "src": "../assets/industry/未来跨度研究所.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:作弊实验室",
+              "kind": "industry",
+              "label": "作弊实验室",
+              "src": "../assets/industry/异星实验室.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            }
+          ],
+          "initialOptions": [
+            {
+              "id": "initial:4",
+              "kind": "initial",
+              "label": "初始牌 4",
+              "src": "../assets/initial_card/split/4.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:2",
+              "kind": "initial",
+              "label": "初始牌 2",
+              "src": "../assets/initial_card/split/2.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:12",
+              "kind": "initial",
+              "label": "初始牌 12",
+              "src": "../assets/initial_card/split/12.png",
+              "width": 744,
+              "height": 1039
+            }
+          ],
+          "selectedIndustryId": "industry:作弊实验室",
+          "selectedInitialIds": [
+            "initial:4",
+            "initial:12"
+          ],
+          "confirmed": true
+        },
+        "player-blue": {
+          "playerId": "player-blue",
+          "industryOptions": [
+            {
+              "id": "industry:异星实验室.png",
+              "kind": "industry",
+              "label": "异星实验室",
+              "src": "../assets/industry/异星实验室.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:星际海盗.png",
+              "kind": "industry",
+              "label": "星际海盗",
+              "src": "../assets/industry/星际海盗.png",
+              "width": 1382,
+              "height": 1054
+            },
+            {
+              "id": "industry:作弊实验室",
+              "kind": "industry",
+              "label": "作弊实验室",
+              "src": "../assets/industry/异星实验室.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            }
+          ],
+          "initialOptions": [
+            {
+              "id": "initial:9",
+              "kind": "initial",
+              "label": "初始牌 9",
+              "src": "../assets/initial_card/split/9.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:1",
+              "kind": "initial",
+              "label": "初始牌 1",
+              "src": "../assets/initial_card/split/1.png",
+              "width": 744,
+              "height": 1039
+            },
+            {
+              "id": "initial:14",
+              "kind": "initial",
+              "label": "初始牌 14",
+              "src": "../assets/initial_card/split/14.png",
+              "width": 744,
+              "height": 1039
+            }
+          ],
+          "selectedIndustryId": "industry:作弊实验室",
+          "selectedInitialIds": [
+            "initial:9",
+            "initial:1"
+          ],
+          "confirmed": true
+        }
+      },
+      "confirmedPlayerIds": [
+        "player-white",
+        "player-brown",
+        "player-green",
+        "player-blue"
+      ]
+    }
+  },
+  "runtime": {
+    "aiControl": {
+      "version": 1,
+      "enabled": true,
+      "playerIds": [
+        "player-white",
+        "player-brown",
+        "player-green",
+        "player-blue"
+      ],
+      "pausedOnBug": false,
+      "lastPausedOnBug": false,
+      "stepDelayMs": 0,
+      "maxBugRepeats": 3,
+      "maxMovesPerTurn": 1,
+      "aiDifficulty": "laughable",
+      "strategyWeights": {
+        "engine": 1.3,
+        "playCard": 1.44,
+        "tech": 1.16,
+        "scan": 1.18,
+        "route": 0.76,
+        "move": 0.74,
+        "orbitLand": 1,
+        "task": 1.24,
+        "final": 1.34,
+        "pass": 0.78
+      }
+    },
+    "random": {
+      "version": 1,
+      "mode": "native",
+      "seed": null,
+      "dateKey": null,
+      "value": 0,
+      "calls": 0
+    },
+    "startScreen": {
+      "aiDifficulty": "laughable",
+      "activePlayerCount": 4,
+      "debugToolsEnabled": false,
+      "actionBriefingEnabled": true,
+      "selectedAlienIds": [
+        "九折",
+        "半人马",
+        "奥陌陌",
+        "异常点",
+        "方舟",
+        "符文族",
+        "虫",
+        "阿米巴"
+      ],
+      "selectedIndustryLabels": [
+        "层云核心",
+        "芬威克研究中心",
+        "赫利昂联合体",
+        "寰宇动力",
+        "任务中继站",
+        "哨兵探测网络",
+        "深空探测",
+        "图灵系统",
+        "未来跨度研究所",
+        "异星实验室",
+        "宇宙战略集团",
+        "原教旨主义",
+        "星际海盗"
+      ],
+      "continueAvailable": false,
+      "entered": false
+    }
+  }
+}
