@@ -1,0 +1,1422 @@
+{
+  "scope": "All64 fresh pairs: unique paid b13 instance, committed marker label, actual selection minimum cost, direct3 score, data capacity and exact physical picked card. Current score-loss correctness separately checked by browser fixtures; future lost-task value is heuristic, not an observed score. No occurrences is not proof of autonomous strength.",
+  "summary": {
+    "pairs": 64,
+    "inputs": 128,
+    "plays": 7,
+    "baselinePlays": 0,
+    "candidatePlays": 7,
+    "issues": []
+  },
+  "inputs": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "markerabsolute64-base-1.json",
+      "sha256": "9e1e6a12b797f89395ad6e74cb88fdeb9a3f8513b33a52c00b7f4023dcfd2ebb",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "markerabsolute64-base-2.json",
+      "sha256": "bec3e2768959cbf0f8567404affa8752d5905ba31bc22542cf2440af934522a6",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "markerabsolute64-base-3.json",
+      "sha256": "4444c7efb4d7d3824269d3c91e18c4ec4d3e2c346803ab220f858139a36e29e0",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "markerabsolute64-base-4.json",
+      "sha256": "09aadd334b115b2fb8acb58be7604a43dcd9817fb2e6813b9b0c827e12624a56",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "markerabsolute64-base-5.json",
+      "sha256": "b9863ce4b374042a88edf8c0d3c8d59b252c83ba9fc18e3a1105fe45abe21258",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "markerabsolute64-base-6.json",
+      "sha256": "d0b5b986a35531c866c7e7f2838d667be3d67d7343fb6ce13d0db072c0f2861d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "markerabsolute64-base-7.json",
+      "sha256": "59717559b3069f3ea67f7ba44fc58613fc664fe5ea353a5cabad33f07a0dad01",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "markerabsolute64-base-8.json",
+      "sha256": "e58252c7597b15057643dd6826f0e54f13a189b1453a49af414c7182800cb5a2",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "markerabsolute64-base-9.json",
+      "sha256": "40d337699f6eef5e9f42c3cb0974c35d3dddfc530734364ec2ea86129f8a5a71",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "markerabsolute64-base-10.json",
+      "sha256": "bb65ec97ddf84e883f83050d87677f3b5e66388dcd61a3d0da7fef60f8e84b53",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "markerabsolute64-base-11.json",
+      "sha256": "7c82e7c8259a98b4c9bf7ad216e6e905eccb74816e6216afbb2619d48e84f156",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "markerabsolute64-base-12.json",
+      "sha256": "6f7a7cc2ba9947afe1b07a72e334790479244513f306d3da995c8ab436064402",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "markerabsolute64-base-13.json",
+      "sha256": "d1567cf9cbd6a74218cd9a9f314fe7593a3e15da56b3cffe5035436c1d7bfa8b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "markerabsolute64-base-14.json",
+      "sha256": "41b3cbdbf5e877568cbf72707204b1c58f99b22b512da2d7a159bed17df82bd4",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "markerabsolute64-base-15.json",
+      "sha256": "a30eac97679608de285491afb05f0c755af3ebd0d4accb1b4b2de4a436dc2036",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "markerabsolute64-base-16.json",
+      "sha256": "b74a8505114693f1419b7fe059ae23d454a2d843b70e5b8c1a5b87871a36a7ff",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "markerabsolute64-base-17.json",
+      "sha256": "b52c676b99212a4a6095c53a12753d07ec51aa18e18d9873debc66494ec87f1e",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "markerabsolute64-base-18.json",
+      "sha256": "bcae74182e8ca199db9ae138d1818bf27c4dd785099c80ef0cd52cc6106beead",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "markerabsolute64-base-19.json",
+      "sha256": "a8fb8d88b1f9a0b9ebe3c64b2767d92404e3bf1c80b76e2883cfc4c34edacc0f",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "markerabsolute64-base-20.json",
+      "sha256": "44d7d628f38b7dd8a86e14facc0358424be739e6b752e43507f3ae707e6d9fcd",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "markerabsolute64-base-21.json",
+      "sha256": "946be38aacff5495d96fbebb637460ef430df54c12f1c0c67c6b389e12a6bf4a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "markerabsolute64-base-22.json",
+      "sha256": "795e125e2d4e5abf0e231aa4225b600e508bb279d8471d1f69c1fcdaeee76c60",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "markerabsolute64-base-23.json",
+      "sha256": "e9c8a1fc4e0f10560d9196c3a2eb93d5c1cf51f85824f89b08dec37d42a25b5f",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "markerabsolute64-base-24.json",
+      "sha256": "c3a8bc9417b485b13808ff7e5c8ea85060d5de769815e99b7bff2d72cb20a20f",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 25,
+      "file": "markerabsolute64-base-25.json",
+      "sha256": "fae6f556d5655ad69ce50073563d520290ab7d26d4cef45fbc4fff798d25a4bc",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 26,
+      "file": "markerabsolute64-base-26.json",
+      "sha256": "a0cd216089c29b087b5909edc7adb01077538e4b09937f4240dc585f208268c2",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 27,
+      "file": "markerabsolute64-base-27.json",
+      "sha256": "2b79763b6440181cabff2c08b75c7884b6804aff1a9c5e4359a9622319283870",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 28,
+      "file": "markerabsolute64-base-28.json",
+      "sha256": "e9f81cbe55c933d922049f6fe6d9ddbfbfaf968625106d54cd35e86756a90d8a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 29,
+      "file": "markerabsolute64-base-29.json",
+      "sha256": "6959da01a42f5725c17de49a076aa93ff021340d772847238803a2c829c5ea67",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 30,
+      "file": "markerabsolute64-base-30.json",
+      "sha256": "5a22084528a01a4f8051358c6d2127b6738ece88966b702f6a398948286e93e1",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 31,
+      "file": "markerabsolute64-base-31.json",
+      "sha256": "4b203df96dbfa38036a9070abc138cabae8e45b20222acbdb5a685a0001a65e2",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 32,
+      "file": "markerabsolute64-base-32.json",
+      "sha256": "9d522f105c7ec81e7d2fa74b3b027f1d555997d22698976aeddc61e16bed6309",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 33,
+      "file": "markerabsolute64-base-33.json",
+      "sha256": "0e7e6527f87f5fd73af1a8af3bad328683719dfd18665da0d76a8055ddfb8a63",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 34,
+      "file": "markerabsolute64-base-34.json",
+      "sha256": "875f22b1b2d44326ae505c0aa3b5592a62d257d71c1e92aaf1368e6b9f0fb2f1",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 35,
+      "file": "markerabsolute64-base-35.json",
+      "sha256": "8baf6365adc5208b22fa947d76f0e3f805bbe770c5df47e13126ac5871224f00",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 36,
+      "file": "markerabsolute64-base-36.json",
+      "sha256": "4003af3ef4fb38d3fc01dd5a8aaafe667132fcacad285cb1086a45775efa0905",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 37,
+      "file": "markerabsolute64-base-37.json",
+      "sha256": "b0f58c755aebb4f0f6d79605d88900750d6e7402581e0d01df64a55754aa7eda",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 38,
+      "file": "markerabsolute64-base-38.json",
+      "sha256": "acf20d31e2f1445ec6402b32a3a37e92485fb2f45934509886adc43740ea9b4e",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 39,
+      "file": "markerabsolute64-base-39.json",
+      "sha256": "64fa8f96846ef4f7bb376907b1d9357e1c7d254002154df91f28ce8316268333",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 40,
+      "file": "markerabsolute64-base-40.json",
+      "sha256": "ee072880bea5f89162c32ec3666ef5c5b05287c31c5338840b73823a5b97bb91",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 41,
+      "file": "markerabsolute64-base-41.json",
+      "sha256": "4311948a4213024d8ca5375b364158b7b02c77ea568e3c8877e8a2f59e2390ff",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 42,
+      "file": "markerabsolute64-base-42.json",
+      "sha256": "a26f92b6a89480eabef52a64bf963a3dcb1cee9aaeb700694844b4e3676a4465",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 43,
+      "file": "markerabsolute64-base-43.json",
+      "sha256": "fab4e1f81576fc0e77297f22a72de776b9cc92cba9050146e30504ee53a7e765",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 44,
+      "file": "markerabsolute64-base-44.json",
+      "sha256": "93f4e502ef9d565ca5050b95e367d404cc8de1c811e526519b22fc4d91fe7d7b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 45,
+      "file": "markerabsolute64-base-45.json",
+      "sha256": "5dcda3bc41a7ae7ad89ba9e1d27f9ff4942c29fc649eb37d9b8401bf4472de2b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 46,
+      "file": "markerabsolute64-base-46.json",
+      "sha256": "219038ed03c1f369aefaa363d5e1c0fbe104e69cac3696d25647c68aa578060e",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 47,
+      "file": "markerabsolute64-base-47.json",
+      "sha256": "9a745849687a3643ab6f8f40dc054f31af8c3b8a1cb59e5ac33b820cfd0a4433",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 48,
+      "file": "markerabsolute64-base-48.json",
+      "sha256": "6e0ec93c1ff6005c76d64e9e60ad0c72bb17522976ad7c9d324f965e0a8478af",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 49,
+      "file": "markerabsolute64-base-49.json",
+      "sha256": "82830d6b7972ceafaf0d3ed5edafbb7062a033c53da4008a376903781c506762",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 50,
+      "file": "markerabsolute64-base-50.json",
+      "sha256": "e593e3df50fcf93e19aa560387a5f76fc38477ac9a4387c5fd73f7032c24d357",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 51,
+      "file": "markerabsolute64-base-51.json",
+      "sha256": "efbff10ca119e9c2dc524b0c8ff7055c9e596ff79ff7917a15ac6e79452dba36",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 52,
+      "file": "markerabsolute64-base-52.json",
+      "sha256": "a8d2d41ff9a6355020a15789aaaae2cb9ca4e88a6f02b6341d0a7135522504c7",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 53,
+      "file": "markerabsolute64-base-53.json",
+      "sha256": "413de759bc7bb27dbd9bb5e42f0f13af13c63fcc71fff3e779f923075c0fb06d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 54,
+      "file": "markerabsolute64-base-54.json",
+      "sha256": "7a10d8c6cc5c4911296d827cc9fbec6258fc2ab3499144b1bd65a5a60ea8bc9a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 55,
+      "file": "markerabsolute64-base-55.json",
+      "sha256": "038ffdc1c8c1cf2b6204763e8e0f8d8a0c1b74934825871411e8f0dcf48dfdbb",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 56,
+      "file": "markerabsolute64-base-56.json",
+      "sha256": "9577126b97eb466c35828b54beaf1535ea7a79950c6e2e90e81954a7ae5ab478",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 57,
+      "file": "markerabsolute64-base-57.json",
+      "sha256": "3723b3a3afb187ea7f1d004fd879e71edb27f2f877b6ec282a8ddd1b07755681",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 58,
+      "file": "markerabsolute64-base-58.json",
+      "sha256": "b48e9d2f006803fadd82ab365de202825a7d2c0c7fd1513d93a50ba21c785206",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 59,
+      "file": "markerabsolute64-base-59.json",
+      "sha256": "eecfac236382c2a756ab5c70383da77ba5daa2f084d8b847eec6b49bfbd48a50",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 60,
+      "file": "markerabsolute64-base-60.json",
+      "sha256": "712eb8e7d8e7b530e493d5a2dfcc45843a39ec56c7b8279c29573a0e5d2c643b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 61,
+      "file": "markerabsolute64-base-61.json",
+      "sha256": "31ee45c94a22060a25d555a84c07937e8094f968fe156e81a2b07846b5cd21b6",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 62,
+      "file": "markerabsolute64-base-62.json",
+      "sha256": "383e340babad71c5b89ac937282470dfcae2ac3dd4f25642ddfbb765a0d51435",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 63,
+      "file": "markerabsolute64-base-63.json",
+      "sha256": "5378b1eed57c8ad25f560862a83ec5fb6bd2cc33dfe56997d31ef286b42a33c4",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "baseline",
+      "case": 64,
+      "file": "markerabsolute64-base-64.json",
+      "sha256": "3bdb9b3109cfb2dbddfc1be7b6dbd1b396732188ce4bac43577810729c9dcf9f",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "markerabsolute64-candidate-1.json",
+      "sha256": "c0e8a5fef3f872b04dfa66fb8f615cefc219995f9d6db7754dbcc720dcd33d95",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "markerabsolute64-candidate-2.json",
+      "sha256": "a5fdefae182f2f19d337cd3878cb026927014c82e7e5c4760e81aba96fcfd45f",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "markerabsolute64-candidate-3.json",
+      "sha256": "489cf099ab1cb189c98f78f745a0ec214fef25962a513192d6d35e90d2fe3232",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "markerabsolute64-candidate-4.json",
+      "sha256": "94e5936fc641a727086293fcc50e5f3ff4d2c0ea8f750da8d164643f5489a52d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "markerabsolute64-candidate-5.json",
+      "sha256": "2fe7624d158194d839f16992080e49124bd23c4c5c98be5bf7e02302faecee17",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "markerabsolute64-candidate-6.json",
+      "sha256": "6113103b60b6457f3447f5ea9a244466101f2045d8c08c1b6c0a068c2eeeee2a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "markerabsolute64-candidate-7.json",
+      "sha256": "30357e1dde5f0a5f7db2c534ec3b0cfd6b4a1e8e78ac664350f2414a174087ac",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "markerabsolute64-candidate-8.json",
+      "sha256": "24467e6c475da2acfaf36a33ff373afe5d5a926df61474496619b9bdc6a4ee15",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "markerabsolute64-candidate-9.json",
+      "sha256": "be7ae9c938d821bd14fe50e66b4d6cb85f30d0e35ec8d8abff9edb3dd8144ae8",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "markerabsolute64-candidate-10.json",
+      "sha256": "4c5378fb6efd15e710473512672707ac19a438d649e90380477fc1d0a2fc354b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "markerabsolute64-candidate-11.json",
+      "sha256": "c199a179ddc083991a83850bb64da669743fe4ad6403f99da3fd1f9a999ae27a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "markerabsolute64-candidate-12.json",
+      "sha256": "6bcedfc27844a52cc68248bab24ca9a86782b1e277e6c9db40afdba642eeacc0",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "markerabsolute64-candidate-13.json",
+      "sha256": "3578de1d8b3af0d498dbecc0ff7a21c39f0261b2051b28a8354c5534cd43b27c",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "markerabsolute64-candidate-14.json",
+      "sha256": "789fdb9c654ee47bbd3d5778668bd986eb69560672ba095b107c9952bd850639",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "markerabsolute64-candidate-15.json",
+      "sha256": "3b1df9015b224771ab51d6cc616ffda9968a08cf18146a8b99da709718ef9846",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "markerabsolute64-candidate-16.json",
+      "sha256": "ab4c0adaaf71163a9cff9b702aa911a847db3b4e685dc067fe88e4260651a9a4",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "markerabsolute64-candidate-17.json",
+      "sha256": "e55d32c98ef4b31e6927c9a0917858a13b5ff8cc0478645d5575ce53f92a0554",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "markerabsolute64-candidate-18.json",
+      "sha256": "b0528f33591ee085d2fdc589453a6a78df0bd24eb6979723ee6aa468fcbb00ca",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "markerabsolute64-candidate-19.json",
+      "sha256": "9be89ae58dd4a087b1cd7944e77ac1b6941f3e3c1fade15fdd361cf72d2faff8",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "markerabsolute64-candidate-20.json",
+      "sha256": "7744d5db5c9a08ec55785f60c9e5487c9c8fb5832eaadababed94431fac393c8",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "markerabsolute64-candidate-21.json",
+      "sha256": "4a4a9e92ecef8b425e09414e64256abb4dbe20887a4e87bfb44b2b46016bced1",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "markerabsolute64-candidate-22.json",
+      "sha256": "e606472fbe6f2355e12e403198a0362e6f20b1c762a0896031d9f00d3480dfe6",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "markerabsolute64-candidate-23.json",
+      "sha256": "5da79fc7d29c3e5300fd57f69a2f52d6b431d5c12f3b411c67221615acd8febb",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "markerabsolute64-candidate-24.json",
+      "sha256": "219e01f84f4e9ac7f6672b79736fe0cd768e24479263b41ce69dd52a413ce2a4",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 25,
+      "file": "markerabsolute64-candidate-25.json",
+      "sha256": "269e743c6ec84c11f2291716522a27885e74883f59a72fd05c7c938c55cd6954",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 26,
+      "file": "markerabsolute64-candidate-26.json",
+      "sha256": "5cb4a639a7671c61d698cbc5564d5ae9d3bcce39856b5f8c4ae367a782afe5aa",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 27,
+      "file": "markerabsolute64-candidate-27.json",
+      "sha256": "85fc47073b73bbda3e6bc25128bea200696c1a2951d4484f16d616c50bd4eed5",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 28,
+      "file": "markerabsolute64-candidate-28.json",
+      "sha256": "d273b9a59951052b5c9dcb9a3ea4b25e3d8dbb4626029eb3bdebe38897466960",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 29,
+      "file": "markerabsolute64-candidate-29.json",
+      "sha256": "b939db903b8b5a06bc2e0c9136e47b7396e270504218f88147a57444d50e3858",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 30,
+      "file": "markerabsolute64-candidate-30.json",
+      "sha256": "1a5408be7b15d3cab504acb3fb3a108431e6fa8ca9e1b118a5d72024584c444a",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 31,
+      "file": "markerabsolute64-candidate-31.json",
+      "sha256": "1dc85f25d81d9547d4a7639530b597f1ff17d30e8771484ece4d44f8ddc4204d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 32,
+      "file": "markerabsolute64-candidate-32.json",
+      "sha256": "c87f285d897c6390ad3dc3cd5db81be566dc8cc74c1db0563241157bba37cf57",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 33,
+      "file": "markerabsolute64-candidate-33.json",
+      "sha256": "c99c83f8c5e953ad7b547913e829a36053c44717e2a832e214d50c50eeaabefa",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 34,
+      "file": "markerabsolute64-candidate-34.json",
+      "sha256": "7a3cceef25743d464e2f09d9096ed416e396157a00ca1e483a0709aa6057ed84",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 35,
+      "file": "markerabsolute64-candidate-35.json",
+      "sha256": "16efb196bc4b71499f9f70f6e8c7e85622a2291a4dc87b12c3a2e82490942eb2",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 36,
+      "file": "markerabsolute64-candidate-36.json",
+      "sha256": "6864bbfe992243a5913ec7f95709d56ae1044d7ff4ba71b2b9c3211baefed1f2",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 37,
+      "file": "markerabsolute64-candidate-37.json",
+      "sha256": "0baae1624f8eebb9bc71f8c55c8032e1635db87d8f02dade96a11a60b388cc3c",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 38,
+      "file": "markerabsolute64-candidate-38.json",
+      "sha256": "84e0d70495afda2a6b3d6465b507085ef76bacee1a1dfdf731087781e6170243",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 39,
+      "file": "markerabsolute64-candidate-39.json",
+      "sha256": "c54f6ad5c7a321ccbcd6b113e679940833904c02ee3dd30a9a972b84aacd8f6c",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 40,
+      "file": "markerabsolute64-candidate-40.json",
+      "sha256": "b324f9b7a182afac9be30c820577887c78b02438e0a2ced8014c7f7165f62974",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 41,
+      "file": "markerabsolute64-candidate-41.json",
+      "sha256": "2e14e05a10f33eef35ebf412341339added312fefa71f421648a4f079f9e0dbf",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 42,
+      "file": "markerabsolute64-candidate-42.json",
+      "sha256": "a0021220c54844053b2c117a5b81c3b5448e4c197b2402fa7dd64c482173041c",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 43,
+      "file": "markerabsolute64-candidate-43.json",
+      "sha256": "d7affc68f8a52356dbec0493fe229c05fc33e5a2b90e319795027fc8378d3537",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 44,
+      "file": "markerabsolute64-candidate-44.json",
+      "sha256": "d7dce8ef1bb6048e94de8902d0f55fcc7fca9245c797e0d319de97a7c848df38",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 45,
+      "file": "markerabsolute64-candidate-45.json",
+      "sha256": "8e9d25447c0e7f0661cbcc7b9af162e4b40ffa2a666ccd8ec728411a6d3ea1b7",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 46,
+      "file": "markerabsolute64-candidate-46.json",
+      "sha256": "b5168fd99e0d284dac381592d6c651c09f1a13555eaffaff14c7fc3f8819a054",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 47,
+      "file": "markerabsolute64-candidate-47.json",
+      "sha256": "3719cfec7728117b9dfc3e5597ba865c8643a02750b8039fc2c22177d73c6e83",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 48,
+      "file": "markerabsolute64-candidate-48.json",
+      "sha256": "51c44c8469a8963bf20474acd4ec46c718e24580b1a40ab2be8ace4059cae0e5",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 49,
+      "file": "markerabsolute64-candidate-49.json",
+      "sha256": "ebd0496da722ad35add1cd6622c3b2d25e3a09081f8448e4f22d5c0310348680",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 50,
+      "file": "markerabsolute64-candidate-50.json",
+      "sha256": "0870f1ce2063094d426f5efe6adb13cb3f45512661a3dae245a84e3f5af833fb",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 51,
+      "file": "markerabsolute64-candidate-51.json",
+      "sha256": "e68454e4e639a057bcb4c560e9b869af21a2d2f77e8d6fcdf1a1b355adecc58b",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 52,
+      "file": "markerabsolute64-candidate-52.json",
+      "sha256": "b6f3ce644c118a06874db54173d2db3ec870decad56e749f4004da71d2d1f339",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 53,
+      "file": "markerabsolute64-candidate-53.json",
+      "sha256": "99a08aa2e2edbddf12be1cf5872543dc54867c8c873f8fdc2e31dafb0195cf9d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 54,
+      "file": "markerabsolute64-candidate-54.json",
+      "sha256": "a55c4e21ebc00907edb1b9171b30a64fd058bfa418036cd2a3c1d33110f6ab9c",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 55,
+      "file": "markerabsolute64-candidate-55.json",
+      "sha256": "f2766030d56ace45c02b0f6c01850515e94195a09c89077b9dda51b4388fb27d",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 56,
+      "file": "markerabsolute64-candidate-56.json",
+      "sha256": "7f88689e5d3ff597dc6e500941c61c7260ea47b05b6812f7fbd59e85a73a29bc",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 57,
+      "file": "markerabsolute64-candidate-57.json",
+      "sha256": "a78bee2f5b6c38e29b6a0db01290ac7f70f678d7136ba0800104e62098398ed3",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 58,
+      "file": "markerabsolute64-candidate-58.json",
+      "sha256": "f036a4616e4de5c3741e041d6ed323cadbfdafa9ab9e1b507d369d371f2eb4b3",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 59,
+      "file": "markerabsolute64-candidate-59.json",
+      "sha256": "c33a706268d994e6802f41518adf8d806d75d83772d017a8a07baf94d7c4e248",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 60,
+      "file": "markerabsolute64-candidate-60.json",
+      "sha256": "8640e15b6cf5b31263c8415ba69f51f2a19949a1c18922454024067ac5a73148",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 61,
+      "file": "markerabsolute64-candidate-61.json",
+      "sha256": "98e9b82cfbf4d6e96066a688e9d4f5aab9d4d61a37c26c52942c9d1543e85cf5",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 62,
+      "file": "markerabsolute64-candidate-62.json",
+      "sha256": "da635523b9f9009148c1bd4ed12557edba0f33d974b4a40010d7f464d016804e",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 63,
+      "file": "markerabsolute64-candidate-63.json",
+      "sha256": "acfa0298e1ea1b50cf0267027a941e22791f111f51b28cf7df798a9d04c2e274",
+      "namedPickupAttributionCorrections": []
+    },
+    {
+      "side": "candidate",
+      "case": 64,
+      "file": "markerabsolute64-candidate-64.json",
+      "sha256": "b561fc5a654b1730277ed12cd56c0d42e260f2ff07a57d7b8283a74b47a186ca",
+      "namedPickupAttributionCorrections": []
+    }
+  ],
+  "rows": [
+    {
+      "side": "candidate",
+      "case": 9,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 8,
+      "instance": "card-86-0",
+      "entry": 34,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:jupiter:1",
+            "kind": "orbit",
+            "planetId": "jupiter",
+            "sequence": 1,
+            "label": "木星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:mercury:1",
+            "kind": "orbit",
+            "planetId": "mercury",
+            "sequence": 1,
+            "label": "水星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:venus:1",
+            "kind": "orbit",
+            "planetId": "venus",
+            "sequence": 1,
+            "label": "金星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:jupiter:1",
+          "kind": "orbit",
+          "planetId": "jupiter",
+          "sequence": 1,
+          "label": "木星 环绕 1",
+          "description": "白色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：木星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：白色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-87-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 11,
+      "instance": "card-175-0",
+      "entry": 186,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:saturn:1",
+            "kind": "orbit",
+            "planetId": "saturn",
+            "sequence": 1,
+            "label": "土星 环绕 1",
+            "description": "绿色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:saturn:1",
+          "kind": "orbit",
+          "planetId": "saturn",
+          "sequence": 1,
+          "label": "土星 环绕 1",
+          "description": "绿色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：土星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：绿色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-174-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 5,
+      "instance": "card-61-0",
+      "entry": 25,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:saturn:1",
+            "kind": "orbit",
+            "planetId": "saturn",
+            "sequence": 1,
+            "label": "土星 环绕 1",
+            "description": "绿色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:saturn:1",
+          "kind": "orbit",
+          "planetId": "saturn",
+          "sequence": 1,
+          "label": "土星 环绕 1",
+          "description": "绿色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：土星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：绿色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-67-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 26,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 3,
+      "instance": "card-36-pass-1-2",
+      "entry": 57,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:jupiter:2",
+            "kind": "orbit",
+            "planetId": "jupiter",
+            "sequence": 2,
+            "label": "木星 环绕 2",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:mars:1",
+            "kind": "orbit",
+            "planetId": "mars",
+            "sequence": 1,
+            "label": "火星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:saturn:1",
+            "kind": "orbit",
+            "planetId": "saturn",
+            "sequence": 1,
+            "label": "土星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:jupiter:2",
+          "kind": "orbit",
+          "planetId": "jupiter",
+          "sequence": 2,
+          "label": "木星 环绕 2",
+          "description": "白色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：木星 环绕 2",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：白色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-90-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 55,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 8,
+      "instance": "card-94-0",
+      "entry": 56,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:jupiter:1",
+            "kind": "orbit",
+            "planetId": "jupiter",
+            "sequence": 1,
+            "label": "木星 环绕 1",
+            "description": "棕色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:venus:1",
+            "kind": "orbit",
+            "planetId": "venus",
+            "sequence": 1,
+            "label": "金星 环绕 1",
+            "description": "棕色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:venus:2",
+            "kind": "orbit",
+            "planetId": "venus",
+            "sequence": 2,
+            "label": "金星 环绕 2",
+            "description": "棕色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:jupiter:1",
+          "kind": "orbit",
+          "planetId": "jupiter",
+          "sequence": 1,
+          "label": "木星 环绕 1",
+          "description": "棕色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：木星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：棕色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-95-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 57,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 9,
+      "instance": "card-171-0",
+      "entry": 180,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:mercury:1",
+            "kind": "orbit",
+            "planetId": "mercury",
+            "sequence": 1,
+            "label": "水星 环绕 1",
+            "description": "蓝色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:mercury:2",
+            "kind": "orbit",
+            "planetId": "mercury",
+            "sequence": 2,
+            "label": "水星 环绕 2",
+            "description": "蓝色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:venus:1",
+            "kind": "orbit",
+            "planetId": "venus",
+            "sequence": 1,
+            "label": "金星 环绕 1",
+            "description": "蓝色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:mercury:1",
+          "kind": "orbit",
+          "planetId": "mercury",
+          "sequence": 1,
+          "label": "水星 环绕 1",
+          "description": "蓝色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：水星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：蓝色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-175-0",
+      "pick": {
+        "handSize": 1
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 59,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 11,
+      "instance": "card-163-0",
+      "entry": 180,
+      "preview": [
+        {
+          "choice": {
+            "id": "orbit:mars:1",
+            "kind": "orbit",
+            "planetId": "mars",
+            "sequence": 1,
+            "label": "火星 环绕 1",
+            "description": "绿色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        }
+      ],
+      "actualPreview": {
+        "choice": {
+          "id": "orbit:mars:1",
+          "kind": "orbit",
+          "planetId": "mars",
+          "sequence": 1,
+          "label": "火星 环绕 1",
+          "description": "绿色标记"
+        },
+        "scoreLoss": 0,
+        "readyTaskLoss": 0,
+        "lostTaskIds": [],
+        "cost": 0
+      },
+      "marker": "移除己方环绕器：火星 环绕 1",
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "score": {
+        "score": 3
+      },
+      "actualData": 1,
+      "dataReceipt": "移除环绕器：1数据：绿色获得 1/1 个数据",
+      "oldParsedData": {
+        "availableData": 1
+      },
+      "picked": "card-171-0",
+      "pick": {
+        "handSize": 1
+      }
+    }
+  ]
+}
