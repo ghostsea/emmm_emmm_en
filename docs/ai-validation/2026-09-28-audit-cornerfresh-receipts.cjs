@@ -1,9 +1,10 @@
 const fs=require('fs'),assert=require('node:assert/strict'),crypto=require('crypto'),d='tmp/ai-20260905/',p='cornerabsolute64';
 const suite=JSON.parse(fs.readFileSync(d+p+'-suite.json')),q=JSON.parse(fs.readFileSync(d+p+'-queue-complete.json'));assert.equal(q.completed.length,128);assert.equal(q.failures.length,0);
+const {repairNamedPickupAttribution}=require('../../tools/repair_ai_named_pickup_attribution');
 const rows=[],inputs=[];
 for(const side of ['baseline','candidate'])for(const [i,pair]of suite.pairs.entries()){
- const bytes=fs.readFileSync(d+pair[side]),run=JSON.parse(bytes),r=run.result;assert(run.summary.gameEnded&&run.summary.bugCount===0&&!run.summary.blocked);
- inputs.push({side,case:i+1,file:pair[side],sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
+ const bytes=fs.readFileSync(d+pair[side]),run=JSON.parse(bytes),repaired=repairNamedPickupAttribution(run),r={...run.result,resourceFlow:repaired.resourceFlow};assert(run.summary.gameEnded&&run.summary.bugCount===0&&!run.summary.blocked);
+ inputs.push({side,case:i+1,file:pair[side],sha256:crypto.createHash('sha256').update(bytes).digest('hex'),namedPickupAttributionCorrections:repaired.changes});
  const used=new Set();
  for(const [li,l]of r.logs.entries()){
   const chosen=l.details?.selected;if(l.type!=='play-card'||chosen?.cardId!=='b_48.webp')continue;
