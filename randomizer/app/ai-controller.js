@@ -2686,6 +2686,73 @@
       return immediateGain;
     }
 
+    function getAiYichangdianDiscardReward(card, player = getCurrentPlayer()) {
+      const reward = cards.getDiscardActionRewardForCard?.(card);
+      const move = cards.getDiscardActionMoveRewardForCard?.(card);
+      const requested = { ...(reward?.gain || move?.gain || {}) };
+      requested.availableData = aiNumber(requested.availableData) + Math.max(0, aiNumber(reward?.dataCount));
+      const gain = getAiActualResourceGain(requested, player);
+      let value = scoreAiResourceBundle(gain);
+      if (move) {
+        const points = Math.max(1, aiNumber(move.movementPoints || 1));
+        const effect = { type: cardEffects.EFFECT_TYPES.CARD_MOVE, options: { movementPoints: points } };
+        if (listAiEffectMoveCandidates({ id: "cardMove", player, effect, poolRemaining: points })
+          .some((candidate) => aiNumber(candidate.score) >= 0)) value += points * 1.5;
+      }
+      return { gain, value };
+    }
+
+    function scoreAiYichangdianDrawCornersValue(player = getCurrentPlayer()) {
+      // A public catalog prior, never the hidden draw pile or hand[0]. Two
+      // draws are consumed for rewards, leaving one retained card. Selection
+      // quality and the retained card's future play are not forecast here.
+      const catalog = cards.CARD_CATALOG || [];
+      const profiles = new Map();
+      for (const entry of catalog) {
+        const key = entry.discard_action_code + ":" + entry.income_code;
+        const previous = profiles.get(key);
+        if (previous) previous.count += 1;
+        else profiles.set(key, { card: { discardActionCode: entry.discard_action_code, incomeCode: entry.income_code }, count: 1 });
+      }
+      let total = 0, count = 0;
+      for (const profile of profiles.values()) {
+        const income = cards.getIncomeGainForCard?.(profile.card) || {};
+        total += profile.count * (getAiYichangdianDiscardReward(profile.card, player).value
+          + scoreAiIncomeOpportunityValue(player, income, { consumedCardAccounted: true })
+          + scoreAiImmediateIncomeRewardValue(player, income));
+        count += profile.count;
+      }
+      return AI_RESOURCE_VALUES.handSize + (count ? total / count : 0);
+    }
+
+    function listAiYichangdianCornerAllocations(pending, player = getCurrentPlayer()) {
+      if (!pending || !player) return [];
+      const drawn = (pending.drawnCardIds || []).map((id) => (player.hand || []).find((card) => card.id === id))
+        .filter((card) => card && card.id !== pending.selectedDiscardCard?.id);
+      const discardChoices = pending.phase === "discard" ? drawn : [null];
+      const allocations = [];
+      for (const discardCard of discardChoices) {
+        const reward = discardCard ? getAiYichangdianDiscardReward(discardCard, player) : { gain: {}, value: 0 };
+        for (const incomeCard of drawn.filter((card) => card.id !== discardCard?.id)) {
+          const sacrificed = new Set([discardCard?.id, incomeCard.id].filter(Boolean));
+          const shadow = { ...player, hand: (player.hand || []).filter((card) => !sacrificed.has(card.id)),
+            resources: { ...player.resources, handSize: Math.max(0, aiNumber(player.resources?.handSize) - sacrificed.size) } };
+          for (const [key, amount] of Object.entries(reward.gain)) shadow.resources[key] = aiNumber(shadow.resources[key]) + amount;
+          const incomeGain = cards.getIncomeGainForCard?.(incomeCard);
+          if (!incomeGain) continue;
+          const incomeValue = scoreAiIncomeOpportunityValue(shadow, incomeGain, { consumedCardAccounted: true })
+            + scoreAiImmediateIncomeRewardValue(shadow, incomeGain);
+          const retained = drawn.filter((card) => !sacrificed.has(card.id));
+          const retainedValue = retained.reduce((total, card) => total + Math.max(0, scoreAiPassReserveCard(card, shadow)), 0);
+          allocations.push({ discardId: discardCard?.id || pending.selectedDiscardCard?.id || null,
+            incomeId: incomeCard.id, retainedIds: retained.map((card) => card.id),
+            cornerValue: reward.value, incomeValue, retainedValue, score: reward.value + incomeValue + retainedValue });
+        }
+      }
+      return allocations.sort((a, b) => b.score - a.score || String(a.discardId).localeCompare(String(b.discardId))
+        || String(a.incomeId).localeCompare(String(b.incomeId)));
+    }
+
     function scoreAiImmediateIncomeRewardValue(player = getCurrentPlayer(), incomeGain = {}) {
       const immediateGain = getAiImmediateIncomeRewardGain(player, incomeGain);
       return scoreAiResourceBundle(immediateGain)
@@ -10102,10 +10169,12 @@
       return roundAiScore(Math.min(7.5, Math.max(0, value)));
     }
 
-    function scoreAiIncomeOpportunityValue(player = getCurrentPlayer(), incomeGain = { credits: 1 }) {
+    function scoreAiIncomeOpportunityValue(player = getCurrentPlayer(), incomeGain = { credits: 1 }, options = {}) {
       const gain = incomeGain && typeof incomeGain === "object" ? incomeGain : { credits: 1 };
-      const netValue = ai?.valuation?.getIncomeNetValue
-        ? ai.valuation.getIncomeNetValue(gain, {
+      const incomeValuation = options.consumedCardAccounted
+        ? ai?.valuation?.getIncomeRawValue : ai?.valuation?.getIncomeNetValue;
+      const netValue = incomeValuation
+        ? incomeValuation(gain, {
           roundNumber: getAiRoundNumber(),
           finalRoundNumber: FINAL_ROUND_NUMBER,
           hand: player?.hand || [],
@@ -10931,7 +11000,7 @@
         case "yichangdian_public_all":
           return Math.max(8, (cards.PUBLIC_CARD_COUNT || 3) * AI_RESOURCE_VALUES.handSize * 0.95);
         case "yichangdian_draw_then_two_corners":
-          return 3 * AI_RESOURCE_VALUES.handSize + Math.max(4, scoreAiCardCornerOpportunity((player?.hand || [])[0]) * 0.4);
+          return scoreAiYichangdianDrawCornersValue(player);
         case "yichangdian_launch_anomaly_move": {
           const earth = getEarthSectorCoordinate?.();
           const currentAnomaly = earth ? yichangdian?.getAnomalyBySectorX?.(alienGameState, earth.x) : null;
@@ -22834,6 +22903,14 @@
 
     function enrichAiAlienUseOptions(options, flow) {
       let enriched = enrichAiJiuzheCardOptions(options, flow);
+      if (flow.type === "yichangdian-corner") {
+        const allocations = listAiYichangdianCornerAllocations(flow.pending, getAiAlienPendingPlayer(flow.pending));
+        const key = flow.pending?.phase === "discard" ? "discardId" : "incomeId";
+        return enriched.map((option) => {
+          const allocation = allocations.find((item) => item[key] === option.choice);
+          return { ...option, score: allocation?.score ?? -Infinity, disabled: option.disabled || !allocation, allocation };
+        });
+      }
       if (!["banrenma-bonus", "banrenma-condition", "chong-fossil", "amiba-symbol", "amiba-trace-removal", "runezu-face-symbol", "runezu-symbol-branch"].includes(flow.type)) {
         return enriched;
       }
@@ -22988,6 +23065,7 @@
           label: option.label,
           disabled: option.disabled,
           score: option.score,
+          ...(option.allocation ? { allocation: option.allocation } : {}),
         })),
       });
 
@@ -26836,6 +26914,8 @@
       scoreAiEffectValue,
       coalesceAiProbeScanEffects,
       buildAiProbeMoveScanPreview,
+      listAiYichangdianCornerAllocations,
+      scoreAiYichangdianDrawCornersValue,
       buildAiPlayCardCandidate,
       getAiPlayableProbeScanProfile,
       canAiResolvePlayCardEffects,

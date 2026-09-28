@@ -1,0 +1,1419 @@
+{
+  "scope": "Six real paid anomaly8 browser pairs, same initial resources, income, RNG seed and initial three card faces. All pay1credit and sacrifice two distinct drawn cards, retain one plus immediate income draw. Different chosen hand income legitimately changes later RNG consumption and physical ID sequence across fixtures. No claim of same final RNG or card identities across the full multi-fixture page. Model uses public-catalog random-allocation prior, no hidden deck; future selection benefit and movement visit triggers are not forecast. Strength not yet tested.",
+  "negativeControls": [
+    "gross3 retained count",
+    "disable runtime allocation enrichment"
+  ],
+  "rows": [
+    {
+      "mode": "early",
+      "oldValue": 21.259999999999998,
+      "newValue": 33.65214285714285,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 3
+      },
+      "newIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "drawn": [
+        {
+          "id": "card-50-0",
+          "cardId": "b_10.webp",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-51-0",
+          "cardId": "dlc_20.png",
+          "incomeCode": 2,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-52-0",
+          "cardId": "dlc_29.png",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-51-0",
+          "incomeId": "card-52-0",
+          "retainedIds": [
+            "card-50-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 4.2219999999999995,
+          "score": 32.169
+        },
+        {
+          "discardId": "card-51-0",
+          "incomeId": "card-50-0",
+          "retainedIds": [
+            "card-52-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 3.9719999999999995,
+          "score": 31.918999999999997
+        },
+        {
+          "discardId": "card-50-0",
+          "incomeId": "card-52-0",
+          "retainedIds": [
+            "card-51-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 3.144720000000001,
+          "score": 31.09172
+        },
+        {
+          "discardId": "card-52-0",
+          "incomeId": "card-50-0",
+          "retainedIds": [
+            "card-51-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 3.144720000000001,
+          "score": 31.09172
+        },
+        {
+          "discardId": "card-52-0",
+          "incomeId": "card-51-0",
+          "retainedIds": [
+            "card-50-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 25.281000000000002,
+          "retainedValue": 4.2219999999999995,
+          "score": 29.503
+        },
+        {
+          "discardId": "card-50-0",
+          "incomeId": "card-51-0",
+          "retainedIds": [
+            "card-52-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 25.281000000000002,
+          "retainedValue": 3.9719999999999995,
+          "score": 29.253
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-51-0",
+            "label": "完美执行的项目结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-50-0",
+              "label": "小行星研究结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 31.09172,
+              "allocation": {
+                "discardId": "card-50-0",
+                "incomeId": "card-52-0",
+                "retainedIds": [
+                  "card-51-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 3.144720000000001,
+                "score": 31.09172
+              }
+            },
+            {
+              "choice": "card-51-0",
+              "label": "完美执行的项目结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 32.169,
+              "allocation": {
+                "discardId": "card-51-0",
+                "incomeId": "card-52-0",
+                "retainedIds": [
+                  "card-50-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 4.2219999999999995,
+                "score": 32.169
+              }
+            },
+            {
+              "choice": "card-52-0",
+              "label": "废弃任务结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 31.09172,
+              "allocation": {
+                "discardId": "card-52-0",
+                "incomeId": "card-50-0",
+                "retainedIds": [
+                  "card-51-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 3.144720000000001,
+                "score": 31.09172
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-52-0",
+            "label": "废弃任务结算收入角标：能量+1"
+          },
+          "options": [
+            {
+              "choice": "card-50-0",
+              "label": "小行星研究结算收入角标：能量+1",
+              "disabled": false,
+              "score": 31.918999999999997,
+              "allocation": {
+                "discardId": "card-51-0",
+                "incomeId": "card-50-0",
+                "retainedIds": [
+                  "card-52-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 3.9719999999999995,
+                "score": 31.918999999999997
+              }
+            },
+            {
+              "choice": "card-52-0",
+              "label": "废弃任务结算收入角标：能量+1",
+              "disabled": false,
+              "score": 32.169,
+              "allocation": {
+                "discardId": "card-51-0",
+                "incomeId": "card-52-0",
+                "retainedIds": [
+                  "card-50-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 4.2219999999999995,
+                "score": 32.169
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-50-0"
+      ]
+    },
+    {
+      "mode": "credit-rich",
+      "oldValue": 25.52,
+      "newValue": 34.0536043956044,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 10,
+        "energy": 0,
+        "handSize": 3
+      },
+      "newIncome": {
+        "credits": 10,
+        "energy": 1,
+        "handSize": 2
+      },
+      "drawn": [
+        {
+          "id": "card-102-0",
+          "cardId": "b_62.webp",
+          "incomeCode": 1,
+          "discardActionCode": 0
+        },
+        {
+          "id": "card-103-0",
+          "cardId": "b_77.webp",
+          "incomeCode": 2,
+          "discardActionCode": 0
+        },
+        {
+          "id": "card-104-0",
+          "cardId": "b_82.webp",
+          "incomeCode": 0,
+          "discardActionCode": 1
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-103-0",
+          "incomeId": "card-102-0",
+          "retainedIds": [
+            "card-104-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 38.660000000000004,
+          "retainedValue": 9.251999999999999,
+          "score": 49.412000000000006
+        },
+        {
+          "discardId": "card-104-0",
+          "incomeId": "card-102-0",
+          "retainedIds": [
+            "card-103-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 38.660000000000004,
+          "retainedValue": 5.85916,
+          "score": 46.01916000000001
+        },
+        {
+          "discardId": "card-102-0",
+          "incomeId": "card-103-0",
+          "retainedIds": [
+            "card-104-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 27.552,
+          "retainedValue": 9.251999999999999,
+          "score": 38.304
+        },
+        {
+          "discardId": "card-104-0",
+          "incomeId": "card-103-0",
+          "retainedIds": [
+            "card-102-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 27.552,
+          "retainedValue": 5.889,
+          "score": 34.941
+        },
+        {
+          "discardId": "card-103-0",
+          "incomeId": "card-104-0",
+          "retainedIds": [
+            "card-102-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 19.81,
+          "retainedValue": 5.889,
+          "score": 27.198999999999998
+        },
+        {
+          "discardId": "card-102-0",
+          "incomeId": "card-104-0",
+          "retainedIds": [
+            "card-103-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 19.81,
+          "retainedValue": 5.85916,
+          "score": 27.169159999999998
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-103-0",
+            "label": "信使号探测器结算左上角：弃牌换1宣传"
+          },
+          "options": [
+            {
+              "choice": "card-102-0",
+              "label": "飞掠木星结算左上角：弃牌换1宣传",
+              "disabled": false,
+              "score": 38.304,
+              "allocation": {
+                "discardId": "card-102-0",
+                "incomeId": "card-103-0",
+                "retainedIds": [
+                  "card-104-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 27.552,
+                "retainedValue": 9.251999999999999,
+                "score": 38.304
+              }
+            },
+            {
+              "choice": "card-103-0",
+              "label": "信使号探测器结算左上角：弃牌换1宣传",
+              "disabled": false,
+              "score": 49.412000000000006,
+              "allocation": {
+                "discardId": "card-103-0",
+                "incomeId": "card-102-0",
+                "retainedIds": [
+                  "card-104-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 38.660000000000004,
+                "retainedValue": 9.251999999999999,
+                "score": 49.412000000000006
+              }
+            },
+            {
+              "choice": "card-104-0",
+              "label": "NEAR 舒梅克号探测器结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 46.01916000000001,
+              "allocation": {
+                "discardId": "card-104-0",
+                "incomeId": "card-102-0",
+                "retainedIds": [
+                  "card-103-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 38.660000000000004,
+                "retainedValue": 5.85916,
+                "score": 46.01916000000001
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-102-0",
+            "label": "飞掠木星结算收入角标：能量+1"
+          },
+          "options": [
+            {
+              "choice": "card-102-0",
+              "label": "飞掠木星结算收入角标：能量+1",
+              "disabled": false,
+              "score": 47.912000000000006,
+              "allocation": {
+                "discardId": "card-103-0",
+                "incomeId": "card-102-0",
+                "retainedIds": [
+                  "card-104-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 38.660000000000004,
+                "retainedValue": 9.251999999999999,
+                "score": 47.912000000000006
+              }
+            },
+            {
+              "choice": "card-104-0",
+              "label": "NEAR 舒梅克号探测器结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 25.698999999999998,
+              "allocation": {
+                "discardId": "card-103-0",
+                "incomeId": "card-104-0",
+                "retainedIds": [
+                  "card-102-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 19.81,
+                "retainedValue": 5.889,
+                "score": 25.698999999999998
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-104-0"
+      ]
+    },
+    {
+      "mode": "late",
+      "oldValue": 16.9,
+      "newValue": 9.689010989010988,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "newIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "drawn": [
+        {
+          "id": "card-154-0",
+          "cardId": "b_18.webp",
+          "incomeCode": 0,
+          "discardActionCode": 0
+        },
+        {
+          "id": "card-155-0",
+          "cardId": "dlc_23.png",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-156-0",
+          "cardId": "b_81.webp",
+          "incomeCode": 1,
+          "discardActionCode": 1
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-154-0",
+          "incomeId": "card-155-0",
+          "retainedIds": [
+            "card-156-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 4.2,
+          "retainedValue": 3.317,
+          "score": 9.017
+        },
+        {
+          "discardId": "card-155-0",
+          "incomeId": "card-154-0",
+          "retainedIds": [
+            "card-156-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 4.5,
+          "retainedValue": 3.317,
+          "score": 7.817
+        },
+        {
+          "discardId": "card-156-0",
+          "incomeId": "card-154-0",
+          "retainedIds": [
+            "card-155-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 4.5,
+          "retainedValue": 0.75,
+          "score": 6.75
+        },
+        {
+          "discardId": "card-154-0",
+          "incomeId": "card-156-0",
+          "retainedIds": [
+            "card-155-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 4.2,
+          "retainedValue": 0.75,
+          "score": 6.45
+        },
+        {
+          "discardId": "card-156-0",
+          "incomeId": "card-155-0",
+          "retainedIds": [
+            "card-154-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 4.2,
+          "retainedValue": 0.75,
+          "score": 6.45
+        },
+        {
+          "discardId": "card-155-0",
+          "incomeId": "card-156-0",
+          "retainedIds": [
+            "card-154-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 4.2,
+          "retainedValue": 0.75,
+          "score": 4.95
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-154-0",
+            "label": "突破观察结算左上角：弃牌换1宣传"
+          },
+          "options": [
+            {
+              "choice": "card-154-0",
+              "label": "突破观察结算左上角：弃牌换1宣传",
+              "disabled": false,
+              "score": 9.017,
+              "allocation": {
+                "discardId": "card-154-0",
+                "incomeId": "card-155-0",
+                "retainedIds": [
+                  "card-156-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 4.2,
+                "retainedValue": 3.317,
+                "score": 9.017
+              }
+            },
+            {
+              "choice": "card-155-0",
+              "label": "中性浮力训练结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 7.817,
+              "allocation": {
+                "discardId": "card-155-0",
+                "incomeId": "card-154-0",
+                "retainedIds": [
+                  "card-156-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 4.5,
+                "retainedValue": 3.317,
+                "score": 7.817
+              }
+            },
+            {
+              "choice": "card-156-0",
+              "label": "近地小行星研究结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 6.75,
+              "allocation": {
+                "discardId": "card-156-0",
+                "incomeId": "card-154-0",
+                "retainedIds": [
+                  "card-155-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 4.5,
+                "retainedValue": 0.75,
+                "score": 6.75
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-155-0",
+            "label": "中性浮力训练结算收入角标：能量+1"
+          },
+          "options": [
+            {
+              "choice": "card-155-0",
+              "label": "中性浮力训练结算收入角标：能量+1",
+              "disabled": false,
+              "score": 7.517,
+              "allocation": {
+                "discardId": "card-154-0",
+                "incomeId": "card-155-0",
+                "retainedIds": [
+                  "card-156-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 4.2,
+                "retainedValue": 3.317,
+                "score": 7.517
+              }
+            },
+            {
+              "choice": "card-156-0",
+              "label": "近地小行星研究结算收入角标：能量+1",
+              "disabled": false,
+              "score": 4.95,
+              "allocation": {
+                "discardId": "card-154-0",
+                "incomeId": "card-156-0",
+                "retainedIds": [
+                  "card-155-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 4.2,
+                "retainedValue": 0.75,
+                "score": 4.95
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-156-0"
+      ]
+    },
+    {
+      "mode": "capped-data",
+      "oldValue": 21.259999999999998,
+      "newValue": 33.25653846153846,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 6,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 0,
+        "availableData": 6,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 3
+      },
+      "newIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "drawn": [
+        {
+          "id": "card-206-0",
+          "cardId": "dlc_29.png",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-207-0",
+          "cardId": "dlc_11.png",
+          "incomeCode": 2,
+          "discardActionCode": 1
+        },
+        {
+          "id": "card-208-0",
+          "cardId": "b_3.webp",
+          "incomeCode": 1,
+          "discardActionCode": 1
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-206-0",
+          "incomeId": "card-208-0",
+          "retainedIds": [
+            "card-207-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 5.4617200000000015,
+          "score": 33.40872
+        },
+        {
+          "discardId": "card-208-0",
+          "incomeId": "card-206-0",
+          "retainedIds": [
+            "card-207-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 5.4617200000000015,
+          "score": 33.40872
+        },
+        {
+          "discardId": "card-207-0",
+          "incomeId": "card-206-0",
+          "retainedIds": [
+            "card-208-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 3.9719999999999995,
+          "score": 31.918999999999997
+        },
+        {
+          "discardId": "card-207-0",
+          "incomeId": "card-208-0",
+          "retainedIds": [
+            "card-206-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 3.9719999999999995,
+          "score": 31.918999999999997
+        },
+        {
+          "discardId": "card-206-0",
+          "incomeId": "card-207-0",
+          "retainedIds": [
+            "card-208-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 25.281000000000002,
+          "retainedValue": 3.9719999999999995,
+          "score": 29.253
+        },
+        {
+          "discardId": "card-208-0",
+          "incomeId": "card-207-0",
+          "retainedIds": [
+            "card-206-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 25.281000000000002,
+          "retainedValue": 3.9719999999999995,
+          "score": 29.253
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-206-0",
+            "label": "废弃任务结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-206-0",
+              "label": "废弃任务结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 33.40872,
+              "allocation": {
+                "discardId": "card-206-0",
+                "incomeId": "card-208-0",
+                "retainedIds": [
+                  "card-207-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 5.4617200000000015,
+                "score": 33.40872
+              }
+            },
+            {
+              "choice": "card-207-0",
+              "label": "八灵神星探测器结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 31.918999999999997,
+              "allocation": {
+                "discardId": "card-207-0",
+                "incomeId": "card-206-0",
+                "retainedIds": [
+                  "card-208-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 3.9719999999999995,
+                "score": 31.918999999999997
+              }
+            },
+            {
+              "choice": "card-208-0",
+              "label": "阿尔冈金射电天文台结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 33.40872,
+              "allocation": {
+                "discardId": "card-208-0",
+                "incomeId": "card-206-0",
+                "retainedIds": [
+                  "card-207-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 5.4617200000000015,
+                "score": 33.40872
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-208-0",
+            "label": "阿尔冈金射电天文台结算收入角标：能量+1"
+          },
+          "options": [
+            {
+              "choice": "card-207-0",
+              "label": "八灵神星探测器结算收入角标：手牌+1",
+              "disabled": false,
+              "score": 29.253,
+              "allocation": {
+                "discardId": "card-206-0",
+                "incomeId": "card-207-0",
+                "retainedIds": [
+                  "card-208-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 25.281000000000002,
+                "retainedValue": 3.9719999999999995,
+                "score": 29.253
+              }
+            },
+            {
+              "choice": "card-208-0",
+              "label": "阿尔冈金射电天文台结算收入角标：能量+1",
+              "disabled": false,
+              "score": 33.40872,
+              "allocation": {
+                "discardId": "card-206-0",
+                "incomeId": "card-208-0",
+                "retainedIds": [
+                  "card-207-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 5.4617200000000015,
+                "score": 33.40872
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-207-0"
+      ]
+    },
+    {
+      "mode": "capped-publicity",
+      "oldValue": 21.259999999999998,
+      "newValue": 32.9928021978022,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 10,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 10,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "newIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 2
+      },
+      "drawn": [
+        {
+          "id": "card-258-0",
+          "cardId": "dlc_23.png",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-259-0",
+          "cardId": "b_81.webp",
+          "incomeCode": 1,
+          "discardActionCode": 1
+        },
+        {
+          "id": "card-260-0",
+          "cardId": "b_86.webp",
+          "incomeCode": 0,
+          "discardActionCode": 1
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-259-0",
+          "incomeId": "card-258-0",
+          "retainedIds": [
+            "card-260-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 27.947,
+          "retainedValue": 15.005959999999998,
+          "score": 44.45296
+        },
+        {
+          "discardId": "card-258-0",
+          "incomeId": "card-259-0",
+          "retainedIds": [
+            "card-260-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.947,
+          "retainedValue": 15.005959999999998,
+          "score": 42.95296
+        },
+        {
+          "discardId": "card-258-0",
+          "incomeId": "card-260-0",
+          "retainedIds": [
+            "card-259-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 32.269,
+          "retainedValue": 6.539,
+          "score": 38.808
+        },
+        {
+          "discardId": "card-259-0",
+          "incomeId": "card-260-0",
+          "retainedIds": [
+            "card-258-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 32.269,
+          "retainedValue": 3.9719999999999995,
+          "score": 37.741
+        },
+        {
+          "discardId": "card-260-0",
+          "incomeId": "card-258-0",
+          "retainedIds": [
+            "card-259-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 27.947,
+          "retainedValue": 6.539,
+          "score": 35.986
+        },
+        {
+          "discardId": "card-260-0",
+          "incomeId": "card-259-0",
+          "retainedIds": [
+            "card-258-0"
+          ],
+          "cornerValue": 1.5,
+          "incomeValue": 27.947,
+          "retainedValue": 3.9719999999999995,
+          "score": 33.419
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-259-0",
+            "label": "近地小行星研究结算左上角：弃牌换1数据"
+          },
+          "options": [
+            {
+              "choice": "card-258-0",
+              "label": "中性浮力训练结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 42.95296,
+              "allocation": {
+                "discardId": "card-258-0",
+                "incomeId": "card-259-0",
+                "retainedIds": [
+                  "card-260-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 15.005959999999998,
+                "score": 42.95296
+              }
+            },
+            {
+              "choice": "card-259-0",
+              "label": "近地小行星研究结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 44.45296,
+              "allocation": {
+                "discardId": "card-259-0",
+                "incomeId": "card-258-0",
+                "retainedIds": [
+                  "card-260-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 27.947,
+                "retainedValue": 15.005959999999998,
+                "score": 44.45296
+              }
+            },
+            {
+              "choice": "card-260-0",
+              "label": "ala Telescope Constructior结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 35.986,
+              "allocation": {
+                "discardId": "card-260-0",
+                "incomeId": "card-258-0",
+                "retainedIds": [
+                  "card-259-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 27.947,
+                "retainedValue": 6.539,
+                "score": 35.986
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-258-0",
+            "label": "中性浮力训练结算收入角标：能量+1"
+          },
+          "options": [
+            {
+              "choice": "card-258-0",
+              "label": "中性浮力训练结算收入角标：能量+1",
+              "disabled": false,
+              "score": 42.95296,
+              "allocation": {
+                "discardId": "card-259-0",
+                "incomeId": "card-258-0",
+                "retainedIds": [
+                  "card-260-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.947,
+                "retainedValue": 15.005959999999998,
+                "score": 42.95296
+              }
+            },
+            {
+              "choice": "card-260-0",
+              "label": "ala Telescope Constructior结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 36.241,
+              "allocation": {
+                "discardId": "card-259-0",
+                "incomeId": "card-260-0",
+                "retainedIds": [
+                  "card-258-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 32.269,
+                "retainedValue": 3.9719999999999995,
+                "score": 36.241
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-260-0"
+      ]
+    },
+    {
+      "mode": "hand-income",
+      "oldValue": 20.98,
+      "newValue": 38.735659340659346,
+      "oldAfter": {
+        "credits": 9,
+        "energy": 6,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "newAfter": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 0
+      },
+      "oldIncome": {
+        "credits": 1,
+        "energy": 1,
+        "handSize": 0
+      },
+      "newIncome": {
+        "credits": 1,
+        "energy": 0,
+        "handSize": 1
+      },
+      "drawn": [
+        {
+          "id": "card-310-0",
+          "cardId": "b_92.webp",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-311-0",
+          "cardId": "dlc_23.png",
+          "incomeCode": 1,
+          "discardActionCode": 2
+        },
+        {
+          "id": "card-312-0",
+          "cardId": "b_72.webp",
+          "incomeCode": 2,
+          "discardActionCode": 2
+        }
+      ],
+      "allocations": [
+        {
+          "discardId": "card-311-0",
+          "incomeId": "card-312-0",
+          "retainedIds": [
+            "card-310-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 41.98100000000001,
+          "retainedValue": 4.096,
+          "score": 46.07700000000001
+        },
+        {
+          "discardId": "card-310-0",
+          "incomeId": "card-312-0",
+          "retainedIds": [
+            "card-311-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 41.98100000000001,
+          "retainedValue": 3.8459999999999996,
+          "score": 45.827000000000005
+        },
+        {
+          "discardId": "card-310-0",
+          "incomeId": "card-311-0",
+          "retainedIds": [
+            "card-312-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.247,
+          "retainedValue": 8.71772,
+          "score": 35.96472
+        },
+        {
+          "discardId": "card-311-0",
+          "incomeId": "card-310-0",
+          "retainedIds": [
+            "card-312-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.247,
+          "retainedValue": 8.71772,
+          "score": 35.96472
+        },
+        {
+          "discardId": "card-312-0",
+          "incomeId": "card-311-0",
+          "retainedIds": [
+            "card-310-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.247,
+          "retainedValue": 4.096,
+          "score": 31.343
+        },
+        {
+          "discardId": "card-312-0",
+          "incomeId": "card-310-0",
+          "retainedIds": [
+            "card-311-0"
+          ],
+          "cornerValue": 0,
+          "incomeValue": 27.247,
+          "retainedValue": 3.8459999999999996,
+          "score": 31.093
+        }
+      ],
+      "selections": [
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-311-0",
+            "label": "中性浮力训练结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-310-0",
+              "label": "先驱者11号任务结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 45.827000000000005,
+              "allocation": {
+                "discardId": "card-310-0",
+                "incomeId": "card-312-0",
+                "retainedIds": [
+                  "card-311-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 41.98100000000001,
+                "retainedValue": 3.8459999999999996,
+                "score": 45.827000000000005
+              }
+            },
+            {
+              "choice": "card-311-0",
+              "label": "中性浮力训练结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 46.07700000000001,
+              "allocation": {
+                "discardId": "card-311-0",
+                "incomeId": "card-312-0",
+                "retainedIds": [
+                  "card-310-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 41.98100000000001,
+                "retainedValue": 4.096,
+                "score": 46.07700000000001
+              }
+            },
+            {
+              "choice": "card-312-0",
+              "label": "火星探测计划结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 31.343,
+              "allocation": {
+                "discardId": "card-312-0",
+                "incomeId": "card-311-0",
+                "retainedIds": [
+                  "card-310-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.247,
+                "retainedValue": 4.096,
+                "score": 31.343
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-312-0",
+            "label": "火星探测计划结算收入角标：手牌+1"
+          },
+          "options": [
+            {
+              "choice": "card-310-0",
+              "label": "先驱者11号任务结算收入角标：能量+1",
+              "disabled": false,
+              "score": 35.96472,
+              "allocation": {
+                "discardId": "card-311-0",
+                "incomeId": "card-310-0",
+                "retainedIds": [
+                  "card-312-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 27.247,
+                "retainedValue": 8.71772,
+                "score": 35.96472
+              }
+            },
+            {
+              "choice": "card-312-0",
+              "label": "火星探测计划结算收入角标：手牌+1",
+              "disabled": false,
+              "score": 46.07700000000001,
+              "allocation": {
+                "discardId": "card-311-0",
+                "incomeId": "card-312-0",
+                "retainedIds": [
+                  "card-310-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 41.98100000000001,
+                "retainedValue": 4.096,
+                "score": 46.07700000000001
+              }
+            }
+          ]
+        }
+      ],
+      "remaining": [
+        "card-310-0"
+      ]
+    }
+  ]
+}

@@ -367,6 +367,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       getIncomeGainForCard: (card) => card?.incomeGain || null,
       getDiscardActionMoveRewardForCard: (card) => card?.moveReward || null,
       getDiscardActionRewardForCard: (card) => card?.resourceReward || null,
+      ...(options.cards || {}),
     },
     cardTaskStateModule: {
       createTaskState: () => ({}),
@@ -17346,3 +17347,39 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const deck = require("../game/cards/deck");
+  const noPrior = createAiControllerHarness(null, { currentPlayerColor: "blue", cards: { CARD_CATALOG: [] } });
+  assert.equal(noPrior.controller.scoreAiYichangdianDrawCornersValue(noPrior.blue), 4.3, "only one retained card before income and corner rewards");
+  const finalIncome = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 5, aiValuation: setiAi.valuation,
+    blueResources: { publicity: 10 }, cards: { ...deck, CARD_CATALOG: [{discard_action_code:0,income_code:1}] } });
+  assert.equal(finalIncome.controller.scoreAiYichangdianDrawCornersValue(finalIncome.blue), 8.5,
+    "final-round immediate energy remains valuable without future income or a second discard charge");
+  const hand = [
+    { id: "pub", price: 1, discardActionCode: 0, incomeCode: 0 },
+    { id: "data", price: 1, discardActionCode: 1, incomeCode: 0 },
+    { id: "move", price: 1, discardActionCode: 2, incomeCode: 0 },
+  ];
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: hand,
+    blueResources: { credits: 4, energy: 0, publicity: 10, availableData: 0, handSize: 3 }, cards: deck });
+  const pending = { phase: "discard", drawnCardIds: hand.map(c => c.id), selectedDiscardCard: null };
+  const before = JSON.stringify(h.blue);
+  const rows = h.controller.listAiYichangdianCornerAllocations(pending, h.blue);
+  assert.equal(rows.length, 6, "all six distinct discard/income allocations");
+  assert.equal(rows[0].discardId, "data", "actual data beats capped publicity and infeasible movement");
+  assert(rows.every(r => r.discardId !== r.incomeId && r.retainedIds.length === 1));
+  assert.equal(JSON.stringify(h.blue), before, "allocation cannot alter actual hand/resources");
+  const first = deck.createCardInstance(deck.CARD_CATALOG[0]);
+  const value = h.controller.scoreAiYichangdianDrawCornersValue(h.blue);
+  h.blue.hand.reverse();
+  assert.equal(h.controller.scoreAiYichangdianDrawCornersValue(h.blue), value, "unrelated hand ordering must not change blind prior");
+  const second = deck.createCardInstance(deck.CARD_CATALOG[0]);
+  assert.equal(Number(second.id.split("-")[1]), Number(first.id.split("-")[1]) + 1, "valuation cannot consume physical card identities");
+  h.blue.hand.reverse();
+  const income = createAiControllerHarness(null, { currentPlayerColor: "blue", cards: deck,
+    blueHand: [{id:"credit",price:1,discardActionCode:0,incomeCode:0},{id:"energy",price:1,discardActionCode:0,incomeCode:1}],
+    blueIncome: {credits:10,energy:0,handSize:1}, blueResources: {credits:10,energy:0,handSize:2} });
+  const incomeRows = income.controller.listAiYichangdianCornerAllocations({phase:"income",drawnCardIds:["used","credit","energy"],selectedDiscardCard:{id:"used"}},income.blue);
+  assert.equal(incomeRows[0].incomeId,"energy","income assignment accounts for actual energy shortage");
+}
