@@ -1,0 +1,1100 @@
+{
+  "scope": "All48 completed inputs. Unique paid card, three distinct draw options, two distinct selected sacrifices, retained identity inferred by exclusion from the three observed options, logged permanent income and ending hand net; candidate selects its best known allocation. Frozen snapshot ledger can omit a retained card consumed later in the same transaction: retainedLedgerObserved explicitly records this limitation. This audits runtime choices, not strength. Parser25 may only retain net hand gain and may classify composite income/card sources coarsely; do not claim all three gross draws are individually recorded.",
+  "summary": {
+    "pairs": 24,
+    "inputs": 48,
+    "baselinePlays": 2,
+    "candidatePlays": 4,
+    "issues": []
+  },
+  "inputs": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "resourcezero-candidate-1.json",
+      "sha256": "650221422fe66ff4bf0b9257225aed79b86712017fecbb5206779d6102d71fac"
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "resourcezero-candidate-2.json",
+      "sha256": "a1fc99950bc84e4a07b35007175cb5c19d0e13ad89637b1e46aa224d8cab5686"
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "resourcezero-candidate-3.json",
+      "sha256": "c93189c6b8004f2f86977d515bb97e3c03c69c43352d68b9f5b9cdaa1e243216"
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "resourcezero-candidate-4.json",
+      "sha256": "11deb408796d55489edde9c355b7e19185113430067389d1e286ff81e6e7ca3a"
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "resourcezero-candidate-5.json",
+      "sha256": "e0603c81a83d5be5b305323d669fcbc4ee07e800f6a211b2ea8254c20250306c"
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "resourcezero-candidate-6.json",
+      "sha256": "12b3bb61cb84ee6f65e5cfeeaa88f741cbba1f45303337984d4f04edfc911148"
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "resourcezero-candidate-7.json",
+      "sha256": "73ade4078229c8466ad0858167f19129944963438ef1a486e711bdd3b5c50ae0"
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "resourcezero-candidate-8.json",
+      "sha256": "0d638cf71a360ef82a91d79fe866fd3730f57fd51e5a1cf81f2363124e55f004"
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "resourcezero-candidate-9.json",
+      "sha256": "ada7c64a2f9c31343102e717f3f5f29a53293ee7b316af1d7f1408cb0ec6e86d"
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "resourcezero-candidate-10.json",
+      "sha256": "cc594296c7093b6c460608a54eee9f62c985195053671f49bda0272d4102d157"
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "resourcezero-candidate-11.json",
+      "sha256": "4ac2395baa910d09895b815bac3be1d060b3b8ffbeb066013fdfda797bf545a1"
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "resourcezero-candidate-12.json",
+      "sha256": "e8eca2543969e1464f9605bf018492abcbee0376b33b061d21a4635e66af2dfe"
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "resourcezero-candidate-13.json",
+      "sha256": "ffff7ef493c52a27fcddf7baf927560a87fe4324e873ffd9d8682ad208c593a3"
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "resourcezero-candidate-14.json",
+      "sha256": "4bfa674d29ccaa54365a9acdd06cdcc7c05b3b2690ee172d3c4f5c2c1499a79a"
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "resourcezero-candidate-15.json",
+      "sha256": "15b82de48515dbd65bf2d756a9343a85df55e4876d0449bdb8d58476dee41434"
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "resourcezero-candidate-16.json",
+      "sha256": "826f03a21a42c8ef139515a2150159f4e5beb3bca3f8f93047e0f9f5072baa11"
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "resourcezero-candidate-17.json",
+      "sha256": "0f1a2bd3806b0e8c406cc3beb6fdf2f592425d5477ff409193a49e1f7155bd94"
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "resourcezero-candidate-18.json",
+      "sha256": "7092d8a548fac4f85b7c626d3f5b2070299a04baef28dad89fa3e94c7e5f22e6"
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "resourcezero-candidate-19.json",
+      "sha256": "5476f8b7f5718402c667f657f4f4cdf8c9f977a09e8528ef190eb47b8ee3a063"
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "resourcezero-candidate-20.json",
+      "sha256": "83903151388f88ef762881a1e57558a2b49d98ff25f204c40f4195b67d0340cc"
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "resourcezero-candidate-21.json",
+      "sha256": "4e4da2b25878e9dd9606126b9503e7d09fe718d03d6f617ddbb6d734a3f1c67a"
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "resourcezero-candidate-22.json",
+      "sha256": "dc4e6ba46ad49c11853f6442c35b7d4af3051c542004eec1024a0645e5e876f2"
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "resourcezero-candidate-23.json",
+      "sha256": "62fc33eb21b826dea9e9c20d5f628c8c4b6faceb6adec1ff1968d9f0613e16e5"
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "resourcezero-candidate-24.json",
+      "sha256": "e886b81e6afe07b4c639b6727d4acff027bc189f3638c644d8bca18de7248f10"
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "anomalyallocation-candidate-1.json",
+      "sha256": "58ffe6e2575ceff7016296cc3db5a9bc7861074046dd1ccfa9fb6c906b34e20d"
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "anomalyallocation-candidate-2.json",
+      "sha256": "6cf40ff668a6b6fa3490c84f4686b03dcfa5c8d3223181c9b2256e7883c23dc7"
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "anomalyallocation-candidate-3.json",
+      "sha256": "07a0bd6ecb876600c36846eb443e49f2fc3ee4d825d1b71fe16f1bec1960525b"
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "anomalyallocation-candidate-4.json",
+      "sha256": "ff83ee6d954713203882d9c2fd7c3a0f0828ed841255bd653bb41a0e5c29afdc"
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "anomalyallocation-candidate-5.json",
+      "sha256": "c604ff9954412b5983a23398786abed6cf93cfa063fb6af286359d742989fcea"
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "anomalyallocation-candidate-6.json",
+      "sha256": "4a79693ba09ac47f168a1252867dbe94684e5bd9aee9c453c1205420dee91594"
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "anomalyallocation-candidate-7.json",
+      "sha256": "38aa7311d52917f21d00911a3b6e719fbfd9ecf28f99f0d908c6453dd9230bb8"
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "anomalyallocation-candidate-8.json",
+      "sha256": "53ef4118027d111eab5ff37c05a41dd1ad95caab0c0675e11624f1d3ac4806a8"
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "anomalyallocation-candidate-9.json",
+      "sha256": "0052a8202c0ddfe983b33ad5968ef1a9b032af933831bbbe384f49eb59a17cf0"
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "anomalyallocation-candidate-10.json",
+      "sha256": "53f0d363a45b66d16b10f3bf6ba8299a6dd71497c4b6165a49751b4e8a3d1c35"
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "anomalyallocation-candidate-11.json",
+      "sha256": "77a7b1190c445802d74b3b080a03baac1007ac64ef25f14b7568af3de90799a9"
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "anomalyallocation-candidate-12.json",
+      "sha256": "fa1fd58884913b7a4179456bc54916cf942ca8b721ed2911de7d19f9d9474b7f"
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "anomalyallocation-candidate-13.json",
+      "sha256": "2edbdf1d66fca96f56375e7007fb83c65c6abdf4132e52bba86d2f6d710460cd"
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "anomalyallocation-candidate-14.json",
+      "sha256": "dfcffaf57372921213dadf0d2776a88182cae2c56ba6c5ef4f26ae34db7b2477"
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "anomalyallocation-candidate-15.json",
+      "sha256": "f7b8c69933cfe60aaac13bcd79bbc64824c061350952e2b785fc45f92dd62b11"
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "anomalyallocation-candidate-16.json",
+      "sha256": "46940a1520e8dda4ff8b5ad8c864869da718606c4c1d6b20a726ff5ed8688ee1"
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "anomalyallocation-candidate-17.json",
+      "sha256": "a34a13967772d41a305452ec3f828296c3080db93f415a138644c4540d9ea103"
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "anomalyallocation-candidate-18.json",
+      "sha256": "ac785f27f5da85e0ccc91d84470a2dd6bbe1e61386bd5dc613d2aa5f257e7c5b"
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "anomalyallocation-candidate-19.json",
+      "sha256": "4875554f6895d353ba7c01d7f0ca32ff26de61e6150f3ad0ac55dd67f71ae097"
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "anomalyallocation-candidate-20.json",
+      "sha256": "0f435419284e2ac614f35400bcd78d6e6ad8110146059cb1702ae5ca9f583b37"
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "anomalyallocation-candidate-21.json",
+      "sha256": "363933cd544467bf303b16fdea29d9c8f7b3ab28bc67ac350c865d193f613419"
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "anomalyallocation-candidate-22.json",
+      "sha256": "cd7fd251598f0298e7194a278d30d0e248a979439ed3c7f9fc9761e903187dbd"
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "anomalyallocation-candidate-23.json",
+      "sha256": "317342b4836df3d03848398e973934cefdacae15578bb92b6513c4ccefe96abf"
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "anomalyallocation-candidate-24.json",
+      "sha256": "f0c2585701d69d75c266c22d6826e6dbd8885c5ef8fcab12ed3b003903535990"
+    }
+  ],
+  "rows": [
+    {
+      "side": "baseline",
+      "case": 3,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 7,
+      "instance": "alien-yichangdian-8-3",
+      "entry": 33,
+      "effectValue": 19.631392,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-79-0",
+        "card-80-0",
+        "card-81-0"
+      ],
+      "discard": {
+        "choice": "card-79-0",
+        "label": "行星地质测绘结算左上角：弃牌换1宣传"
+      },
+      "income": {
+        "choice": "card-80-0",
+        "label": "大巡游计划结算收入角标：信用点+1"
+      },
+      "retained": [
+        "card-81-0"
+      ],
+      "retainedLedgerObserved": true,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；行星地质测绘 左上角：宣传+1；收入：弃掉 大巡游计划，信用点+1（已即时获得）；资源：手牌+1",
+      "incomeDeltas": {
+        "credits": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-79-0",
+            "label": "行星地质测绘结算左上角：弃牌换1宣传"
+          },
+          "options": [
+            {
+              "choice": "card-79-0",
+              "label": "行星地质测绘结算左上角：弃牌换1宣传",
+              "disabled": false
+            },
+            {
+              "choice": "card-80-0",
+              "label": "大巡游计划结算左上角：弃牌换1宣传",
+              "disabled": false
+            },
+            {
+              "choice": "card-81-0",
+              "label": "伽利略号任务结算左上角：弃牌换1移动",
+              "disabled": false
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-80-0",
+            "label": "大巡游计划结算收入角标：信用点+1"
+          },
+          "options": [
+            {
+              "choice": "card-80-0",
+              "label": "大巡游计划结算收入角标：信用点+1",
+              "disabled": false
+            },
+            {
+              "choice": "card-81-0",
+              "label": "伽利略号任务结算收入角标：手牌+1",
+              "disabled": false
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 33,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 2
+      }
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 5,
+      "instance": "alien-yichangdian-8-1",
+      "entry": 100,
+      "effectValue": 19.771199999999997,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-129-0",
+        "card-130-0",
+        "card-131-0"
+      ],
+      "discard": {
+        "choice": "card-129-0",
+        "label": "伽利略号任务结算左上角：弃牌换1移动"
+      },
+      "income": {
+        "choice": "card-130-0",
+        "label": "八灵神星探测器结算收入角标：手牌+1"
+      },
+      "retained": [
+        "card-131-0"
+      ],
+      "retainedLedgerObserved": false,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；伽利略号任务 左上角：弃牌换1移动；收入：弃掉 八灵神星探测器，手牌+1（已即时获得）；资源：手牌+2",
+      "incomeDeltas": {
+        "handSize": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-129-0",
+            "label": "伽利略号任务结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-129-0",
+              "label": "伽利略号任务结算左上角：弃牌换1移动",
+              "disabled": false
+            },
+            {
+              "choice": "card-130-0",
+              "label": "八灵神星探测器结算左上角：弃牌换1数据",
+              "disabled": false
+            },
+            {
+              "choice": "card-131-0",
+              "label": "赫歇尔空间天文台结算左上角：弃牌换1移动",
+              "disabled": false
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-130-0",
+            "label": "八灵神星探测器结算收入角标：手牌+1"
+          },
+          "options": [
+            {
+              "choice": "card-130-0",
+              "label": "八灵神星探测器结算收入角标：手牌+1",
+              "disabled": false
+            },
+            {
+              "choice": "card-131-0",
+              "label": "赫歇尔空间天文台结算收入角标：手牌+1",
+              "disabled": false
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 89,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 8
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 6,
+      "instance": "alien-yichangdian-8-3",
+      "entry": 26,
+      "effectValue": 35.27349010989011,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-74-0",
+        "card-75-0",
+        "card-76-0"
+      ],
+      "discard": {
+        "choice": "card-74-0",
+        "label": "废弃任务结算左上角：弃牌换1移动"
+      },
+      "income": {
+        "choice": "card-75-0",
+        "label": "科学普及结算收入角标：信用点+1"
+      },
+      "retained": [
+        "card-76-0"
+      ],
+      "retainedLedgerObserved": true,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；废弃任务 左上角：弃牌换1移动；收入：弃掉 科学普及，信用点+1（已即时获得）；资源：手牌+1",
+      "incomeDeltas": {
+        "credits": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-74-0",
+            "label": "废弃任务结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-74-0",
+              "label": "废弃任务结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 56.23193792,
+              "allocation": {
+                "discardId": "card-74-0",
+                "incomeId": "card-75-0",
+                "retainedIds": [
+                  "card-76-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 47.609,
+                "retainedValue": 8.62293792,
+                "score": 56.23193792
+              }
+            },
+            {
+              "choice": "card-75-0",
+              "label": "科学普及结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 39.42193792,
+              "allocation": {
+                "discardId": "card-75-0",
+                "incomeId": "card-74-0",
+                "retainedIds": [
+                  "card-76-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 29.299,
+                "retainedValue": 8.62293792,
+                "score": 39.42193792
+              }
+            },
+            {
+              "choice": "card-76-0",
+              "label": "水熊虫研究结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 51.878,
+              "allocation": {
+                "discardId": "card-76-0",
+                "incomeId": "card-75-0",
+                "retainedIds": [
+                  "card-74-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 47.609,
+                "retainedValue": 4.269,
+                "score": 51.878
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-75-0",
+            "label": "科学普及结算收入角标：信用点+1"
+          },
+          "options": [
+            {
+              "choice": "card-75-0",
+              "label": "科学普及结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 56.23193792,
+              "allocation": {
+                "discardId": "card-74-0",
+                "incomeId": "card-75-0",
+                "retainedIds": [
+                  "card-76-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 47.609,
+                "retainedValue": 8.62293792,
+                "score": 56.23193792
+              }
+            },
+            {
+              "choice": "card-76-0",
+              "label": "水熊虫研究结算收入角标：能量+1",
+              "disabled": false,
+              "score": 36.207,
+              "allocation": {
+                "discardId": "card-74-0",
+                "incomeId": "card-76-0",
+                "retainedIds": [
+                  "card-75-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 29.299,
+                "retainedValue": 6.908,
+                "score": 36.207
+              }
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 19,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 5
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 5,
+      "instance": "alien-yichangdian-8-1",
+      "entry": 100,
+      "effectValue": 16.800769230769234,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-129-0",
+        "card-130-0",
+        "card-131-0"
+      ],
+      "discard": {
+        "choice": "card-129-0",
+        "label": "伽利略号任务结算左上角：弃牌换1移动"
+      },
+      "income": {
+        "choice": "card-130-0",
+        "label": "八灵神星探测器结算收入角标：手牌+1"
+      },
+      "retained": [
+        "card-131-0"
+      ],
+      "retainedLedgerObserved": false,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；伽利略号任务 左上角：弃牌换1移动；收入：弃掉 八灵神星探测器，手牌+1（已即时获得）；资源：手牌+2",
+      "incomeDeltas": {
+        "handSize": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-129-0",
+            "label": "伽利略号任务结算左上角：弃牌换1移动"
+          },
+          "options": [
+            {
+              "choice": "card-129-0",
+              "label": "伽利略号任务结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 9.25,
+              "allocation": {
+                "discardId": "card-129-0",
+                "incomeId": "card-130-0",
+                "retainedIds": [
+                  "card-131-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 4.3,
+                "retainedValue": 3.45,
+                "score": 9.25
+              }
+            },
+            {
+              "choice": "card-130-0",
+              "label": "八灵神星探测器结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 9.25,
+              "allocation": {
+                "discardId": "card-130-0",
+                "incomeId": "card-129-0",
+                "retainedIds": [
+                  "card-131-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 4.3,
+                "retainedValue": 3.45,
+                "score": 9.25
+              }
+            },
+            {
+              "choice": "card-131-0",
+              "label": "赫歇尔空间天文台结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 8.75,
+              "allocation": {
+                "discardId": "card-131-0",
+                "incomeId": "card-129-0",
+                "retainedIds": [
+                  "card-130-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 4.3,
+                "retainedValue": 2.95,
+                "score": 8.75
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-130-0",
+            "label": "八灵神星探测器结算收入角标：手牌+1"
+          },
+          "options": [
+            {
+              "choice": "card-130-0",
+              "label": "八灵神星探测器结算收入角标：手牌+1",
+              "disabled": false,
+              "score": 7.75,
+              "allocation": {
+                "discardId": "card-129-0",
+                "incomeId": "card-130-0",
+                "retainedIds": [
+                  "card-131-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 4.3,
+                "retainedValue": 3.45,
+                "score": 7.75
+              }
+            },
+            {
+              "choice": "card-131-0",
+              "label": "赫歇尔空间天文台结算收入角标：手牌+1",
+              "disabled": false,
+              "score": 7.25,
+              "allocation": {
+                "discardId": "card-129-0",
+                "incomeId": "card-131-0",
+                "retainedIds": [
+                  "card-130-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 4.3,
+                "retainedValue": 2.95,
+                "score": 7.25
+              }
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 89,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 8
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 6,
+      "instance": "alien-yichangdian-8-2",
+      "entry": 56,
+      "effectValue": 28.681468131868133,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-95-0",
+        "card-96-0",
+        "card-97-0"
+      ],
+      "discard": {
+        "choice": "card-95-0",
+        "label": "日冕摄谱仪结算左上角：弃牌换1数据"
+      },
+      "income": {
+        "choice": "card-96-0",
+        "label": "猎鹰虿型运戟火箭结算收入角标：信用点+1"
+      },
+      "retained": [
+        "card-97-0"
+      ],
+      "retainedLedgerObserved": true,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；日冕摄谱仪 左上角：1数据；收入：弃掉 猎鹰虿型运戟火箭，信用点+1（已即时获得）；资源：手牌+1",
+      "incomeDeltas": {
+        "credits": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-95-0",
+            "label": "日冕摄谱仪结算左上角：弃牌换1数据"
+          },
+          "options": [
+            {
+              "choice": "card-95-0",
+              "label": "日冕摄谱仪结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 32.254,
+              "allocation": {
+                "discardId": "card-95-0",
+                "incomeId": "card-96-0",
+                "retainedIds": [
+                  "card-97-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 26.799999999999997,
+                "retainedValue": 3.954,
+                "score": 32.254
+              }
+            },
+            {
+              "choice": "card-96-0",
+              "label": "猎鹰虿型运戟火箭结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 30.17008,
+              "allocation": {
+                "discardId": "card-96-0",
+                "incomeId": "card-97-0",
+                "retainedIds": [
+                  "card-95-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 26.799999999999997,
+                "retainedValue": 3.3700799999999997,
+                "score": 30.17008
+              }
+            },
+            {
+              "choice": "card-97-0",
+              "label": "SETI@Home结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 31.67008,
+              "allocation": {
+                "discardId": "card-97-0",
+                "incomeId": "card-96-0",
+                "retainedIds": [
+                  "card-95-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 26.799999999999997,
+                "retainedValue": 3.3700799999999997,
+                "score": 31.67008
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-96-0",
+            "label": "猎鹰虿型运戟火箭结算收入角标：信用点+1"
+          },
+          "options": [
+            {
+              "choice": "card-96-0",
+              "label": "猎鹰虿型运戟火箭结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 30.753999999999998,
+              "allocation": {
+                "discardId": "card-95-0",
+                "incomeId": "card-96-0",
+                "retainedIds": [
+                  "card-97-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 26.799999999999997,
+                "retainedValue": 3.954,
+                "score": 30.753999999999998
+              }
+            },
+            {
+              "choice": "card-97-0",
+              "label": "SETI@Home结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 30.253999999999998,
+              "allocation": {
+                "discardId": "card-95-0",
+                "incomeId": "card-97-0",
+                "retainedIds": [
+                  "card-96-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 26.799999999999997,
+                "retainedValue": 3.454,
+                "score": 30.253999999999998
+              }
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 42,
+        "credits": 6,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 6
+      }
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "turn": 9,
+      "instance": "alien-yichangdian-8-2",
+      "entry": 74,
+      "effectValue": 31.096703296703296,
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "drawn": [
+        "card-111-0",
+        "card-112-0",
+        "card-113-0"
+      ],
+      "discard": {
+        "choice": "card-113-0",
+        "label": "日冕摄谱仪结算左上角：弃牌换1数据"
+      },
+      "income": {
+        "choice": "card-111-0",
+        "label": "语言学分析结算收入角标：信用点+1"
+      },
+      "retained": [
+        "card-112-0"
+      ],
+      "retainedLedgerObserved": true,
+      "receipt": "盲抽3张并结算两张角标：盲抽 3 张；日冕摄谱仪 左上角：1数据；收入：弃掉 语言学分析，信用点+1（已即时获得）；资源：手牌+1",
+      "incomeDeltas": {
+        "credits": 1
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-113-0",
+            "label": "日冕摄谱仪结算左上角：弃牌换1数据"
+          },
+          "options": [
+            {
+              "choice": "card-111-0",
+              "label": "语言学分析结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 31.212823359999998,
+              "allocation": {
+                "discardId": "card-111-0",
+                "incomeId": "card-113-0",
+                "retainedIds": [
+                  "card-112-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 23.599999999999998,
+                "retainedValue": 6.11282336,
+                "score": 31.212823359999998
+              }
+            },
+            {
+              "choice": "card-112-0",
+              "label": "金星探测计划结算左上角：弃牌换1移动",
+              "disabled": false,
+              "score": 46.817,
+              "allocation": {
+                "discardId": "card-112-0",
+                "incomeId": "card-111-0",
+                "retainedIds": [
+                  "card-113-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 41.975,
+                "retainedValue": 3.3419999999999996,
+                "score": 46.817
+              }
+            },
+            {
+              "choice": "card-113-0",
+              "label": "日冕摄谱仪结算左上角：弃牌换1数据",
+              "disabled": false,
+              "score": 49.33282336,
+              "allocation": {
+                "discardId": "card-113-0",
+                "incomeId": "card-111-0",
+                "retainedIds": [
+                  "card-112-0"
+                ],
+                "cornerValue": 1.5,
+                "incomeValue": 41.72,
+                "retainedValue": 6.11282336,
+                "score": 49.33282336
+              }
+            }
+          ]
+        },
+        {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "pendingType": "yichangdian-corner",
+          "selected": {
+            "choice": "card-111-0",
+            "label": "语言学分析结算收入角标：信用点+1"
+          },
+          "options": [
+            {
+              "choice": "card-111-0",
+              "label": "语言学分析结算收入角标：信用点+1",
+              "disabled": false,
+              "score": 47.83282336,
+              "allocation": {
+                "discardId": "card-113-0",
+                "incomeId": "card-111-0",
+                "retainedIds": [
+                  "card-112-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 41.72,
+                "retainedValue": 6.11282336,
+                "score": 47.83282336
+              }
+            },
+            {
+              "choice": "card-112-0",
+              "label": "金星探测计划结算收入角标：能量+1",
+              "disabled": false,
+              "score": 31.566823359999997,
+              "allocation": {
+                "discardId": "card-113-0",
+                "incomeId": "card-112-0",
+                "retainedIds": [
+                  "card-111-0"
+                ],
+                "cornerValue": 0,
+                "incomeValue": 23.599999999999998,
+                "retainedValue": 7.966823359999999,
+                "score": 31.566823359999997
+              }
+            }
+          ]
+        }
+      ],
+      "finalResources": {
+        "score": 65,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 2
+      }
+    }
+  ]
+}

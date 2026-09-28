@@ -1,0 +1,33 @@
+{
+  "scope": "Original and marker candidate migrated to parser26; full steps, scores and semantic decision logs unchanged except timestamps. Source parser identical to current main. Statistical source categorization can change.",
+  "rows": [
+    {
+      "root": "marker-original-parser26",
+      "branch": "codex/ai-marker-original-parser26-20260928",
+      "reference": "cornerabsolute64-base-1.json",
+      "steps": 1554,
+      "scores": [
+        253,
+        315,
+        204,
+        158
+      ],
+      "semanticLogs": 1628,
+      "bugs": 0
+    },
+    {
+      "root": "marker-candidate-parser26",
+      "branch": "codex/ai-marker-candidate-parser26-20260928",
+      "reference": "markerconv-candidate-1.json",
+      "steps": 1567,
+      "scores": [
+        296,
+        296,
+        173,
+        201
+      ],
+      "semanticLogs": 1639,
+      "bugs": 0
+    }
+  ]
+}
