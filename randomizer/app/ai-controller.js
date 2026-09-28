@@ -12628,68 +12628,10 @@
       }, {});
     }
 
-    function scoreAiGrandStrategyCreditBottleneckPenalty(card, details = {}) {
-      const player = details.player || getCurrentPlayer();
-      if (!player || details.actualHandPlay !== true || getAiRoundNumber() >= FINAL_ROUND_NUMBER) return 0;
-      const industryCard = getAiIndustryCard(player);
-      if (
-        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
-        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
-      ) return 0;
-      if (
-        Math.max(0, aiNumber(details.directScoreGain)) > 0
-        || Math.max(0, aiNumber(details.standardActionPremium)) > 0
-        || Math.max(0, aiNumber(details.readyTaskCashoutValue)) > 0
-        || details.routePlanCashout
-      ) return 0;
-
-      const cost = details.cost || getCardPlayCost(card);
-      const resources = player.resources || {};
-      const currentCredits = Math.max(0, aiNumber(resources.credits));
-      const currentEnergy = Math.max(0, aiNumber(resources.energy));
-      const creditCost = Math.max(0, aiNumber(cost.credits));
-      const energyCost = Math.max(0, aiNumber(cost.energy));
-      if (currentCredits < 2 || creditCost <= 0) return 0;
-      if (!scanEffects?.canExecuteScan?.(player, { standardAction: true })?.ok) return 0;
-
-      const cardGain = getAiImmediateResourceGainFromPlayEffects(details.playEffects || []);
-      const passiveReward = getAiStrategyPassiveRewardBundleForCard(card, player);
-      const combinedGain = { ...cardGain };
-      Object.entries(passiveReward?.gain || {}).forEach(([resourceKey, rawValue]) => {
-        combinedGain[resourceKey] = aiNumber(combinedGain[resourceKey]) + Math.max(0, aiNumber(rawValue));
-      });
-      const actualGain = getAiActualResourceGain(combinedGain, player);
-      const creditsAfterPlay = Math.max(
-        0,
-        currentCredits - creditCost + Math.max(0, aiNumber(actualGain.credits)),
-      );
-      const energyAfterPlay = Math.max(
-        0,
-        currentEnergy - energyCost + Math.max(0, aiNumber(actualGain.energy)),
-      );
-      if (creditsAfterPlay > 0) return 0;
-
-      const scanCost = scanEffects?.getStandardScanCost?.(player)
-        || scanEffects?.SCAN_COST
-        || { credits: 1, energy: 2 };
-      const scanCreditCost = Math.max(1, aiNumber(scanCost.credits));
-      const scanEnergyCost = Math.max(1, aiNumber(scanCost.energy));
-      const scanCapacityBefore = Math.min(
-        Math.floor(currentCredits / scanCreditCost),
-        Math.floor(currentEnergy / scanEnergyCost),
-      );
-      const scanCapacityAfter = Math.min(
-        Math.floor(creditsAfterPlay / scanCreditCost),
-        Math.floor(energyAfterPlay / scanEnergyCost),
-      );
-      const lostScanCapacity = Math.max(0, scanCapacityBefore - scanCapacityAfter);
-      if (lostScanCapacity < 2) return 0;
-
-      const pairedCreditOpportunity = Math.min(
-        4.5,
-        Math.max(3.5, aiNumber(getAiResourceValuesForRound().credits) * 0.65),
-      );
-      return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
+    function scoreAiGrandStrategyCreditBottleneckPenalty() {
+      // Experimental ablation: card cost already prices spent credits. Compare
+      // currently legal actions without an extra fixed reserve for hypothetical scans.
+      return 0;
     }
 
     function scoreAiPlayCardValue(card, details = {}) {

@@ -3829,6 +3829,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     companyLabel = "宇宙大战略集团",
     roundNumber = 2,
     firstHumanScanActionCode = 1,
+    credits = 4,
   } = {}) => {
     const turnChoices = [];
     const strategyIndustry = { id: `industry:${companyLabel}`, label: companyLabel };
@@ -3860,7 +3861,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
       blueResources: {
         score: 27,
-        credits: 4,
+        credits,
         energy: 7,
         publicity: 2,
         availableData: 0,
@@ -3897,14 +3898,15 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const grandStrategyPlay = getStrategyPlayAction();
   const firstHumanCandidate = grandStrategyPlay?.playableCards
     ?.find((candidate) => candidate.cardId === "dlc_10.png");
-  assert.ok(
-    Number(firstHumanCandidate?.valueBreakdown?.grandStrategyCreditBottleneckPenalty || 0) >= 11,
-    "spending every credit should price the real scan capacity stranded behind seven energy",
+  assert.equal(
+    firstHumanCandidate?.valueBreakdown?.grandStrategyCreditBottleneckPenalty,
+    0,
+    "hypothetical repeated scans must not add a separate credit reserve charge",
   );
   assert.equal(
     grandStrategyPlay?.cardId,
     "b_99.webp",
-    "grand strategy should preserve credits with the cheaper research bridge instead of exhausting them",
+    "ordinary cost and reward comparison may still prefer the cheaper card without the extra reserve charge",
   );
 
   const ordinaryStrategyPlay = getStrategyPlayAction({ companyLabel: "宇宙战略集团" });
@@ -3913,7 +3915,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     ordinaryFirstHuman?.valueBreakdown?.grandStrategyCreditBottleneckPenalty,
     0,
-    "the resource-lock correction should remain specific to the AI-only grand strategy company",
+    "ordinary strategy retains its existing zero reserve charge",
   );
 
   const finalRoundPlay = getStrategyPlayAction({ roundNumber: 4 });
@@ -3933,6 +3935,9 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     0,
     "a yellow strategy slot that returns one credit should prevent the false zero-credit bottleneck",
   );
+  const shortCreditPlay = getStrategyPlayAction({ credits: 3 });
+  assert.equal(shortCreditPlay?.cardId, "b_99.webp",
+    "removing reserve value must not make the four-credit card affordable with three credits");
 }
 
 {
