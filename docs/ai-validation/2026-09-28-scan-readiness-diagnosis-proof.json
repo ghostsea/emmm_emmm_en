@@ -1,0 +1,1019 @@
+{
+  "cases": [
+    {
+      "case": 1,
+      "logs": 1561,
+      "scores": [
+        280,
+        251,
+        162,
+        230
+      ],
+      "fullSemanticReplay": true,
+      "source": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "inputHash": "367c768a354b7e08bbc30452f48db206d3f977880d0acc7dd95234c56053a008"
+    },
+    {
+      "case": 23,
+      "logs": 1564,
+      "scores": [
+        129,
+        195,
+        299,
+        271
+      ],
+      "fullSemanticReplay": true,
+      "source": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "inputHash": "a14ae2350506d3d803afdf48f3235683921bc5128bb176d6fb7c3ed17a525d17"
+    }
+  ],
+  "rows": [
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 10,
+      "resources": {
+        "credits": 7,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 13
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": true,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 13.975315521560006,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 22,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 1,
+      "rawTurn": 18,
+      "resources": {
+        "credits": 3,
+        "energy": 4,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 13
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 16.678554441000003,
+      "decisionMatched": true,
+      "actualScanEntry": 23,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 20,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 2,
+      "rawTurn": 8,
+      "resources": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 20
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 6.654640120000003,
+      "decisionMatched": true,
+      "actualScanEntry": 52,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 22,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 2,
+      "resources": {
+        "credits": 4,
+        "energy": 6,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 96
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 99.60143680299201,
+      "decisionMatched": true,
+      "actualScanEntry": 91,
+      "actualScanData": 4,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 104,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "rawTurn": 4,
+      "resources": {
+        "credits": 6,
+        "energy": 6,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 8,
+        "score": 54
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 37.855504648082395,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "playCard",
+        "round": 3,
+        "resources": {
+          "score": 54,
+          "credits": 5,
+          "energy": 6,
+          "publicity": 9,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 25,
+      "resources": {
+        "credits": 1,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 84
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 16.036805109655035,
+      "decisionMatched": true,
+      "actualScanEntry": 114,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "analyze",
+        "round": 3,
+        "resources": {
+          "score": 86,
+          "credits": 1,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 4,
+      "rawTurn": 2,
+      "resources": {
+        "credits": 7,
+        "energy": 4,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 7,
+        "score": 63
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 25.521339910000002,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "land",
+        "round": 4,
+        "resources": {
+          "score": 65,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 13,
+      "resources": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 18
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": true,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 3.4355080700000062,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "scan",
+        "round": 1,
+        "resources": {
+          "score": 18,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 1,
+      "rawTurn": 15,
+      "resources": {
+        "credits": 5,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 6
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": false,
+      "selected": "scan",
+      "scanScore": 7.526116670000004,
+      "decisionMatched": true,
+      "actualScanEntry": 20,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "playCard",
+        "round": 1,
+        "resources": {
+          "score": 9,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 16,
+      "resources": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 18
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": true,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": -0.48469192999999855,
+      "decisionMatched": true,
+      "actualScanEntry": 21,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 18,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "rawTurn": 1,
+      "resources": {
+        "credits": 7,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 7,
+        "score": 28
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 8.439905399999997,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "playCard",
+        "round": 2,
+        "resources": {
+          "score": 30,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "rawTurn": 23,
+      "resources": {
+        "credits": 5,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 31
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": false,
+      "selected": "launch",
+      "scanScore": 6.094874780187155,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "scan",
+        "round": 2,
+        "resources": {
+          "score": 31,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "rawTurn": 27,
+      "resources": {
+        "credits": 4,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 31
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": false,
+      "selected": "scan",
+      "scanScore": 31.639124857101876,
+      "decisionMatched": true,
+      "actualScanEntry": 59,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "playCard",
+        "round": 2,
+        "resources": {
+          "score": 36,
+          "credits": 4,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 5,
+      "resources": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 6,
+        "score": 75
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "playCard",
+      "scanScore": 35.384938953345795,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 77,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "rawTurn": 16,
+      "resources": {
+        "credits": 2,
+        "energy": 4,
+        "publicity": 6,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 87
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "researchTech",
+      "scanScore": 14.71166156000001,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 91,
+          "credits": 2,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 3,
+      "rawTurn": 19,
+      "resources": {
+        "credits": 2,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 51
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": false,
+      "selected": "land",
+      "scanScore": 31.865340000000003,
+      "decisionMatched": true,
+      "actualScanEntry": null,
+      "actualScanData": null,
+      "nextMain": {
+        "id": "playCard",
+        "round": 3,
+        "resources": {
+          "score": 60,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "rawTurn": 20,
+      "resources": {
+        "credits": 2,
+        "energy": 4,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 91
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 13.807709560000013,
+      "decisionMatched": true,
+      "actualScanEntry": 104,
+      "actualScanData": 2,
+      "nextMain": {
+        "id": "analyze",
+        "round": 3,
+        "resources": {
+          "score": 91,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "rawTurn": 5,
+      "resources": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 6,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 147
+      },
+      "placed": 4,
+      "cost": {
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 37.81715293262453,
+      "decisionMatched": true,
+      "actualScanEntry": 150,
+      "actualScanData": 4,
+      "nextMain": {
+        "id": "scan",
+        "round": 4,
+        "resources": {
+          "score": 155,
+          "credits": 8,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "rawTurn": 15,
+      "resources": {
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 106
+      },
+      "placed": 4,
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "oldProjectedUnlock": false,
+      "canPayAnalysisAfterScan": true,
+      "selected": "scan",
+      "scanScore": 24.8082255,
+      "decisionMatched": true,
+      "actualScanEntry": 160,
+      "actualScanData": 3,
+      "nextMain": {
+        "id": "analyze",
+        "round": 4,
+        "resources": {
+          "score": 106,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "observations": 19,
+    "unrecognizedPayable": 12,
+    "actualTwoDataThenAnalysis": [
+      {
+        "case": 1,
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "rawTurn": 18,
+        "resources": {
+          "credits": 3,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 13
+        },
+        "placed": 4,
+        "cost": {
+          "energy": 2
+        },
+        "oldProjectedUnlock": false,
+        "canPayAnalysisAfterScan": true,
+        "selected": "scan",
+        "scanScore": 16.678554441000003,
+        "decisionMatched": true,
+        "actualScanEntry": 23,
+        "actualScanData": 2,
+        "nextMain": {
+          "id": "analyze",
+          "round": 1,
+          "resources": {
+            "score": 20,
+            "credits": 3,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      },
+      {
+        "case": 1,
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 2,
+        "rawTurn": 8,
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 20
+        },
+        "placed": 4,
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "oldProjectedUnlock": false,
+        "canPayAnalysisAfterScan": true,
+        "selected": "scan",
+        "scanScore": 6.654640120000003,
+        "decisionMatched": true,
+        "actualScanEntry": 52,
+        "actualScanData": 2,
+        "nextMain": {
+          "id": "analyze",
+          "round": 2,
+          "resources": {
+            "score": 22,
+            "credits": 4,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      },
+      {
+        "case": 1,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "rawTurn": 25,
+        "resources": {
+          "credits": 1,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 84
+        },
+        "placed": 4,
+        "cost": {
+          "energy": 2
+        },
+        "oldProjectedUnlock": false,
+        "canPayAnalysisAfterScan": true,
+        "selected": "scan",
+        "scanScore": 16.036805109655035,
+        "decisionMatched": true,
+        "actualScanEntry": 114,
+        "actualScanData": 2,
+        "nextMain": {
+          "id": "analyze",
+          "round": 3,
+          "resources": {
+            "score": 86,
+            "credits": 1,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 3
+          }
+        }
+      },
+      {
+        "case": 23,
+        "player": "player-green",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "rawTurn": 20,
+        "resources": {
+          "credits": 2,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 91
+        },
+        "placed": 4,
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "oldProjectedUnlock": false,
+        "canPayAnalysisAfterScan": true,
+        "selected": "scan",
+        "scanScore": 13.807709560000013,
+        "decisionMatched": true,
+        "actualScanEntry": 104,
+        "actualScanData": 2,
+        "nextMain": {
+          "id": "analyze",
+          "round": 3,
+          "resources": {
+            "score": 91,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 5
+          }
+        }
+      },
+      {
+        "case": 23,
+        "player": "player-green",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "rawTurn": 15,
+        "resources": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 106
+        },
+        "placed": 4,
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "oldProjectedUnlock": false,
+        "canPayAnalysisAfterScan": true,
+        "selected": "scan",
+        "scanScore": 24.8082255,
+        "decisionMatched": true,
+        "actualScanEntry": 160,
+        "actualScanData": 3,
+        "nextMain": {
+          "id": "analyze",
+          "round": 4,
+          "resources": {
+            "score": 106,
+            "credits": 1,
+            "energy": 1,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Read-only replay of two already-seen games, not prevalence estimate or new strength test.",
+    "Existing helper only recognizes Grand Strategy round1 with four occupied core cells and two scan-effect types.",
+    "Two effect types alone do not prove two data: full sectors, selection, optional costs and blue placements must be checked before any generic replacement.",
+    "Actual next-main analysis proves a realized route in these samples, not that scan was optimal or universally guaranteed."
+  ]
+}
