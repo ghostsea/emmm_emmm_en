@@ -17,4 +17,4 @@
 
 诊断工具曾在第 16 组的假想移动预览中访问空选择，已修复为只记录非空且带 playCard/pass 的真实回合菜单；四组全部重新完成等价验证。没有修改游戏代码。见[逐状态预算](2026-09-28-trigger-budget-diagnosis.json)、[工具修复记录](2026-09-28-trigger-budget-harness-fix.json)。
 
-下一步已按这四个事先选定的样本登记一次性强制出牌反事实，全部结果均保留。它仅判断估值假说，不作为整体策略或 +10 验收，见[反事实计划](2026-09-28-trigger-budget-counterfactual-plan.md)。
+四个事先选定样本的一次性强制出牌反事实已全部完成，目标公司得分分别 −13/+2/+41/−33，两个寰宇样本虽有三类奖励回执仍下降，因此不修改默认优先级。它仅判断估值假说，不作为整体策略或 +10 验收，见[完整结果](2026-09-28-trigger-budget-counterfactuals.md)、[原计划](2026-09-28-trigger-budget-counterfactual-plan.md)。

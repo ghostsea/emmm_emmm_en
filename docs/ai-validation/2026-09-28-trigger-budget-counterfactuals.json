@@ -1,0 +1,221 @@
+{
+  "scope": "All four prespecified single-intervention seen games. Identical pre-intervention semantic logs; exact played entity and actual1-credit payment checked. Company/all-seat scores include shared supply and turn-order effects. Not independent validation, not a new policy, not a +10 result. Returned trigger state may be unavailable; receipt text is supporting evidence, not exact causal attribution.",
+  "rows": [
+    {
+      "case": 2,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "credits": 7,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 18
+      },
+      "displacedAction": "playCard",
+      "displacedCard": "card-73-0",
+      "forcedCard": "card-85-0",
+      "alreadySelectedSameCard": false,
+      "identicalPrefixLogs": 259,
+      "scoreBefore": 176,
+      "scoreAfter": 163,
+      "playerDelta": -13,
+      "tableMeanDelta": -19.25,
+      "allSeatDeltas": [
+        -13,
+        -51,
+        1,
+        -14
+      ],
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "consumedTriggerIds": null,
+      "receiptEvidence": [
+        {
+          "entry": 39,
+          "step": 1,
+          "text": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：近地小行星研究",
+          "resources": {}
+        },
+        {
+          "entry": 43,
+          "step": 1,
+          "text": "卡牌触发：打出1费牌：2分",
+          "resources": {}
+        },
+        {
+          "entry": 118,
+          "step": 1,
+          "text": "卡牌触发：打出3费牌：2宣传：完成任务+1",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 37,
+      "resources": {
+        "credits": 5,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "displacedAction": "playCard",
+      "displacedCard": "alien-amiba-6-8",
+      "forcedCard": "card-140-0",
+      "alreadySelectedSameCard": false,
+      "identicalPrefixLogs": 1119,
+      "scoreBefore": 327,
+      "scoreAfter": 329,
+      "playerDelta": 2,
+      "tableMeanDelta": 0.5,
+      "allSeatDeltas": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "consumedTriggerIds": null,
+      "receiptEvidence": [
+        {
+          "entry": 133,
+          "step": 1,
+          "text": "卡牌触发：打出1费牌：2分",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 8
+      },
+      "displacedAction": "researchTech",
+      "displacedCard": null,
+      "forcedCard": "card-11-0",
+      "alreadySelectedSameCard": false,
+      "identicalPrefixLogs": 53,
+      "scoreBefore": 225,
+      "scoreAfter": 266,
+      "playerDelta": 41,
+      "tableMeanDelta": 25.75,
+      "allSeatDeltas": [
+        48,
+        17,
+        41,
+        -3
+      ],
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "consumedTriggerIds": null,
+      "receiptEvidence": [
+        {
+          "entry": 19,
+          "step": 1,
+          "text": "卡牌触发：打出3费牌：2宣传",
+          "resources": {}
+        },
+        {
+          "entry": 23,
+          "step": 1,
+          "text": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：造500米口径球面射电望远锐",
+          "resources": {}
+        },
+        {
+          "entry": 29,
+          "step": 1,
+          "text": "卡牌触发：打出1费牌：2分：完成任务+1",
+          "resources": {}
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 1,
+      "turn": 1,
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "displacedAction": "playCard",
+      "displacedCard": "card-8-0",
+      "forcedCard": "card-6-0",
+      "alreadySelectedSameCard": false,
+      "identicalPrefixLogs": 32,
+      "scoreBefore": 183,
+      "scoreAfter": 150,
+      "playerDelta": -33,
+      "tableMeanDelta": -34,
+      "allSeatDeltas": [
+        43,
+        -33,
+        -45,
+        -101
+      ],
+      "payment": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "consumedTriggerIds": null,
+      "receiptEvidence": [
+        {
+          "entry": 10,
+          "step": 1,
+          "text": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：观测巴纳德星",
+          "resources": {}
+        },
+        {
+          "entry": 57,
+          "step": 1,
+          "text": "卡牌触发：打出1费牌：2分",
+          "resources": {}
+        },
+        {
+          "entry": 103,
+          "step": 1,
+          "text": "卡牌触发：打出3费牌：2宣传：完成任务+1",
+          "resources": {}
+        }
+      ]
+    }
+  ]
+}

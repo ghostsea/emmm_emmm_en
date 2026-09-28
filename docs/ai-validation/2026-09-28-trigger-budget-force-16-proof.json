@@ -1,0 +1,604 @@
+{
+  "case": 16,
+  "scope": "One forced first full-turn b120 choice in preregistered observed state, then unmodified policy. Not a policy benchmark or fresh validation; global trajectory changes include shared supply/turn timing.",
+  "input": "tmp/ai-20260905/tradeledger28v2-candidate-16.json",
+  "output": "tmp/ai-20260905/trigger-budget-force-16.json",
+  "outputSha256": "8b75f11a00a9a02d6226ba30b35349d590f8e9d45439feca0acd897df8bbcd19",
+  "identicalPrefixLogs": 32,
+  "firstDivergence": 33,
+  "player": "player-green",
+  "company": "寰宇超动力",
+  "baselineScores": [
+    147,
+    183,
+    322,
+    321
+  ],
+  "scores": [
+    190,
+    150,
+    277,
+    220
+  ],
+  "scoreDeltas": [
+    43,
+    -33,
+    -45,
+    -101
+  ],
+  "forced": {
+    "player": "player-green",
+    "round": 1,
+    "turn": 1,
+    "resources": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 4,
+      "availableData": 3,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 3,
+      "score": 6
+    },
+    "hand": [
+      {
+        "id": "card-6-0",
+        "cardId": "b_120.webp",
+        "set": "basic",
+        "cardName": "战略规划",
+        "src": "../assets/cards/basic/split/b_120.webp",
+        "faceUp": true,
+        "price": 1,
+        "cardTypeCode": 1,
+        "discardActionCode": 2,
+        "scanActionCode": 0,
+        "incomeCode": 0
+      },
+      {
+        "id": "card-8-0",
+        "cardId": "dlc_40.png",
+        "set": "space-agency",
+        "cardName": "霍尔效应推进器",
+        "src": "../assets/cards/space-agency/split/dlc_40.png",
+        "faceUp": true,
+        "price": 2,
+        "cardTypeCode": 0,
+        "discardActionCode": 1,
+        "scanActionCode": 2,
+        "incomeCode": 0
+      },
+      {
+        "id": "card-64-0",
+        "cardId": "dlc_27.png",
+        "set": "space-agency",
+        "cardName": "更优太阳能板",
+        "src": "../assets/cards/space-agency/split/dlc_27.png",
+        "faceUp": true,
+        "price": 0,
+        "cardTypeCode": 0,
+        "discardActionCode": 0,
+        "scanActionCode": 1,
+        "incomeCode": 2
+      }
+    ],
+    "displaced": {
+      "id": "playCard",
+      "kind": "main",
+      "available": true,
+      "reason": null,
+      "playableCards": [
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_120.webp",
+          "cardInstanceId": "card-6-0",
+          "cardLabel": "战略规划",
+          "alienCard": false,
+          "price": 1,
+          "cost": {
+            "credits": 1
+          },
+          "typeCode": 1,
+          "reservesAfterPlay": true,
+          "effectTypes": [],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -7.1675,
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 28.15,
+            "directScoreGain": 0,
+            "effectValue": 0,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 1,
+          "cardId": "dlc_40.png",
+          "cardInstanceId": "card-8-0",
+          "cardLabel": "霍尔效应推进器",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_move"
+          ],
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "move",
+            "label": "打牌获得移动并靠近路线目标",
+            "score": 5.783183169624321,
+            "cardId": "dlc_40.png",
+            "effectType": "card_move",
+            "movementPoints": 5,
+            "movePreview": {
+              "score": 12.261368462944004,
+              "routeTarget": {
+                "id": "mars",
+                "label": "火星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 6,
+                  "y": 2
+                },
+                "value": 60.002770000000005,
+                "satelliteOpportunity": null,
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 2,
+                "newDistance": 1,
+                "rotationStagingValue": 0
+              },
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "direction": "out",
+              "followupLanding": null
+            }
+          },
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": 24.516322177746463,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 28.15,
+            "directScoreGain": 0,
+            "effectValue": 9.5,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 5.783183169624321,
+            "standardActionPremium": 31.95,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        }
+      ],
+      "cardId": "dlc_40.png",
+      "cardInstanceId": "card-8-0",
+      "cardLabel": "霍尔效应推进器",
+      "plan": {
+        "type": "card-synergy",
+        "mainActionId": "playCard",
+        "actionId": "move",
+        "label": "打牌获得移动并靠近路线目标",
+        "score": 5.783183169624321,
+        "cardId": "dlc_40.png",
+        "effectType": "card_move",
+        "movementPoints": 5,
+        "movePreview": {
+          "score": 12.261368462944004,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 6,
+              "y": 2
+            },
+            "value": 60.002770000000005,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 2,
+            "newDistance": 1,
+            "rotationStagingValue": 0
+          },
+          "from": {
+            "x": 7,
+            "y": 1
+          },
+          "to": {
+            "x": 7,
+            "y": 2
+          },
+          "direction": "out",
+          "followupLanding": null
+        }
+      },
+      "effectTypes": [
+        "card_move"
+      ],
+      "finalFormulaDeltas": {},
+      "directScoreGain": 0,
+      "finalMarkCashoutIncluded": true,
+      "score": 28.19377050440843,
+      "valueBreakdown": {
+        "directScoreGain": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "endGameExpectedScore": 0,
+        "playCardConversionPressure": 0,
+        "finalUnreadyTaskSetupSuppressed": false
+      },
+      "actionGraph": {
+        "gain": 28.194,
+        "cost": 0,
+        "finalMarginal": 0,
+        "goalBonus": 11.734,
+        "feasibility": 1,
+        "net": 39.129
+      },
+      "breakdown": {
+        "directScoreGain": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "endGameExpectedScore": 0,
+        "playCardConversionPressure": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "existingScore": 28.194,
+        "gain": 28.194,
+        "cost": 0,
+        "finalMarginal": 0,
+        "finalMarkCashout": 0,
+        "missingFinalMarkPenalty": 0,
+        "goalBonus": 11.734,
+        "feasibility": 1,
+        "net": 39.129,
+        "aiStyle": "route",
+        "aiStyleMultiplier": 0.98,
+        "finalFormulaStyleMultiplier": 1,
+        "missingFinalMarkMultiplier": 1,
+        "netBeforeStyle": 39.928
+      }
+    },
+    "selected": {
+      "id": "playCard",
+      "kind": "main",
+      "available": true,
+      "handIndex": 0,
+      "cardId": "b_120.webp",
+      "cardInstanceId": "card-6-0",
+      "cardLabel": "战略规划",
+      "alienCard": false,
+      "price": 1,
+      "cost": {
+        "credits": 1
+      },
+      "typeCode": 1,
+      "reservesAfterPlay": true,
+      "effectTypes": [],
+      "plan": null,
+      "finalFormulaDeltas": {},
+      "directScoreGain": 0,
+      "score": -7.1675,
+      "valueBreakdown": {
+        "costValue": 6,
+        "cornerOpportunity": 28.15,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "probeMoveScanPreview": null,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "playableCards": [
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_120.webp",
+          "cardInstanceId": "card-6-0",
+          "cardLabel": "战略规划",
+          "alienCard": false,
+          "price": 1,
+          "cost": {
+            "credits": 1
+          },
+          "typeCode": 1,
+          "reservesAfterPlay": true,
+          "effectTypes": [],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -7.1675,
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 28.15,
+            "directScoreGain": 0,
+            "effectValue": 0,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 1,
+          "cardId": "dlc_40.png",
+          "cardInstanceId": "card-8-0",
+          "cardLabel": "霍尔效应推进器",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_move"
+          ],
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "move",
+            "label": "打牌获得移动并靠近路线目标",
+            "score": 5.783183169624321,
+            "cardId": "dlc_40.png",
+            "effectType": "card_move",
+            "movementPoints": 5,
+            "movePreview": {
+              "score": 12.261368462944004,
+              "routeTarget": {
+                "id": "mars",
+                "label": "火星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 6,
+                  "y": 2
+                },
+                "value": 60.002770000000005,
+                "satelliteOpportunity": null,
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 2,
+                "newDistance": 1,
+                "rotationStagingValue": 0
+              },
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "direction": "out",
+              "followupLanding": null
+            }
+          },
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": 24.516322177746463,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 28.15,
+            "directScoreGain": 0,
+            "effectValue": 9.5,
+            "probeMoveScanPreview": null,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 5.783183169624321,
+            "standardActionPremium": 31.95,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        }
+      ]
+    }
+  },
+  "payment": {
+    "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+    "entryId": 6,
+    "stepIndex": 0,
+    "playerId": "player-green",
+    "playerLabel": "绿色",
+    "finalScore": 150,
+    "roundNumber": 1,
+    "turnNumber": 1,
+    "pace": "main",
+    "mainActionType": "playCard",
+    "sourceCategory": "card",
+    "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+    "resourceDeltas": {
+      "credits": -1,
+      "handSize": -1
+    },
+    "incomeDeltas": {},
+    "cards": [
+      {
+        "key": "card-6-0",
+        "label": "战略规划",
+        "change": "play",
+        "origin": "normal"
+      }
+    ],
+    "techIds": [],
+    "alienId": null,
+    "industryId": "寰宇超动力",
+    "isDataPlacement": false,
+    "confidence": 1
+  },
+  "receiptEvidence": [
+    {
+      "entry": 10,
+      "step": 1,
+      "text": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：观测巴纳德星",
+      "resources": {}
+    },
+    {
+      "entry": 57,
+      "step": 1,
+      "text": "卡牌触发：打出1费牌：2分",
+      "resources": {}
+    },
+    {
+      "entry": 103,
+      "step": 1,
+      "text": "卡牌触发：打出3费牌：2宣传：完成任务+1",
+      "resources": {}
+    }
+  ]
+}
