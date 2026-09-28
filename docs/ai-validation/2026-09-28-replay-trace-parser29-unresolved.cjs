@@ -1,0 +1,13 @@
+const fs=require('fs'),path=require('path'),cp=require('child_process'),assert=require('node:assert/strict'),crypto=require('crypto');
+const d='tmp/ai-20260905/',out='docs/ai-validation/2026-09-28-',report=JSON.parse(fs.readFileSync(out+'scanprojectionfresh-trace-payment-correction.json'));
+const files=report.summary.issues.map(x=>x.file),rows=[],failures=[];assert.equal(files.length,11);
+fs.writeFileSync(out+'trace-parser29-unresolved-plan.json',JSON.stringify({scope:'11 frozen inputs cannot be safely corrected with unique sufficient snapshot compensation. Replay all with same policy and parser29; compare every semantic log and score. No additional policy tuning.',frozenAt:new Date().toISOString(),files},null,2)+'\n');
+const clean=v=>Array.isArray(v)?v.map(clean):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>!['createdAt','updatedAt','placedAt'].includes(k)).map(([k,x])=>[k,clean(x)])):v,hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+let next=0;
+async function worker(){while(next<files.length){const file=files[next++],before=JSON.parse(fs.readFileSync(d+file)),output=d+'parser29-'+file,root=file.startsWith('scanprojectionabsolute64')?d+'weak-company-blue-lifecycle':'.';
+ try{await new Promise((resolve,reject)=>{const fd=fs.openSync(output+'.log','w'),p=cp.spawn(process.execPath,['tools/run_ai_autobattle_browser.js','--single','--seed',before.options.seed,'--alienSeed',before.options.alienSeed,'--root',root,'--includeLogs','--lightweight','--timeoutMs','1800000','--out',output],{stdio:['ignore',fd,fd],windowsHide:true});p.on('error',reject);p.on('exit',code=>{fs.closeSync(fd);code===0?resolve():reject(Error('exit '+code));});});
+ const after=JSON.parse(fs.readFileSync(output));assert(after.summary.ok&&after.summary.gameEnded&&!after.summary.blocked&&after.summary.bugCount===0);assert.equal(after.summary.steps,before.summary.steps);assert.deepEqual(after.summary.playerScores,before.summary.playerScores);assert.deepEqual(clean(after.result.logs),clean(before.result.logs));assert.equal(after.result.resourceFlow.reconciliation.residualMagnitude,0);
+ rows.push({file,output,sourceHash:hash(d+file),replayHash:hash(output),steps:after.summary.steps,semanticLogs:after.result.logs.length,scores:after.summary.playerScores});console.log('REPLAY VERIFIED',file);
+ }catch(e){failures.push({file,error:e.message.slice(0,1500)});console.log('REPLAY FAILED',file,e.message.slice(0,150));}}
+}
+Promise.all([worker(),worker()]).then(()=>{fs.writeFileSync(out+'trace-parser29-unresolved-replays.json',JSON.stringify({games:rows.length,rows,failures},null,2)+'\n');assert.equal(failures.length,0);});

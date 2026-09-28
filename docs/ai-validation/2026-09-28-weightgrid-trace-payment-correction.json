@@ -1,0 +1,4895 @@
+{
+  "scope": "Independent parser29 supplement; frozen input hashes and score results unchanged. All event net deltas checked; old resource matrices retain parser28. Unique game count deduplicates shared candidates/baselines.",
+  "summary": {
+    "uniqueGames": 96,
+    "correctedGames": 12,
+    "fullReplays": 3,
+    "explicitlyRelocatedPayments": 103,
+    "grossDataRemoved": 186,
+    "issues": []
+  },
+  "rows": [
+    {
+      "file": "tradeledger28v2-candidate-1.json",
+      "sha256": "f5bc350fe3807faf92b2d19230e600f4957685dd19ed2e0584811e64569b60da",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 47,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 43,
+          "grossDataAfter": 43,
+          "spentDataBefore": 45,
+          "spentDataAfter": 45
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-1.json",
+      "sha256": "56eae419b0207e0f3d6f61cd9d635ae053c5a01dad2f5b981857810b82e9258e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-2.json",
+      "sha256": "8feccf2fc5b04a66b9bf7aca6ee9f4ab5165e5a7724342f8ac1e09fe3a2f9d51",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 17,
+          "grossDataAfter": 17,
+          "spentDataBefore": 18,
+          "spentDataAfter": 18
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 46,
+          "grossDataAfter": 46,
+          "spentDataBefore": 46,
+          "spentDataAfter": 46
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-2.json",
+      "sha256": "208c49eff1b00b83119bc364dc1d6d4079a043675dcd8d37405bc0f8b8545746",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 35,
+          "grossDataAfter": 35,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-3.json",
+      "sha256": "35831f8797085b542e2191ff011867e4f72e9dcb8c26ee2966051155b3e0263e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 16,
+          "grossDataAfter": 16,
+          "spentDataBefore": 16,
+          "spentDataAfter": 16
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 53,
+          "grossDataAfter": 53,
+          "spentDataBefore": 55,
+          "spentDataAfter": 55
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-3.json",
+      "sha256": "cddced9515aa8fb5e6a7a7e7da992648aa1e308f084f83f080e65b47f197a5c6",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 19,
+          "spentDataAfter": 19
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-4.json",
+      "sha256": "eb425890a71185b1b2df58209296e40544e7d7d4e9aefc284cfb6ffd193ec563",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-4.json",
+      "sha256": "0c2c3c913d62b85c0470bdfc47faee9374af88df448daa491523d30ca4c2489d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-5.json",
+      "sha256": "e07e2d2d1c889540570fa36fbadb22afd089021b7a8916e0b820bfdc6ed1d4f0",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 16,
+          "spentDataAfter": 16
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 55,
+          "grossDataAfter": 55,
+          "spentDataBefore": 57,
+          "spentDataAfter": 57
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 55,
+          "grossDataAfter": 55,
+          "spentDataBefore": 57,
+          "spentDataAfter": 57
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-5.json",
+      "sha256": "d2680c0833202541c08c0752617a51a0e239fcba9afb7c9046f91ae065a81d48",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 47,
+          "spentDataBefore": 49,
+          "spentDataAfter": 49
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-6.json",
+      "sha256": "1286e9a461879c519620b4c877d103c87fb0275b08437497015e6657e2d3d99e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 50,
+          "spentDataBefore": 52,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-6.json",
+      "sha256": "bd3d3ddba64a9f0dfe7617fc4fbe89aa7d8a552d05f321b0574facac496b85f4",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 16,
+          "grossDataAfter": 16,
+          "spentDataBefore": 15,
+          "spentDataAfter": 15
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 54,
+          "grossDataAfter": 54,
+          "spentDataBefore": 56,
+          "spentDataAfter": 56
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-7.json",
+      "sha256": "724551120b9f8218f8ed861afd2c2cc8981eab383473d7912e5e125fb8b6104c",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 16,
+          "grossDataAfter": 16,
+          "spentDataBefore": 17,
+          "spentDataAfter": 17
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-7.json",
+      "sha256": "fbe14a75f2cc1dcbc858bc241474c606e7369d60dc7176a5c4b7623d7c0efdc8",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 53,
+          "grossDataAfter": 53,
+          "spentDataBefore": 53,
+          "spentDataAfter": 53
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-8.json",
+      "sha256": "4a4dc605b5fb11b4ef23395e7f9ae29127ffb70f98966c3c8d6cad688bef94c2",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-8.json",
+      "sha256": "fd14803437b033508681582d595a2e2ce258987cff22c21508d6d11c16193a45",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 14,
+          "grossDataAfter": 14,
+          "spentDataBefore": 16,
+          "spentDataAfter": 16
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 28,
+          "grossDataAfter": 28,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 19,
+          "spentDataAfter": 19
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-9.json",
+      "sha256": "7766b80b95272156ce9392efb6cc3a5723600aa5fb06d96a7334b44901568c2d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 46,
+          "grossDataAfter": 46,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-9.json",
+      "sha256": "ff46feb027af55354d37dafe2b9267b9bd3ebb6636f8ca9bd2ba3ac8a30bc196",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-10.json",
+      "sha256": "fdd10a298568085a8ec9c0dc24bde302772c27c33c6eec3139e88a9cab907710",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 60,
+          "grossDataAfter": 60,
+          "spentDataBefore": 61,
+          "spentDataAfter": 61
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 54,
+          "grossDataAfter": 54,
+          "spentDataBefore": 56,
+          "spentDataAfter": 56
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-10.json",
+      "sha256": "507bfb07e77cf93b144c0dffb23b672f53b23f7c3a730f2007e7288fbd06bb3c",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 60,
+          "grossDataAfter": 60,
+          "spentDataBefore": 61,
+          "spentDataAfter": 61
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 54,
+          "grossDataAfter": 54,
+          "spentDataBefore": 56,
+          "spentDataAfter": 56
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-11.json",
+      "sha256": "08c0ca50d7f3edb3e972ed70fcc21cb5ca6c401817ec936fe35aebe4373d4bc9",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 49,
+          "spentDataAfter": 49
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-11.json",
+      "sha256": "9df024cdec8b3bb7ccb0ecf98a445e33acd70638dae88b376b0604631b8c6114",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 18,
+          "grossDataAfter": 18,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-12.json",
+      "sha256": "90d46905703a10e52cd3eacfa2d03a633b73bec4abe3c601570a527d6ff6b1c4",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-12.json",
+      "sha256": "b64e4f7def8f0f2e8ba17985bb5883d4424931c68ea1e5a29e930806fe26443b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 45,
+          "spentDataAfter": 45
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 14,
+          "grossDataAfter": 14,
+          "spentDataBefore": 14,
+          "spentDataAfter": 14
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-13.json",
+      "sha256": "405c0fd336330c60ad55695db6906a78a3d0c029c3851003085956a812b7cdf8",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 52,
+          "grossDataAfter": 52,
+          "spentDataBefore": 54,
+          "spentDataAfter": 54
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-13.json",
+      "sha256": "ae32243b7e2e0fb4a8c0732014a18de8dfc65b77c6eadb50dc87379eeeae4d92",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 52,
+          "grossDataAfter": 52,
+          "spentDataBefore": 54,
+          "spentDataAfter": 54
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-14.json",
+      "sha256": "5ee053a13b9bc8dd2774c6561c842af996e377ce5758ef3e7e007c413a0f3d00",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 112,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 114,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 121,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 123,
+          "playerId": "player-brown",
+          "stepIndex": 7,
+          "text": "开普勒22赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -7,
+          "newCompensation": -1
+        },
+        {
+          "entryId": 134,
+          "playerId": "player-white",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 139,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 156,
+          "playerId": "player-blue",
+          "stepIndex": 12,
+          "text": "室女座61赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 161,
+          "playerId": "player-white",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 163,
+          "playerId": "player-green",
+          "stepIndex": 10,
+          "text": "比邻星赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 166,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 169,
+          "playerId": "player-white",
+          "stepIndex": 8,
+          "text": "天狼星A赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 175,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 181,
+          "playerId": "player-white",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 194,
+          "playerId": "player-green",
+          "stepIndex": 5,
+          "text": "获得黄色外星人痕迹：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 39,
+          "grossDataAfter": 34,
+          "spentDataBefore": 41,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 35,
+          "spentDataBefore": 38,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 52,
+          "grossDataAfter": 48,
+          "spentDataBefore": 56,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 32,
+          "spentDataBefore": 41,
+          "spentDataAfter": 34
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-14.json",
+      "sha256": "7c1affc5b99b0f2cc12553414278abb9d629633bc456728cdcb1b3d93a46987d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 132,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 133,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 139,
+          "playerId": "player-brown",
+          "stepIndex": 9,
+          "text": "天狼星A赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 155,
+          "playerId": "player-green",
+          "stepIndex": 11,
+          "text": "比邻星赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -8,
+          "newCompensation": -2
+        },
+        {
+          "entryId": 155,
+          "playerId": "player-green",
+          "stepIndex": 16,
+          "text": "室女座61赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 156,
+          "playerId": "player-blue",
+          "stepIndex": 10,
+          "text": "天狼星A赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 160,
+          "playerId": "player-blue",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 175,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 179,
+          "playerId": "player-green",
+          "stepIndex": 16,
+          "text": "绘架座β赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 180,
+          "playerId": "player-blue",
+          "stepIndex": 8,
+          "text": "天狼星A赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 182,
+          "playerId": "player-brown",
+          "stepIndex": 9,
+          "text": "比邻星赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -4,
+          "newCompensation": -2
+        },
+        {
+          "entryId": 182,
+          "playerId": "player-brown",
+          "stepIndex": 14,
+          "text": "室女座61赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 52,
+          "grossDataAfter": 46,
+          "spentDataBefore": 53,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 57,
+          "grossDataAfter": 49,
+          "spentDataBefore": 61,
+          "spentDataAfter": 53
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 42,
+          "grossDataAfter": 38,
+          "spentDataBefore": 44,
+          "spentDataAfter": 40
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-15.json",
+      "sha256": "e119f8e89f2ba8b30bd48ddb60769563650bc1e58d1ab97beed0d34ad5f0045c",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 48,
+          "grossDataAfter": 48,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-15.json",
+      "sha256": "37cbc863b06ae53ff1669836f05c0452a2f033a9a6dc066e19cf01f8df0f483b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 21,
+          "grossDataAfter": 21,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 28,
+          "grossDataAfter": 28,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-16.json",
+      "sha256": "abbd98099fc44fea6edd927e897c5fa4d9afb2cb3c9ea5393323537b46379461",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 46,
+          "spentDataAfter": 46
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-16.json",
+      "sha256": "8605da33bac9c6e3f9a5dc927de6dd707a42f929161faa85c44f8e2a7367e780",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 46,
+          "spentDataAfter": 46
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-17.json",
+      "sha256": "9621d04a54eaba84ae990ed9af5ff627ecf048a042543c2e23d64e7bad6ba1dc",
+      "method": "full-semantic-equal-parser29-replay",
+      "unresolvedCorrection": "No unique sufficient compensation: 149/player-green/availableData",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 16,
+          "spentDataBefore": 22,
+          "spentDataAfter": 18
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 32,
+          "grossDataAfter": 28,
+          "spentDataBefore": 32,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 45
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 35,
+          "grossDataAfter": 33,
+          "spentDataBefore": 37,
+          "spentDataAfter": 35
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-17.json",
+      "sha256": "b4936ad0f0222c5b2f7cb6a72d086c008c742a38a59f3e251470aa89e38a79a4",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 106,
+          "playerId": "player-brown",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 124,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 131,
+          "playerId": "player-white",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 144,
+          "playerId": "player-white",
+          "stepIndex": 20,
+          "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 147,
+          "playerId": "player-green",
+          "stepIndex": 5,
+          "text": "巴纳德赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -3,
+          "newCompensation": -1
+        },
+        {
+          "entryId": 147,
+          "playerId": "player-green",
+          "stepIndex": 8,
+          "text": "半人马6：黄色外星人痕迹：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 0,
+          "newExplicit": -1,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-white",
+          "stepIndex": 11,
+          "text": "天狼星A赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 156,
+          "playerId": "player-white",
+          "stepIndex": 3,
+          "text": "获得任意外星人标记 2/2：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 163,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 18,
+          "spentDataBefore": 21,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 43,
+          "grossDataAfter": 40,
+          "spentDataBefore": 43,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 41,
+          "spentDataBefore": 49,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-18.json",
+      "sha256": "55e997b988873dddaf9e12ba8c3f96aaa6428d0c3d376dbee0b10756e96b43ca",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-18.json",
+      "sha256": "e00127c273c4315ec0d76b78b37fdc1ccc10a3b25a187879a460fe5f3a7f4f14",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-19.json",
+      "sha256": "90ce6dce5343948c6347a479c7a2144c63264f2a626272011aea45534f0d9209",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 28,
+          "grossDataAfter": 28,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-19.json",
+      "sha256": "c468940a98c4285ede7f9dbad93b74acd5bdd6a41ff200a6244783301189aca0",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 21,
+          "grossDataAfter": 21,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-20.json",
+      "sha256": "e33e7bfe25a863cd85c024936f41654a8a91c0d947535f4c019ee31d8f0d899d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 46,
+          "spentDataAfter": 46
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-20.json",
+      "sha256": "849a8c168e3d4413c7feb4cd0201274baca62c1831e6074ae71066a8a278f860",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-21.json",
+      "sha256": "684bb42550aec69cf6eb43cac216544e85a5a8483fcc3c95197601d6bcedac66",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-21.json",
+      "sha256": "c618e5185773c0850d13d00b6ad1b4dbf7c0b4f562efc15163a26d91eca5245f",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 43,
+          "grossDataAfter": 43,
+          "spentDataBefore": 45,
+          "spentDataAfter": 45
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-22.json",
+      "sha256": "8260313fc3b4740ef291148d4ec967c14d152a06872607a1041447fbbd624941",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 43,
+          "grossDataAfter": 43,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 49,
+          "grossDataAfter": 49,
+          "spentDataBefore": 51,
+          "spentDataAfter": 51
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-22.json",
+      "sha256": "78e689dc850d0df91904f21250070c2cd7f4b5efa649b0507dc7a99ded08790b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 43,
+          "grossDataAfter": 43,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 48,
+          "grossDataAfter": 48,
+          "spentDataBefore": 50,
+          "spentDataAfter": 50
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-23.json",
+      "sha256": "794149258bdb0c3e4b6ff3f05aacb0259867a918c1f758ae448458d4b55d272e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-23.json",
+      "sha256": "2e15e800ef3e834697bf102e9ee5c6fafef7de0ec1e500278265220c52abf093",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 47,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        }
+      ]
+    },
+    {
+      "file": "tradeledger28v2-candidate-24.json",
+      "sha256": "fe3d0af6130109d01d32ad5dd920bfaa1bb19398e630ca02f5221dff69708cc5",
+      "method": "full-semantic-equal-parser29-replay",
+      "unresolvedCorrection": "No unique sufficient compensation: 169/player-green/availableData",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 17,
+          "spentDataBefore": 26,
+          "spentDataAfter": 19
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 55,
+          "grossDataAfter": 49,
+          "spentDataBefore": 55,
+          "spentDataAfter": 49
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 31,
+          "spentDataBefore": 38,
+          "spentDataAfter": 33
+        }
+      ]
+    },
+    {
+      "file": "weightgridplay-candidate-24.json",
+      "sha256": "333cda9354c650080d8273ec7c3e0609b1283981ada4dc0d03c3c39fdec4d21b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 52,
+          "playerId": "player-blue",
+          "stepIndex": 4,
+          "text": "半人马6：黄色外星人痕迹：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 0,
+          "newExplicit": -1,
+          "oldCompensation": -1,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 59,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 108,
+          "playerId": "player-white",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 121,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 154,
+          "playerId": "player-brown",
+          "stepIndex": 14,
+          "text": "绘架座β赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 160,
+          "playerId": "player-white",
+          "stepIndex": 8,
+          "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 161,
+          "playerId": "player-blue",
+          "stepIndex": 7,
+          "text": "比邻星赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 167,
+          "playerId": "player-green",
+          "stepIndex": 10,
+          "text": "绘架座β赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 171,
+          "playerId": "player-green",
+          "stepIndex": 12,
+          "text": "天狼星A赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -4,
+          "newCompensation": -2
+        },
+        {
+          "entryId": 171,
+          "playerId": "player-green",
+          "stepIndex": 17,
+          "text": "比邻星赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 172,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 175,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 184,
+          "playerId": "player-white",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 36,
+          "grossDataAfter": 27,
+          "spentDataBefore": 38,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 46,
+          "spentDataBefore": 50,
+          "spentDataAfter": 46
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 28,
+          "spentDataBefore": 33,
+          "spentDataAfter": 30
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-1.json",
+      "sha256": "56e77866ff9423f04ff667a3475c95ac1bde0e70572ac7951b601f696b9f4e5d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 21,
+          "grossDataAfter": 21,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 50,
+          "spentDataBefore": 50,
+          "spentDataAfter": 50
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 48,
+          "grossDataAfter": 48,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-2.json",
+      "sha256": "9914e6b4e22b95f61cd1df4b06b1e557b6bebe329205df716d3c86cc5f487987",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 13,
+          "grossDataAfter": 13,
+          "spentDataBefore": 14,
+          "spentDataAfter": 14
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-3.json",
+      "sha256": "ce518959fb631624cf46d1a62c6bd049cd26a8aa129daf2b7810c962551cc845",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 16,
+          "spentDataAfter": 16
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-4.json",
+      "sha256": "8d8a96eb5f798ea2512f7a115a2fd13ee609a1749be9adae354c131d1f13393e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 28,
+          "grossDataAfter": 28,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-5.json",
+      "sha256": "29508779912e86b6a289b75c5d72c648e098a72c8a3b7880fa996a511a3f2e63",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 46,
+          "spentDataAfter": 46
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-6.json",
+      "sha256": "864f918598c96eaa536485795424ed4b18a0090a53dd9f33b3dfdbb56bfd4fbf",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 17,
+          "grossDataAfter": 17,
+          "spentDataBefore": 18,
+          "spentDataAfter": 18
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-7.json",
+      "sha256": "0a740747d0129305e418240b0ddd8bfc87bc4bf5162210d3a9e6f50b14d1abdb",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-8.json",
+      "sha256": "571e88d768d478af1af2b1e6274248a55d4fb5e84faa90810171b2f902f30193",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-9.json",
+      "sha256": "13af879ece0e502702367643ceafbbbfe10132c0d772d72f12301915e779b112",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 38,
+          "grossDataAfter": 38,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 45,
+          "spentDataAfter": 45
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-10.json",
+      "sha256": "a55198a3aac92ec62f5d402f1d7b40bbccda67f67a722a9a207f570dd35ad88c",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 21,
+          "grossDataAfter": 21,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 47,
+          "grossDataAfter": 47,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 53,
+          "grossDataAfter": 53,
+          "spentDataBefore": 55,
+          "spentDataAfter": 55
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-11.json",
+      "sha256": "676f3ce838bc6205b63afe66d8342d6013214c3ed313191749d433cd57ad0486",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-12.json",
+      "sha256": "b50529a58f7690d585c9bfde703195f6e85d26e33bcd3f699be618dfd9bd9153",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 17,
+          "grossDataAfter": 17,
+          "spentDataBefore": 17,
+          "spentDataAfter": 17
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-13.json",
+      "sha256": "c4c35e0feaa512d7b259610ea89de2cf65400056c2be68cc3afc8848937c8542",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 21,
+          "grossDataAfter": 21,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 54,
+          "grossDataAfter": 54,
+          "spentDataBefore": 56,
+          "spentDataAfter": 56
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-14.json",
+      "sha256": "dde93a338c71d60415a8ddfc450f8a7465b0010a51803463f90e77d5f396516b",
+      "method": "full-semantic-equal-parser29-replay",
+      "unresolvedCorrection": "No unique sufficient compensation: 166/player-blue/availableData",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 41,
+          "grossDataAfter": 35,
+          "spentDataBefore": 43,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 48,
+          "spentDataBefore": 51,
+          "spentDataAfter": 49
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 60,
+          "grossDataAfter": 56,
+          "spentDataBefore": 64,
+          "spentDataAfter": 60
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 38,
+          "grossDataAfter": 37,
+          "spentDataBefore": 40,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-15.json",
+      "sha256": "34ae3ad59aca20b834d2d62f7cb6056d176bd61ccb2ace8aa4f6085ce9fb2244",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 18,
+          "grossDataAfter": 18,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-16.json",
+      "sha256": "f33ffda4cd8fb108d3eb5e829e8f2ef59691967654c81541b7193fbe82624ed5",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 16,
+          "grossDataAfter": 16,
+          "spentDataBefore": 19,
+          "spentDataAfter": 19
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 28,
+          "grossDataAfter": 28,
+          "spentDataBefore": 28,
+          "spentDataAfter": 28
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 57,
+          "grossDataAfter": 57,
+          "spentDataBefore": 59,
+          "spentDataAfter": 59
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-17.json",
+      "sha256": "cbf8d55f7e78e127b43a516695f66609013418c4dec681526e81bdd1220ec770",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 64,
+          "playerId": "player-green",
+          "stepIndex": 8,
+          "text": "南河三赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 86,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 111,
+          "playerId": "player-green",
+          "stepIndex": 7,
+          "text": "天狼星A赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 125,
+          "playerId": "player-white",
+          "stepIndex": 3,
+          "text": "同一外星人3个痕迹：在该外星人获得任意痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 127,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 129,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 137,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-white",
+          "stepIndex": 10,
+          "text": "巴纳德赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -4,
+          "newCompensation": -2
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-white",
+          "stepIndex": 14,
+          "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 173,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 174,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 183,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 29,
+          "spentDataBefore": 34,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 43,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 59,
+          "grossDataAfter": 52,
+          "spentDataBefore": 59,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 37,
+          "spentDataBefore": 43,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-18.json",
+      "sha256": "41cd2e7cc2df1f94681dd2368a112f78c174a8e6e8dfba14aabc2470fe093c97",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-19.json",
+      "sha256": "3b154dd5b93a732f29cdcdff3ff8b77bdae205a1545a1f056e6884dd339d5be4",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-20.json",
+      "sha256": "822ff65c2dea345c60bbecb0cb1e0b282c03ae233a07f9b9b9aa9bc6a64fcfca",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 17,
+          "grossDataAfter": 17,
+          "spentDataBefore": 19,
+          "spentDataAfter": 19
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 45,
+          "spentDataAfter": 45
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 43,
+          "grossDataAfter": 43,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-21.json",
+      "sha256": "bf0239e34fa439c12611b9709a9a8c9e02b61cc88346dad94dd9d6200f1493bc",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 38,
+          "grossDataAfter": 38,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 51,
+          "grossDataAfter": 51,
+          "spentDataBefore": 53,
+          "spentDataAfter": 53
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 33,
+          "spentDataAfter": 33
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-22.json",
+      "sha256": "5cb02a90b6f5e6854a8e5f47618bd5e91cffca22bc30dc3df859572336403c8f",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-23.json",
+      "sha256": "78623496ba451e81bd34cb9fd8237fa213f6d6687cdfd97749fcd29cf3b266f1",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        }
+      ]
+    },
+    {
+      "file": "weightgridscan-candidate-24.json",
+      "sha256": "2e69a954fe979c4fb80893b47767b9c7dbd2f3a4c3f610abc68ddfd39d96b7cf",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 75,
+          "playerId": "player-green",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 81,
+          "playerId": "player-brown",
+          "stepIndex": 11,
+          "text": "巴纳德赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 101,
+          "playerId": "player-green",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 102,
+          "playerId": "player-white",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 110,
+          "playerId": "player-white",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 116,
+          "playerId": "player-brown",
+          "stepIndex": 7,
+          "text": "室女座61赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 150,
+          "playerId": "player-green",
+          "stepIndex": 12,
+          "text": "比邻星赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 162,
+          "playerId": "player-green",
+          "stepIndex": 11,
+          "text": "室女座61赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 172,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 173,
+          "playerId": "player-brown",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 22,
+          "grossDataAfter": 18,
+          "spentDataBefore": 24,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 46,
+          "grossDataAfter": 43,
+          "spentDataBefore": 46,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 35,
+          "spentDataBefore": 41,
+          "spentDataAfter": 35
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 29,
+          "spentDataBefore": 34,
+          "spentDataAfter": 31
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-1.json",
+      "sha256": "5daf846d31b0cbd66377e09b2a6231fb450162d941fa2ae471f2d47929b19a62",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 15,
+          "grossDataAfter": 15,
+          "spentDataBefore": 17,
+          "spentDataAfter": 17
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 35,
+          "grossDataAfter": 35,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-2.json",
+      "sha256": "4eb9607a43f4c4fce4d1b6b259aeae5f629c22f957ebdf45c1885b48b754db9d",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-3.json",
+      "sha256": "a987db67a5c6d9c0eb225cfbe5d750cfcdd51d23b650124ba0736fe6eabb19f8",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 26,
+          "grossDataAfter": 26,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 50,
+          "spentDataBefore": 52,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-4.json",
+      "sha256": "49b8e807a6522bdfd13ce8fc7b2ea4ab6f3d1258dfacaf4cc7cf6626dd0454e2",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-5.json",
+      "sha256": "e02ccfcfc8daa3ed73556c8cbf6522d8f028c5878acb6cb482a7ee2a25927688",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 53,
+          "grossDataAfter": 53,
+          "spentDataBefore": 55,
+          "spentDataAfter": 55
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 48,
+          "grossDataAfter": 48,
+          "spentDataBefore": 50,
+          "spentDataAfter": 50
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-6.json",
+      "sha256": "19907df8bb3e0ce24515e05671fe2445bad98bdfe7e6dc3875c4df83d45f1673",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 17,
+          "grossDataAfter": 17,
+          "spentDataBefore": 18,
+          "spentDataAfter": 18
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 35,
+          "grossDataAfter": 35,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 46,
+          "grossDataAfter": 46,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-7.json",
+      "sha256": "8684309c5f5952a18a28ce04d2da96f4977afca543d55a7319ce757191ad059b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 14,
+          "spentDataAfter": 14
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 26,
+          "spentDataAfter": 26
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-8.json",
+      "sha256": "8fb3f73a6b06399519ccb2ee18074fac0ebfdb2deafd82966c222c22b44b8779",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 19,
+          "grossDataAfter": 19,
+          "spentDataBefore": 21,
+          "spentDataAfter": 21
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 42,
+          "grossDataAfter": 42,
+          "spentDataBefore": 44,
+          "spentDataAfter": 44
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-9.json",
+      "sha256": "e83ed0b5bd0c77b292537d9de3ac575658e4556db457036171c2fdd04c9414d5",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 51,
+          "grossDataAfter": 51,
+          "spentDataBefore": 53,
+          "spentDataAfter": 53
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 42,
+          "spentDataAfter": 42
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 44,
+          "grossDataAfter": 44,
+          "spentDataBefore": 48,
+          "spentDataAfter": 48
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-10.json",
+      "sha256": "4684e52e417a7e3565215cbdc2bf0a72b29405d7c3ff79831e03c72c4b1378cf",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 20,
+          "grossDataAfter": 20,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 51,
+          "grossDataAfter": 51,
+          "spentDataBefore": 52,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 50,
+          "grossDataAfter": 50,
+          "spentDataBefore": 52,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-11.json",
+      "sha256": "a9030bf260c51fd17229f9c1551ce84905dab8f5b39f9f025601503a3aa42168",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 18,
+          "grossDataAfter": 18,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-12.json",
+      "sha256": "586e692f63f843374750cbc5ff2172932f471572cf15399edcad2835a916123b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 24,
+          "grossDataAfter": 24,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-13.json",
+      "sha256": "cb514a7898aea312d43e29033919041f8b8b3e46ec61f22a3a89a3d5c7803b16",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 24,
+          "spentDataAfter": 24
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 52,
+          "grossDataAfter": 52,
+          "spentDataBefore": 54,
+          "spentDataAfter": 54
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-14.json",
+      "sha256": "1a3ca21a4f496bae13c706cefb057c9e03f334e1098635f311571b531a90de2b",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 108,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 121,
+          "playerId": "player-blue",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 145,
+          "playerId": "player-blue",
+          "stepIndex": 11,
+          "text": "绘架座β赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 146,
+          "playerId": "player-white",
+          "stepIndex": 9,
+          "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-green",
+          "stepIndex": 9,
+          "text": "天狼星A赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 158,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 170,
+          "playerId": "player-white",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 171,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 172,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 186,
+          "playerId": "player-green",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 189,
+          "playerId": "player-brown",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 30,
+          "grossDataAfter": 25,
+          "spentDataBefore": 32,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 36,
+          "spentDataBefore": 41,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 55,
+          "grossDataAfter": 51,
+          "spentDataBefore": 59,
+          "spentDataAfter": 55
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 42,
+          "grossDataAfter": 40,
+          "spentDataBefore": 40,
+          "spentDataAfter": 38
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-15.json",
+      "sha256": "b797b750b73ebf190ac30aa4d8c8c829dd6912e5d91c7810b44ce86a6916aafd",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 23,
+          "spentDataAfter": 23
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 37,
+          "spentDataAfter": 37
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 36,
+          "grossDataAfter": 36,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-16.json",
+      "sha256": "cb275649302fd0f8d5a5e7d892fabd3d59d605f3ea73249882d686e9e8c82e43",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 16,
+          "grossDataAfter": 16,
+          "spentDataBefore": 19,
+          "spentDataAfter": 19
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 41,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 27,
+          "spentDataAfter": 27
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-17.json",
+      "sha256": "8d78694fd0d094593462f41f9d6e7bc64b2c7c90b9becde3730730ee8ce059f5",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 64,
+          "playerId": "player-green",
+          "stepIndex": 8,
+          "text": "南河三赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 86,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 111,
+          "playerId": "player-green",
+          "stepIndex": 7,
+          "text": "天狼星A赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 125,
+          "playerId": "player-white",
+          "stepIndex": 3,
+          "text": "同一外星人3个痕迹：在该外星人获得任意痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 127,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 129,
+          "playerId": "player-white",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 137,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-white",
+          "stepIndex": 10,
+          "text": "巴纳德赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -4,
+          "newCompensation": -2
+        },
+        {
+          "entryId": 152,
+          "playerId": "player-white",
+          "stepIndex": 14,
+          "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 173,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 174,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 183,
+          "playerId": "player-green",
+          "stepIndex": 2,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 29,
+          "spentDataBefore": 34,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 43,
+          "grossDataAfter": 41,
+          "spentDataBefore": 43,
+          "spentDataAfter": 41
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 59,
+          "grossDataAfter": 52,
+          "spentDataBefore": 59,
+          "spentDataAfter": 52
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 41,
+          "grossDataAfter": 37,
+          "spentDataBefore": 43,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-18.json",
+      "sha256": "daf126a77a6be5818ed1d78e25e2e758567e2da554e5cdec7185c56f457b330f",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 22,
+          "grossDataAfter": 22,
+          "spentDataBefore": 22,
+          "spentDataAfter": 22
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 38,
+          "spentDataAfter": 38
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 23,
+          "grossDataAfter": 23,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-19.json",
+      "sha256": "c2c67e240f6a07f6e5ff7653a0365f0a4cdc2969b66281df16b16fed34ec4f6a",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 25,
+          "spentDataAfter": 25
+        },
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-20.json",
+      "sha256": "7f9570886ef78e19dc16019f32edd7a9104cd24fd7cfd814f076d3c929af822e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "grossDataBefore": 27,
+          "grossDataAfter": 27,
+          "spentDataBefore": 29,
+          "spentDataAfter": 29
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 25,
+          "grossDataAfter": 25,
+          "spentDataBefore": 20,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 40,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 39,
+          "grossDataAfter": 39,
+          "spentDataBefore": 43,
+          "spentDataAfter": 43
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-21.json",
+      "sha256": "6d7d290f0bb35d15240b5fab0a3a231972dd8930ad40174e81d94cde160d004e",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 31,
+          "grossDataAfter": 31,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 38,
+          "grossDataAfter": 38,
+          "spentDataBefore": 40,
+          "spentDataAfter": 40
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 51,
+          "grossDataAfter": 51,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 32,
+          "spentDataAfter": 32
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-22.json",
+      "sha256": "54ba32596813621e32057c4dbe67f37ecbfe079defade13016a409be193a30d8",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 29,
+          "grossDataAfter": 29,
+          "spentDataBefore": 31,
+          "spentDataAfter": 31
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 45,
+          "grossDataAfter": 45,
+          "spentDataBefore": 47,
+          "spentDataAfter": 47
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 32,
+          "grossDataAfter": 32,
+          "spentDataBefore": 34,
+          "spentDataAfter": 34
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-23.json",
+      "sha256": "7d2f7a082abed04e978620d88726f1aa741d32cc5cad8908297bd31381534f59",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [],
+      "players": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "grossDataBefore": 34,
+          "grossDataAfter": 34,
+          "spentDataBefore": 36,
+          "spentDataAfter": 36
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 33,
+          "grossDataAfter": 33,
+          "spentDataBefore": 35,
+          "spentDataAfter": 35
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 30,
+          "grossDataAfter": 30,
+          "spentDataBefore": 30,
+          "spentDataAfter": 30
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "grossDataBefore": 37,
+          "grossDataAfter": 37,
+          "spentDataBefore": 39,
+          "spentDataAfter": 39
+        }
+      ]
+    },
+    {
+      "file": "weightgridboth-candidate-24.json",
+      "sha256": "3f53aa542e3c4907e8833045794c63e1432019656b8afba7950d140663768fc3",
+      "method": "completed-centauri-trace-payment-with-unique-snapshot-compensation-v1",
+      "changes": [
+        {
+          "entryId": 75,
+          "playerId": "player-green",
+          "stepIndex": 3,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 101,
+          "playerId": "player-white",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 111,
+          "playerId": "player-brown",
+          "stepIndex": 6,
+          "text": "天狼星A赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 118,
+          "playerId": "player-blue",
+          "stepIndex": 4,
+          "text": "获得 1 个黄色外星人标记：半人马黄色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 133,
+          "playerId": "player-brown",
+          "stepIndex": 7,
+          "text": "室女座61赢家奖励：棕色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 168,
+          "playerId": "player-green",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 170,
+          "playerId": "player-blue",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 172,
+          "playerId": "player-green",
+          "stepIndex": 9,
+          "text": "比邻星赢家奖励：绿色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+          "oldExplicit": 3,
+          "newExplicit": -3,
+          "oldCompensation": -6,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 179,
+          "playerId": "player-brown",
+          "stepIndex": 1,
+          "text": "分析：获得 1 个蓝色外星人痕迹：半人马蓝色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        },
+        {
+          "entryId": 182,
+          "playerId": "player-blue",
+          "stepIndex": 11,
+          "text": "室女座61赢家奖励：蓝色放置粉色外星人痕迹：半人马粉色痕迹 1号位：支付 1 数据、分数+6",
+          "oldExplicit": 1,
+          "newExplicit": -1,
+          "oldCompensation": -2,
+          "newCompensation": 0
+        }
+      ],
+      "players": [
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "grossDataBefore": 21,
+          "grossDataAfter": 18,
+          "spentDataBefore": 23,
+          "spentDataAfter": 20
+        },
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "grossDataBefore": 42,
+          "grossDataAfter": 39,
+          "spentDataBefore": 42,
+          "spentDataAfter": 39
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "grossDataBefore": 40,
+          "grossDataAfter": 33,
+          "spentDataBefore": 40,
+          "spentDataAfter": 33
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "grossDataBefore": 48,
+          "grossDataAfter": 45,
+          "spentDataBefore": 50,
+          "spentDataAfter": 47
+        }
+      ]
+    }
+  ]
+}

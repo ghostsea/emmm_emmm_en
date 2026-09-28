@@ -1,0 +1,14 @@
+const fs=require('fs'),cp=require('child_process'),assert=require('node:assert/strict'),crypto=require('crypto');
+const d='tmp/ai-20260905/',out='docs/ai-validation/2026-09-28-';
+const inputs=['tradeledger28v2-candidate-17.json','tradeledger28v2-candidate-24.json','weightgridscan-candidate-14.json','weightgridplay-candidate-1.json','scanprojectionabsolute64-base-13.json'];
+const rows=[],failures=[],hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const clean=v=>Array.isArray(v)?v.map(clean):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>!['createdAt','updatedAt','placedAt'].includes(k)).map(([k,x])=>[k,clean(x)])):v;
+fs.writeFileSync(out+'weightgrid-parser29-replay-plan.json',JSON.stringify({frozenAt:new Date().toISOString(),inputs,scope:'3 unresolved resource ledgers plus selected weight configuration and original-policy parser migration. Exact original weights reused; full semantic log equality required.'},null,2)+'\n');
+let next=0;
+async function worker(){while(next<inputs.length){const file=inputs[next++],before=JSON.parse(fs.readFileSync(d+file)),output=d+'parser29-'+file,root=file.startsWith('scanprojectionabsolute64-base')?d+'marker-original-parser26':'.';
+ try{await new Promise((resolve,reject)=>{const fd=fs.openSync(output+'.log','w'),p=cp.spawn(process.execPath,['tools/run_ai_autobattle_browser.js','--single','--seed',before.options.seed,'--alienSeed',before.options.alienSeed,'--root',root,'--strategyWeights',JSON.stringify(before.result.strategyWeights),'--includeLogs','--lightweight','--timeoutMs','1800000','--out',output],{stdio:['ignore',fd,fd],windowsHide:true});p.on('error',reject);p.on('exit',code=>{fs.closeSync(fd);code===0?resolve():reject(Error('exit '+code));});});
+ const after=JSON.parse(fs.readFileSync(output));assert(after.summary.ok&&after.summary.gameEnded&&!after.summary.blocked&&after.summary.bugCount===0);assert.equal(after.summary.steps,before.summary.steps);assert.deepEqual(after.summary.playerScores,before.summary.playerScores);assert(JSON.stringify(clean(after.result.logs))===JSON.stringify(clean(before.result.logs)),'Semantic logs differ');assert.deepEqual(after.result.strategyWeights,before.result.strategyWeights);assert.equal(after.result.resourceFlow.reconciliation.residualMagnitude,0);
+ rows.push({file,output,sourceHash:hash(d+file),replayHash:hash(output),steps:after.summary.steps,semanticLogs:after.result.logs.length,scores:after.summary.playerScores});console.log('REPLAY VERIFIED',file);
+ }catch(e){failures.push({file,error:e.message.slice(0,1500)});console.log('REPLAY FAILED',file,e.message.slice(0,150));}}
+}
+Promise.all([worker(),worker()]).then(()=>{fs.writeFileSync(out+'weightgrid-parser29-replays.json',JSON.stringify({games:rows.length,rows,failures},null,2)+'\n');assert.equal(failures.length,0);});
