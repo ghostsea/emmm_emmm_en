@@ -699,6 +699,17 @@
     return score ? Number(score[1]) : null;
   }
 
+  function getMovementResourceSummary(text) {
+    // Movement details describe component rewards. The appended impact fields
+    // are before/after totals for those keys; fields absent there stay intact.
+    if (!/R\d+\s*->\s*扇区\[/.test(text)) return null;
+    const groups = [...String(text).matchAll(/(?:^|[；;])\s*资源\s*[:：]([^；;\n]+)/g)];
+    if (groups.length !== 1) return null;
+    const deltas = {};
+    collectDeltaTokens(groups[0][1], deltas);
+    return deltas;
+  }
+
   function parseDeltaText(text = "") {
     // Counted-alien rewards log a per-alien formula before the actual payout.
     // Its "+1能量" is part of the label, not an additional resource gain.
@@ -752,6 +763,10 @@
     if (traceScoreSummary !== null) {
       matchedMagnitude -= Math.abs(Number(resourceDeltas.score) || 0) - Math.abs(traceScoreSummary);
       resourceDeltas.score = traceScoreSummary;
+    }
+    for (const [key, value] of Object.entries(getMovementResourceSummary(normalizedText) || {})) {
+      matchedMagnitude -= Math.abs(Number(resourceDeltas[key]) || 0) - Math.abs(value);
+      resourceDeltas[key] = value;
     }
 
     return {
@@ -1102,6 +1117,7 @@
     collectStructuredUnsignedRewards(text, parsed.resourceDeltas);
     const traceScoreSummary = getTraceCountScoreSummary(text);
     if (traceScoreSummary !== null) parsed.resourceDeltas.score = traceScoreSummary;
+    Object.assign(parsed.resourceDeltas, getMovementResourceSummary(text) || {});
     let resourceDeltas = sourceCategory === "cost"
       ? parseStructuredCostDeltas(text)
       : { ...parsed.resourceDeltas };

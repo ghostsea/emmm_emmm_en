@@ -5,6 +5,9 @@ const {
   normalizeReferenceStep,
 } = require("./analyze_reference_action_logs");
 
+assert.equal(normalizeReferenceStep("弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3").resourceDeltas.publicity, 3,
+  "human movement detail must not be added to its same-resource impact total");
+
 assert.deepEqual(
   normalizeReferenceStep("每个外星人：2分+1能量：2 个外星人，分数+4、能量+2").resourceDeltas,
   { score: 4, energy: 2 },

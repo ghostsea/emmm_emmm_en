@@ -1,0 +1,169 @@
+{
+  "decision": "freeze-new-random-no-default-promotion",
+  "models": {
+    "base": "1a72821ec7d5ffdac16a3f12a077559dca372caa",
+    "candidate": "5945ce4e32b92ac344305babc756520f0a6d6ea3"
+  },
+  "pairs": 24,
+  "newGames": 24,
+  "reusedBaselineGames": 24,
+  "meanDelta": 0.59375,
+  "pairedGameStandardError": 3.2038180807255676,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 277.4583333333333,
+      "meanDelta": 5.395833333333314,
+      "minimumDelta": 26
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 187.04166666666666,
+      "meanDelta": -9.791666666666686,
+      "minimumDelta": -7
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 206.20833333333334,
+      "meanDelta": 1.375,
+      "minimumDelta": 3
+    }
+  },
+  "distribution": {
+    "mean": 0.59375,
+    "min": -1,
+    "p10": -0.5,
+    "p25": -5.75,
+    "median": -3,
+    "p75": -5.25,
+    "max": -30,
+    "topQuartileMean": 2.9166666666666856,
+    "winnerMean": 2.4583333333333144,
+    "minimumPerGameMean": -2.875,
+    "seats270Plus": -1,
+    "seats300Plus": 2
+  },
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 237.04166666666666,
+    "min": 129,
+    "p10": 169,
+    "p25": 191.75,
+    "median": 225.5,
+    "p75": 274.75,
+    "max": 355,
+    "topQuartileMean": 311.7916666666667,
+    "winnerMean": 298.375,
+    "minimumPerGameMean": 174.70833333333334,
+    "seats270Plus": 27,
+    "seats300Plus": 16,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 277.4583333333333,
+        "min": 190
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 187.04166666666666,
+        "min": 129
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.20833333333334,
+        "min": 133
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 297.2083333333333,
+    "meanDelta": -11.666666666666666,
+    "improved": 7,
+    "declined": 15,
+    "unchanged": 2
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 177.16666666666666,
+    "meanDelta": 5.875,
+    "improved": 12,
+    "declined": 8,
+    "unchanged": 4
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1165,
+    "matched": 1165,
+    "intendedCardMatched": 1165,
+    "paid": 1165,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "followup": {
+    "games": 24,
+    "plays": 29,
+    "scans": 58,
+    "data": 48,
+    "movingPreviews": 16,
+    "dataMismatches": 0,
+    "scoreMismatches": 0,
+    "cards": {
+      "b_54.webp": 7,
+      "b_58.webp": 8,
+      "b_96.webp": 3,
+      "b_53.webp": 5,
+      "b_22.webp": 2,
+      "b_88.webp": 1,
+      "b_64.webp": 1,
+      "b_50.webp": 2
+    }
+  },
+  "limitations": [
+    "Small positive fixed effect with SE3.203818; no statistical certainty or +10 achievement.",
+    "Huanyu decreases9.791667 despite higher aggregate mean. No post-hoc company-specific gate.",
+    "All29 paid probe cards produced scans; 16 move previews matched data and slot score. Fixed-repeat target assumptions still not complete state simulation.",
+    "Parser22 movement-publicity double counting identified during audit. Terminal scores and scan data/score unaffected; frozen resource publicity totals retain that limitation. Fresh validation must use shared parser23 on all three models.",
+    "Fresh192 games will directly compare current default and original safe policy to same candidate; never add past deltas."
+  ]
+}

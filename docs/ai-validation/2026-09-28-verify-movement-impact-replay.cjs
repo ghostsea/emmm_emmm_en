@@ -1,0 +1,8 @@
+const fs=require('fs'),assert=require('node:assert/strict'),d='tmp/ai-20260905/';
+const old=JSON.parse(fs.readFileSync(d+'tracetargetvalues-base-2.json')),current=JSON.parse(fs.readFileSync(d+'movement-impact-replay-2.json'));
+const semantic=v=>Array.isArray(v)?v.map(semantic):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>!['createdAt','placedAt'].includes(k)).map(([k,x])=>[k,semantic(x)])):v;
+assert(current.summary.ok&&current.summary.gameEnded&&!current.summary.bugCount);assert.equal(current.summary.steps,old.summary.steps);assert.deepEqual(current.summary.playerScores,old.summary.playerScores);assert.deepEqual(semantic(current.result.logs),semantic(old.result.logs));
+assert.equal(current.result.resourceFlow.reconciliation.residualMagnitude,0);assert(current.result.resourceFlow.players.every(p=>!Object.keys(p.balanceResiduals||{}).length));
+const rows=current.result.resourceFlow.players.map(p=>{const b=old.result.resourceFlow.players.find(x=>x.playerId===p.playerId);return{player:p.playerId,company:p.industryId,score:p.finalScore,before:{gain:b.grossGain,spent:b.spent},after:{gain:p.grossGain,spent:p.spent}};});
+const out={scope:'Parser23 main runtime vs identical parser22 default game2. All semantic decision logs equal excluding createdAt/placedAt; identical steps and scores. Movement publicity text totals are corrected and snapshot compensation is rebuilt. Not AI score progress; other games in frozen probe experiment still use22.',steps:current.summary.steps,scores:current.summary.playerScores,semanticLogCount:current.result.logs.length,bugs:current.summary.bugCount,ledgerSeats:4,rows};
+fs.writeFileSync('docs/ai-validation/2026-09-28-movement-impact-runtime.json',JSON.stringify(out,null,2)+'\n');console.log(out);
