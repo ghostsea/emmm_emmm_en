@@ -1,0 +1,658 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "ok": true,
+      "rows": [
+        {
+          "name": "jiuzhe",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "jiuzhe-grid",
+              "position": 1,
+              "reward": {
+                "gain": {
+                  "score": 3,
+                  "publicity": 1
+                },
+                "dataCount": 0,
+                "pickCard": false,
+                "threat": 1
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "jiuzhe-grid",
+              "position": 2,
+              "reward": {
+                "gain": {
+                  "score": 1,
+                  "publicity": 1
+                },
+                "dataCount": 1,
+                "pickCard": false,
+                "threat": 2
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "jiuzhe-grid",
+              "position": 3,
+              "reward": {
+                "gain": {
+                  "score": 2,
+                  "publicity": 1
+                },
+                "dataCount": 1,
+                "pickCard": false,
+                "threat": 2
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "jiuzhe-grid",
+              "position": 4,
+              "reward": {
+                "gain": {
+                  "score": 4,
+                  "publicity": 1
+                },
+                "dataCount": 1,
+                "pickCard": false,
+                "threat": 3
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "jiuzhe-grid",
+              "position": 5,
+              "reward": {
+                "gain": {
+                  "score": 6,
+                  "publicity": 1
+                },
+                "dataCount": 1,
+                "pickCard": false,
+                "threat": 3
+              }
+            }
+          ]
+        },
+        {
+          "name": "yichangdian",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "yichangdian-grid",
+              "position": 1,
+              "reward": {
+                "traceType": null,
+                "gain": {
+                  "score": 2
+                },
+                "dataCount": 0,
+                "pickAlienCard": false,
+                "pickCard": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "yichangdian-grid",
+              "position": 2,
+              "reward": {
+                "traceType": null,
+                "gain": {
+                  "score": 3
+                },
+                "dataCount": 0,
+                "pickAlienCard": false,
+                "pickCard": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "yichangdian-grid",
+              "position": 3,
+              "reward": {
+                "traceType": null,
+                "gain": {
+                  "score": 2,
+                  "publicity": 1
+                },
+                "dataCount": 0,
+                "pickAlienCard": false,
+                "pickCard": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "yichangdian-grid",
+              "position": 4,
+              "reward": {
+                "traceType": null,
+                "gain": {
+                  "score": 2
+                },
+                "dataCount": 0,
+                "pickAlienCard": true,
+                "pickCard": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "yichangdian-grid",
+              "position": 5,
+              "reward": {
+                "traceType": null,
+                "gain": {
+                  "score": 4
+                },
+                "dataCount": 0,
+                "pickAlienCard": true,
+                "pickCard": false
+              }
+            }
+          ]
+        },
+        {
+          "name": "fangzhou",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-unlock",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "fangzhou-grid",
+              "position": 1,
+              "reward": {
+                "gain": {
+                  "score": 2
+                },
+                "basicRewardCount": 1
+              }
+            }
+          ]
+        },
+        {
+          "name": "banrenma",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "banrenma-grid",
+              "position": 3,
+              "reward": {
+                "payData": 0,
+                "gain": {
+                  "score": 5
+                },
+                "pickAlienCard": false,
+                "alienTrace": false,
+                "label": null
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "banrenma-grid",
+              "position": 4,
+              "reward": {
+                "payData": 0,
+                "gain": {
+                  "score": 3
+                },
+                "pickAlienCard": true,
+                "alienTrace": false,
+                "label": null
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "banrenma-grid",
+              "position": 5,
+              "reward": {
+                "payData": 0,
+                "gain": {
+                  "score": 5
+                },
+                "pickAlienCard": true,
+                "alienTrace": false,
+                "label": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "chong",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "chong-grid",
+              "position": 7,
+              "reward": {
+                "gain": {},
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "fossilPanel": true,
+                "chooseFossilRewardOnly": false,
+                "fossilId": "fossil_04"
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "chong-grid",
+              "position": 8,
+              "reward": {
+                "gain": {
+                  "score": 3
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "fossilPanel": false,
+                "chooseFossilRewardOnly": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "chong-grid",
+              "position": 9,
+              "reward": {
+                "gain": {
+                  "score": 5
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "fossilPanel": false,
+                "chooseFossilRewardOnly": false
+              }
+            }
+          ]
+        },
+        {
+          "name": "amiba",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "amiba-grid",
+              "position": 1,
+              "reward": {
+                "gain": {},
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "region": "blue"
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "amiba-grid",
+              "position": 2,
+              "reward": {
+                "gain": {
+                  "score": 1
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "region": "blue"
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "amiba-grid",
+              "position": 3,
+              "reward": {
+                "gain": {},
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "region": "blue"
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "amiba-grid",
+              "position": 4,
+              "reward": {
+                "gain": {
+                  "score": 1
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "region": "blue"
+              }
+            }
+          ]
+        },
+        {
+          "name": "aomomo",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "aomomo-grid",
+              "position": 2,
+              "reward": {
+                "payFossils": 0,
+                "gain": {
+                  "score": 2,
+                  "aomomoFossils": 1
+                },
+                "pickAlienCard": false
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "aomomo-grid",
+              "position": 3,
+              "reward": {
+                "payFossils": 0,
+                "gain": {
+                  "score": 3
+                },
+                "pickAlienCard": true
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "aomomo-grid",
+              "position": 4,
+              "reward": {
+                "payFossils": 0,
+                "gain": {
+                  "score": 3,
+                  "aomomoFossils": 1
+                },
+                "pickAlienCard": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "runezu",
+          "targets": [
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "runezu-grid",
+              "position": 1,
+              "reward": {
+                "gain": {},
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "panelSymbol": true,
+                "refillPanelSymbol": true,
+                "panelSymbolSlotId": "panel_3",
+                "symbolId": null
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "runezu-grid",
+              "position": 2,
+              "reward": {
+                "gain": {
+                  "score": 2
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "panelSymbol": false,
+                "refillPanelSymbol": false,
+                "panelSymbolSlotId": null,
+                "symbolId": null
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "runezu-grid",
+              "position": 3,
+              "reward": {
+                "gain": {
+                  "score": 3
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": true,
+                "panelSymbol": false,
+                "refillPanelSymbol": false,
+                "panelSymbolSlotId": null,
+                "symbolId": null
+              }
+            },
+            {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "kind": "grid",
+              "mode": "runezu-grid",
+              "position": 4,
+              "reward": {
+                "gain": {
+                  "score": 7
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "panelSymbol": true,
+                "refillPanelSymbol": false,
+                "panelSymbolSlotId": "panel_6",
+                "symbolId": null
+              }
+            }
+          ]
+        }
+      ],
+      "b36": {
+        "selected": {
+          "alienSlotId": 1,
+          "traceType": "yellow",
+          "afterScore": 1,
+          "mode": "trace-board",
+          "kind": "state-first",
+          "reward": {
+            "gain": {
+              "score": 5,
+              "publicity": 1
+            }
+          },
+          "value": 34.973,
+          "directScore": 6
+        },
+        "actual": {
+          "credits": -2,
+          "score": 6
+        },
+        "steps": 2,
+        "bugs": []
+      }
+    }
+  }
+}

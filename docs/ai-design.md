@@ -1659,3 +1659,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 直接外星人痕迹牌覆盖cc14d52c冻结：移除一类不支持门槛，按app真实目标条件和付款后面板/方舟解锁可用性确认。继承原估值，先做能力覆盖单项实验。54测试、4张牌候选验证及2种负对照通过，真实b27/b32/b35付款后追加痕迹，已揭示方舟b35获得3分并补入方舟牌。复用完整刷新cf默认24局；新候选完整24后按均分/高分判断。见[计划](ai-validation/2026-09-28-directtracecards-development-plan.json)。
+
+
+2026-09-28 直接痕迹牌具体目标估值b9ef7abe已冻结并推送：保持默认1a72821e与候选双方统计器22一致，完整24组48新局。限定打牌层按付款后合法state/面板/方舟解锁目标和实际奖励估值，b36计新增后的数量分；不改通用痕迹行动估值及目标选择器，后续审计预估与实际选择差异。54测试、3项负对照、八物种蓝痕迹零资源预览、普通额外3分/方舟3分补牌/b36首5分加数量1分实际结算通过。尚无均分结论，默认不切换。见[冻结计划](ai-validation/2026-09-28-tracetargetvalues-development-plan.json)、[运行矩阵](ai-validation/2026-09-28-tracetargetvalues-matrix-browser.json)。
