@@ -1,0 +1,4 @@
+const cp=require('child_process'),assert=require('node:assert/strict'),fs=require('fs');const files=['randomizer/app/ai-controller.js','randomizer/app/ai-controller.test.js','randomizer/index.html'];
+const patch=cp.execFileSync('git',['show','011a0a0125e741489bb4144a16ebaf00569bd26a','--format=','--',...files]);cp.execFileSync('git',['apply','--check','-'],{input:patch});cp.execFileSync('git',['apply','-'],{input:patch});
+const s=JSON.parse(fs.readFileSync('tmp/ai-20260905/resourcezero-suite.json'));const normalized=p=>fs.readFileSync(p,'utf8').replace(/\r\n/g,'\n');for(const f of Object.keys(s.models.candidate.hashes))assert.equal(normalized(f),normalized('tmp/ai-20260905/resource-zero-current/'+f),f);
+console.log('Main matches all'+Object.keys(s.models.candidate.hashes).length+' frozen candidate source files after LF/CRLF normalization');

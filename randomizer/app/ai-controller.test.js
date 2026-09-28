@@ -16,6 +16,26 @@ const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
 const industryModule = require("../game/industry");
 
+// A continuation premium needs an actual resource increase. Early engine
+// pressure alone must not turn empty or fully capped rewards into value.
+function verifyActualContinuationGains() {
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 1,
+    blueResources: { score: 0, credits: 0, energy: 0, publicity: 10, availableData: 6 } });
+  const score = gain => h.controller.scoreAiEffectValue({ type: "gain_resources", options: { gain } }, { player: h.blue, immediate: true });
+  const before = JSON.stringify(h.blue);
+  for (const gain of [{}, { credits: 0, energy: 0 }, { publicity: 3 }, { availableData: 3 }, { publicity: 3, availableData: 3 }]) {
+    assert.equal(score(gain), 0, "no continuation from zero or fully capped resources");
+  }
+  assert.equal(h.controller.scoreAiEffectValue({ type: "gain_data", options: { count: 3 } }, { player: h.blue }), 0);
+  assert(score({ credits: 1 }) > 0, "a real credit increase retains its value");
+  assert(score({ energy: 1 }) > 0, "a real energy increase retains its value");
+  assert.equal(JSON.stringify(h.blue), before, "valuation must not alter the live player");
+  h.blue.resources.publicity = 9;
+  h.blue.resources.availableData = 5;
+  assert.equal(score({ publicity: 3 }), score({ publicity: 1 }), "only one publicity fits");
+  assert.equal(score({ availableData: 3 }), score({ availableData: 1 }), "only one data fits");
+}
+
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
   if (!match) return null;
@@ -17325,3 +17345,4 @@ for (const roundNumber of [1, 2]) {
     assert.equal(h.controller.coalesceAiProbeScanEffects(unrelated).length, 2);
   }
 }
+verifyActualContinuationGains();

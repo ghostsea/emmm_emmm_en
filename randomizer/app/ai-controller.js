@@ -3946,10 +3946,14 @@
 
     function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
       if (!gain || typeof gain !== "object" || !player) return 0;
+      const actualGain = getAiActualResourceGain(gain, player);
+      // An existing engine deficit is not a benefit created by this reward.
+      // Fully capped publicity/data must behave like an empty reward.
+      if (!Object.values(actualGain).some((amount) => aiNumber(amount) > 0)) return 0;
       const weight = getAiMidgameResourceContinuationWeight();
       if (weight <= 0) return 0;
 
-      const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, actualGain);
       if (!simulatedPlayer) return 0;
       if (aiResourceContinuationDepth > 0) return 0;
       aiResourceContinuationDepth += 1;
@@ -3963,11 +3967,11 @@
         const currentScore = Math.max(0, aiNumber(resources.score));
         let value = 0;
 
-        const creditGain = Math.max(0, aiNumber(gain.credits));
-        const energyGain = Math.max(0, aiNumber(gain.energy));
-        const handGain = Math.max(0, aiNumber(gain.handSize) + aiNumber(gain.drawCards) + aiNumber(gain.cardSelection));
-        const publicityGain = Math.max(0, aiNumber(gain.publicity));
-        const dataGain = Math.max(0, aiNumber(gain.availableData));
+        const creditGain = Math.max(0, aiNumber(actualGain.credits));
+        const energyGain = Math.max(0, aiNumber(actualGain.energy));
+        const handGain = Math.max(0, aiNumber(actualGain.handSize) + aiNumber(actualGain.drawCards) + aiNumber(actualGain.cardSelection));
+        const publicityGain = Math.max(0, aiNumber(actualGain.publicity));
+        const dataGain = Math.max(0, aiNumber(actualGain.availableData));
 
         if (creditGain > 0 && aiNumber(resources.credits) < 1 && aiNumber(afterResources.credits) >= 1) {
           const playableHand = (player.hand || []).filter(isAiSupportedHandPlayCard).length;
@@ -3986,7 +3990,7 @@
           value += Math.min(4.5, 2.4 + Math.max(0, 2 - (player.hand || []).length) * 0.65) * mainActionScale;
         }
         if (publicityGain > 0) {
-          value += scoreAiPublicityResearchTechSetupValue(gain, player, { scale: mainActionScale });
+          value += scoreAiPublicityResearchTechSetupValue(actualGain, player, { scale: mainActionScale });
         }
 
         if (energyGain > 0 || creditGain > 0) {
@@ -4021,7 +4025,7 @@
                 + getAiMapDemand(demand.actions, "analyze") * 0.06) * mainActionScale,
             );
           }
-          value += scoreAiPlanetCashoutUnlockAfterResourceGain(player, gain) * 0.85;
+          value += scoreAiPlanetCashoutUnlockAfterResourceGain(player, actualGain) * 0.85;
         }
 
         if (dataGain > 0) {

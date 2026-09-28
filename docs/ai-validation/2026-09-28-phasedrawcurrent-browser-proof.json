@@ -1,0 +1,269 @@
+{
+  "scope": "Same restored fixture, real card83 pays2 draws3 and card122 pays1 selects blind fallback; round1 and4, actual payment and resulting cards checked separately from phase value.",
+  "rows": [
+    {
+      "round": 1,
+      "cardId": "b_83.webp",
+      "count": 3,
+      "price": 2,
+      "before": {
+        "credits": 10,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "paid": {
+        "credits": 8,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 50
+      },
+      "after": {
+        "credits": 8,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 3,
+        "score": 50
+      },
+      "hand": [
+        {
+          "id": "card-51-0",
+          "cardId": "b_116.webp"
+        },
+        {
+          "id": "card-52-0",
+          "cardId": "b_79.webp"
+        },
+        {
+          "id": "card-53-0",
+          "cardId": "b_101.webp"
+        }
+      ],
+      "value": 16.200000000000003,
+      "fallbackUsed": false,
+      "bugs": [],
+      "randomBefore": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:1:b_83.webp",
+        "dateKey": null,
+        "value": 1016395773,
+        "calls": 0
+      },
+      "randomAfter": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:1:b_83.webp",
+        "dateKey": null,
+        "value": 2216125916,
+        "calls": 3
+      },
+      "oldValue": 12.899999999999999
+    },
+    {
+      "round": 1,
+      "cardId": "b_122.webp",
+      "count": 1,
+      "price": 1,
+      "before": {
+        "credits": 10,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 50
+      },
+      "after": {
+        "credits": 9,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "hand": [
+        {
+          "id": "card-104-0",
+          "cardId": "dlc_21.png"
+        }
+      ],
+      "value": 5.4,
+      "fallbackUsed": true,
+      "bugs": [],
+      "randomBefore": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:1:b_122.webp",
+        "dateKey": null,
+        "value": 402932175,
+        "calls": 0
+      },
+      "randomAfter": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:1:b_122.webp",
+        "dateKey": null,
+        "value": 2234497988,
+        "calls": 1
+      },
+      "oldValue": 3
+    },
+    {
+      "round": 4,
+      "cardId": "b_83.webp",
+      "count": 3,
+      "price": 2,
+      "before": {
+        "credits": 10,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "paid": {
+        "credits": 8,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 50
+      },
+      "after": {
+        "credits": 8,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 3,
+        "score": 50
+      },
+      "hand": [
+        {
+          "id": "card-155-0",
+          "cardId": "b_90.webp"
+        },
+        {
+          "id": "card-156-0",
+          "cardId": "b_138.webp"
+        },
+        {
+          "id": "card-157-0",
+          "cardId": "dlc_10.png"
+        }
+      ],
+      "value": 12.899999999999999,
+      "fallbackUsed": false,
+      "bugs": [],
+      "randomBefore": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:4:b_83.webp",
+        "dateKey": null,
+        "value": 619320254,
+        "calls": 0
+      },
+      "randomAfter": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:4:b_83.webp",
+        "dateKey": null,
+        "value": 1819050397,
+        "calls": 3
+      },
+      "oldValue": 12.899999999999999
+    },
+    {
+      "round": 4,
+      "cardId": "b_122.webp",
+      "count": 1,
+      "price": 1,
+      "before": {
+        "credits": 10,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 50
+      },
+      "after": {
+        "credits": 9,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 50
+      },
+      "hand": [
+        {
+          "id": "card-208-0",
+          "cardId": "b_4.webp"
+        }
+      ],
+      "value": 4.3,
+      "fallbackUsed": true,
+      "bugs": [],
+      "randomBefore": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:4:b_122.webp",
+        "dateKey": null,
+        "value": 2851498410,
+        "calls": 0
+      },
+      "randomAfter": {
+        "version": 1,
+        "mode": "seeded",
+        "seed": "phase-draw-browser:4:b_122.webp",
+        "dateKey": null,
+        "value": 388096927,
+        "calls": 1
+      },
+      "oldValue": 3
+    }
+  ]
+}
