@@ -1,0 +1,486 @@
+{
+  "sameFullPlayerState": true,
+  "sameActualScanPaymentsAndResources": true,
+  "negativeControlDetected": true,
+  "fixtures": [
+    {
+      "company": "寰宇超动力",
+      "round": 2,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    },
+    {
+      "company": "寰宇超动力",
+      "round": 4,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    },
+    {
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    },
+    {
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "credits": 1,
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 4,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    },
+    {
+      "company": "作弊实验室",
+      "round": 2,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 5,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 5,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    },
+    {
+      "company": "作弊实验室",
+      "round": 4,
+      "before": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "oldPredicted": false,
+      "newPredicted": true,
+      "projection": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "cost": {
+        "energy": 2
+      },
+      "afterScan": {
+        "credits": 5,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "afterPlacement": {
+        "credits": 5,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 100
+      },
+      "analyzeReady": {
+        "ok": true,
+        "message": null
+      },
+      "randomCalls": 0
+    }
+  ],
+  "inputs": [
+    {
+      "file": "scanprojection-base-proof.json",
+      "sha256": "c5ccd557a3e83d64887f9800746273fc1ae31eee2f1877fe1d8d90c4986b6611"
+    },
+    {
+      "file": "scanprojection-candidate-proof.json",
+      "sha256": "08776a0587b33506af40972c63cb79750da7b6c36578194d5a31ceeb8cda44c7"
+    }
+  ],
+  "limitations": [
+    "Controlled actual scan and core placement, then runtime analyze legality. Does not force subsequent analysis or establish whole-game uplift.",
+    "Projection is a conservative lower bound, not an exact optional-scan predictor. Existing five-core-cell heuristic remains separately unchanged."
+  ],
+  "issues": []
+}
