@@ -1,0 +1,482 @@
+{
+  "scope": "Three real browser paid-card flows. Same before/after/payment/resources/permanent income. Parser25 fixes count reward and actual tuck classification; no gameplay change.",
+  "hashes": {
+    "incomeformula-browser24.json": "0729b206bc197d6875da55d2a226c335f5c8a5c2922eb89f51aa8140948116c2",
+    "incomeformula-browser25.json": "609e0e532aa1d3188f94f1fe0a616c4670bf250ea646cf230f547e4fd346ff8a"
+  },
+  "rows": [
+    {
+      "card": "b_42.webp",
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 59
+      },
+      "paid": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 59
+      },
+      "after": {
+        "credits": 7,
+        "energy": 9,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 59
+      },
+      "beforeIncome": {
+        "credits": 5,
+        "energy": 4,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "afterIncome": {
+        "credits": 5,
+        "energy": 5,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "events": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 1,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 82,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "当前每个能量收入：1能量：高于公司默认 3 个，能量+3",
+          "resourceDeltas": {
+            "energy": 3
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 82,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "income_upgrade_immediate",
+          "sourceDetail": "将本卡放入收入区：能量+1",
+          "resourceDeltas": {
+            "energy": 1
+          },
+          "incomeDeltas": {
+            "energy": 1
+          },
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "steps": 2,
+      "bugs": [],
+      "oldEvents": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 1,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 82,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "当前每个能量收入：1能量：高于公司默认 3 个，能量+3",
+          "resourceDeltas": {},
+          "incomeDeltas": {
+            "energy": 3
+          },
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 82,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "将本卡放入收入区：能量+1",
+          "resourceDeltas": {
+            "energy": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "card": "b_47.webp",
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 59
+      },
+      "paid": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 59
+      },
+      "after": {
+        "credits": 8,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 68
+      },
+      "beforeIncome": {
+        "credits": 5,
+        "energy": 4,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "afterIncome": {
+        "credits": 6,
+        "energy": 4,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "events": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 1,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 91,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "当前每个信用收入：3分：高于公司默认 3 个，分数+9",
+          "resourceDeltas": {
+            "score": 9
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 91,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "income_upgrade_immediate",
+          "sourceDetail": "将本卡放入收入区：信用点+1",
+          "resourceDeltas": {
+            "credits": 1
+          },
+          "incomeDeltas": {
+            "credits": 1
+          },
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "steps": 2,
+      "bugs": [],
+      "oldEvents": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 1,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 91,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "当前每个信用收入：3分：高于公司默认 3 个，分数+9",
+          "resourceDeltas": {},
+          "incomeDeltas": {
+            "score": 9
+          },
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 91,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "将本卡放入收入区：信用点+1",
+          "resourceDeltas": {
+            "credits": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ]
+    },
+    {
+      "card": "b_79.webp",
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 59
+      },
+      "paid": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 59
+      },
+      "after": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 59
+      },
+      "beforeIncome": {
+        "credits": 5,
+        "energy": 4,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "afterIncome": {
+        "credits": 5,
+        "energy": 4,
+        "handSize": 4,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "events": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 79,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "每个非默认盲抽收入：1宣传：高于公司默认 2 个，宣传+2",
+          "resourceDeltas": {
+            "publicity": 2
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 3,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 79,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "income_upgrade_immediate",
+          "sourceDetail": "将本卡放入收入区：手牌+1",
+          "resourceDeltas": {
+            "handSize": 1
+          },
+          "incomeDeltas": {
+            "handSize": 1
+          },
+          "cards": [
+            {
+              "key": "card-151-0",
+              "label": "飞掠土星",
+              "change": "gain",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "steps": 3,
+      "bugs": [],
+      "oldEvents": [
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 79,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "每个非默认盲抽收入：1宣传：高于公司默认 2 个，宣传+2",
+          "resourceDeltas": {},
+          "incomeDeltas": {
+            "publicity": 2
+          },
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "ai-game",
+          "entryId": 1,
+          "stepIndex": 3,
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "finalScore": 79,
+          "roundNumber": 3,
+          "turnNumber": 2,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "将本卡放入收入区：手牌+1",
+          "resourceDeltas": {
+            "handSize": 1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-151-0",
+              "label": "建造埃菲尔斯贝格望远锐",
+              "change": "gain",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,21 @@ const {
   normalizeReferenceStep,
 } = require("./analyze_reference_action_logs");
 
+for (const [text, key, amount] of [
+  ["当前每个能量收入：1能量：高于公司默认 6 个，能量+6", "energy", 6],
+  ["当前每个信用收入：3分：高于公司默认 3 个，分数+9", "score", 9],
+  ["每个非默认盲抽收入：1宣传：高于公司默认 2 个，宣传+2", "publicity", 2],
+]) {
+  const step = normalizeReferenceStep(text);
+  assert.deepEqual(step.resourceDeltas, { [key]: amount });
+  assert.deepEqual(step.incomeDeltas, {});
+  assert.equal(step.sourceCategory, "card");
+}
+const tucked = normalizeReferenceStep("将本卡放入收入区：能量+1");
+assert.deepEqual(tucked.resourceDeltas, { energy: 1 });
+assert.deepEqual(tucked.incomeDeltas, { energy: 1 });
+assert.equal(tucked.sourceCategory, "income_upgrade_immediate");
+
 assert.equal(normalizeReferenceStep("弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3").resourceDeltas.publicity, 3,
   "human movement detail must not be added to its same-resource impact total");
 

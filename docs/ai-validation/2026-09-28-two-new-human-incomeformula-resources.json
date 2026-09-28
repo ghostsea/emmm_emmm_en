@@ -1,0 +1,489 @@
+{
+  "scope": "Two newly supplied complete action-log exports, all4 seats shown. White is human. These are descriptive source-text counts, not same-policy counterfactual or full resource utilization. Income includes immediate income-upgrade grants and later income collections; non-income includes trades and alien/company/blue-tech rewards. Company discounts/free actions are not additional resource gains. Missing resource evidence is explicit; no inferred top-up is added. Main actions per logged credit+energy expenditure is a partial-cost ratio and omits publicity/cards/data.",
+  "parserSha256": "abcf5688b8d8322f499aa3dbd93cbac98cc3fdc810755ca7f9dcfd20279448fc",
+  "resourceFlowSha256": "ae176a7c02de91a6557d538157c16a4531a303dac98a2c52c82b462d9f4a9d5c",
+  "games": [
+    {
+      "file": "参考行动日志\\seti-action-log-20260909-231236.md",
+      "sha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae",
+      "players": [
+        {
+          "player": "白色",
+          "human": true,
+          "company": "寰宇动力",
+          "score": 296,
+          "mainActions": 45,
+          "analysisActions": 6,
+          "blue1Credits": 6,
+          "blue2Energy": 4,
+          "setup": {
+            "score": 6,
+            "credits": 4,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 5
+          },
+          "income": {
+            "score": 0,
+            "credits": 21,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 135,
+            "credits": 8,
+            "energy": 12,
+            "publicity": 49,
+            "availableData": 49,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 36,
+            "energy": 30,
+            "publicity": 66,
+            "availableData": 49,
+            "handSize": 43
+          },
+          "unexplainedResourceDeficits": {
+            "credits": 3,
+            "publicity": 13,
+            "handSize": 9
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": null,
+            "energy": 0.967741935483871,
+            "publicity": null,
+            "availableData": null,
+            "handSize": null
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6818181818181818,
+          "playedCards": 18,
+          "knownGainedCards": 17,
+          "knownGainedCardsPlayed": 5,
+          "untracedGains": 12
+        },
+        {
+          "player": "棕色",
+          "human": false,
+          "company": "宇宙大战略集团",
+          "score": 153,
+          "mainActions": 26,
+          "analysisActions": 3,
+          "blue1Credits": 1,
+          "blue2Energy": 1,
+          "setup": {
+            "score": 6,
+            "credits": 5,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 7
+          },
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 7
+          },
+          "nonIncome": {
+            "score": 53,
+            "credits": 4,
+            "energy": 2,
+            "publicity": 33,
+            "availableData": 21,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 26,
+            "energy": 15,
+            "publicity": 44,
+            "availableData": 25,
+            "handSize": 25
+          },
+          "unexplainedResourceDeficits": {
+            "publicity": 7,
+            "availableData": 3
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 1,
+            "energy": 0.8823529411764706,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.78125
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6341463414634146,
+          "playedCards": 10,
+          "knownGainedCards": 16,
+          "knownGainedCardsPlayed": 6,
+          "untracedGains": 9
+        },
+        {
+          "player": "蓝色",
+          "human": false,
+          "company": "寰宇超动力",
+          "score": 208,
+          "mainActions": 33,
+          "analysisActions": 4,
+          "blue1Credits": 1,
+          "blue2Energy": 2,
+          "setup": {
+            "score": 7,
+            "credits": 2,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 4
+          },
+          "income": {
+            "score": 0,
+            "credits": 23,
+            "energy": 8,
+            "publicity": 0,
+            "availableData": 3,
+            "handSize": 8
+          },
+          "nonIncome": {
+            "score": 100,
+            "credits": 7,
+            "energy": 12,
+            "publicity": 39,
+            "availableData": 28,
+            "handSize": 15
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 22,
+            "publicity": 48,
+            "availableData": 33,
+            "handSize": 23
+          },
+          "unexplainedResourceDeficits": {
+            "publicity": 5,
+            "availableData": 1
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 0.96875,
+            "energy": 0.9565217391304348,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.8518518518518519
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6226415094339622,
+          "playedCards": 10,
+          "knownGainedCards": 11,
+          "knownGainedCardsPlayed": 1,
+          "untracedGains": 7
+        },
+        {
+          "player": "绿色",
+          "human": false,
+          "company": "作弊实验室",
+          "score": 198,
+          "mainActions": 38,
+          "analysisActions": 5,
+          "blue1Credits": 3,
+          "blue2Energy": 3,
+          "setup": {
+            "score": 5,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 1,
+            "handSize": 9
+          },
+          "income": {
+            "score": 0,
+            "credits": 23,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 56,
+            "credits": 4,
+            "energy": 10,
+            "publicity": 29,
+            "availableData": 46,
+            "handSize": 13
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 25,
+            "publicity": 8,
+            "availableData": 39,
+            "handSize": 30
+          },
+          "unexplainedResourceDeficits": {},
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 0.9310344827586207,
+            "energy": 1,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.9375
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.7307692307692307,
+          "playedCards": 14,
+          "knownGainedCards": 9,
+          "knownGainedCardsPlayed": 3,
+          "untracedGains": 4
+        }
+      ]
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260919-223731.md",
+      "sha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05",
+      "players": [
+        {
+          "player": "白色",
+          "human": true,
+          "company": "任务中继站",
+          "score": 362,
+          "mainActions": 48,
+          "analysisActions": 6,
+          "blue1Credits": 6,
+          "blue2Energy": 5,
+          "setup": {
+            "score": 6,
+            "credits": 5,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 7
+          },
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 3,
+            "availableData": 6,
+            "handSize": 8
+          },
+          "nonIncome": {
+            "score": 150,
+            "credits": 12,
+            "energy": 18,
+            "publicity": 54,
+            "availableData": 50,
+            "handSize": 27
+          },
+          "spent": {
+            "score": 0,
+            "credits": 34,
+            "energy": 35,
+            "publicity": 67,
+            "availableData": 55,
+            "handSize": 41
+          },
+          "unexplainedResourceDeficits": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 6
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": null,
+            "energy": null,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.9761904761904762
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6956521739130435,
+          "playedCards": 22,
+          "knownGainedCards": 20,
+          "knownGainedCardsPlayed": 11,
+          "untracedGains": 9
+        },
+        {
+          "player": "棕色",
+          "human": false,
+          "company": "宇宙大战略集团",
+          "score": 222,
+          "mainActions": 34,
+          "analysisActions": 3,
+          "blue1Credits": 1,
+          "blue2Energy": 0,
+          "setup": {
+            "score": 7,
+            "credits": 4,
+            "energy": 2,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 6
+          },
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 61,
+            "credits": 9,
+            "energy": 6,
+            "publicity": 29,
+            "availableData": 26,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 22,
+            "publicity": 44,
+            "availableData": 27,
+            "handSize": 27
+          },
+          "unexplainedResourceDeficits": {
+            "publicity": 9,
+            "availableData": 1
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 1,
+            "energy": 0.9166666666666666,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.8181818181818182
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6666666666666666,
+          "playedCards": 13,
+          "knownGainedCards": 13,
+          "knownGainedCardsPlayed": 6,
+          "untracedGains": 5
+        },
+        {
+          "player": "蓝色",
+          "human": false,
+          "company": "作弊实验室",
+          "score": 249,
+          "mainActions": 38,
+          "analysisActions": 5,
+          "blue1Credits": 3,
+          "blue2Energy": 3,
+          "setup": {
+            "score": 5,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 1,
+            "availableData": 1,
+            "handSize": 10
+          },
+          "income": {
+            "score": 0,
+            "credits": 15,
+            "energy": 15,
+            "publicity": 2,
+            "availableData": 3,
+            "handSize": 13
+          },
+          "nonIncome": {
+            "score": 82,
+            "credits": 5,
+            "energy": 9,
+            "publicity": 43,
+            "availableData": 40,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 17,
+            "energy": 27,
+            "publicity": 5,
+            "availableData": 47,
+            "handSize": 39
+          },
+          "unexplainedResourceDeficits": {
+            "energy": 1,
+            "availableData": 3
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 0.7391304347826086,
+            "energy": null,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.9512195121951219
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.8636363636363636,
+          "playedCards": 9,
+          "knownGainedCards": 14,
+          "knownGainedCardsPlayed": 1,
+          "untracedGains": 12
+        },
+        {
+          "player": "绿色",
+          "human": false,
+          "company": "寰宇超动力",
+          "score": 191,
+          "mainActions": 31,
+          "analysisActions": 3,
+          "blue1Credits": 2,
+          "blue2Energy": 0,
+          "setup": {
+            "score": 7,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "handSize": 4
+          },
+          "income": {
+            "score": 0,
+            "credits": 18,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 59,
+            "credits": 9,
+            "energy": 10,
+            "publicity": 30,
+            "availableData": 33,
+            "handSize": 13
+          },
+          "spent": {
+            "score": 0,
+            "credits": 28,
+            "energy": 23,
+            "publicity": 44,
+            "availableData": 28,
+            "handSize": 23
+          },
+          "unexplainedResourceDeficits": {
+            "publicity": 10
+          },
+          "resourceUtilization": {
+            "score": 0,
+            "credits": 0.9655172413793104,
+            "energy": 0.9583333333333334,
+            "publicity": null,
+            "availableData": null,
+            "handSize": 0.8518518518518519
+          },
+          "mainActionsPerLoggedCreditEnergySpent": 0.6078431372549019,
+          "playedCards": 9,
+          "knownGainedCards": 8,
+          "knownGainedCardsPlayed": 2,
+          "untracedGains": 5
+        }
+      ]
+    }
+  ]
+}

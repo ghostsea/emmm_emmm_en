@@ -1,0 +1,1424 @@
+{
+  "scope": "All complete paired inputs; corrected income-versus-non-income classification using explicit card semantics and matching income snapshot compensation. Total resources, spending, inventories, action/analysis/blue counts unchanged for every seat. Retains original resource amount attribution, including snapshot-derived counted payouts; not a new reconstruction of gross per-step gains.",
+  "pairs": 24,
+  "summary": {
+    "games": 48,
+    "changedGames": 14,
+    "changedNodes": 28,
+    "compensations": 26
+  },
+  "groups": {
+    "baseline": {
+      "all": {
+        "seats": 96,
+        "score": 237.04166666666666,
+        "mainActions": 36.53125,
+        "analysis": 4.09375,
+        "blue1": 2.0104166666666665,
+        "blue2": 1.75,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.333333333333332,
+            "energy": 14.291666666666666,
+            "publicity": 0.15625,
+            "availableData": 0.3125,
+            "handSize": 11.520833333333334
+          },
+          "nonIncomeGain": {
+            "credits": 6.020833333333333,
+            "energy": 11.229166666666666,
+            "publicity": 49.1875,
+            "availableData": 34.375,
+            "handSize": 16.8125
+          },
+          "spent": {
+            "credits": 25.583333333333332,
+            "energy": 27.697916666666668,
+            "publicity": 48.708333333333336,
+            "availableData": 35.833333333333336,
+            "handSize": 34.875
+          },
+          "endingInventory": {
+            "credits": 1.0416666666666667,
+            "energy": 0.23958333333333334,
+            "publicity": 4.260416666666667,
+            "availableData": 0.3854166666666667,
+            "handSize": 0.9375
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 187.04166666666666,
+          "mainActions": 28.291666666666668,
+          "analysis": 2.75,
+          "blue1": 1.3333333333333333,
+          "blue2": 0.9583333333333334,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 15.333333333333334,
+              "energy": 11.583333333333334,
+              "publicity": 0,
+              "availableData": 0.5,
+              "handSize": 10.541666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 3.875,
+              "energy": 10.333333333333334,
+              "publicity": 43.041666666666664,
+              "availableData": 23.5,
+              "handSize": 12.541666666666666
+            },
+            "spent": {
+              "credits": 20.583333333333332,
+              "energy": 23.708333333333332,
+              "publicity": 44,
+              "availableData": 25,
+              "handSize": 26.458333333333332
+            },
+            "endingInventory": {
+              "credits": 0.7916666666666666,
+              "energy": 0.25,
+              "publicity": 3.125,
+              "availableData": 0.75,
+              "handSize": 1.0416666666666667
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 277.4583333333333,
+          "mainActions": 42.166666666666664,
+          "analysis": 4.833333333333333,
+          "blue1": 2.4375,
+          "blue2": 2.4166666666666665,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 18.583333333333332,
+              "energy": 16.1875,
+              "publicity": 0.1875,
+              "availableData": 0.25,
+              "handSize": 12.0625
+            },
+            "nonIncomeGain": {
+              "credits": 5.520833333333333,
+              "energy": 13.6875,
+              "publicity": 53.9375,
+              "availableData": 40.708333333333336,
+              "handSize": 18.3125
+            },
+            "spent": {
+              "credits": 25.875,
+              "energy": 31.854166666666668,
+              "publicity": 50.5,
+              "availableData": 42.375,
+              "handSize": 38.833333333333336
+            },
+            "endingInventory": {
+              "credits": 1.4166666666666667,
+              "energy": 0.22916666666666666,
+              "publicity": 5.708333333333333,
+              "availableData": 0.08333333333333333,
+              "handSize": 1.0208333333333333
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 206.20833333333334,
+          "mainActions": 33.5,
+          "analysis": 3.9583333333333335,
+          "blue1": 1.8333333333333333,
+          "blue2": 1.2083333333333333,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 16.833333333333332,
+              "energy": 13.208333333333334,
+              "publicity": 0.25,
+              "availableData": 0.25,
+              "handSize": 11.416666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 9.166666666666666,
+              "energy": 7.208333333333333,
+              "publicity": 45.833333333333336,
+              "availableData": 32.583333333333336,
+              "handSize": 18.083333333333332
+            },
+            "spent": {
+              "credits": 30,
+              "energy": 23.375,
+              "publicity": 49.833333333333336,
+              "availableData": 33.583333333333336,
+              "handSize": 35.375
+            },
+            "endingInventory": {
+              "credits": 0.5416666666666666,
+              "energy": 0.25,
+              "publicity": 2.5,
+              "availableData": 0.625,
+              "handSize": 0.6666666666666666
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "seats": 96,
+        "score": 237.25,
+        "mainActions": 36.520833333333336,
+        "analysis": 4.145833333333333,
+        "blue1": 1.9791666666666667,
+        "blue2": 1.71875,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.322916666666668,
+            "energy": 14.28125,
+            "publicity": 0.15625,
+            "availableData": 0.3125,
+            "handSize": 11.541666666666666
+          },
+          "nonIncomeGain": {
+            "credits": 5.979166666666667,
+            "energy": 11.125,
+            "publicity": 49.34375,
+            "availableData": 34.541666666666664,
+            "handSize": 16.75
+          },
+          "spent": {
+            "credits": 25.46875,
+            "energy": 27.583333333333332,
+            "publicity": 48.885416666666664,
+            "availableData": 35.916666666666664,
+            "handSize": 34.802083333333336
+          },
+          "endingInventory": {
+            "credits": 1.1041666666666667,
+            "energy": 0.23958333333333334,
+            "publicity": 4.239583333333333,
+            "availableData": 0.46875,
+            "handSize": 0.96875
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 185.375,
+          "mainActions": 28.208333333333332,
+          "analysis": 2.875,
+          "blue1": 1.2916666666666667,
+          "blue2": 0.9166666666666666,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 15.375,
+              "energy": 11.666666666666666,
+              "publicity": 0,
+              "availableData": 0.5,
+              "handSize": 10.791666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 3.9166666666666665,
+              "energy": 10.083333333333334,
+              "publicity": 43.041666666666664,
+              "availableData": 23.291666666666668,
+              "handSize": 12.5
+            },
+            "spent": {
+              "credits": 20.666666666666668,
+              "energy": 23.416666666666668,
+              "publicity": 44.083333333333336,
+              "availableData": 24.875,
+              "handSize": 26.541666666666668
+            },
+            "endingInventory": {
+              "credits": 0.7916666666666666,
+              "energy": 0.375,
+              "publicity": 3.0416666666666665,
+              "availableData": 0.6666666666666666,
+              "handSize": 1.1666666666666667
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 279.8125,
+          "mainActions": 42.270833333333336,
+          "analysis": 4.895833333333333,
+          "blue1": 2.4791666666666665,
+          "blue2": 2.4375,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 18.520833333333332,
+              "energy": 16.125,
+              "publicity": 0.1875,
+              "availableData": 0.25,
+              "handSize": 11.979166666666666
+            },
+            "nonIncomeGain": {
+              "credits": 5.5625,
+              "energy": 13.791666666666666,
+              "publicity": 54.125,
+              "availableData": 41.291666666666664,
+              "handSize": 18.291666666666668
+            },
+            "spent": {
+              "credits": 25.708333333333332,
+              "energy": 31.958333333333332,
+              "publicity": 50.6875,
+              "availableData": 42.833333333333336,
+              "handSize": 38.75
+            },
+            "endingInventory": {
+              "credits": 1.5625,
+              "energy": 0.16666666666666666,
+              "publicity": 5.708333333333333,
+              "availableData": 0.20833333333333334,
+              "handSize": 1
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 204,
+          "mainActions": 33.333333333333336,
+          "analysis": 3.9166666666666665,
+          "blue1": 1.6666666666666667,
+          "blue2": 1.0833333333333333,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 16.875,
+              "energy": 13.208333333333334,
+              "publicity": 0.25,
+              "availableData": 0.25,
+              "handSize": 11.416666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 8.875,
+              "energy": 6.833333333333333,
+              "publicity": 46.083333333333336,
+              "availableData": 32.291666666666664,
+              "handSize": 17.916666666666668
+            },
+            "spent": {
+              "credits": 29.791666666666668,
+              "energy": 23,
+              "publicity": 50.083333333333336,
+              "availableData": 33.125,
+              "handSize": 35.166666666666664
+            },
+            "endingInventory": {
+              "credits": 0.5,
+              "energy": 0.25,
+              "publicity": 2.5,
+              "availableData": 0.7916666666666666,
+              "handSize": 0.7083333333333334
+            }
+          }
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "strategyreserve-base-1.json",
+      "sha256": "3543ac9be16b10f2ecd6583d7c02a92779e292a02c357faf89330ff1eba1f70b",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "strategyreserve-base-2.json",
+      "sha256": "79f4e3e27b885f79d1aa0de17707b22d65f71ff79ec44ac90ebb7a72319b1dd0",
+      "changes": [
+        {
+          "entryId": 183,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个能量收入：1能量：高于公司默认 7 个，能量+7",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "energy": 7
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 183,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：能量+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "energy": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 183,
+          "playerId": "player-green",
+          "key": "energy",
+          "before": -6,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "strategyreserve-base-3.json",
+      "sha256": "635a793c09b5d097bb473f4448a45056f589affcae6d8bc08208734ec05c2955",
+      "changes": [
+        {
+          "entryId": 138,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 3 个，宣传+3",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 3
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 138,
+          "stepIndex": 3,
+          "playerId": "player-brown",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 138,
+          "playerId": "player-brown",
+          "key": "publicity",
+          "before": -3,
+          "after": 0
+        },
+        {
+          "entryId": 138,
+          "playerId": "player-brown",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "strategyreserve-base-4.json",
+      "sha256": "3ba7720ad0bccc88859e5727e0c2384f2f6160a2cb30d975da6b6664a141ce1b",
+      "changes": [
+        {
+          "entryId": 27,
+          "stepIndex": 2,
+          "playerId": "player-blue",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 1 个，宣传+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 1
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 27,
+          "stepIndex": 3,
+          "playerId": "player-blue",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 27,
+          "playerId": "player-blue",
+          "key": "publicity",
+          "before": -1,
+          "after": 0
+        },
+        {
+          "entryId": 27,
+          "playerId": "player-blue",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "strategyreserve-base-5.json",
+      "sha256": "c9dfeda0183e8739d62f6221d1c6a85a247aa589ac24fa081780bb528f848b92",
+      "changes": [
+        {
+          "entryId": 92,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个信用收入：3分：高于公司默认 2 个，分数+6",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "score": 6
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 92,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：信用点+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 92,
+          "playerId": "player-green",
+          "key": "score",
+          "before": -6,
+          "after": 0
+        },
+        {
+          "entryId": 92,
+          "playerId": "player-green",
+          "key": "credits",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "strategyreserve-base-6.json",
+      "sha256": "e3e1621b65c66c78707b7f7c469fe9ce6fdbd60e0f9887126af0749485fbcb7e",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "strategyreserve-base-7.json",
+      "sha256": "3956634af24b6451fa3b065b97b03b047fb753f04d95d0be819ce874006e855c",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "strategyreserve-base-8.json",
+      "sha256": "55b30d1c2f9b8f5b1bf234752792f3cd7c5a185c51df951b3031c078956aa8b8",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "strategyreserve-base-9.json",
+      "sha256": "0ee8789316a6e5fff8595ac8b6d0a5d5499a781f8d69b481c5ff9b693fe5bc73",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "strategyreserve-base-10.json",
+      "sha256": "725eaecc8fd4746a7182f240942d263e9a9e57112dffe98648a18a7e84b7ea9a",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "strategyreserve-base-11.json",
+      "sha256": "89f310df8f23e173128947754396802e1f71fdf2de893694638912d86e964a76",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "strategyreserve-base-12.json",
+      "sha256": "454d9ff4579f76d6dcd80cb32bd4236db561c315591470200efd2fbcaff035e4",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "strategyreserve-base-13.json",
+      "sha256": "d949265203761a746ffacad34e2f5a607c8735af33937eef8f591bb33e3d0513",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "strategyreserve-base-14.json",
+      "sha256": "1d994729c43c147910971ebbcc83dcdfc41c708cec5f018d9373fc56fe8450c7",
+      "changes": [
+        {
+          "entryId": 24,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个信用收入：3分：高于公司默认 4 个，分数+12",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "score": 12
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 24,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：信用点+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 24,
+          "playerId": "player-green",
+          "key": "score",
+          "before": -12,
+          "after": 0
+        },
+        {
+          "entryId": 24,
+          "playerId": "player-green",
+          "key": "credits",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "strategyreserve-base-15.json",
+      "sha256": "1189f102ffc924c8c671e0d4f8c7df6abe3b4872fd14d87a8bd596a2bf4eb98d",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "strategyreserve-base-16.json",
+      "sha256": "68c91a632a77e9cdad7f44507cf87dda97f6de230c25ad4fada319be6579173d",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "strategyreserve-base-17.json",
+      "sha256": "6f96bafdb5c2d64a90aa0d0e98243b6162f9d7fc50f11230126df860d55e994e",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "strategyreserve-base-18.json",
+      "sha256": "63cecd3b6cb331bf103a53a490304ea288b6079a578a2a9c4b23afaff48501d4",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "strategyreserve-base-19.json",
+      "sha256": "504294467598085a02374bd81cd3ab0c4f15c9d89496cd522d9a98001a83e945",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "strategyreserve-base-20.json",
+      "sha256": "8bbb7206fbf39666b8267506e9ee34f9f1192546eabdd55d05f968ac83088d3f",
+      "changes": [
+        {
+          "entryId": 124,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 3 个，宣传+3",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 3
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 124,
+          "stepIndex": 3,
+          "playerId": "player-brown",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 124,
+          "playerId": "player-brown",
+          "key": "publicity",
+          "before": -3,
+          "after": 0
+        },
+        {
+          "entryId": 124,
+          "playerId": "player-brown",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "strategyreserve-base-21.json",
+      "sha256": "3f879ac2c7943c6483c9a6842f17042211d5e1410bcecdd69c3e2a58600e4530",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "strategyreserve-base-22.json",
+      "sha256": "e423255796ef135e6d69278d4e46a3777d686646dae38ec23fe4159ac79eeff6",
+      "changes": [
+        {
+          "entryId": 132,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 1 个，宣传+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 1
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 132,
+          "stepIndex": 3,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 132,
+          "playerId": "player-green",
+          "key": "publicity",
+          "before": -1,
+          "after": 0
+        },
+        {
+          "entryId": 132,
+          "playerId": "player-green",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "strategyreserve-base-23.json",
+      "sha256": "57e466754c02a34718ada8893ad84174f16d595db5085fe428bfd4cf842e3b3e",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "strategyreserve-base-24.json",
+      "sha256": "2b65c003346a1e531506e2e50dc237d2550d0e1fd2c7d8b8b00914d1a7d91f0f",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "repeatcorner-candidate-1.json",
+      "sha256": "a6cc8f333f36f1c8fc9ffbb390c6900821bb36fa8db4d9c5b1e21a455bde836a",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "repeatcorner-candidate-2.json",
+      "sha256": "7f7fa0e9fcf3c1dc723c7a61a8108aff8d2199afcebba9acfdd745c447698277",
+      "changes": [
+        {
+          "entryId": 183,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个能量收入：1能量：高于公司默认 7 个，能量+7",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "energy": 7
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 183,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：能量+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "energy": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 183,
+          "playerId": "player-green",
+          "key": "energy",
+          "before": -6,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "repeatcorner-candidate-3.json",
+      "sha256": "8100971b805b2b1239bedc0345241feaf6e783657e6ab780a74879552b86582f",
+      "changes": [
+        {
+          "entryId": 138,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 3 个，宣传+3",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 3
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 138,
+          "stepIndex": 3,
+          "playerId": "player-brown",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 138,
+          "playerId": "player-brown",
+          "key": "publicity",
+          "before": -3,
+          "after": 0
+        },
+        {
+          "entryId": 138,
+          "playerId": "player-brown",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "repeatcorner-candidate-4.json",
+      "sha256": "c7f8dc60ac18c36ee99a1e75d220de48a60a329e1277f553ab646d3b588e25d1",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "repeatcorner-candidate-5.json",
+      "sha256": "a5ed8a2fc1abce7d3bdd2be0ddbb32d71f4d0b4e8cf5d0dd065d6204b21107e3",
+      "changes": [
+        {
+          "entryId": 92,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个信用收入：3分：高于公司默认 2 个，分数+6",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "score": 6
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 92,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：信用点+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 92,
+          "playerId": "player-green",
+          "key": "score",
+          "before": -6,
+          "after": 0
+        },
+        {
+          "entryId": 92,
+          "playerId": "player-green",
+          "key": "credits",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "repeatcorner-candidate-6.json",
+      "sha256": "85ae142bd484f0250c30e9a8bcd530ceebe1228c88dfb05d953d844db724c3ec",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "repeatcorner-candidate-7.json",
+      "sha256": "49613a6ff06fb5d9977dc26aebe8652741ed3e8768bd4c31a003099273466423",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "repeatcorner-candidate-8.json",
+      "sha256": "f469b008b1ff43eefa332ab758ba7b792e1017e31a43ca1b9cba083d304c7670",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "repeatcorner-candidate-9.json",
+      "sha256": "61f6343f964995122e5fe3fd78bedd014cf89ff15d2036e22f50906509119400",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "repeatcorner-candidate-10.json",
+      "sha256": "ab1683bd235d197a7a0fa228c20da17e1764aeddf04d573e8b93a8d5766e0ce8",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "repeatcorner-candidate-11.json",
+      "sha256": "bd83f85374539fdcb232ebc879a999d3fda83d9fba34302e81a7e994bfc566d7",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "repeatcorner-candidate-12.json",
+      "sha256": "11c33abba0e5a3618c3b42964ffbe4c7feb30c1a4c3657ad6c82915f91c4948b",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "repeatcorner-candidate-13.json",
+      "sha256": "ccd040392741f35131443c7976ca05c0f888916b59f0406612f240dd6b6fbc54",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "repeatcorner-candidate-14.json",
+      "sha256": "e9b387b4d711564c85bd8e6d74c3216ff4bd31add95aea7fe534736d4149484e",
+      "changes": [
+        {
+          "entryId": 24,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "text": "当前每个信用收入：3分：高于公司默认 4 个，分数+12",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "score": 12
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 24,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：信用点+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 24,
+          "playerId": "player-green",
+          "key": "score",
+          "before": -12,
+          "after": 0
+        },
+        {
+          "entryId": 24,
+          "playerId": "player-green",
+          "key": "credits",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "repeatcorner-candidate-15.json",
+      "sha256": "627da6d8de16e948f9b9248584a1fae8c102992914e8813a5bcce0777e47d215",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "repeatcorner-candidate-16.json",
+      "sha256": "db1fd100c198044df63536d65a1e65773e5a0b43370993a9aa3fef2567d259c2",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "repeatcorner-candidate-17.json",
+      "sha256": "8e8e281d1d25799134dc125c24fd93161daeb80a0c59427d40436f25423b0487",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "repeatcorner-candidate-18.json",
+      "sha256": "07ef745f4c5cf85575779aab069fef89f062dcfc502d363d1f1003930471ade0",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "repeatcorner-candidate-19.json",
+      "sha256": "195529e2ef696d50b3d651ea15f120376afa9f7afae50787ffbf8229861f05e7",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "repeatcorner-candidate-20.json",
+      "sha256": "7cf1a5ca42e4124d6733359bf957bdd11f0d9aa6440ec83be1e3841779db49c9",
+      "changes": [
+        {
+          "entryId": 124,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 3 个，宣传+3",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 3
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 124,
+          "stepIndex": 3,
+          "playerId": "player-brown",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 124,
+          "playerId": "player-brown",
+          "key": "publicity",
+          "before": -3,
+          "after": 0
+        },
+        {
+          "entryId": 124,
+          "playerId": "player-brown",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "repeatcorner-candidate-21.json",
+      "sha256": "fd228fd2e83af3d03e9de14b9c0f7f7067d5f07ad7203dca408e181ccd0a62ff",
+      "changes": [
+        {
+          "entryId": 46,
+          "stepIndex": 1,
+          "playerId": "player-white",
+          "text": "当前每个信用收入：3分：高于公司默认 2 个，分数+6",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "score": 6
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 46,
+          "stepIndex": 2,
+          "playerId": "player-white",
+          "text": "将本卡放入收入区：信用点+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 46,
+          "playerId": "player-white",
+          "key": "score",
+          "before": -6,
+          "after": 0
+        },
+        {
+          "entryId": 46,
+          "playerId": "player-white",
+          "key": "credits",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "repeatcorner-candidate-22.json",
+      "sha256": "fe8f3633efc9977dfd86db930101b0e61f5d4f24074558aa669ce42b7ba9582b",
+      "changes": [
+        {
+          "entryId": 132,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "text": "每个非默认盲抽收入：1宣传：高于公司默认 1 个，宣传+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {
+              "publicity": 1
+            }
+          },
+          "after": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          }
+        },
+        {
+          "entryId": 132,
+          "stepIndex": 3,
+          "playerId": "player-green",
+          "text": "将本卡放入收入区：手牌+1",
+          "before": {
+            "sourceCategory": "card",
+            "incomeDeltas": {}
+          },
+          "after": {
+            "sourceCategory": "income_upgrade_immediate",
+            "incomeDeltas": {
+              "handSize": 1
+            }
+          }
+        }
+      ],
+      "compensations": [
+        {
+          "entryId": 132,
+          "playerId": "player-green",
+          "key": "publicity",
+          "before": -1,
+          "after": 0
+        },
+        {
+          "entryId": 132,
+          "playerId": "player-green",
+          "key": "handSize",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "repeatcorner-candidate-23.json",
+      "sha256": "3087269f4e43017e25dfd123569fd45373c5495b01e73f94845b97520cc586fd",
+      "changes": [],
+      "compensations": []
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "repeatcorner-candidate-24.json",
+      "sha256": "6b6d00bf12fafcf81d08ff7e2cf9919d972a9f33f678aa09a14007b032226a6c",
+      "changes": [],
+      "compensations": []
+    }
+  ]
+}
