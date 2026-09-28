@@ -1,0 +1,104 @@
+{
+  "reference": "cornerabsolute64-candidate-36.json",
+  "steps": 1499,
+  "scores": [
+    270,
+    234,
+    181,
+    253
+  ],
+  "semanticLogs": 1555,
+  "bugs": 0,
+  "receipt": {
+    "gameId": "codex-ai-corner-20260928:f632866dbfc18f3bf9415e40",
+    "entryId": 177,
+    "stepIndex": 2,
+    "playerId": "player-blue",
+    "playerLabel": "蓝色",
+    "finalScore": 270,
+    "roundNumber": 4,
+    "turnNumber": 10,
+    "pace": "main",
+    "mainActionType": "playCard",
+    "sourceCategory": "card",
+    "sourceDetail": "精选1张牌并获得其左上角奖励：精选 近地小行星研究；数据+1",
+    "resourceDeltas": {
+      "availableData": 1,
+      "handSize": 1
+    },
+    "incomeDeltas": {},
+    "cards": [
+      {
+        "key": "card-174-0",
+        "label": "近地小行星研究",
+        "change": "gain",
+        "origin": "normal"
+      }
+    ],
+    "techIds": [],
+    "alienId": null,
+    "industryId": "作弊实验室",
+    "isDataPlacement": false,
+    "confidence": 1
+  },
+  "actualDataReceipts": 16,
+  "changes": [
+    {
+      "player": "player-green",
+      "bucket": "incomeGain",
+      "resource": "handSize",
+      "before": 11,
+      "after": 8
+    },
+    {
+      "player": "player-green",
+      "bucket": "nonIncomeGain",
+      "resource": "handSize",
+      "before": 13,
+      "after": 16
+    },
+    {
+      "player": "player-blue",
+      "bucket": "incomeGain",
+      "resource": "handSize",
+      "before": 8,
+      "after": 7
+    },
+    {
+      "player": "player-blue",
+      "bucket": "nonIncomeGain",
+      "resource": "handSize",
+      "before": 18,
+      "after": 19
+    },
+    {
+      "player": "player-brown",
+      "bucket": "incomeGain",
+      "resource": "handSize",
+      "before": 11,
+      "after": 8
+    },
+    {
+      "player": "player-brown",
+      "bucket": "nonIncomeGain",
+      "resource": "handSize",
+      "before": 18,
+      "after": 21
+    },
+    {
+      "player": "player-white",
+      "bucket": "incomeGain",
+      "resource": "handSize",
+      "before": 8,
+      "after": 6
+    },
+    {
+      "player": "player-white",
+      "bucket": "nonIncomeGain",
+      "resource": "handSize",
+      "before": 13,
+      "after": 15
+    }
+  ],
+  "scope": "Final parser26 full case36 replay, complete semantic logs/steps/scores unchanged except timestamps. Net balances and inventories unchanged. Exact named pickup plus actual N/M data receipt attribution; hand gross gain/spending may both increase when separating previously netted explicit payments. Income/non-income categories may change."
+}
