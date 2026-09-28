@@ -1,0 +1,6 @@
+const fs=require('fs'),d='tmp/ai-20260905/';
+let code=fs.readFileSync(d+'freeze-huanyu-blue-lifecycle.cjs','utf8').replaceAll('huanyu-blue-lifecycle','huanyu-self-income').replaceAll('huanyubluelifecycle','huanyuselfincome');
+const rule='Full24 known fixed pairs,24 new candidate games and24 reused current011 parser26 baseline games. Only Huanyu self-tuck income valuation changes for b42/b47/b79: actual own card income, immediate resource grant and phase-specific remaining round payouts; no second card discard, normal play payment and own-card alternatives retained. Other companies legacy. No blue lifecycle/marker/b48 combination.54 tests and six real-browser R1/R4 payment/immediate-income/track/readonly cases passed. Fixed diagnostic found11 legal Huanyu instances, none played, but does not prove they should be preferred. All24 and all companies/high/low cohorts retained. Run after active192-game queue releases four workers, without reading partial fresh scores. No historical uplift addition.';
+code=code.replace(/const rule='[^\n]*';/,'const rule='+JSON.stringify(rule)+';').replace('fixed-development-company-ablation','fixed-development-self-income').replaceAll('寰宇蓝色循环固定24组资源对照','寰宇本卡收入固定24组资源对照');
+code=code.split('\n').filter(l=>!l.startsWith("fs.writeFileSync(d+'audit-")).join('\n');
+fs.writeFileSync(d+'freeze-huanyu-self-income.cjs',code);
