@@ -20288,6 +20288,10 @@
       targetPlayerId: targetPlayer?.id || effect.options?.targetPlayerId || null,
       targetPlayerColor: targetPlayer?.color || effect.options?.targetPlayerColor || null,
       afterTraceReward: effect.options?.afterTraceReward || null,
+      directCardTraceEffect: pendingActionEffectFlow?.actionType === "playCard"
+        && (effect.options?.targetRule === "playerHasSameTrace"
+          || effect.options?.afterTraceReward?.kind === "traceCountScore")
+        ? { type: effect.type, options: structuredClone(effect.options || {}) } : null,
     };
     const flow = alienTraceRewardFlow.resolveAlienTraceRewardFlow({
       effect,

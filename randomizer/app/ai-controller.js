@@ -22225,6 +22225,23 @@
       return score;
     }
 
+    function getAiDirectTraceOptionsForButton(target, preview) {
+      const dataset = target.button?.dataset || {};
+      const alienSlotId = Number(dataset.alienSlot || state.alienTracePickerState?.selectedAlienSlotId);
+      const traceType = getAiAlienTraceTargetTraceType(target);
+      const position = getAiAlienTraceTargetPosition(target);
+      return (preview.options || []).filter(option => {
+        if (Number.isFinite(alienSlotId) && alienSlotId > 0 && option.alienSlotId !== alienSlotId) return false;
+        if (traceType && option.traceType !== traceType) return false;
+        if (target.kind === "state-slot") return option.kind.startsWith("state-");
+        if (target.kind === "grid-slot") return option.kind === "grid" && Number(option.position) === Number(position);
+        if (dataset.fangzhouDestination === "unlock" || dataset.fangzhouUse === "unlock") return option.kind === "state-unlock";
+        if (dataset.fangzhouPlaceKind === "state") return option.kind.startsWith("state-");
+        if (dataset.fangzhouUse === "place" && position != null) return option.kind === "grid" && Number(option.position) === Number(position);
+        return true;
+      });
+    }
+
     function chooseAiAlienTraceTarget(player) {
       const pickerMode = String(state.alienTracePickerState?.mode || "");
       let targets = [];
@@ -22246,8 +22263,14 @@
           targets = listAiAlienStateTraceTargets({ allowPendingFallback: true });
         }
       }
+      const directEffect = state.pendingAlienTraceAction?.directCardTraceEffect;
+      const directPreview = directEffect ? getAiDirectTraceCardPreview(directEffect, player) : null;
       return targets
-        .map((target, index) => ({ ...target, index, score: scoreAiAlienTraceTarget(target, player) }))
+        .map((target, index) => {
+          if (!directPreview) return { ...target, index, score: scoreAiAlienTraceTarget(target, player) };
+          const option = getAiDirectTraceOptionsForButton(target, directPreview)[0] || null;
+          return { ...target, index, score: option?.value ?? -Infinity, directCardTraceValue: option };
+        })
         .filter((target) => Number.isFinite(target.score))
         .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
     }
@@ -22275,6 +22298,7 @@
         traceType: traceType || null,
         position: getAiAlienTraceTargetPosition(target),
         score: target.score,
+        directCardTraceValue: target.directCardTraceValue || null,
         b1TraceValue: scoreAiB1TraceMarginalValue(player, traceType),
         label: button.textContent || "",
       });

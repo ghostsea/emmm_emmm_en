@@ -17261,3 +17261,45 @@ for (const roundNumber of [1, 2]) {
   const blocked=createAiControllerHarness(null,{...options,getAlienTraceRewardAvailability:()=>({ok:true,targets:[]})});
   assert.equal(blocked.controller.buildAiPlayCardCandidate(card,0,blocked.blue),null,"empty target list never falls back to unconstrained trace value");
 }
+
+{
+  for (const scoped of [true, false]) {
+    const selected=[],effect={type:"alien_trace",options:{afterTraceReward:{kind:"traceCountScore",scorePer:1}}};
+    const h=createAiControllerHarness(null,{
+      currentPlayerColor:"blue",roundNumber:3,
+      alienGameState:{aliens:{1:makeHiddenAlienSlot({pink:"blue",blue:"blue"})}},
+      pendingAlienTraceAction:{targetPlayerId:"player-blue",afterTraceReward:effect.options.afterTraceReward,...(scoped?{directCardTraceEffect:effect}:{})},
+      alienTracePickerState:{mode:"trace-board",allowedTraceTypes:["pink","blue"]},
+      getAlienTraceRewardAvailability:()=>({ok:true,targets:[
+        {kind:"state-extra",alienSlotId:1,traceType:"pink",reward:{gain:{score:3}},afterScore:0},
+        {kind:"state-extra",alienSlotId:1,traceType:"blue",reward:{gain:{score:3}},afterScore:6},
+      ]}),
+      alienStateTraceButtons:[
+        makeButton({alienSlot:"1",stateTraceSlot:"1",stateTraceType:"pink",stateTraceKind:"extra"},"",false,()=>selected.push("pink")),
+        makeButton({alienSlot:"1",stateTraceSlot:"1",stateTraceType:"blue",stateTraceKind:"extra"},"",false,()=>selected.push("blue")),
+      ],
+    });
+    h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+    assert.equal(h.controller.runAiAutomationStep().ok,true);
+    assert.deepEqual(selected,[scoped?"blue":"pink"],"direct card must realize its counted-score target; ordinary selector remains unchanged");
+  }
+}
+
+{
+  const selected=[],h=createAiControllerHarness(null,{
+    currentPlayerColor:"blue",roundNumber:2,
+    aiValuation:require("../game/ai/valuation"),
+    pendingAlienTraceAction:{targetPlayerId:"player-blue",directCardTraceEffect:{type:"alien_trace",options:{targetRule:"playerHasSameTrace",allowedTraceTypes:["blue"]}}},
+    alienTracePickerState:{mode:"fangzhou-destination",allowedTraceTypes:["blue"],selectedAlienSlotId:1},
+    getAlienTraceRewardAvailability:()=>({ok:true,targets:[
+      {kind:"state-unlock",alienSlotId:1,traceType:"blue",reward:{gain:{score:3}},afterScore:0},
+      {kind:"grid",mode:"fangzhou-grid",alienSlotId:1,traceType:"blue",position:1,reward:{gain:{score:20}},afterScore:0},
+    ]}),
+    alienPickerButtons:[
+      makeButton({alienPickerStep:"fangzhou-destination",alienSlot:"1",traceType:"blue",fangzhouDestination:"unlock"},"解锁",false,()=>selected.push("unlock")),
+      makeButton({alienPickerStep:"fangzhou-destination",alienSlot:"1",fangzhouDestination:"panel"},"面板",false,()=>selected.push("panel")),
+    ],
+  });
+  h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});assert.equal(h.controller.runAiAutomationStep().ok,true);
+  assert.deepEqual(selected,["panel"],"intermediate selector must retain the best legal downstream reward");
+}
