@@ -2,6 +2,24 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  const text = "弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3";
+  assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, { publicity: 3 });
+  assert.equal(flow.parseDeltaText(text).matchedMagnitude, 3);
+  assert.deepEqual(flow.parseDeltaText("1移动：R2 -> 扇区[2,1]#0，宣传+1、分数+2；资源：宣传+3、能量-1；收入：能量+1").resourceDeltas,
+    { publicity: 3, energy: -1, score: 2 }, "only explicit impact keys override component descriptions");
+  assert.equal(flow.parseDeltaText("1移动：R1 -> 扇区[5,3]#4，宣传+1；宣传+3").resourceDeltas.publicity, 4,
+    "independent gains without an impact summary remain additive");
+  const initial = { id: "p", color: "white", resources: { publicity: 0 }, hand: [] };
+  const result = flow.analyzeStructuredActionLog([{ id: 1, roundNumber: 4, playerId: "p", actionType: "playCard",
+    steps: [{ source: "main", text }], accountingSnapshot: { players: [{ ...initial, resources: { publicity: 3 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(result.events[0].resourceDeltas.publicity, 3);
+  assert.equal(result.players[0].nonIncomeGain.publicity, 3);
+  assert.equal(result.players[0].spent.publicity, 0, "snapshot reconciliation must not invent spending to cancel a duplicated gain");
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+}
+
+{
   for (const drawn of [0, 1, 2]) {
     const before = [
       { id: "blue", color: "blue", resources: {}, hand: [] },
