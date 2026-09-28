@@ -114,6 +114,7 @@
       getActivePlayers,
       getActionLogEntries,
       getAlienTraceActionPlayer,
+      getAlienTraceRewardAvailability,
       getCardPlayCost,
       getCardPrice,
       getCardTypeCode,
@@ -10779,6 +10780,28 @@
       )).length;
     }
 
+    function getAiDirectTraceCardPreview(effect, player) {
+      const available = getAlienTraceRewardAvailability?.(effect, player);
+      if (!available?.targets) return null;
+      const options = available.targets.map(target => {
+        const reward = getAiAlienTraceRewardForValuation(target.mode || "", target.reward, player);
+        let value;
+        if (target.kind === "state-first" || target.kind === "grid") {
+          value = scoreAiAlienTraceValue({ ...target, reward, player });
+        } else {
+          value = scoreAiResourceBundle(reward?.gain || {});
+          if (target.kind === "state-unlock") {
+            value += getAiAlienCardExpectedValue(player, { alienSlotId: target.alienSlotId });
+          }
+        }
+        const afterScore = Math.max(0, aiNumber(target.afterScore));
+        return { ...target, value: roundAiScore(value + afterScore),
+          directScore: Math.max(0, aiNumber(reward?.gain?.score)) + afterScore };
+      }).filter(target => Number.isFinite(target.value));
+      options.sort((a, b) => b.value - a.value);
+      return { selected: options[0] || null, options };
+    }
+
     function scoreAiEffectValue(effect, options = {}) {
       if (!effect) return 0;
       const type = effect.type;
@@ -18814,7 +18837,6 @@
       const context = createActionContext();
       const effectPlayer = player || getCurrentPlayer();
       const unsupportedTypes = new Set([
-        "alien_trace",
         cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
         cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
@@ -18832,6 +18854,15 @@
         const previousEffect = playEffects[index - 1] || null;
         const nextEffect = playEffects[index + 1] || null;
         if (effect?.type === AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE) continue;
+        if (effect?.type === "alien_trace") {
+          const paidPlayer = cloneAiValue(effectPlayer);
+          for (const [key, amount] of Object.entries(options.cardPaymentCost || {})) {
+            paidPlayer.resources[key] = aiNumber(paidPlayer.resources[key]) - aiNumber(amount);
+          }
+          if (!getAlienTraceRewardAvailability?.(effect, paidPlayer)?.ok) {
+            return { ok: false, message: "打牌付款后没有合法外星人痕迹目标" };
+          }
+        }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
         }
@@ -18979,10 +19010,22 @@
         ? playEffects.filter((effect) => !skippedUnresolvableEffectSet.has(effect))
         : playEffects;
       const effectCheck = canAiResolvePlayCardEffects(playEffects, currentPlayer, {
+        cardPaymentCost: cost,
         allowCappedOptionalLaunchSkip: skippedCappedLaunchSet.size > 0,
         allowUnresolvableMoveSkip: skippedUnresolvableMoveSet.size > 0,
       });
       if (!effectCheck.ok) return null;
+      const directTraceEffects = valuationPlayEffects.filter(effect => effect?.type === "alien_trace");
+      const paidTracePlayer = directTraceEffects.length ? cloneAiValue(currentPlayer) : null;
+      if (paidTracePlayer) {
+        for (const [key, amount] of Object.entries(cost)) {
+          paidTracePlayer.resources[key] = aiNumber(paidTracePlayer.resources[key]) - aiNumber(amount);
+        }
+        if (handIndex >= 0) paidTracePlayer.hand.splice(handIndex, 1);
+      }
+      const directTracePreviews = new Map(directTraceEffects
+        .map(effect => [effect, getAiDirectTraceCardPreview(effect, paidTracePlayer)]));
+      if ([...directTracePreviews.values()].some(preview => preview && !preview.selected)) return null;
       if (getAiRunezuPrematureSymbolCardReason(card, playEffects, currentPlayer)) return null;
       const endGameExpectedScore = scoreAiCardEndGameExpectedValue(card, model, currentPlayer);
       const chongProbeFossilRewardValue = valuationPlayEffects.some(
@@ -18991,7 +19034,8 @@
         ? scoreAiChongProbePlanetFossilRewardValue(currentPlayer)
         : null;
       const plan = scoreAiPlayCardRoutePlan(card, model, valuationPlayEffects, currentPlayer);
-      const directScoreGain = getAiRewardDirectScore(valuationPlayEffects, currentPlayer, { immediate: true });
+      const directScoreGain = getAiRewardDirectScore(valuationPlayEffects, currentPlayer, { immediate: true })
+        + [...directTracePreviews.values()].reduce((sum, preview) => sum + aiNumber(preview?.selected?.directScore), 0);
       const standardActionPremium = scoreAiCardStandardActionPremium(valuationPlayEffects, currentPlayer);
       const readyTaskTechReplacementValue = scoreAiReadyTaskTechReplacementValue(
         valuationPlayEffects,
@@ -18999,7 +19043,8 @@
         currentPlayer,
       );
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
+        total + (directTracePreviews.get(effect)?.selected?.value
+          ?? scoreAiEffectValue(effect, { player: currentPlayer, immediate: true }))
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
         player: currentPlayer,
@@ -19184,6 +19229,7 @@
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
+          directTracePreviews: [...directTracePreviews.values()].filter(Boolean),
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -26705,6 +26751,7 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      buildAiPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,

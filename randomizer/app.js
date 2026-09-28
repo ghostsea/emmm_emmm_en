@@ -1193,6 +1193,7 @@
         : getRecoverableActionLog(options)
     ),
     getAlienTraceActionPlayer,
+    getAlienTraceRewardAvailability,
     getCardPlayCost,
     getCardPrice,
     getCardTypeCode,
@@ -20213,6 +20214,60 @@
       subtitle: "按槽位顺序替换未替换的数据；无可替换数据时追加扫描计数且不获得数据。",
       choices: expandScanChoicesWithAomomoTargets(nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId))),
     });
+  }
+
+  function getAlienTraceRewardAvailability(effect, player = getCurrentPlayer()) {
+    if (effect?.type !== "alien_trace" || !player) return { ok: false };
+    const allowedTraceTypes = effect.options?.traceType
+      ? [effect.options.traceType]
+      : (effect.options?.allowedTraceTypes?.length ? effect.options.allowedTraceTypes : aliens.TRACE_TYPES);
+    const allowedAlienSlotIds = getEligibleAlienSlotIdsForTraceEffect(effect, player, allowedTraceTypes);
+    const hasPanelTarget = hasAlienTracePanelPlacementTarget(allowedAlienSlotIds, allowedTraceTypes, player);
+    const unlockTraceTypes = getFangzhouUnlockableTraceTypes(
+      getFangzhouTraceChoiceSlotId(allowedAlienSlotIds), allowedTraceTypes, player,
+    );
+    const targets = [];
+    const previewState = structuredClone(alienGameState);
+    const species = [
+      [jiuzhe, "jiuzhe", null], [yichangdian, "yichangdian", "canPlaceYichangdianTrace"],
+      [fangzhou, "fangzhou", "canPlaceFangzhouTrace"], [banrenma, "banrenma", "canPlaceBanrenmaTrace"],
+      [chong, "chong", "canPlaceChongTrace"], [amiba, "amiba", "canPlaceAmibaTrace"],
+      [aomomo, "aomomo", "canPlaceAomomoTrace"], [runezu, "runezu", "canPlaceRunezuTrace"],
+    ];
+    for (const alienSlotId of getAlienTraceChoiceSlotIds(allowedAlienSlotIds)) {
+      const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+      for (const traceType of allowedTraceTypes) {
+        const trace = slot?.traces?.[traceType];
+        const afterReward = effect.options?.afterTraceReward;
+        const afterScore = afterReward?.kind === "traceCountScore"
+          ? (Number(cardEffects.countTraceMarkers(player, alienGameState, traceType)) + 1)
+            * Math.max(0, Math.round(Number(afterReward.scorePer) || 1)) : 0;
+        if (getAlienTracePlacementPreview(alienSlotId, traceType).canPlace) {
+          const unlock = slot?.revealed && slot.alienId === fangzhou?.ALIEN_ID
+            && fangzhou.canUnlockCard2ForTrace(previewState, player, traceType);
+          targets.push({ alienSlotId, traceType, afterScore, mode: "trace-board",
+            kind: trace?.firstPlaced ? (unlock ? "state-unlock" : "state-extra") : "state-first",
+            reward: trace?.firstPlaced ? aliens.getExtraTraceReward() : aliens.getFirstTraceRewardForSlot(alienSlotId),
+          });
+        }
+        if (!slot?.revealed) continue;
+        const descriptor = species.find(([module]) => module?.ALIEN_ID === slot.alienId);
+        if (!descriptor) continue;
+        const [module, name, method] = descriptor;
+        if (!module.TRACE_TYPES?.includes(traceType)) continue;
+        const positions = module.getPositionsForTraceType?.(traceType) || module.TRACE_POSITIONS || [];
+        for (const position of positions) {
+          const legal = method
+            ? module[method]?.(previewState, alienSlotId, traceType, position, player, { availableDataCount: getAvailableDataTokenCount(player) })?.ok
+            : !module.getTraceGrid(previewState, alienSlotId)?.[traceType]?.[position];
+          if (!legal) continue;
+          const reward = ["chong", "amiba", "runezu"].includes(name)
+            ? module.getTraceReward(previewState, traceType, position) : module.getTraceReward(traceType, position);
+          targets.push({ alienSlotId, traceType, afterScore, kind: "grid", mode: `${name}-grid`, position, reward });
+        }
+      }
+    }
+    return { ok: targets.length > 0, allowedTraceTypes, allowedAlienSlotIds, hasPanelTarget, unlockTraceTypes, targets };
   }
 
   function openAlienTraceRewardEffect(effect) {

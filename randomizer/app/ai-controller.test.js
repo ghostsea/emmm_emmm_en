@@ -555,6 +555,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     computePlayerFinalScoreBreakdown: options.computePlayerFinalScoreBreakdown || (() => ({})),
     formatRocketLabel: () => "",
     getActivePlayers: () => allPlayers,
+    getAlienTraceRewardAvailability: options.getAlienTraceRewardAvailability,
     getAlienTraceActionPlayer: (pending) => {
       const playerId = pending?.targetPlayerId || pending?.playerId || options.alienTracePlayerId || null;
       const playerColor = pending?.targetPlayerColor || pending?.playerColor || options.alienTracePlayerColor || null;
@@ -17216,4 +17217,47 @@ for (const roundNumber of [1, 2]) {
     assert.equal(trade.preserveHandIndex,0);
     assert.equal(executions[0]?.preserveHandIndex,0,'execution must preserve the card used by the unlock valuation');
   }
+}
+
+
+{
+  const deck = require("../game/cards/deck");
+  for (const id of ["b_27.webp", "b_32.webp", "b_35.webp", "b_36.webp"]) {
+    const card = deck.createCardInstance(deck.CARD_CATALOG.find(c => c.card_id === id));
+    card.playEffects = cardEffects.buildPlayEffects(card);
+    card.model = cardEffects.getCardModel(card);
+    const calls = [];
+    const options = { currentPlayerColor: "blue", roundNumber: 3, blueHand: [card], blueResources: { credits: 2, energy: 1, handSize: 1, score: 80 }, realisticCanAfford: true,
+      getAlienTraceRewardAvailability: (effect, player) => { calls.push({ type: effect.type, credits: player.resources.credits }); return { ok: true }; },
+    };
+    const h = createAiControllerHarness(null, options),before = JSON.stringify(h.blue);
+    assert(h.controller.buildAiPlayCardCandidate(card, 0, h.blue), "legal direct trace card is an active play candidate: " + id);
+    assert(calls.some(c => c.type === "alien_trace" && c.credits === 2 - card.price), "trace affordability uses resources after actual card payment");
+    assert.equal(JSON.stringify(h.blue), before, "trace preflight does not spend real resources");
+    const blocked = createAiControllerHarness(null, { ...options, getAlienTraceRewardAvailability: () => ({ ok: false }) });
+    assert.equal(blocked.controller.buildAiPlayCardCandidate(card, 0, blocked.blue), null, "no legal trace destination still excludes card");
+  }
+}
+
+{
+  const deck = require("../game/cards/deck");
+  const card = deck.createCardInstance(deck.CARD_CATALOG.find(c => c.card_id === "b_36.webp"));
+  card.playEffects = cardEffects.buildPlayEffects(card); card.model = cardEffects.getCardModel(card);
+  const calls = [], targets = [
+    { kind: "state-extra", alienSlotId: 1, traceType: "blue", reward: { gain: { score: 3 } }, afterScore: 1 },
+    { kind: "state-extra", alienSlotId: 2, traceType: "yellow", reward: { gain: { score: 3 } }, afterScore: 4 },
+  ];
+  const options = { currentPlayerColor: "blue", roundNumber: 3, blueHand: [card], realisticCanAfford: true,
+    blueResources: { credits: 3, energy: 1, handSize: 1, score: 80 },
+    getAlienTraceRewardAvailability: (effect, player) => { calls.push({credits:player.resources.credits,hand:player.hand.length}); return {ok:true,targets}; },
+  };
+  const h = createAiControllerHarness(null, options), before=JSON.stringify(h.blue);
+  const candidate = h.controller.buildAiPlayCardCandidate(card, 0, h.blue);
+  assert.equal(candidate.valueBreakdown.effectValue, 7, "value actual best target reward plus after-trace score, not generic hidden reward");
+  assert.equal(candidate.directScoreGain, 7, "same selected target supplies the score used by final-mark valuation");
+  assert.equal(candidate.valueBreakdown.directTracePreviews[0].selected.alienSlotId, 2);
+  assert(calls.some(c=>c.credits===3-card.price && c.hand===0), "valuation observes actual payment and removed played card");
+  assert.equal(JSON.stringify(h.blue), before);
+  const blocked=createAiControllerHarness(null,{...options,getAlienTraceRewardAvailability:()=>({ok:true,targets:[]})});
+  assert.equal(blocked.controller.buildAiPlayCardCandidate(card,0,blocked.blue),null,"empty target list never falls back to unconstrained trace value");
 }
