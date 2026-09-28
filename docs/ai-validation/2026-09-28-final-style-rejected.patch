@@ -1,0 +1,67 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 19ed4283..1d9d930b 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -9699,6 +9699,9 @@
+     }
+ 
+     function getAiOpeningStyleMultiplier(rawCandidate = {}, player = getCurrentPlayer()) {
++      // The last round has no later engine window. Keep actual action values,
++      // final formulas and threshold urgency, without the opening preference.
++      if (getAiRoundNumber() >= FINAL_ROUND_NUMBER) return 1;
+       const style = getAiPlayerStyle(player);
+       const actionId = getAiCandidateStyleActionId(rawCandidate);
+       const effectTypes = rawCandidate.effectTypes || [];
+@@ -26821,6 +26824,7 @@
+ 
+     return {
+       getAiIntendedPlayCardCandidate,
++      adjustAiActionGraphCandidateForStyle,
+       aiNumber,
+       applyAiStrategyTuning,
+       applyAiStrategyTuningRecommendation,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 2e30f23d..212c3a5e 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -17346,3 +17346,27 @@ for (const roundNumber of [1, 2]) {
+   }
+ }
+ verifyActualContinuationGains();
++
++// Opening preferences may choose a route, but terminal choices retain only
++// actual action value and the player's real final-scoring incentives.
++for (const round of [1, 3, 4]) {
++  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: round,
++    blueResources: { score: 120, credits: 3, energy: 3 } });
++  h.blue.aiStyle = "route";
++  const before = JSON.stringify(h.blue);
++  const adjust = (id, net, marks = []) => h.controller.adjustAiActionGraphCandidateForStyle(
++    { id, available: true }, { net }, h.blue, marks).net;
++  if (round < 4) {
++    assert(adjust("orbit", 9) > adjust("scan", 10), "early route preference remains unchanged");
++  } else {
++    assert(adjust("scan", 10) > adjust("orbit", 9), "terminal value is not reversed by opening route preference");
++    for (const style of ["route", "scanner", "task", "tech", "balanced"]) {
++      h.blue.aiStyle = style;
++      assert.equal(adjust("playCard", 10), 10, "no terminal preference without a scoring incentive");
++      assert(adjust("playCard", 10, [{ formulaId: "c1" }]) > 10, "actual final formula preference remains");
++      assert.equal(adjust("launch", -5), -5, "opening style cannot soften a terminal negative action");
++    }
++    h.blue.aiStyle = "route";
++  }
++  assert.equal(JSON.stringify(h.blue), before, "style valuation is read only");
++}
+diff --git a/randomizer/index.html b/randomizer/index.html
+index 20093fdd..355744c7 100644
+--- a/randomizer/index.html
++++ b/randomizer/index.html
+@@ -798,7 +798,7 @@
+   <script src="./app/events.js?v=same-seed-restart-1"></script>
+   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
+   <script src="./app/public-api.js?v=app-boundaries-5"></script>
+-  <script src="./app/ai-controller.js?v=actual-resource-continuation-20260928"></script>
++  <script src="./app/ai-controller.js?v=final-style-neutral-20260928"></script>
+   <script src="./app.js?v=empty-income-skip-20260928"></script>
+ </body>
+ </html>

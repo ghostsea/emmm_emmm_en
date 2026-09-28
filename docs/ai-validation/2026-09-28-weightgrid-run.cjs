@@ -1,0 +1,11 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawn}=require('node:child_process'),assert=require('node:assert/strict');
+const d=path.resolve('tmp/ai-20260905'),[p,rawN]=process.argv.slice(2),n=Number(rawN),suite=JSON.parse(fs.readFileSync(path.join(d,p+'-suite.json'))),model=suite.models.candidate,pair=suite.pairs[n-1];
+if(!pair)throw Error('invalid case');
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex'),root=path.join(d,model.root),out=path.join(d,pair.candidate);
+for(const[f,h]of Object.entries(model.hashes))assert.equal(hash(path.join(root,f)),h,'source changed '+f);
+for(const[f,h]of Object.entries(suite.harnessHashes))assert.equal(hash(f),h,'harness changed '+f);
+assert(!fs.existsSync(out),'output already exists');
+const fd=fs.openSync(out+'.log','w');
+const child=spawn(process.execPath,['tools/run_ai_autobattle_browser.js','--single','--seed',pair.seed,'--alienSeed',pair.alienSeed,'--root',root,'--includeLogs','--lightweight','--strategyWeights',JSON.stringify(model.strategyWeights),'--timeoutMs','1800000','--out',out],{stdio:['ignore',fd,fd],windowsHide:true});
+child.on('error',e=>{console.error(e);process.exitCode=1;});
+child.on('exit',code=>{fs.closeSync(fd);if(code!==0){process.exitCode=code||1;return;}try{const r=JSON.parse(fs.readFileSync(out));assert(r.summary.ok&&r.summary.gameEnded&&!r.summary.blocked&&r.summary.bugCount===0);assert.deepEqual(r.result.strategyWeights,model.strategyWeights);console.log('DONE',p,n);}catch(e){console.error(e);process.exitCode=1;}});

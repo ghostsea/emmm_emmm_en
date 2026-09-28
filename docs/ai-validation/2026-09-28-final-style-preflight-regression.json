@@ -1,0 +1,37 @@
+{
+  "status": "rejected-before-full-game-testing",
+  "scope": "Only suppress opening-style multiplier in round4; final formula and threshold multipliers unchanged. Existing meaningful ready-analysis fixture fails. Keep its action/ranking assertions; do not add a new company/state exception or widen graph cap without separate evidence.",
+  "baseline": {
+    "action": "analyze",
+    "result": {
+      "ok": true,
+      "progressed": true
+    },
+    "scan": {
+      "score": 37.379795019999996,
+      "net": 55.282,
+      "cap": true,
+      "style": 1
+    },
+    "analyze": {
+      "score": 49.001456,
+      "net": 55.532,
+      "style": 1.03
+    }
+  },
+  "candidate": {
+    "action": "scan",
+    "result": null,
+    "scan": {
+      "score": 37.379795019999996,
+      "net": 56.083,
+      "style": 1
+    },
+    "analyze": {
+      "score": 49.001456,
+      "net": 53.914,
+      "style": 1
+    }
+  },
+  "explanation": "Removing the balanced-style analysis bonus raises scan versus analyze gap above the existing <=1 cap gate. Candidate selects scan rather than ready analysis. Scan execution is not wired in this unit fixture (result null); no claim of actual resource expenditure or whole-game score loss."
+}
