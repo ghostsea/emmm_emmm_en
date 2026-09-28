@@ -1,0 +1,458 @@
+{
+  "case": 15,
+  "scope": "Read-only full-hand snapshot at decisions holding b120. Known-card affordability is not a prediction of selection or optimality. No future draws, income or refunds assumed. Competing old slots are listed without assuming they remain forever.",
+  "semanticLogs": 1529,
+  "scores": [
+    264,
+    169,
+    225,
+    190
+  ],
+  "fullSemanticReplay": true,
+  "inputSha256": "e119f8e89f2ba8b30bd48ddb60769563650bc1e58d1ab97beed0d34ad5f0045c",
+  "rows": [
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 2,
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 8
+      },
+      "setupInstance": "card-11-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-9-0",
+          "cardId": "b_116.webp",
+          "label": "太空发射系统",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-10-0",
+          "cardId": "b_32.webp",
+          "label": "电子显微锐",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-11-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 1.6735000000000007,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-51-0",
+          "cardId": "b_56.webp",
+          "label": "离子推迸系统",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": {
+            "available": true,
+            "score": -4.434612170816003,
+            "directScore": 2
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-64-0",
+          "cardId": "dlc_17.png",
+          "label": "付费媒体报道",
+          "price": 0,
+          "eventPrice": 0,
+          "cost": {},
+          "candidate": null,
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "researchTech",
+        "kind": "main"
+      },
+      "reserved": []
+    },
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 6,
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 7,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-9-0",
+          "cardId": "b_116.webp",
+          "label": "太空发射系统",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-10-0",
+          "cardId": "b_32.webp",
+          "label": "电子显微锐",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-11-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 1.6735000000000007,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-51-0",
+          "cardId": "b_56.webp",
+          "label": "离子推迸系统",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": {
+            "available": true,
+            "score": -5.7444599064320006,
+            "directScore": 2
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-64-0",
+          "cardId": "dlc_17.png",
+          "label": "付费媒体报道",
+          "price": 0,
+          "eventPrice": 0,
+          "cost": {},
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-19-0",
+          "cardId": "dlc_35.png",
+          "label": "NASA系外行星档案",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.1524540225039974,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-67-0",
+          "cardId": "b_124.webp",
+          "label": "穿越小行星带",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": null,
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "scan",
+        "kind": "main"
+      },
+      "reserved": []
+    },
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 10,
+      "resources": {
+        "credits": 6,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-9-0",
+          "cardId": "b_116.webp",
+          "label": "太空发射系统",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-11-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.1460000000000026,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-51-0",
+          "cardId": "b_56.webp",
+          "label": "离子推迸系统",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": {
+            "available": true,
+            "score": -2.2049379999360035,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-19-0",
+          "cardId": "dlc_35.png",
+          "label": "NASA系外行星档案",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.3087642240919983,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": []
+    },
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 14,
+      "resources": {
+        "credits": 6,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 3,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-9-0",
+          "cardId": "b_116.webp",
+          "label": "太空发射系统",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-11-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": -5.5699999999999985,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-51-0",
+          "cardId": "b_56.webp",
+          "label": "离子推迸系统",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": {
+            "available": true,
+            "score": -2.522468814336003,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": [
+        {
+          "id": "card-19-0",
+          "cardId": "dlc_35.png",
+          "consumed": []
+        }
+      ]
+    },
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 18,
+      "resources": {
+        "credits": 3,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-9-0",
+          "cardId": "b_116.webp",
+          "label": "太空发射系统",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": 20.25478319090336,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-11-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": -6.6949999999999985,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": [
+        {
+          "id": "card-19-0",
+          "cardId": "dlc_35.png",
+          "consumed": []
+        }
+      ]
+    }
+  ]
+}

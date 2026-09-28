@@ -1,0 +1,122 @@
+{
+  "case": 2,
+  "scope": "Read-only full-hand snapshot at decisions holding b120. Known-card affordability is not a prediction of selection or optimality. No future draws, income or refunds assumed. Competing old slots are listed without assuming they remain forever.",
+  "semanticLogs": 1686,
+  "scores": [
+    176,
+    285,
+    225,
+    307
+  ],
+  "fullSemanticReplay": true,
+  "inputSha256": "8feccf2fc5b04a66b9bf7aca6ee9f4ab5165e5a7724342f8ac1e09fe3a2f9d51",
+  "rows": [
+    {
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 2,
+      "rawTurn": 4,
+      "resources": {
+        "credits": 7,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 18
+      },
+      "setupInstance": "card-85-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-63-0",
+          "cardId": "b_103.webp",
+          "label": "量子计算机",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": {
+            "available": true,
+            "score": -1.4936058331505109,
+            "directScore": 2
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-35-pass-1-1",
+          "cardId": "b_75.webp",
+          "label": "水星探测计划",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": 5.335270166849485,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-72-0",
+          "cardId": "dlc_12.png",
+          "label": "双行星飞越机动",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 12.187040838407352,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-73-0",
+          "cardId": "b_61.webp",
+          "label": "木星探测计划",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": 33.94327016684949,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-85-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": -2.4133472000000014,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": []
+    }
+  ]
+}

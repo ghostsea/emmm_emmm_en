@@ -1,0 +1,84 @@
+{
+  "case": 16,
+  "scope": "Read-only full-hand snapshot at decisions holding b120. Known-card affordability is not a prediction of selection or optimality. No future draws, income or refunds assumed. Competing old slots are listed without assuming they remain forever.",
+  "semanticLogs": 1598,
+  "scores": [
+    147,
+    183,
+    322,
+    321
+  ],
+  "fullSemanticReplay": true,
+  "inputSha256": "abbd98099fc44fea6edd927e897c5fa4d9afb2cb3c9ea5393323537b46379461",
+  "rows": [
+    {
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 1,
+      "rawTurn": 1,
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "setupInstance": "card-6-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-6-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": -7.1675,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-8-0",
+          "cardId": "dlc_40.png",
+          "label": "霍尔效应推进器",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": 24.516322177746463,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-64-0",
+          "cardId": "dlc_27.png",
+          "label": "更优太阳能板",
+          "price": 0,
+          "eventPrice": 0,
+          "cost": {},
+          "candidate": null,
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": []
+    }
+  ]
+}

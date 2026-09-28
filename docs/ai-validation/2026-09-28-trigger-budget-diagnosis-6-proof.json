@@ -1,0 +1,240 @@
+{
+  "case": 6,
+  "scope": "Read-only full-hand snapshot at decisions holding b120. Known-card affordability is not a prediction of selection or optimality. No future draws, income or refunds assumed. Competing old slots are listed without assuming they remain forever.",
+  "semanticLogs": 1581,
+  "scores": [
+    246,
+    166,
+    327,
+    253
+  ],
+  "fullSemanticReplay": true,
+  "inputSha256": "1286e9a461879c519620b4c877d103c87fb0275b08437497015e6657e2d3d99e",
+  "rows": [
+    {
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 37,
+      "resources": {
+        "credits": 5,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "alien-amiba-6-8",
+          "cardId": "amiba_6.webp",
+          "label": "物理表征",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 13.612319999999999,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-138-0",
+          "cardId": "b_46.webp",
+          "label": "建造大型米波射电望远锐",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-140-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.4325,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": []
+    },
+    {
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 38,
+      "resources": {
+        "credits": 4,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-138-0",
+          "cardId": "b_46.webp",
+          "label": "建造大型米波射电望远锐",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-140-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.2435,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-143-0",
+          "cardId": "dlc_3.png",
+          "label": "NASA深空网络",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": -10.1726,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "launch",
+        "kind": "main"
+      },
+      "reserved": [
+        {
+          "id": "alien-amiba-6-8",
+          "cardId": "amiba_6.webp",
+          "consumed": []
+        }
+      ]
+    },
+    {
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 39,
+      "resources": {
+        "credits": 3,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCost": {
+        "credits": 1
+      },
+      "cards": [
+        {
+          "instance": "card-138-0",
+          "cardId": "b_46.webp",
+          "label": "建造大型米波射电望远锐",
+          "price": 3,
+          "eventPrice": 3,
+          "cost": {
+            "credits": 3
+          },
+          "candidate": null,
+          "existingMatches": []
+        },
+        {
+          "instance": "card-140-0",
+          "cardId": "b_120.webp",
+          "label": "战略规划",
+          "price": 1,
+          "eventPrice": 1,
+          "cost": {
+            "credits": 1
+          },
+          "candidate": {
+            "available": true,
+            "score": 2.0545,
+            "directScore": 0
+          },
+          "existingMatches": []
+        },
+        {
+          "instance": "card-143-0",
+          "cardId": "dlc_3.png",
+          "label": "NASA深空网络",
+          "price": 2,
+          "eventPrice": 2,
+          "cost": {
+            "credits": 2
+          },
+          "candidate": {
+            "available": true,
+            "score": -10.1726,
+            "directScore": 0
+          },
+          "existingMatches": []
+        }
+      ],
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "reserved": [
+        {
+          "id": "alien-amiba-6-8",
+          "cardId": "amiba_6.webp",
+          "consumed": []
+        }
+      ]
+    }
+  ]
+}

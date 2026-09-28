@@ -1,0 +1,1717 @@
+{
+  "scope": "Four preregistered seen cases:2 Huanyu early high credits,6 actually played,15 Grand Strategy prior counterfactual,16 Huanyu smaller budget. Read-only same-policy replays; not prevalence, optimality or score improvement. Full hand costs are actual credit/energy costs; playCard event price follows runtime credit cost. Joint budget pays setup first and at most one held card per distinct1/2/3 credit-price slot. No future income, draws, refund, company return or reward financing counted. Positive candidate and old-slot exclusion are separate conservative filters, not proofs other cards will never be played. No supported-slot count is substituted for expected utility.",
+  "cases": [
+    {
+      "case": 2,
+      "semanticLogs": 1686,
+      "scores": [
+        176,
+        285,
+        225,
+        307
+      ],
+      "fullSemanticReplay": true
+    },
+    {
+      "case": 6,
+      "semanticLogs": 1581,
+      "scores": [
+        246,
+        166,
+        327,
+        253
+      ],
+      "fullSemanticReplay": true
+    },
+    {
+      "case": 15,
+      "semanticLogs": 1529,
+      "scores": [
+        264,
+        169,
+        225,
+        190
+      ],
+      "fullSemanticReplay": true
+    },
+    {
+      "case": 16,
+      "semanticLogs": 1598,
+      "scores": [
+        147,
+        183,
+        322,
+        321
+      ],
+      "fullSemanticReplay": true
+    }
+  ],
+  "inputs": [
+    {
+      "file": "trigger-budget-diagnosis-2-proof.json",
+      "sha256": "1e3dcc41c77c17d543f6fbacbdf528ba71ad2369a34cb1b896d9f777814350e7"
+    },
+    {
+      "file": "trigger-budget-diagnosis-6-proof.json",
+      "sha256": "1503d272932b71445d172294718e01f08ee53138a661d11538e882775dc36084"
+    },
+    {
+      "file": "trigger-budget-diagnosis-15-proof.json",
+      "sha256": "2dff9cbfb5693ce3672051f75fb20b29bb0fb2a2ad461fee7025207d71c7dc75"
+    },
+    {
+      "file": "trigger-budget-diagnosis-16-proof.json",
+      "sha256": "332c99f3ed0357be17defac38fa56b5b722e8398393450c95be03da9646273bb"
+    }
+  ],
+  "observations": 10,
+  "instances": 4,
+  "firstObservations": [
+    {
+      "case": 2,
+      "observation": 0,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 2,
+      "rawTurn": 4,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 7,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 18
+      },
+      "setupInstance": "card-85-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -2.4133472000000014,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 3,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-63-0",
+            "cardId": "b_103.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -1.4936058331505109,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 6
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 3
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 3
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      }
+    },
+    {
+      "case": 6,
+      "observation": 0,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 37,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 5,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 2.4325,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-138-0",
+            "cardId": "b_46.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": null,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 4
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 0,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 2,
+      "selected": {
+        "id": "researchTech",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 8
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 1.6735000000000007,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": null,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-51-0",
+            "cardId": "b_56.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -4.434612170816003,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 5
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      }
+    },
+    {
+      "case": 16,
+      "observation": 0,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 1,
+      "rawTurn": 1,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "setupInstance": "card-6-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -7.1675,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      }
+    }
+  ],
+  "rows": [
+    {
+      "case": 2,
+      "observation": 0,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 2,
+      "rawTurn": 4,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 7,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 18
+      },
+      "setupInstance": "card-85-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -2.4133472000000014,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 3,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-63-0",
+            "cardId": "b_103.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -1.4936058331505109,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 6
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 3
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-72-0",
+            "cardId": "dlc_12.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 12.187040838407352,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-35-pass-1-1",
+            "cardId": "b_75.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 5.335270166849485,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 3
+        },
+        "budget": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 18
+        }
+      }
+    },
+    {
+      "case": 6,
+      "observation": 0,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 37,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 5,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 2.4325,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-138-0",
+            "cardId": "b_46.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": null,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 4
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "alien-amiba-6-8",
+            "cardId": "amiba_6.webp",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 13.612319999999999,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      }
+    },
+    {
+      "case": 6,
+      "observation": 1,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 38,
+      "selected": {
+        "id": "launch",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 4,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 2.2435,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-138-0",
+            "cardId": "b_46.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": null,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 3
+        },
+        "budget": {
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      }
+    },
+    {
+      "case": 6,
+      "observation": 2,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "rawTurn": 39,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 3,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 152
+      },
+      "setupInstance": "card-140-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 2.0545,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-143-0",
+            "cardId": "dlc_3.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": -10.1726,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 152
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 0,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 2,
+      "selected": {
+        "id": "researchTech",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 8
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 1.6735000000000007,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": null,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-51-0",
+            "cardId": "b_56.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -4.434612170816003,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 5
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 8
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 1,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 6,
+      "selected": {
+        "id": "scan",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 7,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 1.6735000000000007,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": null,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-51-0",
+            "cardId": "b_56.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -5.7444599064320006,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 5
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 10
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-19-0",
+            "cardId": "dlc_35.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 2.1524540225039974,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 10
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-19-0",
+            "cardId": "dlc_35.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 2.1524540225039974,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 10
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 2,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 10,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 6,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": 2.1460000000000026,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": null,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-51-0",
+            "cardId": "b_56.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -2.2049379999360035,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 5
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 10
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-19-0",
+            "cardId": "dlc_35.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 2.3087642240919983,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 10
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-19-0",
+            "cardId": "dlc_35.png",
+            "eventPrice": 1,
+            "cost": {
+              "credits": 1
+            },
+            "score": 2.3087642240919983,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 10
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 3,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 14,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 6,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 3,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -5.5699999999999985,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 2,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": null,
+            "existingMatches": []
+          },
+          {
+            "instance": "card-51-0",
+            "cardId": "b_56.webp",
+            "eventPrice": 3,
+            "cost": {
+              "credits": 3
+            },
+            "score": -2.522468814336003,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 5
+        },
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 10
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 10
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 0,
+        "cards": [],
+        "cost": {},
+        "budget": {
+          "credits": 5,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 10
+        }
+      }
+    },
+    {
+      "case": 15,
+      "observation": 4,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "rawTurn": 18,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 3,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 2,
+        "score": 10
+      },
+      "setupInstance": "card-11-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -6.6949999999999985,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 20.25478319090336,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 2,
+          "score": 10
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 20.25478319090336,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 2,
+          "score": 10
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-9-0",
+            "cardId": "b_116.webp",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 20.25478319090336,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 2,
+          "score": 10
+        }
+      }
+    },
+    {
+      "case": 16,
+      "observation": 0,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 1,
+      "rawTurn": 1,
+      "selected": {
+        "id": "playCard",
+        "kind": "main"
+      },
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "setupInstance": "card-6-0",
+      "setupCandidate": {
+        "available": true,
+        "score": -7.1675,
+        "directScore": 0
+      },
+      "nominalReserveValue": 10,
+      "knownHandBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      },
+      "positiveCandidateBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      },
+      "exclusivePositiveBudget": {
+        "setupAffordable": true,
+        "slots": 1,
+        "cards": [
+          {
+            "instance": "card-8-0",
+            "cardId": "dlc_40.png",
+            "eventPrice": 2,
+            "cost": {
+              "credits": 2
+            },
+            "score": 24.516322177746463,
+            "existingMatches": []
+          }
+        ],
+        "cost": {
+          "credits": 2
+        },
+        "budget": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        }
+      }
+    }
+  ]
+}

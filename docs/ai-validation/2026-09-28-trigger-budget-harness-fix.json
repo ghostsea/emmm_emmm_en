@@ -1,0 +1,15 @@
+{
+  "scope": "Diagnostic-only error, no game source changed. chooseTurnAction is shared by real turns and hypothetical move previews; preview can return null. Guard null and require full playCard/pass menu. Prior three observations will be regenerated, not reused as actual decisions.",
+  "case": 16,
+  "bugs": [
+    {
+      "message": "Cannot read properties of null (reading 'id')",
+      "stack": "TypeError: Cannot read properties of null (reading 'id')\n    at c.ai.policy.chooseTurnAction (<anonymous>:13:255)\n    at buildAiProbeMoveScanPreview (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:18903:54)\n    at scoreAiPlayCardValue (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:12709:66)\n    at http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:2249:41\n    at Array.map (<anonymous>)\n    at rankIncomeOptions (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:2233:10)\n    at chooseAiIncomeDiscardIndexes (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:2278:24)\n    at runAiDiscardDecision (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:1947:11)\n    at runAiAutomationStep (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:25804:31)\n    at runAiAutoBattle (http://127.0.0.1:2484/randomizer/app/ai-controller.js?v=actual-resource-continuation-20260928:25944:22)"
+    },
+    {
+      "message": "Cannot read properties of null (reading 'id')",
+      "stack": null
+    }
+  ],
+  "repair": "Return original null or non-turn choice unchanged; record only non-null full-turn choices."
+}

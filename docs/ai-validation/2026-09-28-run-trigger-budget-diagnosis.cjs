@@ -1,0 +1,12 @@
+const fs=require('fs'),cp=require('child_process'),assert=require('node:assert/strict'),crypto=require('crypto');
+const d='tmp/ai-20260905/',n=Number(process.argv[2]);assert([2,6,15,16].includes(n));
+const file=d+`tradeledger28v2-candidate-${n}.json`,before=JSON.parse(fs.readFileSync(file)),stem='trigger-budget-diagnosis-'+n;
+fs.writeFileSync(d+stem+'-page.js',fs.readFileSync(d+'trigger-budget-diagnosis-page.js','utf8').replace('__SEED__',JSON.stringify(before.options.seed)));
+fs.writeFileSync(d+stem+'-smoke.cjs',fs.readFileSync(d+'scanyield-smoke.cjs','utf8').replace('codex-ai-slot-first-aliens-20260906:7b535ce4a3073aaa0c8bf0a7',before.options.alienSeed).replace('},120000);','},600000);'));
+cp.execFileSync(process.execPath,[d+stem+'-smoke.cjs','.',d+stem+'-page.js',d+stem+'.json'],{stdio:'ignore',windowsHide:true});
+const x=JSON.parse(fs.readFileSync(d+stem+'.json')).result.value,r=x.result;
+assert.equal(r.bugs.length,0);assert.equal(r.logs.length,before.result.logs.length);assert(JSON.stringify(r.playerResults)===JSON.stringify(before.result.playerResults),'Final states differ');
+const clean=v=>Array.isArray(v)?v.map(clean):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>!['createdAt','updatedAt','placedAt'].includes(k)).map(([k,x])=>[k,clean(x)])):v;
+assert(JSON.stringify(clean(r.logs))===JSON.stringify(clean(before.result.logs)),'Semantic logs differ');
+const report={case:n,scope:'Read-only full-hand snapshot at decisions holding b120. Known-card affordability is not a prediction of selection or optimality. No future draws, income or refunds assumed. Competing old slots are listed without assuming they remain forever.',semanticLogs:r.logs.length,scores:before.summary.playerScores,fullSemanticReplay:true,inputSha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),rows:x.rows};
+fs.writeFileSync(d+stem+'-proof.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({case:n,observations:x.rows.length,semanticLogs:r.logs.length,scores:before.summary.playerScores}));
