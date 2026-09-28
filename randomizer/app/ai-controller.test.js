@@ -17346,3 +17346,39 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const make = ({ round = 1, placed = 0, pool = 2, energy = 1, incomeEnergy = 1, company = "寰宇超动力" } = {}) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: round,
+    blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+    blueResources: { score: 40, credits: 2, energy, publicity: 6, availableData: pool, handSize: 0 },
+    blueHand: [], blueIncome: { energy: incomeEnergy },
+    aiValuation: require("../game/ai/valuation"),
+    data: {
+      listComputerPlacedTokens: () => Array.from({ length: placed }, (_, i) => ({ placementSlot: i + 1 })),
+      getRequiredComputerSlotForBlueBonus: () => 1,
+      getBlueTileDataBonus: id => id === "blue1" ? { credits: 1 } : { energy: 1 },
+      getBlueColumnScoreBonus: () => ({ score: 2 }),
+    },
+  });
+  const h = make(), before = JSON.stringify(h.blue);
+  const p = h.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, h.blue);
+  assert.equal(p.currentValue, 6.5, "one credit and two column points, less one extra data");
+  assert.deepEqual(p.futureRounds.map(x => x.resourceValue), [6, 4.5, 4.5], "late resources must not keep opening premium");
+  assert(p.futureRounds.every(x => x.extraDataCost === 1.5));
+  assert.equal(p.value, 17.844);
+  assert.equal(JSON.stringify(h.blue), before, "valuation must not award resources or mutate cards");
+  const past = make({ placed: 1, pool: 1 });
+  const q = past.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, past.blue);
+  assert.equal(q.currentValue, 4.5, "already filled first-row column must not earn retroactive two points");
+  assert.equal(q.futureValue, p.futureValue);
+  const noBootstrap = make({ energy: 0, incomeEnergy: 0, pool: 0 });
+  assert.equal(noBootstrap.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, noBootstrap.blue), null, "no known funding and no data preserves legacy fallback");
+  const last = make({ round: 4 });
+  assert.equal(last.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, last.blue), null);
+  const other = make({ company: "寰宇动力" });
+  assert.equal(other.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, other.blue), null, "unmeasured human company must not borrow an AI prior");
+  assert.equal(h.controller.getAiBlueLifecycleProfile({ tileId: "blue3", techType: "blue" }, h.blue), null);
+  const lab = make({ company: "作弊实验室" });
+  assert(lab.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, lab.blue).futureValue > p.futureValue, "company throughput differs in current measured cohort");
+}

@@ -15130,6 +15130,58 @@
       return roundAiScore(Math.min(15, Math.max(0, value)));
     }
 
+    function getAiBlueLifecycleProfile(candidate, player = getCurrentPlayer()) {
+      if (!player || !["blue1", "blue2"].includes(candidate?.tileId)) return null;
+      const round = getAiRoundNumber();
+      if (round >= FINAL_ROUND_NUMBER) return null;
+      // Current default, all 24 fixed games. Values are cycles per completed round,
+      // not grants of resources; the additional blue placement still costs data.
+      const companyRates = {"寰宇超动力":0.6875,"作弊实验室":1.2083333333333333,"宇宙大战略集团":0.9895833333333334};
+      const company = getAiIndustryCard(player)?.label;
+      if (!Object.prototype.hasOwnProperty.call(companyRates, company)) return null;
+      const closure = getAiBlueTechResourceClosureDiagnostic(candidate, player);
+      if (!closure?.requiredComputerSlot) return null;
+      const completedRounds = Math.max(0, round - 1);
+      const completedRoundCycles = (aiAutoBattleState.turnActionHistory || []).filter(entry => (
+        entry.type === "turn-action" && entry.playerId === player.id
+        && entry.action?.id === "analyze" && entry.roundNumber < round
+      )).length;
+      // Two prior rounds stabilize the sparse opening, then observed play takes over.
+      const cycleRate = (companyRates[company] * 2 + completedRoundCycles) / (2 + completedRounds);
+      const currentRewardFraction = Math.min(1, Math.max(0, aiNumber(closure.availableData))
+        / Math.max(1, aiNumber(closure.currentTriggerDataCost)));
+      const currentScoreFraction = closure.placedComputerData < closure.requiredComputerSlot
+        ? currentRewardFraction : 0;
+      const reward = candidate.tileId === "blue1" ? { credits: 1 } : { energy: 1 };
+      const columnScore = Math.max(0, aiNumber(data.getBlueColumnScoreBonus?.()?.score ?? 2));
+      const phaseValues = futureRound => ai?.valuation?.getPhaseResourceValues
+        ? ai.valuation.getPhaseResourceValues(futureRound, {
+          resourceValues: AI_RESOURCE_VALUES,
+          earlyResourceValues: { credits: 6, energy: 6.2, handSize: 5.4 },
+        }) : futureRound <= 2
+          ? { ...AI_RESOURCE_VALUES, credits: 6, energy: 6.2, handSize: 5.4 }
+          : AI_RESOURCE_VALUES;
+      const currentRewardNet = scoreAiResourceBundle(reward)
+        - scoreAiResourceBundle({ availableData: 1 });
+      const currentValue = currentRewardFraction * currentRewardNet + currentScoreFraction * columnScore;
+      const futureRounds = [];
+      if (aiNumber(closure.projectedAnalysisEnergy) >= 1) {
+        for (let futureRound = round + 1; futureRound <= FINAL_ROUND_NUMBER; futureRound += 1) {
+          const values = phaseValues(futureRound);
+          const resourceValue = scoreAiResourceBundle(reward, { resourceValues: values });
+          const extraDataCost = scoreAiResourceBundle({ availableData: 1 }, { resourceValues: values });
+          futureRounds.push({ round: futureRound, expectedCycles: cycleRate, resourceValue, extraDataCost,
+            value: cycleRate * (resourceValue - extraDataCost + columnScore) });
+        }
+      }
+      const futureValue = futureRounds.reduce((total, entry) => total + entry.value, 0);
+      if (currentValue + futureValue <= 0) return null;
+      return { company, priorCycleRate: companyRates[company], completedRoundCycles, completedRounds, cycleRate,
+        currentRewardFraction, currentScoreFraction, currentValue, futureValue, futureRounds,
+        requiredComputerSlot: closure.requiredComputerSlot, placedComputerData: closure.placedComputerData,
+        projectedAnalysisEnergy: closure.projectedAnalysisEnergy, value: roundAiScore(Math.max(0, currentValue + futureValue)) };
+    }
+
     function countAiCompletedDataCycles(player = getCurrentPlayer()) {
       if (!player) return 0;
       return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
@@ -16144,7 +16196,8 @@
       const landDemand = getAiMapDemand(demand.actions, "land");
       const scanDemand = getAiMapDemand(demand.actions, "scan") + sumAiDemandMap(demand.scanColors) * 0.35;
       const engineDemand = getAiMapDemand(demand.actions, "researchTech") + demand.task * 0.08 + demand.final * 0.08;
-      const blueDataEngineValue = techType === "blue" ? scoreAiBlueTechDataEngineValue(player) : 0;
+      const blueDataEngineValue = techType === "blue" && !getAiBlueLifecycleProfile(candidate, player)
+        ? scoreAiBlueTechDataEngineValue(player) : 0;
 
       if (tileId === "orange1") {
         addPlan(
@@ -16469,7 +16522,8 @@
       let value = 6;
       if (techType === "orange") value += 2.5;
       if (techType === "purple") value += 2 + (resources.additionalPublicScan || 0) * 0.75;
-      if (techType === "blue") value += 1.5 + scoreAiBlueTechDataEngineValue(player) * 0.5;
+      const blueLifecycle = getAiBlueLifecycleProfile(candidate, player);
+      if (techType === "blue") value += 1.5 + (blueLifecycle?.value ?? scoreAiBlueTechDataEngineValue(player) * 0.5);
       if (candidate?.tileId === "orange1") value += (getMovableTokensForPlayer(player?.id).length ? 1 : 4);
       if (candidate?.tileId === "orange2") value += scoreAiOrange2MobilityNeed(player) * 0.75;
       value += scoreAiHuanyuOrange2FutureMoveValue(candidate, player);
@@ -16502,8 +16556,8 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
-      value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
-      value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      if (!blueLifecycle) value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
+      if (!blueLifecycle) value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
@@ -23048,6 +23102,7 @@
           getAiFinalHuanyuUncashableTechPickProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalStrandedEnergyCashout:
           getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
+        blueLifecycle: getAiBlueLifecycleProfile(candidate, getCurrentPlayer()),
         blueResourceClosure:
           getAiBlueTechResourceClosureDiagnostic(candidate, getCurrentPlayer()),
       };
@@ -26833,6 +26888,8 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      getAiBlueLifecycleProfile,
+      buildAiResearchTechCandidate,
       scoreAiEffectValue,
       coalesceAiProbeScanEffects,
       buildAiProbeMoveScanPreview,

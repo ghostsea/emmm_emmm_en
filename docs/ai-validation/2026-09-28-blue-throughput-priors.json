@@ -1,0 +1,23 @@
+{
+  "source": "resourcezero full24 candidate current policy",
+  "companyStats": {
+    "寰宇超动力": {
+      "seats": 24,
+      "analyses": 66
+    },
+    "作弊实验室": {
+      "seats": 48,
+      "analyses": 232
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "analyses": 95
+    }
+  },
+  "priors": {
+    "寰宇超动力": 0.6875,
+    "作弊实验室": 1.2083333333333333,
+    "宇宙大战略集团": 0.9895833333333334
+  },
+  "note": "Fitted from full completed fixed cohort only; no random64 or current running marker scores used for coefficients. Two prior rounds is a chosen shrinkage hyperparameter, not a measured rule."
+}
