@@ -1,0 +1,111 @@
+{
+  "selectedAt": "2026-09-28T07:49:52.534Z",
+  "selectedPrefix": "huanyubluelifecycle",
+  "selectedCommit": "3c34fe0937de211db049d66ace53d8c0e6c75fe0",
+  "scopes": {
+    "bluelifecycle": {
+      "candidate": "a871e880d5f7d42e319f4426eb77e56533c36fd0",
+      "meanDelta": 0.3125,
+      "pairedSE": 4.670730874517811,
+      "topQuartileDelta": -13.125,
+      "winnerDelta": -6.791666666666686,
+      "minimumPerGameDelta": 16.666666666666657,
+      "maximumDelta": 17,
+      "companies": {
+        "作弊实验室": {
+          "seats": 48,
+          "baseline": 277.4583333333333,
+          "candidate": 266.25,
+          "meanDelta": -11.208333333333314,
+          "minimumDelta": -1
+        },
+        "寰宇超动力": {
+          "seats": 24,
+          "baseline": 187.04166666666666,
+          "candidate": 215.20833333333334,
+          "meanDelta": 28.166666666666686,
+          "minimumDelta": 27
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "baseline": 206.20833333333334,
+          "candidate": 201.70833333333334,
+          "meanDelta": -4.5,
+          "minimumDelta": 10
+        }
+      }
+    },
+    "huanyubluelifecycle": {
+      "candidate": "3c34fe0937de211db049d66ace53d8c0e6c75fe0",
+      "meanDelta": 2.7291666666666856,
+      "pairedSE": 3.8037487666710708,
+      "topQuartileDelta": 0.9583333333333144,
+      "winnerDelta": 3.7083333333333144,
+      "minimumPerGameDelta": 7.041666666666657,
+      "maximumDelta": -10,
+      "companies": {
+        "作弊实验室": {
+          "seats": 48,
+          "baseline": 277.4583333333333,
+          "candidate": 276.1666666666667,
+          "meanDelta": -1.2916666666666288,
+          "minimumDelta": 7
+        },
+        "寰宇超动力": {
+          "seats": 24,
+          "baseline": 187.04166666666666,
+          "candidate": 199.875,
+          "meanDelta": 12.833333333333343,
+          "minimumDelta": 9
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "baseline": 206.20833333333334,
+          "candidate": 206.875,
+          "meanDelta": 0.6666666666666572,
+          "minimumDelta": 5
+        }
+      }
+    },
+    "weakbluelifecycle": {
+      "candidate": "a4f8ada8aae831b8002e1543cb73773ad9fc31b4",
+      "meanDelta": -3.625,
+      "pairedSE": 3.999971693740424,
+      "topQuartileDelta": -20.08333333333337,
+      "winnerDelta": -9.291666666666686,
+      "minimumPerGameDelta": 4.791666666666657,
+      "maximumDelta": -21,
+      "companies": {
+        "作弊实验室": {
+          "seats": 48,
+          "baseline": 277.4583333333333,
+          "candidate": 265.1875,
+          "meanDelta": -12.270833333333314,
+          "minimumDelta": 10
+        },
+        "寰宇超动力": {
+          "seats": 24,
+          "baseline": 187.04166666666666,
+          "candidate": 201.625,
+          "meanDelta": 14.583333333333343,
+          "minimumDelta": 27
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "baseline": 206.20833333333334,
+          "candidate": 201.66666666666666,
+          "meanDelta": -4.541666666666686,
+          "minimumDelta": -24
+        }
+      }
+    }
+  },
+  "reason": "All three scopes completed on the same full24 known development seeds. Huanyu-only has the highest table mean and better distribution high/winner means; all-company is nearly flat with high losses, Huanyu+Grand is negative. This is development-set selection, not independent evidence. Freeze scope before generating64 new game/alien seeds; do not reselect company scope on fresh results.",
+  "freshPlan": {
+    "pairs": 64,
+    "arms": 3,
+    "newGames": 192,
+    "baseline": "original f542 and current011, both parser26",
+    "stopRule": "Complete all64 triples and audits. No optional stopping, seed filtering, or tuning during run."
+  }
+}
