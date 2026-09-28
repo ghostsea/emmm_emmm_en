@@ -1108,7 +1108,12 @@
   }
 
   function parseStructuredStepDeltas(step, sourceCategory) {
-    const text = String(step?.text || "");
+    // The placement message describes the bonus, then its executor repeats
+    // the actual grant. Collapse only that adjacent, identical receipt pair.
+    const text = String(step?.text || "").replace(
+      /(放置数据：序号\s*\d+[^；;\n]*?)，额外获得\s+(\d+)\s+(信用点|能量|宣传|分)\s*[；;]获得\s+\2\s+\3(?=[；;。\n]|$)/g,
+      "$1；获得 $2 $3",
+    );
     const parsed = parseDeltaText(text);
     if (!Number(parsed.resourceDeltas.score)) {
       const signedShortScorePattern = /([+-]\d+(?:\.\d+)?)\s*分(?!数)/g;
@@ -1209,6 +1214,15 @@
   }
 
   function buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options) {
+    const parts = String(step?.text || "").split(/[；;](?=放置数据：序号\s*\d+)/);
+    if (parts.length > 1) {
+      // A full pool can place existing data inside a reward effect before
+      // gaining its new token. Preserve gross gain and spend as two events.
+      const playerId = findStructuredPlayerId(entry, step, snapshotStates);
+      return parts.map((text, partIndex) => buildStructuredStepEvent(entry,
+        partIndex === 0 ? { ...step, text } : { source: step.source, playerId: step.playerId, text },
+        stepIndex + partIndex / parts.length, snapshotStates, options, playerId));
+    }
     const event = buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options);
     const grant = String(step?.text || "").match(/揭示发牌\s*[:：]([^；;\n]+)/);
     // Reveal grants name several recipients in one step. Preserve each actual
