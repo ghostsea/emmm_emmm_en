@@ -19046,6 +19046,26 @@
       return { ok: true };
     }
 
+    function getAiDirectDataGoalSupport(playEffects = [], player = getCurrentPlayer()) {
+      if (!player) return { requested: 0, poolRoom: 0, canAutoPlace: false, supported: false };
+      const requested = playEffects.reduce((total, effect) => {
+        if (effect?.type !== "gain_data") return total;
+        const options = effect.options || {};
+        const targetId = options.targetPlayerId || effect.playerId || options.playerId;
+        const targetColor = options.targetPlayerColor || effect.playerColor || options.playerColor;
+        if ((targetId && targetId !== player.id) || (targetColor && targetColor !== player.color)) return total;
+        // The runtime defaults an absent/zero count to zero, not one.
+        return total + Math.max(0, Math.round(aiNumber(options.count)));
+      }, 0);
+      const poolRoom = getAiAvailableDataRoom(player);
+      // Full pools can place an existing token before continuing a gain_data node.
+      // Query a copy because data eligibility normalizes its player state.
+      const canAutoPlace = requested > 0 && poolRoom === 0
+        && Boolean(data.canPlaceAnyData?.(structuredClone(player))?.ok);
+      return { requested, poolRoom, canAutoPlace,
+        supported: requested > 0 && (poolRoom > 0 || canAutoPlace) };
+    }
+
     function buildAiPlayCardCandidate(card, handIndex, currentPlayer = getCurrentPlayer()) {
       if (!isAiSupportedHandPlayCard(card)) return null;
       const cost = getCardPlayCost(card);
@@ -19285,6 +19305,7 @@
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
+          directDataGoalSupport: getAiDirectDataGoalSupport(valuationPlayEffects, currentPlayer),
           probeMoveScanPreview,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
@@ -23641,6 +23662,7 @@
         score: applyAiStrategyWeight(bestPlayCardScore, "engine", 0.5),
         valueBreakdown: {
           directScoreGain: Math.max(0, aiNumber(bestPlayCardCandidate?.directScoreGain)),
+          directDataGoalSupport: bestPlayCardBreakdown.directDataGoalSupport || null,
           c2Type3ProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.c2Type3ProgressValue)),
           cFinalTaskProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.cFinalTaskProgressValue)),
           endGameExpectedScore: Math.max(0, aiNumber(bestPlayCardBreakdown.endGameExpectedScore)),
@@ -26833,6 +26855,7 @@
       coalesceAiProbeScanEffects,
       buildAiProbeMoveScanPreview,
       buildAiPlayCardCandidate,
+      getAiDirectDataGoalSupport,
       getAiPlayableProbeScanProfile,
       canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,

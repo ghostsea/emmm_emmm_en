@@ -16,6 +16,54 @@ const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
 const industryModule = require("../game/industry");
 
+function testDirectDataGoalSupport() {
+  const realData = require("../game/data");
+  const blueGoal = [{ id: setiAi.goals.GOAL_IDS.GRAB_TRACE_BLUE, value: 12, priority: 1, feasibility: 1 }];
+  for (const [pool, placed, expected] of [[0, 0, true], [6, 6, false], [6, 5, true]]) {
+    const choices = [];
+    const card = { id: "data-goal-card", cardId: "data-goal-card", cardName: "Direct data support",
+      price: 0, typeCode: 0, playEffects: [
+        { type: "gain_resources", options: { gain: { energy: 1 } } },
+        { type: "gain_data", options: { count: 2 } },
+      ] };
+    const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 3,
+      canStartMainAction: true, realisticCanAfford: true, recordBeginPlayCard: true,
+      blueResources: { score: 59, credits: 2, energy: 2, handSize: 1, availableData: pool },
+      blueHand: [card], data: { canPlaceAnyData: realData.canPlaceAnyData },
+      actionGraph: setiAi.actionGraph,
+      onChooseTurnAction: candidates => choices.push(...candidates),
+      chooseTurnAction: candidates => candidates.find(c => c.id === "playCard"),
+    });
+    h.blue.dataState = {
+      poolTokens: Array.from({ length: pool }, (_, i) => ({ id: `pool-${i}`, slotIndex: i+1, index: i+1 })),
+      placedTokens: Array.from({ length: placed }, (_, i) => ({ id: `placed-${i}`, placementKind: "computer", placementSlot: i+1, index: i+10 })),
+      discardedCount: 0,
+    };
+    const before = JSON.stringify(h.blue);
+    const support = h.controller.getAiDirectDataGoalSupport(card.playEffects, h.blue);
+    assert.equal(support.supported, expected);
+    assert.equal(support.canAutoPlace, pool === 6 && placed === 5);
+    assert.equal(JSON.stringify(h.blue), before, "data eligibility preview must not normalize the live player");
+    h.controller.configureAiAutoBattle({ playerIds: [h.blue.id], suppressAutoSchedule: true });
+    h.controller.runAiAutomationStep();
+    const action = choices.find(c => c.id === "playCard");
+    assert.ok(action?.available);
+    assert.deepEqual(action.valueBreakdown.directDataGoalSupport, support,
+      "the main-action wrapper must retain the selected card's usable-data support");
+    assert.equal(setiAi.goals.scoreCandidateForGoals(action, blueGoal), expected ? 12 : 0,
+      "blue goal must follow usable direct data, not unrelated positive energy value");
+  }
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue" });
+  for (const effect of [
+    { type: "gain_data", options: { count: 0 } },
+    { type: "gain_data", options: {} },
+    { type: "gain_data", options: { count: 2, targetPlayerId: "player-white" } },
+    { type: "gain_resources", options: { gain: { energy: 2 } } },
+  ]) assert.equal(h.controller.getAiDirectDataGoalSupport([effect], h.blue).supported, false);
+}
+
+testDirectDataGoalSupport();
+
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
   if (!match) return null;

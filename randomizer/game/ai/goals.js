@@ -278,7 +278,11 @@
         || planAction === "scan"
         || hasEffectType(candidate, isCardScanEffectType)
         || candidate.traceType === "blue"
-        || numeric(candidate.valueBreakdown?.effectValue) > 0 && effectTypes.includes("gain_data");
+        || effectTypes.includes("gain_data") && (
+          candidate.valueBreakdown?.directDataGoalSupport != null
+            ? candidate.valueBreakdown.directDataGoalSupport.supported === true
+            : numeric(candidate.valueBreakdown?.effectValue) > 0
+        );
     }
     if (goalId === GOAL_IDS.OPENING_INCOME) {
       return actionId === "playCard"
