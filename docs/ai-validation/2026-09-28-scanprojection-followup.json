@@ -1,0 +1,7475 @@
+{
+  "scope": "All positive logged scan projections, actual selected scan payment and total main-step data receipts. Mandatory scan data is listed separately; additional main rewards may fill capacity. Next analysis is descriptive and not a guarantee or causal score estimate. Unselected positive candidates are observations only.",
+  "summary": {
+    "pairs": 24,
+    "positiveObservations": 143,
+    "selectedScans": 40,
+    "selectedByCompany": {
+      "宇宙大战略集团": 8,
+      "寰宇超动力": 8,
+      "作弊实验室": 24
+    },
+    "nextSameRoundAnalysis": 20,
+    "nextSameRoundAnalyzeAvailable": 40,
+    "issues": []
+  },
+  "rows": [
+    {
+      "case": 1,
+      "log": 128,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 1,
+      "log": 501,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 52,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 22,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 1,
+      "log": 777,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 1,
+      "log": 836,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 1,
+      "log": 1456,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 7,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-b",
+              "sector-3-a",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 1,
+      "log": 1481,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 8,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 96,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 174,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 269,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 282,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 344,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 375,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 419,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 3,
+      "log": 705,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-2-a",
+              "sector-2-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 2,
+      "scanEntry": 90,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 81,
+          "credits": 4,
+          "energy": 6,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 6
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 4,
+      "log": 76,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 10,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 5,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 4,
+      "log": 116,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 153,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 166,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-a",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 251,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 292,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 331,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 334,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 4,
+      "log": 373,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 4,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 50,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 48,
+          "credits": 6,
+          "energy": 1,
+          "publicity": 7,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 4,
+      "log": 762,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 2,
+      "scanEntry": 98,
+      "nextMain": {
+        "id": "land",
+        "round": 3,
+        "resources": {
+          "score": 49,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 5,
+      "log": 137,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 5,
+      "log": 357,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 5,
+      "log": 374,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 5,
+      "log": 377,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 129,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 158,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 3,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 17,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 10,
+          "credits": 6,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 6,
+      "log": 188,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 5,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 823,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-3-a",
+              "sector-3-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 896,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-a",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 924,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-b",
+              "sector-2-a",
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 6,
+      "log": 927,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-b",
+              "sector-2-a",
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 7,
+      "log": 94,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 12,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 1,
+        "resources": {
+          "score": 18,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 7,
+      "log": 167,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 7,
+      "log": 183,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 5,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 7,
+      "log": 375,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 48,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 16,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 7,
+      "log": 399,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 7,
+      "log": 431,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 7,
+      "log": 764,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 4,
+      "mandatoryData": 2,
+      "scanEntry": 99,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 89,
+          "credits": 10,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 3,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 7,
+      "log": 1052,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 7,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 2,
+      "scanEntry": 125,
+      "nextMain": {
+        "id": "analyze",
+        "round": 3,
+        "resources": {
+          "score": 89,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 1,
+          "handSize": 2
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 8,
+      "log": 247,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 7,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 8,
+      "log": 313,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 42,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 34,
+          "credits": 7,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 8,
+      "log": 690,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 8,
+      "log": 871,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 7,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 2,
+      "scanEntry": 109,
+      "nextMain": {
+        "id": "land",
+        "round": 3,
+        "resources": {
+          "score": 88,
+          "credits": 0,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 3
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 8,
+      "log": 1148,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 6,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 67,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 6,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 115,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 203,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 217,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 23,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 7,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 1,
+          "handSize": 1
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 9,
+      "log": 233,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 25,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 19,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 9,
+      "log": 402,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 405,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 9,
+      "log": 411,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 48,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 25,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 10,
+      "log": 317,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 10,
+      "log": 343,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 10,
+      "log": 406,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 10,
+      "log": 682,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-4-b",
+              "sector-2-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 74,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 6,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 9,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 8,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 11,
+      "log": 134,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 3,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 16,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 13,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 11,
+      "log": 251,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 387,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 473,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 6,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-a",
+              "sector-1-b",
+              "sector-2-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 597,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 83,
+      "nextMain": {
+        "id": "playCard",
+        "round": 3,
+        "resources": {
+          "score": 57,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 7
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 11,
+      "log": 728,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-2-a",
+              "sector-2-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 974,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 9,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-2-b",
+              "sector-4-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 116,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 3,
+        "resources": {
+          "score": 70,
+          "credits": 0,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 11,
+      "log": 1282,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 4,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-3-b",
+              "sector-1-a",
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 11,
+      "log": 1392,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 4,
+      "turn": 6,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-b",
+              "sector-3-a",
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 4,
+      "mandatoryData": 2,
+      "scanEntry": 164,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "resources": {
+          "score": 92,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 12,
+      "log": 159,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 20,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 15,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 12,
+      "log": 226,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-3-a",
+              "sector-3-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 2,
+      "scanEntry": 34,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 30,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 12,
+      "log": 730,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 13,
+      "log": 312,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 13,
+      "log": 686,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 13,
+      "log": 749,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 13,
+      "log": 794,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 13,
+      "log": 837,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 4,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 102,
+      "nextMain": {
+        "id": "scan",
+        "round": 3,
+        "resources": {
+          "score": 88,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 14,
+      "log": 59,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 6,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 8,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 7,
+          "credits": 7,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 14,
+      "log": 167,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 23,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 6,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 14,
+      "log": 619,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 85,
+      "nextMain": {
+        "id": "land",
+        "round": 3,
+        "resources": {
+          "score": 57,
+          "credits": 13,
+          "energy": 6,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 14,
+      "log": 650,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 33,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 1,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 6,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 301,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 304,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 591,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 655,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 721,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-2-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 883,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 6,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-b",
+              "sector-3-a",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 15,
+      "log": 1023,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 4,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-2-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 6,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 16,
+      "log": 337,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 140,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 3,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 3,
+      "mandatoryData": 3,
+      "scanEntry": 17,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 1,
+        "resources": {
+          "score": 18,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 7,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 17,
+      "log": 279,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-a",
+              "sector-4-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 318,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 321,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 538,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 599,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 17,
+      "log": 647,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          2
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 18,
+      "log": 304,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 18,
+      "log": 346,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 18,
+      "log": 381,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 3,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 49,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 29,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 19,
+      "log": 134,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 19,
+      "log": 170,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 23,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 1,
+        "resources": {
+          "score": 17,
+          "credits": 1,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 1,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 19,
+      "log": 345,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 44,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 26,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 6,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 19,
+      "log": 362,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 20,
+      "log": 64,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 6,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 20,
+      "log": 102,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 20,
+      "log": 105,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 20,
+      "log": 138,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 20,
+      "log": 248,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 6,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-2-b",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 29,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 30,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 20,
+      "log": 341,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 44,
+      "nextMain": {
+        "id": "land",
+        "round": 2,
+        "resources": {
+          "score": 16,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 20,
+      "log": 384,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 21,
+      "log": 232,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 6,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 21,
+      "log": 269,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 21,
+      "log": 277,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 1,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 38,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2,
+        "resources": {
+          "score": 29,
+          "credits": 7,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 21,
+      "log": 326,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 41,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 22,
+          "credits": 8,
+          "energy": 3,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 22,
+      "log": 173,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 182,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 23,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 21,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 22,
+      "log": 189,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 24,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 1,
+        "resources": {
+          "score": 25,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 2
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 22,
+      "log": 395,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 413,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-4-b",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 447,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 465,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 480,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 516,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 549,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 5,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 65,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 66,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 22,
+      "log": 831,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 5,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 22,
+      "log": 900,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 145,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 165,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 21,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 18,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 23,
+      "log": 220,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 2,
+      "turn": 1,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-4-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 297,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-4-b",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-a",
+              "sector-1-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 0,
+            "targetsStable": false,
+            "guaranteedData": 0
+          }
+        ],
+        "guaranteedData": 1,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 307,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 3,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 344,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-4-a",
+              "sector-4-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 357,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 3,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 383,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-3-a",
+              "sector-3-b",
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 396,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 399,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-3-b"
+            ],
+            "minimumOpen": 6,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 1,
+        "blueSlotsReserved": [
+          1
+        ],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 23,
+      "log": 657,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-2-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-1-b",
+              "sector-4-b"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 1,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 24,
+      "log": 192,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 5,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    },
+    {
+      "case": 24,
+      "log": 210,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 6,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-1-a"
+            ],
+            "minimumOpen": 5,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-4-b",
+              "sector-2-a",
+              "sector-1-a",
+              "sector-2-b",
+              "sector-3-b"
+            ],
+            "minimumOpen": 2,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 1,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 27,
+      "nextMain": {
+        "id": "analyze",
+        "round": 1,
+        "resources": {
+          "score": 10,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 24,
+      "log": 364,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "selected": true,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "earth_sector_scan",
+            "targets": [
+              "sector-4-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-2-b",
+              "sector-3-b",
+              "sector-1-b",
+              "sector-4-b",
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 1,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 4,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": 2,
+      "mandatoryData": 2,
+      "scanEntry": 46,
+      "nextMain": {
+        "id": "analyze",
+        "round": 2,
+        "resources": {
+          "score": 31,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 6
+        },
+        "analyzeAvailable": true
+      }
+    },
+    {
+      "case": 24,
+      "log": 1163,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 4,
+      "turn": 2,
+      "selected": false,
+      "profile": {
+        "scans": [
+          {
+            "effectType": "improved_sector_scan",
+            "targets": [
+              "sector-1-b",
+              "sector-2-a",
+              "sector-2-b"
+            ],
+            "minimumOpen": 3,
+            "targetsStable": true,
+            "guaranteedData": 1
+          },
+          {
+            "effectType": "public_card_scan",
+            "targets": [
+              "sector-4-a",
+              "sector-3-a"
+            ],
+            "minimumOpen": 4,
+            "targetsStable": true,
+            "guaranteedData": 1
+          }
+        ],
+        "guaranteedData": 2,
+        "missingCore": 2,
+        "blueSlotsReserved": [],
+        "cost": {
+          "credits": 1,
+          "energy": 2
+        },
+        "optionalLaunchEnergy": 0,
+        "energyAfterScanLowerBound": 2,
+        "canOpenAnalyze": true
+      },
+      "actualMainData": null,
+      "mandatoryData": null,
+      "scanEntry": null,
+      "nextMain": null
+    }
+  ]
+}
