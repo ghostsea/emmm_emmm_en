@@ -17380,5 +17380,7 @@ verifyActualContinuationGains();
   assert.equal(other.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, other.blue), null, "unmeasured human company must not borrow an AI prior");
   assert.equal(h.controller.getAiBlueLifecycleProfile({ tileId: "blue3", techType: "blue" }, h.blue), null);
   const lab = make({ company: "作弊实验室" });
-  assert(lab.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, lab.blue).futureValue > p.futureValue, "company throughput differs in current measured cohort");
+  assert.equal(lab.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, lab.blue), null, "Cheat Lab preserves legacy valuation in the two-company ablation");
+  const grand = make({ company: "宇宙大战略集团" });
+  assert(grand.controller.getAiBlueLifecycleProfile({ tileId: "blue1", techType: "blue" }, grand.blue).futureValue > p.futureValue, "Grand Strategy uses its measured current-cohort cycle rate");
 }

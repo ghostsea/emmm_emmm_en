@@ -15136,7 +15136,7 @@
       if (round >= FINAL_ROUND_NUMBER) return null;
       // Current default, all 24 fixed games. Values are cycles per completed round,
       // not grants of resources; the additional blue placement still costs data.
-      const companyRates = {"寰宇超动力":0.6875,"作弊实验室":1.2083333333333333,"宇宙大战略集团":0.9895833333333334};
+      const companyRates = { "寰宇超动力": 0.6875, "宇宙大战略集团": 0.9895833333333334 };
       const company = getAiIndustryCard(player)?.label;
       if (!Object.prototype.hasOwnProperty.call(companyRates, company)) return null;
       const closure = getAiBlueTechResourceClosureDiagnostic(candidate, player);
