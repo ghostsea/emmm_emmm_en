@@ -10828,9 +10828,10 @@
             alienSlotId: effectOptions.alienSlotId,
           });
         case "draw_cards":
-          return Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) * AI_RESOURCE_VALUES.handSize;
+          return scoreAiResourceBundle({ handSize: Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) });
         case "pick_card":
-          return 3;
+          // Selecting a card also permits one blind draw in the actual runtime.
+          return scoreAiResourceBundle({ handSize: 1 });
         case "launch":
           return 6;
         case "research_tech_select":

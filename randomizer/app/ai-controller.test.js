@@ -17325,3 +17325,15 @@ for (const roundNumber of [1, 2]) {
     assert.equal(h.controller.coalesceAiProbeScanEffects(unrelated).length, 2);
   }
 }
+
+for (const round of [1, 2, 3, 4]) {
+  const h = createAiControllerHarness(null, { currentPlayerColor: 'blue', roundNumber: round, blueHand: [], blueResources: { credits: 1, energy: 1, handSize: 0 } });
+  const before = JSON.stringify(h.blue);
+  const one = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 1 } }, { player: h.blue });
+  const two = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 2 } }, { player: h.blue });
+  const pick = h.controller.scoreAiEffectValue({ type: 'pick_card' }, { player: h.blue });
+  assert.equal(one, round <= 2 ? 5.4 : 4.3, 'draw uses existing phase hand value');
+  assert.equal(two, one * 2, 'draw count is retained');
+  assert.equal(pick, one, 'runtime permits one blind card as selection fallback');
+  assert.equal(JSON.stringify(h.blue), before, 'valuation must not reveal or draw cards');
+}
