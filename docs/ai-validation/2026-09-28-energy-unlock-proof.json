@@ -1,0 +1,153 @@
+{
+  "sameFullSerializedState": true,
+  "readOnly": true,
+  "negativeControlDetected": true,
+  "originalDecision": "pass",
+  "basePlans": [
+    null,
+    null
+  ],
+  "candidatePlans": [
+    {
+      "id": "quickTrade",
+      "kind": "quick",
+      "available": true,
+      "tradeId": "cards-for-energy",
+      "label": "2张牌 → 1能量",
+      "preserveHandIndex": 2,
+      "reason": "主行动前：交易能量解锁高价值打牌",
+      "score": 13.726,
+      "valueBreakdown": {
+        "mainUnlockTrade": true,
+        "bestPlayCard": {
+          "handIndex": 2,
+          "cardId": "banrenma_9.webp",
+          "cardLabel": "半人马卡牌9",
+          "score": 23.979,
+          "continuationValue": 23.979,
+          "directScoreGain": 0,
+          "finalDeltaValue": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "endGameExpectedScore": 0
+        },
+        "currentBestPlayScore": 0,
+        "newlyUnlocked": true,
+        "discardCost": 6,
+        "finalMarkCount": 1,
+        "nextFinalMarkThreshold": 50,
+        "thresholdBonus": 0,
+        "concreteFinalValue": 0,
+        "measurableFinalValue": 0,
+        "finalLowTailOneCreditUnlock": false,
+        "huanyuWithoutCompletedTasks": false,
+        "finalHighScoreOneCreditUnlock": false,
+        "highScoreProjectedScore": 0,
+        "grandFangzhouRoundTwoOverflowUnlock": false,
+        "passOverflowDiscardCount": 0,
+        "passOverflowDiscardIndexes": [],
+        "avoidedPassOverflowDiscardValue": 0
+      }
+    },
+    {
+      "id": "quickTrade",
+      "kind": "quick",
+      "available": true,
+      "tradeId": "credits-for-energy",
+      "label": "2信用点 → 1能量",
+      "preserveHandIndex": 2,
+      "reason": "主行动前：交易能量解锁高价值打牌",
+      "score": 11.626,
+      "valueBreakdown": {
+        "mainUnlockTrade": true,
+        "bestPlayCard": {
+          "handIndex": 2,
+          "cardId": "banrenma_9.webp",
+          "cardLabel": "半人马卡牌9",
+          "score": 23.979,
+          "continuationValue": 23.979,
+          "directScoreGain": 0,
+          "finalDeltaValue": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "endGameExpectedScore": 0
+        },
+        "currentBestPlayScore": 0,
+        "newlyUnlocked": true,
+        "discardCost": 12,
+        "finalMarkCount": 1,
+        "nextFinalMarkThreshold": 50,
+        "thresholdBonus": 0,
+        "concreteFinalValue": 0,
+        "measurableFinalValue": 0,
+        "finalLowTailOneCreditUnlock": false,
+        "huanyuWithoutCompletedTasks": false,
+        "finalHighScoreOneCreditUnlock": false,
+        "highScoreProjectedScore": 0,
+        "grandFangzhouRoundTwoOverflowUnlock": false,
+        "passOverflowDiscardCount": 0,
+        "passOverflowDiscardIndexes": [],
+        "avoidedPassOverflowDiscardValue": 0
+      }
+    }
+  ],
+  "before": {
+    "credits": 5,
+    "energy": 0,
+    "publicity": 1,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 3,
+    "score": 31
+  },
+  "afterTrade": {
+    "credits": 5,
+    "energy": 1,
+    "publicity": 1,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 1,
+    "score": 31
+  },
+  "afterPayment": {
+    "credits": 5,
+    "energy": 0,
+    "publicity": 1,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 0,
+    "score": 31
+  },
+  "after": {
+    "credits": 5,
+    "energy": 0,
+    "publicity": 1,
+    "availableData": 1,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 0,
+    "score": 31
+  },
+  "inputs": [
+    {
+      "file": "energy-unlock-captured.json",
+      "sha256": "e371189e302aeb06674f07ac599156081958acc4dc517d3714aa42a1665d0ec1"
+    },
+    {
+      "file": "energy-unlock-base-proof.json",
+      "sha256": "2bfa7656fef1bb655bedb647865b7cf96564823854a0101f28758ddc1e05f835"
+    },
+    {
+      "file": "energy-unlock-candidate-proof.json",
+      "sha256": "f080a6eb766ce21f1d89ab7544383e8fb4a5e62a9cfd9613a80de917216242fb"
+    }
+  ],
+  "limitations": [
+    "Forced transaction and card prove execution, not autonomous choice or whole-game uplift.",
+    "JSON loses Set contents; rocket sequence members captured separately at the decision and rebuilt in both arms before comparison. No game-rule change."
+  ],
+  "issues": []
+}

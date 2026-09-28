@@ -7142,7 +7142,8 @@
       if (!player || !tradeId || !quickTrades?.getTradeAction) return null;
       const trade = quickTrades.getTradeAction(tradeId);
       const check = quickTrades.canExecuteTrade?.(tradeId, createActionContext()) || { ok: false };
-      if (!trade || !check.ok || aiNumber(trade.gain?.credits) <= 0) return null;
+      if (!trade || !check.ok
+        || (aiNumber(trade.gain?.credits) <= 0 && aiNumber(trade.gain?.energy) <= 0)) return null;
       const hand = player.hand || [];
       const handCost = Math.max(0, Math.round(aiNumber(trade.cost?.handSize)));
       const cardsRemaining = hand.length - handCost + Math.max(0, Math.round(aiNumber(trade.gain?.handSize)));
@@ -7304,7 +7305,9 @@
         tradeId: trade.id,
         label: trade.label || trade.id,
         preserveHandIndex: bestPlay.handIndex,
-        reason: "主行动前：交易信用点解锁高价值打牌",
+        reason: aiNumber(trade.gain?.energy) > 0
+          ? "主行动前：交易能量解锁高价值打牌"
+          : "主行动前：交易信用点解锁高价值打牌",
         score: roundAiScore(Math.min(42, score)),
         valueBreakdown: {
           mainUnlockTrade: true,
@@ -7351,7 +7354,7 @@
       ) {
         return [];
       }
-      return ["cards-for-credit", "energy-for-credit"]
+      return ["cards-for-credit", "energy-for-credit", "cards-for-energy", "credits-for-energy"]
         .map((tradeId) => buildAiMainUnlockTradeCandidate(player, tradeId, playCardCandidates, candidates))
         .filter(Boolean)
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
@@ -26821,6 +26824,7 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      buildAiMainUnlockTradeCandidate,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,

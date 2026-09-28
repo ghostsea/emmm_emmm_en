@@ -581,7 +581,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       const playerColor = pending?.targetPlayerColor || pending?.playerColor || options.alienTracePlayerColor || null;
       return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
     },
-    getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
+    getCardPlayCost: options.getCardPlayCost || ((card) => (card?.price ? { credits: card.price } : {})),
     getCardPrice: (card) => card?.price || 0,
     getCardTypeCode: (card) => (typeof options.getCardTypeCode === "function"
       ? options.getCardTypeCode(card)
@@ -17346,3 +17346,34 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+// Energy-paid cards must use the same actual-affordability unlock path as credit-paid cards.
+for (const roundNumber of [1, 2, 4]) for (const tradeId of ['cards-for-energy', 'credits-for-energy']) {
+  for (const [energy, cost, expected] of [[0,1,true],[1,2,true],[1,1,false],[0,2,false]]) {
+    const choices=[], executions=[];
+    const trade={id:tradeId,cost:tradeId==='cards-for-energy'?{handSize:2}:{credits:2},gain:{energy:1}};
+    const h=createAiControllerHarness(null,{
+      currentPlayerColor:'blue',roundNumber,canStartMainAction:true,realisticCanAfford:true,recordQuickTrade:true,
+      blueResources:{score:12,credits:2,energy,publicity:0,availableData:0,handSize:3},
+      blueHand:[{id:'energy-target',cardName:'Energy payment target',price:0,typeCode:1,
+        playEffects:[{type:'gain_resources',options:{gain:{score:20}}}]},
+        {id:'filler-a',price:8},{id:'filler-b',price:8}],
+      getCardPlayCost:card=>card.id==='energy-target'?{energy:cost}:{credits:8},
+      quickTrades:{[tradeId]:trade},onChooseTurnAction:cs=>choices.push(...cs),
+      chooseTurnAction:cs=>cs.find(c=>c.valueBreakdown?.mainUnlockTrade)||null,
+      onQuickTrade:(id,opts)=>executions.push({id,...opts}),
+    });
+    const before=JSON.stringify(h.blue);
+    const preview=h.controller.buildAiMainUnlockTradeCandidate(h.blue,tradeId);
+    assert.equal(JSON.stringify(h.blue),before,'energy unlock preview is read-only');
+    if(!expected)assert.equal(preview,null,'no unlock for already payable or still unaffordable cards');
+    h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+    h.controller.runAiAutomationStep();
+    const picked=choices.find(c=>c.valueBreakdown?.mainUnlockTrade);
+    if(!expected){assert.equal(picked,undefined);continue;}
+    assert(picked,'one energy payment gap is a real card unlock');
+    assert.equal(picked.tradeId,tradeId);
+    assert.equal(picked.preserveHandIndex,0);
+    assert.equal(executions[0]?.preserveHandIndex,0,'actual trade protects its target');
+  }
+}
