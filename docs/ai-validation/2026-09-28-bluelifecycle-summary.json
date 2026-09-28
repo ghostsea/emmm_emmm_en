@@ -1,0 +1,729 @@
+{
+  "status": "not-adopted-tiny-table-gain-large-high-score-regression",
+  "pairs": 24,
+  "newGames": 48,
+  "candidate": "a871e880d5f7d42e319f4426eb77e56533c36fd0",
+  "baseline": "2ecf661a32f3aacc2d0bde941b06a023311c7748",
+  "baselineScores": {
+    "games": 24,
+    "seats": 96,
+    "mean": 237.04166666666666,
+    "min": 129,
+    "p10": 169,
+    "p25": 191.75,
+    "median": 225.5,
+    "p75": 274.75,
+    "max": 355,
+    "topQuartileMean": 311.7916666666667,
+    "winnerMean": 298.375,
+    "minimumPerGameMean": 174.70833333333334,
+    "seats270Plus": 27,
+    "seats300Plus": 16,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 277.4583333333333,
+        "min": 190
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 187.04166666666666,
+        "min": 129
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.20833333333334,
+        "min": 133
+      }
+    }
+  },
+  "candidateScores": {
+    "games": 24,
+    "seats": 96,
+    "mean": 237.35416666666666,
+    "min": 143,
+    "p10": 179,
+    "p25": 200.5,
+    "median": 235.5,
+    "p75": 277,
+    "max": 372,
+    "topQuartileMean": 298.6666666666667,
+    "winnerMean": 291.5833333333333,
+    "minimumPerGameMean": 191.375,
+    "seats270Plus": 28,
+    "seats300Plus": 10,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 266.25,
+        "min": 189
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 215.20833333333334,
+        "min": 156
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 201.70833333333334,
+        "min": 143
+      }
+    }
+  },
+  "delta": {
+    "mean": 0.3125,
+    "min": 14,
+    "p10": 10,
+    "p25": 8.75,
+    "median": 10,
+    "p75": 2.25,
+    "max": 17,
+    "topQuartileMean": -13.125,
+    "winnerMean": -6.791666666666686,
+    "minimumPerGameMean": 16.666666666666657,
+    "seats270Plus": 1,
+    "seats300Plus": -6
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 277.4583333333333,
+      "candidate": 266.25,
+      "meanDelta": -11.208333333333314,
+      "minimumDelta": -1
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 187.04166666666666,
+      "candidate": 215.20833333333334,
+      "meanDelta": 28.166666666666686,
+      "minimumDelta": 27
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 206.20833333333334,
+      "candidate": 201.70833333333334,
+      "meanDelta": -4.5,
+      "minimumDelta": 10
+    }
+  },
+  "pairedSE": 4.670730874517811,
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 311.7916666666667,
+    "candidateMean": 272.9166666666667,
+    "meanDelta": -38.875,
+    "improved": 3,
+    "declined": 21,
+    "unchanged": 0
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 169.625,
+    "candidateMean": 201.95833333333334,
+    "meanDelta": 32.333333333333336,
+    "improved": 21,
+    "declined": 3,
+    "unchanged": 0
+  },
+  "payments": {
+    "pairs": 24,
+    "plays": 1175,
+    "uniquePayments": 1175,
+    "matchingAmounts": 1175,
+    "issues": []
+  },
+  "baselineReplay": {
+    "scope": "All24 fixed baseline replays: parser26 vs prior parser25 current011 policy. Exact game/alien seeds, same scores/steps, every log type/player/round/turn/resources/details. Nested placedAt/createdAt/updatedAt excluded only when their value is an ISO timestamp; no numeric state or decisions excluded. Top-level timestamps and resourceFlow statistical parsing intentionally excluded. This proves observed trajectory equivalence for these24 games, not all possible games.",
+    "pairs": 24,
+    "issues": [],
+    "rows": [
+      {
+        "case": 1,
+        "old": "resourcezero-candidate-1.json",
+        "current": "bluelifecycle-base-1.json",
+        "oldSha256": "650221422fe66ff4bf0b9257225aed79b86712017fecbb5206779d6102d71fac",
+        "currentSha256": "a285e540ebfbfd827c6b7ddd6381bba7ab28f6fc6142dabd185d03b58843a0ab",
+        "scores": [
+          280,
+          251,
+          162,
+          230
+        ],
+        "steps": 1494,
+        "logs": 1561
+      },
+      {
+        "case": 2,
+        "old": "resourcezero-candidate-2.json",
+        "current": "bluelifecycle-base-2.json",
+        "oldSha256": "a1fc99950bc84e4a07b35007175cb5c19d0e13ad89637b1e46aa224d8cab5686",
+        "currentSha256": "df1d94d22ccdac67a177e02c083d6f3f51439556e757aa72759b70c730479e04",
+        "scores": [
+          176,
+          285,
+          225,
+          307
+        ],
+        "steps": 1609,
+        "logs": 1686
+      },
+      {
+        "case": 3,
+        "old": "resourcezero-candidate-3.json",
+        "current": "bluelifecycle-base-3.json",
+        "oldSha256": "c93189c6b8004f2f86977d515bb97e3c03c69c43352d68b9f5b9cdaa1e243216",
+        "currentSha256": "668029ed7ef5a1027ebe7268fda65300f3e47dc169c882c9866b9e3e3c9a24e7",
+        "scores": [
+          269,
+          179,
+          305,
+          268
+        ],
+        "steps": 1577,
+        "logs": 1651
+      },
+      {
+        "case": 4,
+        "old": "resourcezero-candidate-4.json",
+        "current": "bluelifecycle-base-4.json",
+        "oldSha256": "11deb408796d55489edde9c355b7e19185113430067389d1e286ff81e6e7ca3a",
+        "currentSha256": "c8c125a00b8906d02a9dcbbd5459978d0c2f33828b950eb3e09d8a75460d99c7",
+        "scores": [
+          247,
+          299,
+          178,
+          214
+        ],
+        "steps": 1461,
+        "logs": 1539
+      },
+      {
+        "case": 5,
+        "old": "resourcezero-candidate-5.json",
+        "current": "bluelifecycle-base-5.json",
+        "oldSha256": "e0603c81a83d5be5b305323d669fcbc4ee07e800f6a211b2ea8254c20250306c",
+        "currentSha256": "23ad2adb4c8458a51948275c5d16fe708ba272765b05fd8d5c186282fa19d4f9",
+        "scores": [
+          333,
+          210,
+          219,
+          244
+        ],
+        "steps": 1601,
+        "logs": 1660
+      },
+      {
+        "case": 6,
+        "old": "resourcezero-candidate-6.json",
+        "current": "bluelifecycle-base-6.json",
+        "oldSha256": "12b3bb61cb84ee6f65e5cfeeaa88f741cbba1f45303337984d4f04edfc911148",
+        "currentSha256": "1d555732cba5504720b9dfe47f62a8417fc47b19b01957ef015886f721fb5706",
+        "scores": [
+          246,
+          166,
+          327,
+          253
+        ],
+        "steps": 1519,
+        "logs": 1581
+      },
+      {
+        "case": 7,
+        "old": "resourcezero-candidate-7.json",
+        "current": "bluelifecycle-base-7.json",
+        "oldSha256": "73ade4078229c8466ad0858167f19129944963438ef1a486e711bdd3b5c50ae0",
+        "currentSha256": "09e6ccc7aeb6bd13fdaf3d860cf32eb59ab005112b68e8479b209cfa3c10d8a1",
+        "scores": [
+          346,
+          245,
+          191,
+          213
+        ],
+        "steps": 1558,
+        "logs": 1612
+      },
+      {
+        "case": 8,
+        "old": "resourcezero-candidate-8.json",
+        "current": "bluelifecycle-base-8.json",
+        "oldSha256": "0d638cf71a360ef82a91d79fe866fd3730f57fd51e5a1cf81f2363124e55f004",
+        "currentSha256": "7b46e91449747b2f172b9c7c04e3db7732c14c428276d6b03b21835b6699f3d7",
+        "scores": [
+          207,
+          218,
+          198,
+          215
+        ],
+        "steps": 1471,
+        "logs": 1550
+      },
+      {
+        "case": 9,
+        "old": "resourcezero-candidate-9.json",
+        "current": "bluelifecycle-base-9.json",
+        "oldSha256": "ada7c64a2f9c31343102e717f3f5f29a53293ee7b316af1d7f1408cb0ec6e86d",
+        "currentSha256": "2b3868bd67204f4ca165e6993b11fcebb5a6b32b354f8e6100d8464c0384588e",
+        "scores": [
+          259,
+          133,
+          288,
+          174
+        ],
+        "steps": 1542,
+        "logs": 1614
+      },
+      {
+        "case": 10,
+        "old": "resourcezero-candidate-10.json",
+        "current": "bluelifecycle-base-10.json",
+        "oldSha256": "cc594296c7093b6c460608a54eee9f62c985195053671f49bda0272d4102d157",
+        "currentSha256": "1afcc89705e9f5b7717bff858f793fd628c4328c00530ce79a4229df4b602652",
+        "scores": [
+          344,
+          355,
+          206,
+          269
+        ],
+        "steps": 1817,
+        "logs": 1864
+      },
+      {
+        "case": 11,
+        "old": "resourcezero-candidate-11.json",
+        "current": "bluelifecycle-base-11.json",
+        "oldSha256": "4ac2395baa910d09895b815bac3be1d060b3b8ffbeb066013fdfda797bf545a1",
+        "currentSha256": "c66bdc83e0f388a0af5bac84d3cfc9ea118458731113ee05394db5e66f18d6b8",
+        "scores": [
+          191,
+          184,
+          278,
+          274
+        ],
+        "steps": 1546,
+        "logs": 1608
+      },
+      {
+        "case": 12,
+        "old": "resourcezero-candidate-12.json",
+        "current": "bluelifecycle-base-12.json",
+        "oldSha256": "e8eca2543969e1464f9605bf018492abcbee0376b33b061d21a4635e66af2dfe",
+        "currentSha256": "8d760752bb4f0d2d16d81e92eae8b31bfb96f825161976a8ca37d99950a5d53c",
+        "scores": [
+          264,
+          312,
+          197,
+          207
+        ],
+        "steps": 1435,
+        "logs": 1500
+      },
+      {
+        "case": 13,
+        "old": "resourcezero-candidate-13.json",
+        "current": "bluelifecycle-base-13.json",
+        "oldSha256": "ffff7ef493c52a27fcddf7baf927560a87fe4324e873ffd9d8682ad208c593a3",
+        "currentSha256": "b8297fcdf1feacf545bbbf4a32ccf34c882ca0b748587aaa7ba7997e005f396d",
+        "scores": [
+          186,
+          326,
+          242,
+          306
+        ],
+        "steps": 1557,
+        "logs": 1616
+      },
+      {
+        "case": 14,
+        "old": "resourcezero-candidate-14.json",
+        "current": "bluelifecycle-base-14.json",
+        "oldSha256": "4bfa674d29ccaa54365a9acdd06cdcc7c05b3b2690ee172d3c4f5c2c1499a79a",
+        "currentSha256": "a5cc2fdd1ac5399b7128a6d9196803152170257e5aeff972f0d9686ed3c70fb0",
+        "scores": [
+          254,
+          320,
+          176,
+          219
+        ],
+        "steps": 1570,
+        "logs": 1625
+      },
+      {
+        "case": 15,
+        "old": "resourcezero-candidate-15.json",
+        "current": "bluelifecycle-base-15.json",
+        "oldSha256": "15b82de48515dbd65bf2d756a9343a85df55e4876d0449bdb8d58476dee41434",
+        "currentSha256": "37a5cc8a95826ed7fcbed4b053b1d4f31e31c03e3403ae7b04d6b4f6cb275f30",
+        "scores": [
+          264,
+          169,
+          225,
+          190
+        ],
+        "steps": 1456,
+        "logs": 1529
+      },
+      {
+        "case": 16,
+        "old": "resourcezero-candidate-16.json",
+        "current": "bluelifecycle-base-16.json",
+        "oldSha256": "826f03a21a42c8ef139515a2150159f4e5beb3bca3f8f93047e0f9f5072baa11",
+        "currentSha256": "ebf3ccaa7197a5c696773315492269df9d29d955e404e450c88293fc314593bd",
+        "scores": [
+          147,
+          183,
+          322,
+          321
+        ],
+        "steps": 1522,
+        "logs": 1598
+      },
+      {
+        "case": 17,
+        "old": "resourcezero-candidate-17.json",
+        "current": "bluelifecycle-base-17.json",
+        "oldSha256": "0f1a2bd3806b0e8c406cc3beb6fdf2f592425d5477ff409193a49e1f7155bd94",
+        "currentSha256": "d9c88d46c5e417dabbc245081d239ee73f513eb35d288e42e6898ef3c7fe60a7",
+        "scores": [
+          206,
+          270,
+          168,
+          242
+        ],
+        "steps": 1424,
+        "logs": 1503
+      },
+      {
+        "case": 18,
+        "old": "resourcezero-candidate-18.json",
+        "current": "bluelifecycle-base-18.json",
+        "oldSha256": "7092d8a548fac4f85b7c626d3f5b2070299a04baef28dad89fa3e94c7e5f22e6",
+        "currentSha256": "2eb79289efaee7ea4bd549f200915f73d07508235b9f0f66a3801b4fd583ff0e",
+        "scores": [
+          210,
+          208,
+          206,
+          155
+        ],
+        "steps": 1274,
+        "logs": 1344
+      },
+      {
+        "case": 19,
+        "old": "resourcezero-candidate-19.json",
+        "current": "bluelifecycle-base-19.json",
+        "oldSha256": "5476f8b7f5718402c667f657f4f4cdf8c9f977a09e8528ef190eb47b8ee3a063",
+        "currentSha256": "3911b469ce14eefa8159448c5cc4a8899aa06a386ba31ecd81a996da428de1e2",
+        "scores": [
+          267,
+          219,
+          169,
+          173
+        ],
+        "steps": 1387,
+        "logs": 1456
+      },
+      {
+        "case": 20,
+        "old": "resourcezero-candidate-20.json",
+        "current": "bluelifecycle-base-20.json",
+        "oldSha256": "83903151388f88ef762881a1e57558a2b49d98ff25f204c40f4195b67d0340cc",
+        "currentSha256": "ad2d7e09230b5cb569f05998fa0aa492ee2bd0de0d73c791bfb41e8ca8e15fe8",
+        "scores": [
+          217,
+          190,
+          338,
+          277
+        ],
+        "steps": 1670,
+        "logs": 1751
+      },
+      {
+        "case": 21,
+        "old": "resourcezero-candidate-21.json",
+        "current": "bluelifecycle-base-21.json",
+        "oldSha256": "4e4da2b25878e9dd9606126b9503e7d09fe718d03d6f617ddbb6d734a3f1c67a",
+        "currentSha256": "f1a07463d21729bb65f282ef0ab7bf6f54a515dab00b352fed7c9941a565f827",
+        "scores": [
+          226,
+          269,
+          305,
+          222
+        ],
+        "steps": 1609,
+        "logs": 1684
+      },
+      {
+        "case": 22,
+        "old": "resourcezero-candidate-22.json",
+        "current": "bluelifecycle-base-22.json",
+        "oldSha256": "dc4e6ba46ad49c11853f6442c35b7d4af3051c542004eec1024a0645e5e876f2",
+        "currentSha256": "7e9f42c126a96ef189f3c9c9f998b9a5db9b230d4e1e56ac4c6ce7ade5cb7a1c",
+        "scores": [
+          196,
+          324,
+          286,
+          149
+        ],
+        "steps": 1713,
+        "logs": 1765
+      },
+      {
+        "case": 23,
+        "old": "resourcezero-candidate-23.json",
+        "current": "bluelifecycle-base-23.json",
+        "oldSha256": "62fc33eb21b826dea9e9c20d5f628c8c4b6faceb6adec1ff1968d9f0613e16e5",
+        "currentSha256": "d67f480aa69196720d368ccc150ce0d578c0d4f668e6bcc87e9f1582ae26e079",
+        "scores": [
+          129,
+          195,
+          299,
+          271
+        ],
+        "steps": 1498,
+        "logs": 1564
+      },
+      {
+        "case": 24,
+        "old": "resourcezero-candidate-24.json",
+        "current": "bluelifecycle-base-24.json",
+        "oldSha256": "e886b81e6afe07b4c639b6727d4acff027bc189f3638c644d8bca18de7248f10",
+        "currentSha256": "c6195d980b1df966b452a2a61b1cbd5327acfabdbdb967718310248eabfe05e3",
+        "scores": [
+          192,
+          266,
+          268,
+          153
+        ],
+        "steps": 1506,
+        "logs": 1565
+      }
+    ]
+  },
+  "choiceGroups": [
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 1,
+      "n": 16,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 55
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 2,
+      "n": 26,
+      "newProfiles": 0,
+      "expected": 35,
+      "actual": 75
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 3,
+      "n": 43,
+      "newProfiles": 0,
+      "expected": 55,
+      "actual": 94
+    },
+    {
+      "side": "baseline",
+      "company": "作弊实验室",
+      "round": 4,
+      "n": 11,
+      "newProfiles": 0,
+      "expected": 8,
+      "actual": 9
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 1,
+      "n": 4,
+      "newProfiles": 0,
+      "expected": 0,
+      "actual": 10
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 2,
+      "n": 9,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 15
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 3,
+      "n": 15,
+      "newProfiles": 0,
+      "expected": 13,
+      "actual": 23
+    },
+    {
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "round": 4,
+      "n": 8,
+      "newProfiles": 0,
+      "expected": 4,
+      "actual": 7
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "n": 7,
+      "newProfiles": 0,
+      "expected": 9,
+      "actual": 19
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "n": 6,
+      "newProfiles": 0,
+      "expected": 6,
+      "actual": 16
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "n": 14,
+      "newProfiles": 0,
+      "expected": 15,
+      "actual": 24
+    },
+    {
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "n": 12,
+      "newProfiles": 0,
+      "expected": 8,
+      "actual": 14
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 1,
+      "n": 62,
+      "newProfiles": 62,
+      "expected": 229.75,
+      "actual": 204
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 2,
+      "n": 14,
+      "newProfiles": 14,
+      "expected": 29.22222222222222,
+      "actual": 34
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 3,
+      "n": 14,
+      "newProfiles": 14,
+      "expected": 20.208333333333336,
+      "actual": 28
+    },
+    {
+      "side": "candidate",
+      "company": "作弊实验室",
+      "round": 4,
+      "n": 6,
+      "newProfiles": 0,
+      "expected": 4,
+      "actual": 4
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 1,
+      "n": 6,
+      "newProfiles": 6,
+      "expected": 15.375,
+      "actual": 15
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 2,
+      "n": 4,
+      "newProfiles": 4,
+      "expected": 3.6666666666666665,
+      "actual": 7
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 3,
+      "n": 13,
+      "newProfiles": 13,
+      "expected": 11.96875,
+      "actual": 16
+    },
+    {
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "round": 4,
+      "n": 9,
+      "newProfiles": 0,
+      "expected": 2,
+      "actual": 8
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "n": 28,
+      "newProfiles": 28,
+      "expected": 94.625,
+      "actual": 72
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "n": 5,
+      "newProfiles": 5,
+      "expected": 9.930555555555557,
+      "actual": 9
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "n": 4,
+      "newProfiles": 4,
+      "expected": 3.729166666666667,
+      "actual": 6
+    },
+    {
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "n": 3,
+      "newProfiles": 0,
+      "expected": 3,
+      "actual": 1
+    }
+  ],
+  "limitations": [
+    "Known24 development seeds were also used to fit company priors; no independent uplift claim.",
+    "Current raw blue reward predictions use statistical per-company cycles and observed prior rounds. Expected future actions are not guaranteed energy/data budgets.",
+    "Phase-specific resource values and extra data cost do not alone prove displaced technology opportunity cost is calibrated.",
+    "All alternative technology scores retained for review; action and source ledgers must agree before fresh testing.",
+    "Prior mean gains never added; no marker/b48/anomaly combination."
+  ],
+  "next": "Company-scope ablation, Huanyu only3c34fe09; does not attribute parent Huanyu gain to its own blue income."
+}

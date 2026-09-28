@@ -1,0 +1,2811 @@
+{
+  "scope": "Read-only repeated real-browser valuation; natural blue1/blue2 comparison inside restricted tech choice; actual purchase and bonus payment. Forced action/fixture validates execution only, not full-game uplift.",
+  "randomCalls": 0,
+  "candidates": [
+    {
+      "tileId": "blue1",
+      "techType": "blue",
+      "stackIndex": 1,
+      "bonusId": "bonus_3f",
+      "firstTake": true,
+      "remaining": 4,
+      "available": true,
+      "reason": null,
+      "plan": {
+        "type": "tech-synergy",
+        "mainActionId": "researchTech",
+        "actionId": "engine",
+        "label": "蓝科补强数据/分析引擎",
+        "score": 0.9288,
+        "tileId": "blue1",
+        "techType": "blue"
+      },
+      "score": 37.414096433999994,
+      "finalFormulaDeltas": {
+        "d1": 0.35,
+        "d2": 0.35
+      },
+      "directScoreGain": 5,
+      "valueBreakdown": {
+        "lateTechCatchupValue": 0,
+        "lowTechCatchupValue": 0,
+        "huanyuOrange2FutureMoveValue": 0,
+        "huanyuRoundOneBlue1CreditEngine": null,
+        "grandStrategyEarlyBlueResourceValue": 0,
+        "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+        "grandStrategyFinalBlue1CreditBridge": null,
+        "huanyuRoundTwoBlue4PublicityBridge": null,
+        "finalHuanyuBlue1AnalyzeRefuel": null,
+        "finalHuanyuBlue2DelayedEnergySubstitution": null,
+        "finalHuanyuPurple4Cashout": null,
+        "finalHuanyuUncashableTechPick": null,
+        "grandStrategyFinalStrandedEnergyCashout": null,
+        "blueLifecycle": {
+          "company": "寰宇超动力",
+          "priorCycleRate": 0.6875,
+          "completedRoundCycles": 0,
+          "completedRounds": 0,
+          "cycleRate": 0.6875,
+          "currentRewardFraction": 1,
+          "currentScoreFraction": 1,
+          "currentValue": 6.5,
+          "futureValue": 11.34375,
+          "futureRounds": [
+            {
+              "round": 2,
+              "expectedCycles": 0.6875,
+              "resourceValue": 6,
+              "extraDataCost": 1.5,
+              "value": 4.46875
+            },
+            {
+              "round": 3,
+              "expectedCycles": 0.6875,
+              "resourceValue": 4.5,
+              "extraDataCost": 1.5,
+              "value": 3.4375
+            },
+            {
+              "round": 4,
+              "expectedCycles": 0.6875,
+              "resourceValue": 4.5,
+              "extraDataCost": 1.5,
+              "value": 3.4375
+            }
+          ],
+          "requiredComputerSlot": 1,
+          "placedComputerData": 0,
+          "projectedAnalysisEnergy": 5,
+          "value": 17.844
+        },
+        "blueResourceClosure": {
+          "candidateKind": "blue-tech",
+          "companyId": "industry:寰宇超动力",
+          "revealedAlienIds": [],
+          "projectedBlueSlot": 1,
+          "requiredComputerSlot": 1,
+          "placedComputerData": 0,
+          "availableData": 2,
+          "incomeDataPerRound": 0,
+          "remainingIncomePayouts": 3,
+          "projectedAdditionalData": 0,
+          "projectedAnalysisEnergy": 5,
+          "reward": {
+            "type": "credits",
+            "credits": 1
+          },
+          "resourceGain": {
+            "credits": 1
+          },
+          "expectedTriggerCount": 1,
+          "securedTriggerCount": 1,
+          "throughputTriggerCount": 0,
+          "triggerUpperBound": 4,
+          "currentTriggerDataCost": 2,
+          "firstRepeatTriggerDataCost": 7,
+          "steadyRepeatTriggerDataCost": 7,
+          "knownDataBudget": 2,
+          "completedDataCycles": 0,
+          "remainingCycleWindows": 4,
+          "canAnalyzeRepeatCycle": true,
+          "remainingMainActionWindows": 4,
+          "unlockedActions": [],
+          "playableCardDelta": 0,
+          "fullDataCycleDelta": 0,
+          "planetCashoutValue": 0,
+          "perTriggerContinuationValue": 0.734,
+          "expectedContinuationValue": 0.734,
+          "sharedOpportunityPenalty": null,
+          "displacedValue": null
+        }
+      }
+    },
+    {
+      "tileId": "blue2",
+      "techType": "blue",
+      "stackIndex": 2,
+      "bonusId": "bonus_1c",
+      "firstTake": true,
+      "remaining": 4,
+      "available": true,
+      "reason": null,
+      "plan": {
+        "type": "tech-synergy",
+        "mainActionId": "researchTech",
+        "actionId": "engine",
+        "label": "蓝科补强数据/分析引擎",
+        "score": 0.9288,
+        "tileId": "blue2",
+        "techType": "blue"
+      },
+      "score": 41.081591433999996,
+      "finalFormulaDeltas": {
+        "d1": 0.35,
+        "d2": 0.35
+      },
+      "directScoreGain": 2,
+      "valueBreakdown": {
+        "lateTechCatchupValue": 0,
+        "lowTechCatchupValue": 0,
+        "huanyuOrange2FutureMoveValue": 0,
+        "huanyuRoundOneBlue1CreditEngine": null,
+        "grandStrategyEarlyBlueResourceValue": 0,
+        "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+        "grandStrategyFinalBlue1CreditBridge": null,
+        "huanyuRoundTwoBlue4PublicityBridge": null,
+        "finalHuanyuBlue1AnalyzeRefuel": null,
+        "finalHuanyuBlue2DelayedEnergySubstitution": null,
+        "finalHuanyuPurple4Cashout": null,
+        "finalHuanyuUncashableTechPick": null,
+        "grandStrategyFinalStrandedEnergyCashout": null,
+        "blueLifecycle": {
+          "company": "寰宇超动力",
+          "priorCycleRate": 0.6875,
+          "completedRoundCycles": 0,
+          "completedRounds": 0,
+          "cycleRate": 0.6875,
+          "currentRewardFraction": 1,
+          "currentScoreFraction": 1,
+          "currentValue": 6.7,
+          "futureValue": 11.068750000000001,
+          "futureRounds": [
+            {
+              "round": 2,
+              "expectedCycles": 0.6875,
+              "resourceValue": 6.2,
+              "extraDataCost": 1.5,
+              "value": 4.60625
+            },
+            {
+              "round": 3,
+              "expectedCycles": 0.6875,
+              "resourceValue": 4.2,
+              "extraDataCost": 1.5,
+              "value": 3.23125
+            },
+            {
+              "round": 4,
+              "expectedCycles": 0.6875,
+              "resourceValue": 4.2,
+              "extraDataCost": 1.5,
+              "value": 3.23125
+            }
+          ],
+          "requiredComputerSlot": 1,
+          "placedComputerData": 0,
+          "projectedAnalysisEnergy": 6,
+          "value": 17.769
+        },
+        "blueResourceClosure": {
+          "candidateKind": "blue-tech",
+          "companyId": "industry:寰宇超动力",
+          "revealedAlienIds": [],
+          "projectedBlueSlot": 1,
+          "requiredComputerSlot": 1,
+          "placedComputerData": 0,
+          "availableData": 2,
+          "incomeDataPerRound": 0,
+          "remainingIncomePayouts": 3,
+          "projectedAdditionalData": 0,
+          "projectedAnalysisEnergy": 6,
+          "reward": {
+            "type": "energy",
+            "energy": 1
+          },
+          "resourceGain": {
+            "energy": 1
+          },
+          "expectedTriggerCount": 1,
+          "securedTriggerCount": 1,
+          "throughputTriggerCount": 0,
+          "triggerUpperBound": 4,
+          "currentTriggerDataCost": 2,
+          "firstRepeatTriggerDataCost": 7,
+          "steadyRepeatTriggerDataCost": 7,
+          "knownDataBudget": 2,
+          "completedDataCycles": 0,
+          "remainingCycleWindows": 4,
+          "canAnalyzeRepeatCycle": true,
+          "remainingMainActionWindows": 4,
+          "unlockedActions": [],
+          "playableCardDelta": 0,
+          "fullDataCycleDelta": 0,
+          "planetCashoutValue": 0,
+          "perTriggerContinuationValue": 0.734,
+          "expectedContinuationValue": 0.734,
+          "sharedOpportunityPenalty": null,
+          "displacedValue": null
+        }
+      }
+    }
+  ],
+  "choice": {
+    "tileId": "blue2",
+    "techType": "blue",
+    "stackIndex": 2,
+    "bonusId": "bonus_1c",
+    "firstTake": true,
+    "remaining": 4,
+    "available": true,
+    "reason": null,
+    "plan": {
+      "type": "tech-synergy",
+      "mainActionId": "researchTech",
+      "actionId": "engine",
+      "label": "蓝科补强数据/分析引擎",
+      "score": 0.9288,
+      "tileId": "blue2",
+      "techType": "blue"
+    },
+    "score": 41.081591433999996,
+    "finalFormulaDeltas": {
+      "d1": 0.35,
+      "d2": 0.35
+    },
+    "directScoreGain": 2,
+    "valueBreakdown": {
+      "lateTechCatchupValue": 0,
+      "lowTechCatchupValue": 0,
+      "huanyuOrange2FutureMoveValue": 0,
+      "huanyuRoundOneBlue1CreditEngine": null,
+      "grandStrategyEarlyBlueResourceValue": 0,
+      "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+      "grandStrategyFinalBlue1CreditBridge": null,
+      "huanyuRoundTwoBlue4PublicityBridge": null,
+      "finalHuanyuBlue1AnalyzeRefuel": null,
+      "finalHuanyuBlue2DelayedEnergySubstitution": null,
+      "finalHuanyuPurple4Cashout": null,
+      "finalHuanyuUncashableTechPick": null,
+      "grandStrategyFinalStrandedEnergyCashout": null,
+      "blueLifecycle": {
+        "company": "寰宇超动力",
+        "priorCycleRate": 0.6875,
+        "completedRoundCycles": 0,
+        "completedRounds": 0,
+        "cycleRate": 0.6875,
+        "currentRewardFraction": 1,
+        "currentScoreFraction": 1,
+        "currentValue": 6.7,
+        "futureValue": 11.068750000000001,
+        "futureRounds": [
+          {
+            "round": 2,
+            "expectedCycles": 0.6875,
+            "resourceValue": 6.2,
+            "extraDataCost": 1.5,
+            "value": 4.60625
+          },
+          {
+            "round": 3,
+            "expectedCycles": 0.6875,
+            "resourceValue": 4.2,
+            "extraDataCost": 1.5,
+            "value": 3.23125
+          },
+          {
+            "round": 4,
+            "expectedCycles": 0.6875,
+            "resourceValue": 4.2,
+            "extraDataCost": 1.5,
+            "value": 3.23125
+          }
+        ],
+        "requiredComputerSlot": 1,
+        "placedComputerData": 0,
+        "projectedAnalysisEnergy": 6,
+        "value": 17.769
+      },
+      "blueResourceClosure": {
+        "candidateKind": "blue-tech",
+        "companyId": "industry:寰宇超动力",
+        "revealedAlienIds": [],
+        "projectedBlueSlot": 1,
+        "requiredComputerSlot": 1,
+        "placedComputerData": 0,
+        "availableData": 2,
+        "incomeDataPerRound": 0,
+        "remainingIncomePayouts": 3,
+        "projectedAdditionalData": 0,
+        "projectedAnalysisEnergy": 6,
+        "reward": {
+          "type": "energy",
+          "energy": 1
+        },
+        "resourceGain": {
+          "energy": 1
+        },
+        "expectedTriggerCount": 1,
+        "securedTriggerCount": 1,
+        "throughputTriggerCount": 0,
+        "triggerUpperBound": 4,
+        "currentTriggerDataCost": 2,
+        "firstRepeatTriggerDataCost": 7,
+        "steadyRepeatTriggerDataCost": 7,
+        "knownDataBudget": 2,
+        "completedDataCycles": 0,
+        "remainingCycleWindows": 4,
+        "canAnalyzeRepeatCycle": true,
+        "remainingMainActionWindows": 4,
+        "unlockedActions": [],
+        "playableCardDelta": 0,
+        "fullDataCycleDelta": 0,
+        "planetCashoutValue": 0,
+        "perTriggerContinuationValue": 0.734,
+        "expectedContinuationValue": 0.734,
+        "sharedOpportunityPenalty": null,
+        "displacedValue": null
+      }
+    }
+  },
+  "opening": {
+    "ok": true,
+    "abilityId": "researchTechPrepare",
+    "message": "请选择要研究的科技板块",
+    "undoable": true,
+    "commands": [],
+    "cost": {
+      "publicity": 6
+    },
+    "payload": {
+      "takeable": [
+        "blue1",
+        "blue2",
+        "blue3",
+        "blue4",
+        "orange1",
+        "orange2",
+        "orange3",
+        "orange4",
+        "purple1",
+        "purple2",
+        "purple3",
+        "purple4"
+      ],
+      "allowedTechTypes": null
+    },
+    "events": [],
+    "awaitingTileSelection": true,
+    "takeable": [
+      "blue1",
+      "blue2",
+      "blue3",
+      "blue4",
+      "orange1",
+      "orange2",
+      "orange3",
+      "orange4",
+      "purple1",
+      "purple2",
+      "purple3",
+      "purple4"
+    ],
+    "allowedTechTypes": null
+  },
+  "afterResearch": {
+    "credits": 4,
+    "energy": 2,
+    "publicity": 6,
+    "availableData": 2,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 4,
+    "score": 9
+  },
+  "beforeBonus": {
+    "credits": 4,
+    "energy": 2,
+    "publicity": 6,
+    "availableData": 1,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 4,
+    "score": 9
+  },
+  "afterBonus": {
+    "credits": 4,
+    "energy": 3,
+    "publicity": 6,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 4,
+    "score": 9
+  },
+  "tail": [
+    {
+      "id": 29,
+      "type": "discard",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 6,
+        "credits": 3,
+        "energy": 4,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 8
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 8,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "棕色AI 弃牌 1 张",
+      "details": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "selectedIndexes": [
+          2
+        ],
+        "selectedCards": [
+          {
+            "handIndex": 2,
+            "cardId": "b_52.webp",
+            "cardInstanceId": "card-11-0",
+            "cardLabel": "隼鸟号"
+          }
+        ],
+        "pendingType": "initial_income",
+        "incomeGainByIndex": [
+          {
+            "handSize": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "handSize": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "handSize": 1
+          },
+          {
+            "handSize": 1
+          },
+          {
+            "energy": 1
+          }
+        ],
+        "incomeDiscardPreview": {
+          "pendingType": "initial_income",
+          "count": 1,
+          "handSize": 8,
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 4,
+            "publicity": 1,
+            "availableData": 2
+          },
+          "options": [
+            {
+              "index": 2,
+              "selected": true,
+              "cardId": "b_52.webp",
+              "cardLabel": "隼鸟号",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 20.55,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 19.05
+            },
+            {
+              "index": 5,
+              "selected": false,
+              "cardId": "b_134.webp",
+              "cardLabel": "旅行者2号任务",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 20.55,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": true,
+              "playScoreNow": -1.07,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 19.05
+            },
+            {
+              "index": 6,
+              "selected": false,
+              "cardId": "b_107.webp",
+              "cardLabel": "土星探测计划",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 20.55,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0.302,
+              "playableNow": true,
+              "playScoreNow": 0.302,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0.036,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 19.014
+            },
+            {
+              "index": 7,
+              "selected": false,
+              "cardId": "dlc_25.png",
+              "cardLabel": "激光干涉引力波天文台",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": true,
+              "playScoreNow": -13.077,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.45
+            },
+            {
+              "index": 1,
+              "selected": false,
+              "cardId": "b_106.webp",
+              "cardLabel": "采样返回",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0.086,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0.01,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.44
+            },
+            {
+              "index": 4,
+              "selected": false,
+              "cardId": "b_121.webp",
+              "cardLabel": "水熊虫研究",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 1.555,
+              "playableNow": true,
+              "playScoreNow": 1.555,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0.187,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.263
+            },
+            {
+              "index": 3,
+              "selected": false,
+              "cardId": "dlc_30.png",
+              "cardLabel": "晓号轨道器",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 3.288,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0.395,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.055
+            },
+            {
+              "index": 0,
+              "selected": false,
+              "cardId": "b_117.webp",
+              "cardLabel": "航天飞机",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 20.55,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 23.03,
+              "playableNow": true,
+              "playScoreNow": 23.03,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 2.764,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 16.286
+            }
+          ]
+        },
+        "tradeId": null
+      },
+      "createdAt": "2026-09-28T07:33:06.124Z"
+    },
+    {
+      "id": 30,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 6,
+        "credits": 3,
+        "energy": 4,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 8
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 8,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+      "details": {
+        "logPlayerId": "player-brown",
+        "effectId": "initial-income-player-brown-4",
+        "effectType": "initial_income"
+      },
+      "createdAt": "2026-09-28T07:33:06.134Z"
+    },
+    {
+      "id": 31,
+      "type": "discard",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 6,
+        "credits": 3,
+        "energy": 4,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 8
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 8,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "棕色AI 弃牌 1 张",
+      "details": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "selectedIndexes": [
+          6
+        ],
+        "selectedCards": [
+          {
+            "handIndex": 6,
+            "cardId": "dlc_25.png",
+            "cardInstanceId": "card-62-0",
+            "cardLabel": "激光干涉引力波天文台"
+          }
+        ],
+        "pendingType": "initial_income",
+        "incomeGainByIndex": [
+          {
+            "handSize": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "handSize": 1
+          },
+          {
+            "handSize": 1
+          },
+          {
+            "energy": 1
+          },
+          {
+            "handSize": 1
+          }
+        ],
+        "incomeDiscardPreview": {
+          "pendingType": "initial_income",
+          "count": 1,
+          "handSize": 8,
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 4,
+            "publicity": 1,
+            "availableData": 2
+          },
+          "options": [
+            {
+              "index": 6,
+              "selected": true,
+              "cardId": "dlc_25.png",
+              "cardLabel": "激光干涉引力波天文台",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": true,
+              "playScoreNow": -13.077,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.45
+            },
+            {
+              "index": 1,
+              "selected": false,
+              "cardId": "b_106.webp",
+              "cardLabel": "采样返回",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0.086,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0.01,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.44
+            },
+            {
+              "index": 3,
+              "selected": false,
+              "cardId": "b_121.webp",
+              "cardLabel": "水熊虫研究",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 1.731,
+              "playableNow": true,
+              "playScoreNow": 1.731,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0.208,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.242
+            },
+            {
+              "index": 2,
+              "selected": false,
+              "cardId": "dlc_30.png",
+              "cardLabel": "晓号轨道器",
+              "incomeGain": {
+                "energy": 1
+              },
+              "incomeScore": 19.95,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 3.288,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0.395,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 18.055
+            },
+            {
+              "index": 4,
+              "selected": false,
+              "cardId": "b_134.webp",
+              "cardLabel": "旅行者2号任务",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 4.843,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": true,
+              "playScoreNow": -1.07,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 3.343
+            },
+            {
+              "index": 7,
+              "selected": false,
+              "cardId": "b_53.webp",
+              "cardLabel": "赫歇尔空间天文台",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 4.843,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 0,
+              "playableNow": false,
+              "playScoreNow": null,
+              "playDirectScoreNow": null,
+              "discardOpportunityCost": 0,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 3.343
+            },
+            {
+              "index": 5,
+              "selected": false,
+              "cardId": "b_107.webp",
+              "cardLabel": "土星探测计划",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 4.843,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 1.172,
+              "playableNow": true,
+              "playScoreNow": 1.172,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 0.141,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 3.203
+            },
+            {
+              "index": 0,
+              "selected": false,
+              "cardId": "b_117.webp",
+              "cardLabel": "航天飞机",
+              "incomeGain": {
+                "handSize": 1
+              },
+              "incomeScore": 4.843,
+              "finalFormulaFit": -1.5,
+              "routeEnergyFit": 0,
+              "grandFangzhouCreditThroughputFit": 0,
+              "playValue": 23.062,
+              "playableNow": true,
+              "playScoreNow": 23.062,
+              "playDirectScoreNow": 0,
+              "discardOpportunityCost": 2.767,
+              "handScarcityCost": 0,
+              "netAfterDiscard": 0.576
+            }
+          ]
+        },
+        "tradeId": null
+      },
+      "createdAt": "2026-09-28T07:33:06.163Z"
+    },
+    {
+      "id": 32,
+      "type": "tech-placement",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 12,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 12,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "白色AI 选择科技 blue2",
+      "details": {
+        "selected": {
+          "tileId": "blue2",
+          "techType": "blue",
+          "stackIndex": 2,
+          "bonusId": "bonus_1c",
+          "firstTake": true,
+          "remaining": 4,
+          "available": true,
+          "reason": null,
+          "plan": {
+            "type": "tech-synergy",
+            "mainActionId": "researchTech",
+            "actionId": "engine",
+            "label": "蓝科补强数据/分析引擎",
+            "score": 0.9288,
+            "tileId": "blue2",
+            "techType": "blue"
+          },
+          "score": 41.081591433999996,
+          "finalFormulaDeltas": {
+            "d1": 0.35,
+            "d2": 0.35
+          },
+          "directScoreGain": 2,
+          "valueBreakdown": {
+            "lateTechCatchupValue": 0,
+            "lowTechCatchupValue": 0,
+            "huanyuOrange2FutureMoveValue": 0,
+            "huanyuRoundOneBlue1CreditEngine": null,
+            "grandStrategyEarlyBlueResourceValue": 0,
+            "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+            "grandStrategyFinalBlue1CreditBridge": null,
+            "huanyuRoundTwoBlue4PublicityBridge": null,
+            "finalHuanyuBlue1AnalyzeRefuel": null,
+            "finalHuanyuBlue2DelayedEnergySubstitution": null,
+            "finalHuanyuPurple4Cashout": null,
+            "finalHuanyuUncashableTechPick": null,
+            "grandStrategyFinalStrandedEnergyCashout": null,
+            "blueLifecycle": {
+              "company": "寰宇超动力",
+              "priorCycleRate": 0.6875,
+              "completedRoundCycles": 0,
+              "completedRounds": 0,
+              "cycleRate": 0.6875,
+              "currentRewardFraction": 1,
+              "currentScoreFraction": 1,
+              "currentValue": 6.7,
+              "futureValue": 11.068750000000001,
+              "futureRounds": [
+                {
+                  "round": 2,
+                  "expectedCycles": 0.6875,
+                  "resourceValue": 6.2,
+                  "extraDataCost": 1.5,
+                  "value": 4.60625
+                },
+                {
+                  "round": 3,
+                  "expectedCycles": 0.6875,
+                  "resourceValue": 4.2,
+                  "extraDataCost": 1.5,
+                  "value": 3.23125
+                },
+                {
+                  "round": 4,
+                  "expectedCycles": 0.6875,
+                  "resourceValue": 4.2,
+                  "extraDataCost": 1.5,
+                  "value": 3.23125
+                }
+              ],
+              "requiredComputerSlot": 1,
+              "placedComputerData": 0,
+              "projectedAnalysisEnergy": 6,
+              "value": 17.769
+            },
+            "blueResourceClosure": {
+              "candidateKind": "blue-tech",
+              "companyId": "industry:寰宇超动力",
+              "revealedAlienIds": [],
+              "projectedBlueSlot": 1,
+              "requiredComputerSlot": 1,
+              "placedComputerData": 0,
+              "availableData": 2,
+              "incomeDataPerRound": 0,
+              "remainingIncomePayouts": 3,
+              "projectedAdditionalData": 0,
+              "projectedAnalysisEnergy": 6,
+              "reward": {
+                "type": "energy",
+                "energy": 1
+              },
+              "resourceGain": {
+                "energy": 1
+              },
+              "expectedTriggerCount": 1,
+              "securedTriggerCount": 1,
+              "throughputTriggerCount": 0,
+              "triggerUpperBound": 4,
+              "currentTriggerDataCost": 2,
+              "firstRepeatTriggerDataCost": 7,
+              "steadyRepeatTriggerDataCost": 7,
+              "knownDataBudget": 2,
+              "completedDataCycles": 0,
+              "remainingCycleWindows": 4,
+              "canAnalyzeRepeatCycle": true,
+              "remainingMainActionWindows": 4,
+              "unlockedActions": [],
+              "playableCardDelta": 0,
+              "fullDataCycleDelta": 0,
+              "planetCashoutValue": 0,
+              "perTriggerContinuationValue": 0.734,
+              "expectedContinuationValue": 0.734,
+              "sharedOpportunityPenalty": null,
+              "displacedValue": null
+            }
+          }
+        },
+        "candidates": [
+          {
+            "tileId": "blue1",
+            "techType": "blue",
+            "stackIndex": 1,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "engine",
+              "label": "蓝科补强数据/分析引擎",
+              "score": 0.9288,
+              "tileId": "blue1",
+              "techType": "blue"
+            },
+            "score": 37.414096433999994,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": {
+                "company": "寰宇超动力",
+                "priorCycleRate": 0.6875,
+                "completedRoundCycles": 0,
+                "completedRounds": 0,
+                "cycleRate": 0.6875,
+                "currentRewardFraction": 1,
+                "currentScoreFraction": 1,
+                "currentValue": 6.5,
+                "futureValue": 11.34375,
+                "futureRounds": [
+                  {
+                    "round": 2,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 6,
+                    "extraDataCost": 1.5,
+                    "value": 4.46875
+                  },
+                  {
+                    "round": 3,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 4.5,
+                    "extraDataCost": 1.5,
+                    "value": 3.4375
+                  },
+                  {
+                    "round": 4,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 4.5,
+                    "extraDataCost": 1.5,
+                    "value": 3.4375
+                  }
+                ],
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "projectedAnalysisEnergy": 5,
+                "value": 17.844
+              },
+              "blueResourceClosure": {
+                "candidateKind": "blue-tech",
+                "companyId": "industry:寰宇超动力",
+                "revealedAlienIds": [],
+                "projectedBlueSlot": 1,
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "availableData": 2,
+                "incomeDataPerRound": 0,
+                "remainingIncomePayouts": 3,
+                "projectedAdditionalData": 0,
+                "projectedAnalysisEnergy": 5,
+                "reward": {
+                  "type": "credits",
+                  "credits": 1
+                },
+                "resourceGain": {
+                  "credits": 1
+                },
+                "expectedTriggerCount": 1,
+                "securedTriggerCount": 1,
+                "throughputTriggerCount": 0,
+                "triggerUpperBound": 4,
+                "currentTriggerDataCost": 2,
+                "firstRepeatTriggerDataCost": 7,
+                "steadyRepeatTriggerDataCost": 7,
+                "knownDataBudget": 2,
+                "completedDataCycles": 0,
+                "remainingCycleWindows": 4,
+                "canAnalyzeRepeatCycle": true,
+                "remainingMainActionWindows": 4,
+                "unlockedActions": [],
+                "playableCardDelta": 0,
+                "fullDataCycleDelta": 0,
+                "planetCashoutValue": 0,
+                "perTriggerContinuationValue": 0.734,
+                "expectedContinuationValue": 0.734,
+                "sharedOpportunityPenalty": null,
+                "displacedValue": null
+              }
+            }
+          },
+          {
+            "tileId": "blue2",
+            "techType": "blue",
+            "stackIndex": 2,
+            "bonusId": "bonus_1c",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "engine",
+              "label": "蓝科补强数据/分析引擎",
+              "score": 0.9288,
+              "tileId": "blue2",
+              "techType": "blue"
+            },
+            "score": 41.081591433999996,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 2,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": {
+                "company": "寰宇超动力",
+                "priorCycleRate": 0.6875,
+                "completedRoundCycles": 0,
+                "completedRounds": 0,
+                "cycleRate": 0.6875,
+                "currentRewardFraction": 1,
+                "currentScoreFraction": 1,
+                "currentValue": 6.7,
+                "futureValue": 11.068750000000001,
+                "futureRounds": [
+                  {
+                    "round": 2,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 6.2,
+                    "extraDataCost": 1.5,
+                    "value": 4.60625
+                  },
+                  {
+                    "round": 3,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 4.2,
+                    "extraDataCost": 1.5,
+                    "value": 3.23125
+                  },
+                  {
+                    "round": 4,
+                    "expectedCycles": 0.6875,
+                    "resourceValue": 4.2,
+                    "extraDataCost": 1.5,
+                    "value": 3.23125
+                  }
+                ],
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "projectedAnalysisEnergy": 6,
+                "value": 17.769
+              },
+              "blueResourceClosure": {
+                "candidateKind": "blue-tech",
+                "companyId": "industry:寰宇超动力",
+                "revealedAlienIds": [],
+                "projectedBlueSlot": 1,
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "availableData": 2,
+                "incomeDataPerRound": 0,
+                "remainingIncomePayouts": 3,
+                "projectedAdditionalData": 0,
+                "projectedAnalysisEnergy": 6,
+                "reward": {
+                  "type": "energy",
+                  "energy": 1
+                },
+                "resourceGain": {
+                  "energy": 1
+                },
+                "expectedTriggerCount": 1,
+                "securedTriggerCount": 1,
+                "throughputTriggerCount": 0,
+                "triggerUpperBound": 4,
+                "currentTriggerDataCost": 2,
+                "firstRepeatTriggerDataCost": 7,
+                "steadyRepeatTriggerDataCost": 7,
+                "knownDataBudget": 2,
+                "completedDataCycles": 0,
+                "remainingCycleWindows": 4,
+                "canAnalyzeRepeatCycle": true,
+                "remainingMainActionWindows": 4,
+                "unlockedActions": [],
+                "playableCardDelta": 0,
+                "fullDataCycleDelta": 0,
+                "planetCashoutValue": 0,
+                "perTriggerContinuationValue": 0.734,
+                "expectedContinuationValue": 0.734,
+                "sharedOpportunityPenalty": null,
+                "displacedValue": null
+              }
+            }
+          },
+          {
+            "tileId": "blue3",
+            "techType": "blue",
+            "stackIndex": 3,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "engine",
+              "label": "蓝科补强数据/分析引擎",
+              "score": 2.6635,
+              "tileId": "blue3",
+              "techType": "blue"
+            },
+            "score": 20.579248170000003,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": {
+                "candidateKind": "blue-tech",
+                "companyId": "industry:寰宇超动力",
+                "revealedAlienIds": [],
+                "projectedBlueSlot": 1,
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "availableData": 2,
+                "incomeDataPerRound": 0,
+                "remainingIncomePayouts": 3,
+                "projectedAdditionalData": 0,
+                "projectedAnalysisEnergy": 5,
+                "reward": {
+                  "type": "choose_card"
+                },
+                "resourceGain": {
+                  "handSize": 1,
+                  "cardSelection": 1
+                },
+                "expectedTriggerCount": 1,
+                "securedTriggerCount": 1,
+                "throughputTriggerCount": 0,
+                "triggerUpperBound": 4,
+                "currentTriggerDataCost": 2,
+                "firstRepeatTriggerDataCost": 7,
+                "steadyRepeatTriggerDataCost": 7,
+                "knownDataBudget": 2,
+                "completedDataCycles": 0,
+                "remainingCycleWindows": 4,
+                "canAnalyzeRepeatCycle": true,
+                "remainingMainActionWindows": 4,
+                "unlockedActions": [],
+                "playableCardDelta": 0,
+                "fullDataCycleDelta": 0,
+                "planetCashoutValue": 0,
+                "perTriggerContinuationValue": 1.037,
+                "expectedContinuationValue": 1.037,
+                "sharedOpportunityPenalty": null,
+                "displacedValue": null
+              }
+            }
+          },
+          {
+            "tileId": "blue4",
+            "techType": "blue",
+            "stackIndex": 4,
+            "bonusId": "bonus_1m",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "engine",
+              "label": "蓝科补强数据/分析引擎",
+              "score": 2.6635,
+              "tileId": "blue4",
+              "techType": "blue"
+            },
+            "score": 19.69524817,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 2,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": {
+                "candidateKind": "blue-tech",
+                "companyId": "industry:寰宇超动力",
+                "revealedAlienIds": [],
+                "projectedBlueSlot": 1,
+                "requiredComputerSlot": 1,
+                "placedComputerData": 0,
+                "availableData": 2,
+                "incomeDataPerRound": 0,
+                "remainingIncomePayouts": 3,
+                "projectedAdditionalData": 0,
+                "projectedAnalysisEnergy": 5,
+                "reward": {
+                  "type": "publicity",
+                  "publicity": 2
+                },
+                "resourceGain": {
+                  "publicity": 2
+                },
+                "expectedTriggerCount": 1,
+                "securedTriggerCount": 1,
+                "throughputTriggerCount": 0,
+                "triggerUpperBound": 4,
+                "currentTriggerDataCost": 2,
+                "firstRepeatTriggerDataCost": 7,
+                "steadyRepeatTriggerDataCost": 7,
+                "knownDataBudget": 2,
+                "completedDataCycles": 0,
+                "remainingCycleWindows": 4,
+                "canAnalyzeRepeatCycle": true,
+                "remainingMainActionWindows": 4,
+                "unlockedActions": [],
+                "playableCardDelta": 0,
+                "fullDataCycleDelta": 0,
+                "planetCashoutValue": 0,
+                "perTriggerContinuationValue": 0,
+                "expectedContinuationValue": 0,
+                "sharedOpportunityPenalty": null,
+                "displacedValue": null
+              }
+            }
+          },
+          {
+            "tileId": "orange2",
+            "techType": "orange",
+            "stackIndex": 2,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "move",
+              "label": "橙2降低小行星移动阻力",
+              "score": 4.9025,
+              "tileId": "orange2",
+              "techType": "orange"
+            },
+            "score": 30.817828989999995,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "orange3",
+            "techType": "orange",
+            "stackIndex": 3,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "move",
+              "label": "橙科支持移动/登陆路线",
+              "score": 1.4900000000000002,
+              "tileId": "orange3",
+              "techType": "orange"
+            },
+            "score": 24.44628849,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "orange4",
+            "techType": "orange",
+            "stackIndex": 4,
+            "bonusId": "bonus_1m",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "move",
+              "label": "橙科支持移动/登陆路线",
+              "score": 1.4900000000000002,
+              "tileId": "orange4",
+              "techType": "orange"
+            },
+            "score": 34.28078849,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 2,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null,
+              "orange4SatelliteProfile": {
+                "potential": 74.292,
+                "rawPotential": 74.292,
+                "racePenalty": 0,
+                "rawRacePenalty": 0,
+                "launchRouteRelief": 0,
+                "launchRouteDistance": 99,
+                "launchRoutePlanScore": 0,
+                "launchRouteCardId": null,
+                "routeDistance": 2,
+                "planetId": "mars",
+                "satelliteId": "phobos-deimos",
+                "closestOpponentDistance": 99,
+                "fasterOpponentCount": 0,
+                "prospectiveOrange4Count": 0,
+                "prospectiveOrange4Pressure": 0,
+                "actorEta": 2,
+                "opponentEtas": [],
+                "estimatedRaceOutcome": "uncontested",
+                "estimatedFastestOpponentEta": null
+              }
+            }
+          },
+          {
+            "tileId": "purple1",
+            "techType": "purple",
+            "stackIndex": 1,
+            "bonusId": "bonus_1p",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫1提升扫描公共牌能力",
+              "score": 0.6,
+              "tileId": "purple1",
+              "techType": "purple"
+            },
+            "score": 24.41685129,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 2,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "purple2",
+            "techType": "purple",
+            "stackIndex": 2,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫科支持扫描路线",
+              "score": 0.6,
+              "tileId": "purple2",
+              "techType": "purple"
+            },
+            "score": 17.423306289999996,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "purple3",
+            "techType": "purple",
+            "stackIndex": 3,
+            "bonusId": "bonus_3f",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫科支持扫描路线",
+              "score": 0.6,
+              "tileId": "purple3",
+              "techType": "purple"
+            },
+            "score": 16.98130629,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 5,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "purple4",
+            "techType": "purple",
+            "stackIndex": 4,
+            "bonusId": "bonus_1p",
+            "firstTake": true,
+            "remaining": 4,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫科支持扫描路线",
+              "score": 0.6,
+              "tileId": "purple4",
+              "techType": "purple"
+            },
+            "score": 21.433351289999997,
+            "finalFormulaDeltas": {
+              "d1": 0.35,
+              "d2": 0.35
+            },
+            "directScoreGain": 2,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 0,
+              "lowTechCatchupValue": 0,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueLifecycle": null,
+              "blueResourceClosure": null
+            }
+          }
+        ]
+      },
+      "createdAt": "2026-09-28T07:33:06.194Z"
+    },
+    {
+      "id": 33,
+      "type": "tech-placement",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 12,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 12,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "白色AI 选择蓝色科技槽位 1",
+      "details": {
+        "tileId": "blue2",
+        "availableSlots": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "blueSlot": 1
+      },
+      "createdAt": "2026-09-28T07:33:06.196Z"
+    },
+    {
+      "id": 34,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：获得科技片：blue2",
+      "details": {
+        "logPlayerId": "player-white",
+        "effectId": "research-tech-take",
+        "effectType": "research_tech_take"
+      },
+      "createdAt": "2026-09-28T07:33:06.204Z"
+    },
+    {
+      "id": 35,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 1
+        }
+      ],
+      "message": "AI 处理效果：旋转",
+      "details": {
+        "logPlayerId": "player-white",
+        "effectId": "research-tech-rotate",
+        "effectType": "research_tech_rotate"
+      },
+      "createdAt": "2026-09-28T07:33:06.212Z"
+    },
+    {
+      "id": 36,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 1
+        }
+      ],
+      "message": "AI 处理效果：获取精选 1 张牌",
+      "details": {
+        "logPlayerId": "player-white",
+        "effectId": "research-tech-bonus",
+        "effectType": "research_tech_bonus"
+      },
+      "createdAt": "2026-09-28T07:33:06.227Z"
+    },
+    {
+      "id": 37,
+      "type": "pick-card",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 7,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 1
+        }
+      ],
+      "message": "白色AI 精选公共牌 3",
+      "details": {
+        "pendingType": "tech_bonus_pick_card",
+        "slotIndex": 2,
+        "score": 31.422490205296185,
+        "card": {
+          "id": "card-19-0",
+          "cardId": "b_73.webp",
+          "set": "basic",
+          "cardName": "飞掠火星",
+          "src": "../assets/cards/basic/split/b_73.webp",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 0,
+          "discardActionCode": 1,
+          "scanActionCode": 0,
+          "incomeCode": 1
+        },
+        "topPublicCandidates": [
+          {
+            "slotIndex": 2,
+            "score": 31.422,
+            "cardId": "b_73.webp",
+            "cardInstanceId": "card-19-0",
+            "cardLabel": "飞掠火星",
+            "price": 1,
+            "typeCode": 0,
+            "playScore": 21.743,
+            "directScoreGain": 0,
+            "effectTypes": [
+              "card_register_event_bonus",
+              "card_move"
+            ],
+            "valueSignals": {
+              "planScore": 18.021,
+              "endGameExpectedScore": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "readyTaskCashoutDirectScore": 0,
+              "readyTaskCashoutCount": 0,
+              "playCardConversionPressure": 0,
+              "finalRoundResourceDrainPenalty": 0,
+              "standardActionPremium": 12.3
+            }
+          },
+          {
+            "slotIndex": 0,
+            "score": 19.836,
+            "cardId": "b_138.webp",
+            "cardInstanceId": "card-17-0",
+            "cardLabel": "月球门户空间站",
+            "price": 3,
+            "typeCode": 1,
+            "playScore": null,
+            "directScoreGain": 0,
+            "effectTypes": [],
+            "valueSignals": null
+          },
+          {
+            "slotIndex": 1,
+            "score": 15.115,
+            "cardId": "b_94.webp",
+            "cardInstanceId": "card-18-0",
+            "cardLabel": "行星猎手",
+            "price": 1,
+            "typeCode": 0,
+            "playScore": -6.56,
+            "directScoreGain": 0,
+            "effectTypes": [
+              "draw_cards",
+              "card_optional_discard_scan"
+            ],
+            "valueSignals": {
+              "planScore": 0.48,
+              "endGameExpectedScore": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "readyTaskCashoutDirectScore": 0,
+              "readyTaskCashoutCount": 0,
+              "playCardConversionPressure": 0,
+              "finalRoundResourceDrainPenalty": 0,
+              "standardActionPremium": 0
+            }
+          }
+        ]
+      },
+      "createdAt": "2026-09-28T07:33:06.245Z"
+    },
+    {
+      "id": 38,
+      "type": "turn-action",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 9,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 3,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 1
+        }
+      ],
+      "message": "白色AI 执行 placeData",
+      "details": {
+        "action": {
+          "id": "placeData",
+          "kind": "quick",
+          "available": true,
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null,
+          "label": "第一列第二行",
+          "description": "放入第一列第二行，额外获得 1 能量",
+          "directScoreGain": 0,
+          "score": 10.879567999999999,
+          "valueBreakdown": null,
+          "actionGraph": {
+            "gain": 10.88,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 4.014,
+            "feasibility": 1,
+            "net": 14.894
+          },
+          "breakdown": {
+            "existingScore": 10.88,
+            "gain": 10.88,
+            "cost": 0,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 4.014,
+            "feasibility": 1,
+            "net": 14.894
+          }
+        },
+        "candidates": [
+          {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:寰宇超动力",
+              "label": "寰宇超动力"
+            },
+            "abilityId": "huanyu_free_moves",
+            "companyLabel": "寰宇超动力",
+            "score": 32.243679431649284,
+            "gain": 32.243679431649284,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "huanyu_free_moves",
+              "companyLabel": "寰宇超动力",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": null,
+              "strategyPassiveSlots": null
+            },
+            "actionGraph": {
+              "gain": 32.244,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 39.884
+            },
+            "breakdown": {
+              "abilityId": "huanyu_free_moves",
+              "companyLabel": "寰宇超动力",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": null,
+              "strategyPassiveSlots": null,
+              "existingScore": 32.244,
+              "gain": 32.244,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 39.884,
+              "aiStyle": "route",
+              "aiStyleMultiplier": 1.1,
+              "finalFormulaStyleMultiplier": 1,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 36.258
+            }
+          },
+          {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 2,
+            "label": "第一排放置位 2",
+            "description": "按从左到右放入第一排第 2 位，额外获得 1 宣传",
+            "directScoreGain": 0,
+            "score": 12.4468674,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.447,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 16.461
+            },
+            "breakdown": {
+              "existingScore": 12.447,
+              "gain": 12.447,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 16.461
+            }
+          },
+          {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 能量",
+            "directScoreGain": 0,
+            "score": 10.879567999999999,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 10.88,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 14.894
+            },
+            "breakdown": {
+              "existingScore": 10.88,
+              "gain": 10.88,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.014,
+              "feasibility": 1,
+              "net": 14.894
+            }
+          },
+          {
+            "id": "cardCorner",
+            "kind": "quick",
+            "available": true,
+            "handIndex": 0,
+            "cardId": "b_113.webp",
+            "cardInstanceId": "card-13-0",
+            "cardLabel": "夏洛克光谱仪",
+            "actionKind": "move",
+            "reward": null,
+            "moveReward": {
+              "code": 2,
+              "label": "弃牌换1移动",
+              "movementPoints": 1,
+              "gain": {}
+            },
+            "followupMainAction": null,
+            "moveFollowupMainAction": {
+              "actionId": "orbit",
+              "planetId": "mars",
+              "planetName": "火星",
+              "directScoreGain": 3,
+              "score": 16.641,
+              "timing": "next_turn",
+              "rawScore": 69.336,
+              "scoreScale": 0.24
+            },
+            "directScoreGain": 0,
+            "gain": 10.589590168442882,
+            "cost": 3,
+            "score": 8.564590168442882,
+            "finalFormulaDeltas": {
+              "a1": 0.25,
+              "a2": 0.25
+            },
+            "valueBreakdown": {
+              "rewardValue": 10.589590168442882,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 16.641,
+              "moveFollowupRawScore": 69.336,
+              "moveFollowupScoreScale": 0.24,
+              "moveFollowupTiming": "next_turn",
+              "moveFollowupDirectScore": 3,
+              "moveHasCashout": true,
+              "handPressure": 0,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0
+            },
+            "actionGraph": {
+              "gain": 10.59,
+              "cost": 3,
+              "finalMarginal": 0,
+              "goalBonus": 9.174,
+              "feasibility": 1,
+              "net": 16.764
+            },
+            "breakdown": {
+              "rewardValue": 10.589590168442882,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 16.641,
+              "moveFollowupRawScore": 69.336,
+              "moveFollowupScoreScale": 0.24,
+              "moveFollowupTiming": "next_turn",
+              "moveFollowupDirectScore": 3,
+              "moveHasCashout": true,
+              "handPressure": 0,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "existingScore": 8.565,
+              "gain": 10.59,
+              "cost": 3,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 9.174,
+              "feasibility": 1,
+              "net": 16.764
+            }
+          },
+          {
+            "id": "end-turn",
+            "kind": "end-turn",
+            "available": true,
+            "reason": null,
+            "score": -18,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -18
+            },
+            "breakdown": {
+              "existingScore": -2,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -2
+            },
+            "selectionAdjustment": {
+              "continuationPenalty": 16,
+              "bestContinuation": {
+                "score": 32.243679431649284,
+                "id": "industry",
+                "kind": "quick"
+              },
+              "originalScore": -2
+            }
+          }
+        ],
+        "plannerShadow": {
+          "key": "industry",
+          "type": "quick",
+          "score": 36.258,
+          "firstAction": {
+            "id": "industry",
+            "kind": "quick",
+            "score": 32.244,
+            "actionGraphNet": 39.884,
+            "planActionId": null
+          },
+          "policyActionId": "placeData",
+          "diverged": true
+        }
+      },
+      "createdAt": "2026-09-28T07:33:06.299Z"
+    }
+  ],
+  "bugs": []
+}

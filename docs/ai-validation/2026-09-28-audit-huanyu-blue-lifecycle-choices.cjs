@@ -1,4 +1,4 @@
-const fs=require('fs'),crypto=require('crypto'),assert=require('node:assert/strict'),d='tmp/ai-20260905/',p='bluelifecycle',read=f=>JSON.parse(fs.readFileSync(d+f));
+const fs=require('fs'),crypto=require('crypto'),assert=require('node:assert/strict'),d='tmp/ai-20260905/',p='huanyubluelifecycle',read=f=>JSON.parse(fs.readFileSync(d+f));
 const suite=read(p+'-suite.json'),inputs=[],choices=[],acquisitions=[];
 for(const [i,pair] of suite.pairs.entries())for(const side of ['baseline','candidate']){
  const bytes=fs.readFileSync(d+pair[side]),run=JSON.parse(bytes),r=run.result;
