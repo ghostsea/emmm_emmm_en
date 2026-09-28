@@ -1,0 +1,16 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process'),assert=require('node:assert/strict');
+const d='tmp/ai-20260905/',p='resourcezero',template=JSON.parse(fs.readFileSync(d+'repeatabsolute64-suite.json')),seeds=JSON.parse(fs.readFileSync(d+'repeatcorner-suite.json'));assert(!fs.existsSync(d+p+'-suite.json'));
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const model=root=>{const cwd=path.resolve(d+root);assert.equal(cp.execFileSync('git',['status','--porcelain'],{cwd,encoding:'utf8'}).trim(),'');const hashes=Object.fromEntries(Object.keys(template.models.candidate.hashes).map(f=>[f,hash(path.join(cwd,f))]));return {root,commit:cp.execFileSync('git',['rev-parse','HEAD'],{cwd,encoding:'utf8'}).trim(),hashes,fingerprint:crypto.createHash('sha256').update(JSON.stringify(hashes)).digest('hex')};};
+const base=model('resource-zero-default'),candidate=model('resource-zero-current');
+for(const [f,h]of Object.entries(template.harnessHashes))assert.equal(hash(f),h);
+const changed=Object.keys(base.hashes).filter(f=>base.hashes[f]!==candidate.hashes[f]);assert.deepEqual(changed,['randomizer/app/ai-controller.js','randomizer/app/ai-controller.test.js','randomizer/index.html']);
+const rule='Complete24 previously seen fixed seed pairs,48 newly run games. Current accepted default795706f4 versus actual-resource continuation011a0a01; both parser25. Remove only continuation value with no actual positive gain and use capped publicity/data in continuation branches; retain coefficients and other positive resources. Unit54, old zero-gain negative control and6 forced actual browser card pairs passed; uncapped/partial reward valuations unchanged, capped old positive values become0. No DLC20 candidate policy, no company/seed filters. Complete mean/high/low/company/ledger/payment/config/aid validation before considering a new independently generated random suite. These small valuation corrections do not themselves establish score improvement.';
+const suite={phase:'fixed-development',frozenAt:new Date().toISOString(),seedGeneratedAt:seeds.seedGeneratedAt,plannedPairs:24,minimumPairs:24,newGames:48,reusedBaselineGames:0,rule,scope:rule,models:{base,candidate},harnessHashes:template.harnessHashes,runtimeDifferences:changed,
+ pairs:seeds.pairs.map((x,i)=>({seed:x.seed,alienSeed:x.alienSeed,baseline:p+'-base-'+(i+1)+'.json',candidate:p+'-candidate-'+(i+1)+'.json'}))};
+fs.writeFileSync(d+p+'-suite.json',JSON.stringify(suite,null,2)+'\n');fs.writeFileSync('docs/ai-validation/2026-09-28-resourcezero-development-plan.json',JSON.stringify(suite,null,2)+'\n');
+for(const name of ['repeatabsolute64-run.cjs','collect-repeatabsolute64.cjs','audit-repeatabsolute64.cjs','audit-repeatabsolute64-runtime.cjs','repeatabsolute64-resource-matrix.cjs','finish-repeatabsolute64.cjs']){
+ let code=fs.readFileSync(d+name,'utf8').replaceAll('repeatabsolute64',p).replaceAll('!==64','!==24').replaceAll('Expected preregistered 64 pairs','Expected preregistered 24 pairs').replaceAll('complete64','complete24').replaceAll('full64','full24').replaceAll('!==128','!==48').replaceAll('三次角标覆盖新随机64组资源对照','实际资源增量固定24组资源对照');
+ fs.writeFileSync(d+name.replaceAll('repeatabsolute64',p),code);
+}
+console.log({frozen:suite.frozenAt,base:base.commit,candidate:candidate.commit,changed});
