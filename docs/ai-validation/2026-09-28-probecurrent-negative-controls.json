@@ -1,0 +1,12 @@
+[
+  {
+    "mode": "gate",
+    "status": 1,
+    "error": "node:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\r\n\r\nfalse !== true\r\n\r\n    at Object.<anonymous> (D:\\code\\seti\\tmp\\ai-20260905\\probe-scan-current\\randomizer\\app\\ai-controller.test.js:17233:10)\r\n    at Module._compile (node:internal/modules/cjs/loader:1761:14)\r\n    at Object..js (node:internal/modules/cjs/loader:1893:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1481:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1300:12)\r\n    at TracingChannel.traceSync (node:diagnostics_channel:328:14)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)\r\n    at Module.require (node:internal/modules/cjs/loader:1504:12)\r\n    at require (node:internal/modules/helpers:152:16)\r\n    at Object.<anonymous> (D:\\code\\seti\\tmp\\ai-20260905\\check-probecurrent-controls.cjs:7:225) {\r\n  generatedMessage: true,\r\n  code: 'ERR_ASSERTION',\r\n  actual: false,\r\n  expected: true,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.13.0\r\n"
+  },
+  {
+    "mode": "repeated-slot",
+    "status": 1,
+    "error": "node:assert:152\r\n  throw new AssertionError(obj);\r\n  ^\r\n\r\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\r\n\r\n2 !== 1\r\n\r\n    at Object.<anonymous> (D:\\code\\seti\\tmp\\ai-20260905\\probe-scan-current\\randomizer\\app\\ai-controller.test.js:17278:10)\r\n    at Module._compile (node:internal/modules/cjs/loader:1761:14)\r\n    at Object..js (node:internal/modules/cjs/loader:1893:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1481:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1300:12)\r\n    at TracingChannel.traceSync (node:diagnostics_channel:328:14)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)\r\n    at Module.require (node:internal/modules/cjs/loader:1504:12)\r\n    at require (node:internal/modules/helpers:152:16)\r\n    at Object.<anonymous> (D:\\code\\seti\\tmp\\ai-20260905\\check-probecurrent-controls.cjs:7:225) {\r\n  generatedMessage: true,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 2,\r\n  expected: 1,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.13.0\r\n"
+  }
+]
