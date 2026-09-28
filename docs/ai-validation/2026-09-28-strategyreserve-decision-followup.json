@@ -1,0 +1,5562 @@
+{
+  "scope": "Full24 only. Separate complete semantic-log changes (which can be score metadata) from actual recorded resource/card/tech-step changes. Company total outcomes are descriptive and not attributed causally to one selected card. No intermediate score subset or seed filtering.",
+  "summary": {
+    "pairs": 24,
+    "identicalSemanticLogs": 14,
+    "identicalResourceEvents": 23,
+    "identicalFinalScores": 23,
+    "baselineSelectedPenalizedPlays": 1,
+    "candidateSelectedPenalizedPlays": 0
+  },
+  "penalizedPlays": {
+    "baseline": [
+      {
+        "case": 3,
+        "player": "player-white",
+        "round": 3,
+        "turn": 2,
+        "card": "b_115.webp",
+        "instance": "card-120-0",
+        "penalty": 7,
+        "resources": {
+          "score": 76,
+          "credits": 2,
+          "energy": 7,
+          "publicity": 5,
+          "availableData": 1,
+          "handSize": 7
+        }
+      }
+    ],
+    "candidate": []
+  },
+  "rows": [
+    {
+      "case": 1,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1561,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1191,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 230,
+          "main": 35,
+          "analysis": 6,
+          "blue1": 0,
+          "blue2": 4,
+          "played": 10,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 19,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 129,
+            "credits": 9,
+            "energy": 9,
+            "publicity": 47,
+            "availableData": 43,
+            "handSize": 13
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 31,
+            "publicity": 52,
+            "availableData": 45,
+            "handSize": 33
+          }
+        },
+        "candidate": {
+          "score": 230,
+          "main": 35,
+          "analysis": 6,
+          "blue1": 0,
+          "blue2": 4,
+          "played": 10,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 19,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 129,
+            "credits": 9,
+            "energy": 9,
+            "publicity": 47,
+            "availableData": 43,
+            "handSize": 13
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 31,
+            "publicity": 52,
+            "availableData": 45,
+            "handSize": 33
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          280,
+          251,
+          162,
+          230
+        ],
+        "candidate": [
+          280,
+          251,
+          162,
+          230
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1686,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1277,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 225,
+          "main": 35,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 3,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 102,
+            "credits": 8,
+            "energy": 6,
+            "publicity": 52,
+            "availableData": 35,
+            "handSize": 24
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 22,
+            "publicity": 56,
+            "availableData": 41,
+            "handSize": 40
+          }
+        },
+        "candidate": {
+          "score": 225,
+          "main": 35,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 3,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 102,
+            "credits": 8,
+            "energy": 6,
+            "publicity": 52,
+            "availableData": 35,
+            "handSize": 24
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 22,
+            "publicity": 56,
+            "availableData": 41,
+            "handSize": 40
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          176,
+          285,
+          225,
+          307
+        ],
+        "candidate": [
+          176,
+          285,
+          225,
+          307
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 748,
+      "firstLog": {
+        "before": {
+          "id": 749,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.5744,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.574,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.5744
+            },
+            "breakdown": {
+              "existingScore": 12.574,
+              "gain": 12.574,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.574
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "after": {
+          "id": 749,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.5744,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.574,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.5744
+            },
+            "breakdown": {
+              "existingScore": 12.574,
+              "gain": 12.574,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.574
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1264,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 268,
+          "main": 35,
+          "analysis": 5,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 13,
+          "income": {
+            "score": 0,
+            "credits": 15,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 13
+          },
+          "nonIncome": {
+            "score": 141,
+            "credits": 10,
+            "energy": 8,
+            "publicity": 53,
+            "availableData": 33,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 26,
+            "publicity": 54,
+            "availableData": 35,
+            "handSize": 40
+          }
+        },
+        "candidate": {
+          "score": 268,
+          "main": 35,
+          "analysis": 5,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 13,
+          "income": {
+            "score": 0,
+            "credits": 15,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 13
+          },
+          "nonIncome": {
+            "score": 141,
+            "credits": 10,
+            "energy": 8,
+            "publicity": 53,
+            "availableData": 33,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 26,
+            "publicity": 54,
+            "availableData": 35,
+            "handSize": 40
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          269,
+          179,
+          305,
+          268
+        ],
+        "candidate": [
+          269,
+          179,
+          305,
+          268
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 265,
+      "firstLog": {
+        "before": {
+          "id": 266,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 2,
+          "turn": 1,
+          "selected": {
+            "id": "cardCorner",
+            "kind": "quick",
+            "available": true,
+            "handIndex": 0,
+            "cardId": "b_26.webp",
+            "cardInstanceId": "card-50-0",
+            "cardLabel": "康奈尔大学",
+            "actionKind": "resource",
+            "reward": {
+              "code": 0,
+              "label": "弃牌换1宣传",
+              "gain": {
+                "publicity": 1
+              },
+              "dataCount": 0
+            },
+            "moveReward": null,
+            "followupMainAction": null,
+            "moveFollowupMainAction": null,
+            "directScoreGain": 0,
+            "gain": 1.5,
+            "cost": 3.599391,
+            "score": -0.036890999999999785,
+            "finalFormulaDeltas": {
+              "a1": 0.25,
+              "a2": 0.25
+            },
+            "valueBreakdown": {
+              "rewardValue": 1.5,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0.599391,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 0,
+              "moveFollowupRawScore": 0,
+              "moveFollowupScoreScale": 1,
+              "moveFollowupTiming": null,
+              "moveFollowupDirectScore": 0,
+              "moveHasCashout": true,
+              "handPressure": 1.0875,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0
+            },
+            "actionGraph": {
+              "gain": 1.5,
+              "cost": 3.599,
+              "finalMarginal": 0,
+              "goalBonus": 5.6,
+              "feasibility": 1,
+              "net": 3.781
+            },
+            "breakdown": {
+              "rewardValue": 1.5,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0.599391,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 0,
+              "moveFollowupRawScore": 0,
+              "moveFollowupScoreScale": 1,
+              "moveFollowupTiming": null,
+              "moveFollowupDirectScore": 0,
+              "moveHasCashout": true,
+              "handPressure": 1.0875,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "existingScore": -0.037,
+              "gain": 1.5,
+              "cost": 3.599,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 5.6,
+              "feasibility": 1,
+              "net": 3.781,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1.08,
+              "finalFormulaStyleMultiplier": 1,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 3.501
+            }
+          }
+        },
+        "after": {
+          "id": 266,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 2,
+          "turn": 1,
+          "selected": {
+            "id": "cardCorner",
+            "kind": "quick",
+            "available": true,
+            "handIndex": 0,
+            "cardId": "b_26.webp",
+            "cardInstanceId": "card-50-0",
+            "cardLabel": "康奈尔大学",
+            "actionKind": "resource",
+            "reward": {
+              "code": 0,
+              "label": "弃牌换1宣传",
+              "gain": {
+                "publicity": 1
+              },
+              "dataCount": 0
+            },
+            "moveReward": null,
+            "followupMainAction": null,
+            "moveFollowupMainAction": null,
+            "directScoreGain": 0,
+            "gain": 1.5,
+            "cost": 3.599391,
+            "score": -0.036890999999999785,
+            "finalFormulaDeltas": {
+              "a1": 0.25,
+              "a2": 0.25
+            },
+            "valueBreakdown": {
+              "rewardValue": 1.5,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0.599391,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 0,
+              "moveFollowupRawScore": 0,
+              "moveFollowupScoreScale": 1,
+              "moveFollowupTiming": null,
+              "moveFollowupDirectScore": 0,
+              "moveHasCashout": true,
+              "handPressure": 1.0875,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0
+            },
+            "actionGraph": {
+              "gain": 1.5,
+              "cost": 3.599,
+              "finalMarginal": 0,
+              "goalBonus": 5.6,
+              "feasibility": 1,
+              "net": 3.781
+            },
+            "breakdown": {
+              "rewardValue": 1.5,
+              "discardCost": 3,
+              "preservePenalty": 0,
+              "playablePenalty": 0.599391,
+              "finalCardPreservePenalty": 0,
+              "taskCardPreservePenalty": 0,
+              "alienCardPreservePenalty": 0,
+              "noCashoutMovePenalty": 0,
+              "moveFollowupScore": 0,
+              "moveFollowupRawScore": 0,
+              "moveFollowupScoreScale": 1,
+              "moveFollowupTiming": null,
+              "moveFollowupDirectScore": 0,
+              "moveHasCashout": true,
+              "handPressure": 1.0875,
+              "lowValueBias": 0.9750000000000001,
+              "scorePaceBonus": 0,
+              "followupMainActionScore": 0,
+              "stagedTechSetupScore": 0,
+              "chongPickupSetupValue": 0,
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "existingScore": -0.037,
+              "gain": 1.5,
+              "cost": 3.599,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 5.6,
+              "feasibility": 1,
+              "net": 3.781,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1.08,
+              "finalFormulaStyleMultiplier": 1,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 3.501
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1191,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 214,
+          "main": 32,
+          "analysis": 5,
+          "blue1": 4,
+          "blue2": 3,
+          "played": 10,
+          "income": {
+            "score": 0,
+            "credits": 18,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 135,
+            "credits": 9,
+            "energy": 12,
+            "publicity": 36,
+            "availableData": 40,
+            "handSize": 15
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 27,
+            "publicity": 40,
+            "availableData": 42,
+            "handSize": 36
+          }
+        },
+        "candidate": {
+          "score": 214,
+          "main": 32,
+          "analysis": 5,
+          "blue1": 4,
+          "blue2": 3,
+          "played": 10,
+          "income": {
+            "score": 0,
+            "credits": 18,
+            "energy": 13,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 135,
+            "credits": 9,
+            "energy": 12,
+            "publicity": 36,
+            "availableData": 40,
+            "handSize": 15
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 27,
+            "publicity": 40,
+            "availableData": 42,
+            "handSize": 36
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          247,
+          299,
+          178,
+          214
+        ],
+        "candidate": [
+          247,
+          299,
+          178,
+          214
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1660,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1270,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 210,
+          "main": 34,
+          "analysis": 4,
+          "blue1": 1,
+          "blue2": 1,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 107,
+            "credits": 10,
+            "energy": 6,
+            "publicity": 43,
+            "availableData": 25,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 21,
+            "publicity": 48,
+            "availableData": 27,
+            "handSize": 31
+          }
+        },
+        "candidate": {
+          "score": 210,
+          "main": 34,
+          "analysis": 4,
+          "blue1": 1,
+          "blue2": 1,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 107,
+            "credits": 10,
+            "energy": 6,
+            "publicity": 43,
+            "availableData": 25,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 21,
+            "publicity": 48,
+            "availableData": 27,
+            "handSize": 31
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          333,
+          210,
+          219,
+          244
+        ],
+        "candidate": [
+          333,
+          210,
+          219,
+          244
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 788,
+      "firstLog": {
+        "before": {
+          "id": 789,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 3,
+            "label": "第一排放置位 3",
+            "description": "按从左到右放入第一排第 3 位，额外获得 2 分",
+            "directScoreGain": 2,
+            "score": 19.701700000000002,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 19.702,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 22.447
+            },
+            "breakdown": {
+              "existingScore": 19.702,
+              "gain": 19.702,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 2.745,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 22.447
+            }
+          }
+        },
+        "after": {
+          "id": 789,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 3,
+            "label": "第一排放置位 3",
+            "description": "按从左到右放入第一排第 3 位，额外获得 2 分",
+            "directScoreGain": 2,
+            "score": 19.701700000000002,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 19.702,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 22.447
+            },
+            "breakdown": {
+              "existingScore": 19.702,
+              "gain": 19.702,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 2.745,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 22.447
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": false,
+        "prefix": 647,
+        "before": {
+          "player": "player-white",
+          "entry": 103,
+          "step": 0,
+          "round": 3,
+          "turn": 2,
+          "pace": "main",
+          "text": "打出：帕克斯天文台：资源：信用点-2、手牌-1",
+          "action": "playCard",
+          "resources": {
+            "credits": -2,
+            "handSize": -1
+          },
+          "income": {},
+          "cards": [
+            {
+              "key": "card-92-0",
+              "label": "帕克斯天文台",
+              "change": "play",
+              "origin": "normal"
+            }
+          ],
+          "tech": []
+        },
+        "after": {
+          "player": "player-white",
+          "entry": 103,
+          "step": 0,
+          "round": 3,
+          "turn": 2,
+          "pace": "main",
+          "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+          "action": "scan",
+          "resources": {
+            "credits": -1,
+            "energy": -2
+          },
+          "income": {},
+          "cards": [],
+          "tech": []
+        }
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 253,
+          "main": 37,
+          "analysis": 5,
+          "blue1": 1,
+          "blue2": 0,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 129,
+            "credits": 9,
+            "energy": 8,
+            "publicity": 49,
+            "availableData": 34,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 33,
+            "energy": 23,
+            "publicity": 54,
+            "availableData": 36,
+            "handSize": 35
+          }
+        },
+        "candidate": {
+          "score": 225,
+          "main": 36,
+          "analysis": 5,
+          "blue1": 0,
+          "blue2": 0,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 128,
+            "credits": 9,
+            "energy": 8,
+            "publicity": 48,
+            "availableData": 30,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 32,
+            "energy": 23,
+            "publicity": 52,
+            "availableData": 32,
+            "handSize": 33
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          246,
+          166,
+          327,
+          253
+        ],
+        "candidate": [
+          260,
+          134,
+          347,
+          225
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1612,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1173,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 191,
+          "main": 32,
+          "analysis": 2,
+          "blue1": 3,
+          "blue2": 3,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 21,
+            "energy": 7,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 98,
+            "credits": 9,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 34,
+            "energy": 18,
+            "publicity": 50,
+            "availableData": 30,
+            "handSize": 34
+          }
+        },
+        "candidate": {
+          "score": 191,
+          "main": 32,
+          "analysis": 2,
+          "blue1": 3,
+          "blue2": 3,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 21,
+            "energy": 7,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 98,
+            "credits": 9,
+            "energy": 7,
+            "publicity": 46,
+            "availableData": 34,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 34,
+            "energy": 18,
+            "publicity": 50,
+            "availableData": 30,
+            "handSize": 34
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          346,
+          245,
+          191,
+          213
+        ],
+        "candidate": [
+          346,
+          245,
+          191,
+          213
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 724,
+      "firstLog": {
+        "before": {
+          "id": 725,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 3,
+          "selected": {
+            "id": "playCard",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "playableCards": [
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 0,
+                "cardId": "fangzhou_blue_4",
+                "cardInstanceId": "fangzhou-card2-player-white-blue-4",
+                "cardLabel": "方舟蓝色痕迹 4",
+                "alienCard": true,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "fangzhou_card2_advanced_reward"
+                ],
+                "plan": null,
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 21.592800000000004,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 7.46,
+                  "directScoreGain": 0,
+                  "effectValue": 24.344,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 1.5,
+                  "grandStrategyCreditBottleneckPenalty": 7,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 7.8,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 2,
+                "cardId": "dlc_4.png",
+                "cardInstanceId": "card-103-0",
+                "cardLabel": "突破讯息",
+                "alienCard": false,
+                "price": 1,
+                "cost": {
+                  "credits": 1
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "gain_resources",
+                  "card_move"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "move",
+                  "label": "打牌获得移动并靠近路线目标",
+                  "score": 4.193778345341697,
+                  "cardId": "dlc_4.png",
+                  "effectType": "card_move",
+                  "movementPoints": 1,
+                  "movePreview": {
+                    "score": 12.656351233363202,
+                    "routeTarget": {
+                      "id": "uranus",
+                      "label": "天王星",
+                      "kind": "planet",
+                      "coordinate": {
+                        "x": 4,
+                        "y": 4
+                      },
+                      "value": 121.93307,
+                      "satelliteOpportunity": {
+                        "planetId": "uranus",
+                        "satelliteId": "titania",
+                        "satelliteName": "天卫三",
+                        "rewardValue": 81,
+                        "directScore": 25,
+                        "energyCost": 1,
+                        "energyShortfall": 0,
+                        "pointConversionPenalty": 2.115,
+                        "contestRiskPenalty": 0,
+                        "raceWastePenalty": 0,
+                        "cashoutPremium": 12.28,
+                        "score": 70.97500000000001
+                      },
+                      "taskRouteCashout": null,
+                      "nearCompleteTaskRouteCashout": null,
+                      "oldDistance": 4,
+                      "newDistance": 3,
+                      "rotationStagingValue": 0
+                    },
+                    "from": {
+                      "x": 3,
+                      "y": 1
+                    },
+                    "to": {
+                      "x": 3,
+                      "y": 2
+                    },
+                    "direction": "out",
+                    "followupLanding": null
+                  }
+                },
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 23.60944781052432,
+                "valueBreakdown": {
+                  "costValue": 4.5,
+                  "cornerOpportunity": 13.421,
+                  "directScoreGain": 0,
+                  "effectValue": 5,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 6.77,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 4.193778345341697,
+                  "standardActionPremium": 4.55,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 3,
+                "cardId": "b_131.webp",
+                "cardInstanceId": "card-125-0",
+                "cardLabel": "飞掠金星",
+                "alienCard": false,
+                "price": 1,
+                "cost": {
+                  "credits": 1
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "card_register_event_bonus",
+                  "card_move"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "move",
+                  "label": "打牌获得移动并靠近路线目标",
+                  "score": 4.643778345341697,
+                  "cardId": "b_131.webp",
+                  "effectType": "card_move",
+                  "movementPoints": 2,
+                  "movePreview": {
+                    "score": 12.656351233363202,
+                    "routeTarget": {
+                      "id": "uranus",
+                      "label": "天王星",
+                      "kind": "planet",
+                      "coordinate": {
+                        "x": 4,
+                        "y": 4
+                      },
+                      "value": 121.93307,
+                      "satelliteOpportunity": {
+                        "planetId": "uranus",
+                        "satelliteId": "titania",
+                        "satelliteName": "天卫三",
+                        "rewardValue": 81,
+                        "directScore": 25,
+                        "energyCost": 1,
+                        "energyShortfall": 0,
+                        "pointConversionPenalty": 2.115,
+                        "contestRiskPenalty": 0,
+                        "raceWastePenalty": 0,
+                        "cashoutPremium": 12.28,
+                        "score": 70.97500000000001
+                      },
+                      "taskRouteCashout": null,
+                      "nearCompleteTaskRouteCashout": null,
+                      "oldDistance": 4,
+                      "newDistance": 3,
+                      "rotationStagingValue": 0
+                    },
+                    "from": {
+                      "x": 3,
+                      "y": 1
+                    },
+                    "to": {
+                      "x": 3,
+                      "y": 2
+                    },
+                    "direction": "out",
+                    "followupLanding": null
+                  }
+                },
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 34.599507810524315,
+                "valueBreakdown": {
+                  "costValue": 4.5,
+                  "cornerOpportunity": 13.421,
+                  "directScoreGain": 0,
+                  "effectValue": 7.5,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 9.43,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 4.643778345341697,
+                  "standardActionPremium": 9.1,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 4,
+                "cardId": "b_121.webp",
+                "cardInstanceId": "card-127-0",
+                "cardLabel": "水熊虫研究",
+                "alienCard": false,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 2,
+                "reservesAfterPlay": true,
+                "effectTypes": [
+                  "gain_resources",
+                  "gain_data",
+                  "draw_cards"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "task",
+                  "label": "打牌推进任务牌",
+                  "score": 0.884581479,
+                  "cardId": "b_121.webp",
+                  "taskCount": 1
+                },
+                "finalFormulaDeltas": {
+                  "c1": 0.37,
+                  "c2": 0.26
+                },
+                "directScoreGain": 0,
+                "score": 58.65231099921401,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 10,
+                  "directScoreGain": 0,
+                  "effectValue": 23.413,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 1.5685747199999998,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 21.483,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 12.428,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0.884581479,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              }
+            ],
+            "cardId": "b_121.webp",
+            "cardInstanceId": "card-127-0",
+            "cardLabel": "水熊虫研究",
+            "plan": {
+              "type": "card-synergy",
+              "mainActionId": "playCard",
+              "actionId": "task",
+              "label": "打牌推进任务牌",
+              "score": 0.884581479,
+              "cardId": "b_121.webp",
+              "taskCount": 1
+            },
+            "effectTypes": [
+              "gain_resources",
+              "gain_data",
+              "draw_cards"
+            ],
+            "finalFormulaDeltas": {
+              "c1": 0.37,
+              "c2": 0.26
+            },
+            "directScoreGain": 0,
+            "finalMarkCashoutIncluded": true,
+            "score": 67.4501576490961,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 1.5685747199999998,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 21.483,
+              "finalUnreadyTaskSetupSuppressed": false
+            },
+            "actionGraph": {
+              "gain": 67.45,
+              "cost": 0,
+              "finalMarginal": 1,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 94.618
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 1.5685747199999998,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 21.483,
+              "finalUnreadyTaskSetupSuppressed": false,
+              "existingScore": 67.45,
+              "gain": 67.45,
+              "cost": 0,
+              "finalMarginal": 1,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 94.618,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1.16,
+              "finalFormulaStyleMultiplier": 1.06,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 76.95
+            }
+          }
+        },
+        "after": {
+          "id": 725,
+          "type": "turn-action",
+          "player": "player-white",
+          "round": 3,
+          "turn": 3,
+          "selected": {
+            "id": "playCard",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "playableCards": [
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 0,
+                "cardId": "fangzhou_blue_4",
+                "cardInstanceId": "fangzhou-card2-player-white-blue-4",
+                "cardLabel": "方舟蓝色痕迹 4",
+                "alienCard": true,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "fangzhou_card2_advanced_reward"
+                ],
+                "plan": null,
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 28.592800000000004,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 7.46,
+                  "directScoreGain": 0,
+                  "effectValue": 24.344,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 1.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 7.8,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 2,
+                "cardId": "dlc_4.png",
+                "cardInstanceId": "card-103-0",
+                "cardLabel": "突破讯息",
+                "alienCard": false,
+                "price": 1,
+                "cost": {
+                  "credits": 1
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "gain_resources",
+                  "card_move"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "move",
+                  "label": "打牌获得移动并靠近路线目标",
+                  "score": 4.193778345341697,
+                  "cardId": "dlc_4.png",
+                  "effectType": "card_move",
+                  "movementPoints": 1,
+                  "movePreview": {
+                    "score": 12.656351233363202,
+                    "routeTarget": {
+                      "id": "uranus",
+                      "label": "天王星",
+                      "kind": "planet",
+                      "coordinate": {
+                        "x": 4,
+                        "y": 4
+                      },
+                      "value": 121.93307,
+                      "satelliteOpportunity": {
+                        "planetId": "uranus",
+                        "satelliteId": "titania",
+                        "satelliteName": "天卫三",
+                        "rewardValue": 81,
+                        "directScore": 25,
+                        "energyCost": 1,
+                        "energyShortfall": 0,
+                        "pointConversionPenalty": 2.115,
+                        "contestRiskPenalty": 0,
+                        "raceWastePenalty": 0,
+                        "cashoutPremium": 12.28,
+                        "score": 70.97500000000001
+                      },
+                      "taskRouteCashout": null,
+                      "nearCompleteTaskRouteCashout": null,
+                      "oldDistance": 4,
+                      "newDistance": 3,
+                      "rotationStagingValue": 0
+                    },
+                    "from": {
+                      "x": 3,
+                      "y": 1
+                    },
+                    "to": {
+                      "x": 3,
+                      "y": 2
+                    },
+                    "direction": "out",
+                    "followupLanding": null
+                  }
+                },
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 23.60944781052432,
+                "valueBreakdown": {
+                  "costValue": 4.5,
+                  "cornerOpportunity": 13.421,
+                  "directScoreGain": 0,
+                  "effectValue": 5,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 6.77,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 4.193778345341697,
+                  "standardActionPremium": 4.55,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 3,
+                "cardId": "b_131.webp",
+                "cardInstanceId": "card-125-0",
+                "cardLabel": "飞掠金星",
+                "alienCard": false,
+                "price": 1,
+                "cost": {
+                  "credits": 1
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "card_register_event_bonus",
+                  "card_move"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "move",
+                  "label": "打牌获得移动并靠近路线目标",
+                  "score": 4.643778345341697,
+                  "cardId": "b_131.webp",
+                  "effectType": "card_move",
+                  "movementPoints": 2,
+                  "movePreview": {
+                    "score": 12.656351233363202,
+                    "routeTarget": {
+                      "id": "uranus",
+                      "label": "天王星",
+                      "kind": "planet",
+                      "coordinate": {
+                        "x": 4,
+                        "y": 4
+                      },
+                      "value": 121.93307,
+                      "satelliteOpportunity": {
+                        "planetId": "uranus",
+                        "satelliteId": "titania",
+                        "satelliteName": "天卫三",
+                        "rewardValue": 81,
+                        "directScore": 25,
+                        "energyCost": 1,
+                        "energyShortfall": 0,
+                        "pointConversionPenalty": 2.115,
+                        "contestRiskPenalty": 0,
+                        "raceWastePenalty": 0,
+                        "cashoutPremium": 12.28,
+                        "score": 70.97500000000001
+                      },
+                      "taskRouteCashout": null,
+                      "nearCompleteTaskRouteCashout": null,
+                      "oldDistance": 4,
+                      "newDistance": 3,
+                      "rotationStagingValue": 0
+                    },
+                    "from": {
+                      "x": 3,
+                      "y": 1
+                    },
+                    "to": {
+                      "x": 3,
+                      "y": 2
+                    },
+                    "direction": "out",
+                    "followupLanding": null
+                  }
+                },
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 34.599507810524315,
+                "valueBreakdown": {
+                  "costValue": 4.5,
+                  "cornerOpportunity": 13.421,
+                  "directScoreGain": 0,
+                  "effectValue": 7.5,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 9.43,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 4.643778345341697,
+                  "standardActionPremium": 9.1,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              },
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 4,
+                "cardId": "b_121.webp",
+                "cardInstanceId": "card-127-0",
+                "cardLabel": "水熊虫研究",
+                "alienCard": false,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 2,
+                "reservesAfterPlay": true,
+                "effectTypes": [
+                  "gain_resources",
+                  "gain_data",
+                  "draw_cards"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "task",
+                  "label": "打牌推进任务牌",
+                  "score": 0.884581479,
+                  "cardId": "b_121.webp",
+                  "taskCount": 1
+                },
+                "finalFormulaDeltas": {
+                  "c1": 0.37,
+                  "c2": 0.26
+                },
+                "directScoreGain": 0,
+                "score": 58.65231099921401,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 10,
+                  "directScoreGain": 0,
+                  "effectValue": 23.413,
+                  "probeMoveScanPreview": null,
+                  "strategyPassivePlayValue": 4.5,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 1.5685747199999998,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 21.483,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 12.428,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0.884581479,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              }
+            ],
+            "cardId": "b_121.webp",
+            "cardInstanceId": "card-127-0",
+            "cardLabel": "水熊虫研究",
+            "plan": {
+              "type": "card-synergy",
+              "mainActionId": "playCard",
+              "actionId": "task",
+              "label": "打牌推进任务牌",
+              "score": 0.884581479,
+              "cardId": "b_121.webp",
+              "taskCount": 1
+            },
+            "effectTypes": [
+              "gain_resources",
+              "gain_data",
+              "draw_cards"
+            ],
+            "finalFormulaDeltas": {
+              "c1": 0.37,
+              "c2": 0.26
+            },
+            "directScoreGain": 0,
+            "finalMarkCashoutIncluded": true,
+            "score": 67.4501576490961,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 1.5685747199999998,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 21.483,
+              "finalUnreadyTaskSetupSuppressed": false
+            },
+            "actionGraph": {
+              "gain": 67.45,
+              "cost": 0,
+              "finalMarginal": 1,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 94.618
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 1.5685747199999998,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 21.483,
+              "finalUnreadyTaskSetupSuppressed": false,
+              "existingScore": 67.45,
+              "gain": 67.45,
+              "cost": 0,
+              "finalMarginal": 1,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 94.618,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1.16,
+              "finalFormulaStyleMultiplier": 1.06,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 76.95
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1176,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 215,
+          "main": 35,
+          "analysis": 3,
+          "blue1": 0,
+          "blue2": 0,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 22,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 8
+          },
+          "nonIncome": {
+            "score": 150,
+            "credits": 10,
+            "energy": 5,
+            "publicity": 42,
+            "availableData": 30,
+            "handSize": 24
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 30,
+            "publicity": 46,
+            "availableData": 24,
+            "handSize": 39
+          }
+        },
+        "candidate": {
+          "score": 215,
+          "main": 35,
+          "analysis": 3,
+          "blue1": 0,
+          "blue2": 0,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 22,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 8
+          },
+          "nonIncome": {
+            "score": 150,
+            "credits": 10,
+            "energy": 5,
+            "publicity": 42,
+            "availableData": 30,
+            "handSize": 24
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 30,
+            "publicity": 46,
+            "availableData": 24,
+            "handSize": 39
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          207,
+          218,
+          198,
+          215
+        ],
+        "candidate": [
+          207,
+          218,
+          198,
+          215
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 801,
+      "firstLog": {
+        "before": {
+          "id": 802,
+          "type": "turn-action",
+          "player": "player-green",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 30.138821156320006,
+            "gain": 30.138821156320006,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 30.139,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 30.139,
+                  "cardId": "b_132.webp",
+                  "cardInstanceId": "card-108-0",
+                  "cardLabel": "甚高能辐射成像望远锐",
+                  "price": 2,
+                  "typeCode": 0,
+                  "playScore": 28.857,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_register_event_bonus",
+                    "card_scan_action"
+                  ],
+                  "valueSignals": {
+                    "planScore": 4.219,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 9.922,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 30.139,
+                    "cardId": "b_132.webp",
+                    "cardInstanceId": "card-108-0",
+                    "cardLabel": "甚高能辐射成像望远锐",
+                    "price": 2,
+                    "typeCode": 0,
+                    "playScore": 28.857,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_register_event_bonus",
+                      "card_scan_action"
+                    ],
+                    "valueSignals": {
+                      "planScore": 4.219,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 9.922,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 17.097,
+                    "cardId": "b_57.webp",
+                    "cardInstanceId": "card-116-0",
+                    "cardLabel": "国际空间站",
+                    "price": 2,
+                    "typeCode": 1,
+                    "playScore": 15.412,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "gain_resources"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 5.6,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 10.281,
+                    "cardId": "dlc_1.png",
+                    "cardInstanceId": "card-121-0",
+                    "cardLabel": "可重复使用着陆器",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 30.139,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 30.139
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 30.139,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 30.139,
+                  "cardId": "b_132.webp",
+                  "cardInstanceId": "card-108-0",
+                  "cardLabel": "甚高能辐射成像望远锐",
+                  "price": 2,
+                  "typeCode": 0,
+                  "playScore": 28.857,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_register_event_bonus",
+                    "card_scan_action"
+                  ],
+                  "valueSignals": {
+                    "planScore": 4.219,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 9.922,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 30.139,
+                    "cardId": "b_132.webp",
+                    "cardInstanceId": "card-108-0",
+                    "cardLabel": "甚高能辐射成像望远锐",
+                    "price": 2,
+                    "typeCode": 0,
+                    "playScore": 28.857,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_register_event_bonus",
+                      "card_scan_action"
+                    ],
+                    "valueSignals": {
+                      "planScore": 4.219,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 9.922,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 17.097,
+                    "cardId": "b_57.webp",
+                    "cardInstanceId": "card-116-0",
+                    "cardLabel": "国际空间站",
+                    "price": 2,
+                    "typeCode": 1,
+                    "playScore": 15.412,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "gain_resources"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 5.6,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 10.281,
+                    "cardId": "dlc_1.png",
+                    "cardInstanceId": "card-121-0",
+                    "cardLabel": "可重复使用着陆器",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 30.139,
+              "gain": 30.139,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 30.139
+            }
+          }
+        },
+        "after": {
+          "id": 802,
+          "type": "turn-action",
+          "player": "player-green",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 30.138821156320006,
+            "gain": 30.138821156320006,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 30.139,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 30.139,
+                  "cardId": "b_132.webp",
+                  "cardInstanceId": "card-108-0",
+                  "cardLabel": "甚高能辐射成像望远锐",
+                  "price": 2,
+                  "typeCode": 0,
+                  "playScore": 28.857,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_register_event_bonus",
+                    "card_scan_action"
+                  ],
+                  "valueSignals": {
+                    "planScore": 4.219,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 9.922,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 30.139,
+                    "cardId": "b_132.webp",
+                    "cardInstanceId": "card-108-0",
+                    "cardLabel": "甚高能辐射成像望远锐",
+                    "price": 2,
+                    "typeCode": 0,
+                    "playScore": 28.857,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_register_event_bonus",
+                      "card_scan_action"
+                    ],
+                    "valueSignals": {
+                      "planScore": 4.219,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 9.922,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 17.097,
+                    "cardId": "b_57.webp",
+                    "cardInstanceId": "card-116-0",
+                    "cardLabel": "国际空间站",
+                    "price": 2,
+                    "typeCode": 1,
+                    "playScore": 15.412,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "gain_resources"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 5.6,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 10.281,
+                    "cardId": "dlc_1.png",
+                    "cardInstanceId": "card-121-0",
+                    "cardLabel": "可重复使用着陆器",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 30.139,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 30.139
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 30.139,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 30.139,
+                  "cardId": "b_132.webp",
+                  "cardInstanceId": "card-108-0",
+                  "cardLabel": "甚高能辐射成像望远锐",
+                  "price": 2,
+                  "typeCode": 0,
+                  "playScore": 28.857,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_register_event_bonus",
+                    "card_scan_action"
+                  ],
+                  "valueSignals": {
+                    "planScore": 4.219,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 9.922,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 30.139,
+                    "cardId": "b_132.webp",
+                    "cardInstanceId": "card-108-0",
+                    "cardLabel": "甚高能辐射成像望远锐",
+                    "price": 2,
+                    "typeCode": 0,
+                    "playScore": 28.857,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_register_event_bonus",
+                      "card_scan_action"
+                    ],
+                    "valueSignals": {
+                      "planScore": 4.219,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 9.922,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 17.097,
+                    "cardId": "b_57.webp",
+                    "cardInstanceId": "card-116-0",
+                    "cardLabel": "国际空间站",
+                    "price": 2,
+                    "typeCode": 1,
+                    "playScore": 15.412,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "gain_resources"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 5.6,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 10.281,
+                    "cardId": "dlc_1.png",
+                    "cardInstanceId": "card-121-0",
+                    "cardLabel": "可重复使用着陆器",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 30.139,
+              "gain": 30.139,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 30.139
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1263,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 133,
+          "main": 31,
+          "analysis": 4,
+          "blue1": 0,
+          "blue2": 1,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 3,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 102,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 22,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 26,
+            "energy": 24,
+            "publicity": 51,
+            "availableData": 28,
+            "handSize": 33
+          }
+        },
+        "candidate": {
+          "score": 133,
+          "main": 31,
+          "analysis": 4,
+          "blue1": 0,
+          "blue2": 1,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 3,
+            "handSize": 11
+          },
+          "nonIncome": {
+            "score": 102,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 22,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 26,
+            "energy": 24,
+            "publicity": 51,
+            "availableData": 28,
+            "handSize": 33
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          259,
+          133,
+          288,
+          174
+        ],
+        "candidate": [
+          259,
+          133,
+          288,
+          174
+        ]
+      }
+    },
+    {
+      "case": 10,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1864,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1428,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 269,
+          "main": 39,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 3,
+          "played": 13,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 19,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 159,
+            "credits": 12,
+            "energy": 8,
+            "publicity": 56,
+            "availableData": 36,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 37,
+            "energy": 30,
+            "publicity": 53,
+            "availableData": 37,
+            "handSize": 35
+          }
+        },
+        "candidate": {
+          "score": 269,
+          "main": 39,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 3,
+          "played": 13,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 19,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 159,
+            "credits": 12,
+            "energy": 8,
+            "publicity": 56,
+            "availableData": 36,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 37,
+            "energy": 30,
+            "publicity": 53,
+            "availableData": 37,
+            "handSize": 35
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          344,
+          355,
+          206,
+          269
+        ],
+        "candidate": [
+          344,
+          355,
+          206,
+          269
+        ]
+      }
+    },
+    {
+      "case": 11,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1608,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1217,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 191,
+          "main": 34,
+          "analysis": 5,
+          "blue1": 4,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 10,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 96,
+            "credits": 10,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 35,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 32,
+            "energy": 20,
+            "publicity": 50,
+            "availableData": 37,
+            "handSize": 36
+          }
+        },
+        "candidate": {
+          "score": 191,
+          "main": 34,
+          "analysis": 5,
+          "blue1": 4,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 10,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 96,
+            "credits": 10,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 35,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 32,
+            "energy": 20,
+            "publicity": 50,
+            "availableData": 37,
+            "handSize": 36
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          191,
+          184,
+          278,
+          274
+        ],
+        "candidate": [
+          191,
+          184,
+          278,
+          274
+        ]
+      }
+    },
+    {
+      "case": 12,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 565,
+      "firstLog": {
+        "before": {
+          "id": 566,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 17.2390825,
+            "gain": 17.2390825,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 17.239,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 17.239,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-70-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": 15.172,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_probe_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 0,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 8.375,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 17.239,
+                    "cardId": "b_88.webp",
+                    "cardInstanceId": "card-70-0",
+                    "cardLabel": "入轨拉格朗日点",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 15.172,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_probe_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 8.375,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 8.734,
+                    "cardId": "b_112.webp",
+                    "cardInstanceId": "card-98-0",
+                    "cardLabel": "SETI@Home",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 6.404,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_conditional_reward"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 7,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 4.628,
+                    "cardId": "dlc_8.png",
+                    "cardInstanceId": "card-110-0",
+                    "cardLabel": "量子数据存储",
+                    "price": 3,
+                    "typeCode": 3,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 17.239,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.2390825
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 17.239,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 17.239,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-70-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": 15.172,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_probe_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 0,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 8.375,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 17.239,
+                    "cardId": "b_88.webp",
+                    "cardInstanceId": "card-70-0",
+                    "cardLabel": "入轨拉格朗日点",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 15.172,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_probe_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 8.375,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 8.734,
+                    "cardId": "b_112.webp",
+                    "cardInstanceId": "card-98-0",
+                    "cardLabel": "SETI@Home",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 6.404,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_conditional_reward"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 7,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 4.628,
+                    "cardId": "dlc_8.png",
+                    "cardInstanceId": "card-110-0",
+                    "cardLabel": "量子数据存储",
+                    "price": 3,
+                    "typeCode": 3,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 17.239,
+              "gain": 17.239,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.239
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "after": {
+          "id": 566,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 17.2390825,
+            "gain": 17.2390825,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 17.239,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 17.239,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-70-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": 15.172,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_probe_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 0,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 8.375,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 17.239,
+                    "cardId": "b_88.webp",
+                    "cardInstanceId": "card-70-0",
+                    "cardLabel": "入轨拉格朗日点",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 15.172,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_probe_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 8.375,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 8.734,
+                    "cardId": "b_112.webp",
+                    "cardInstanceId": "card-98-0",
+                    "cardLabel": "SETI@Home",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 6.404,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_conditional_reward"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 7,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 4.628,
+                    "cardId": "dlc_8.png",
+                    "cardInstanceId": "card-110-0",
+                    "cardLabel": "量子数据存储",
+                    "price": 3,
+                    "typeCode": 3,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 17.239,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.2390825
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 17.239,
+                "bestCard": {
+                  "slotIndex": 2,
+                  "score": 17.239,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-70-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": 15.172,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_probe_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 0,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 8.375,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 2.5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 2,
+                    "score": 17.239,
+                    "cardId": "b_88.webp",
+                    "cardInstanceId": "card-70-0",
+                    "cardLabel": "入轨拉格朗日点",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 15.172,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_probe_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 8.375,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 2.5
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 8.734,
+                    "cardId": "b_112.webp",
+                    "cardInstanceId": "card-98-0",
+                    "cardLabel": "SETI@Home",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": 6.404,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_conditional_reward"
+                    ],
+                    "valueSignals": {
+                      "planScore": 0,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 7,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 0,
+                    "score": 4.628,
+                    "cardId": "dlc_8.png",
+                    "cardInstanceId": "card-110-0",
+                    "cardLabel": "量子数据存储",
+                    "price": 3,
+                    "typeCode": 3,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "yellow"
+                ],
+                "emptySlotIds": [
+                  "red",
+                  "blue"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": true,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": false,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 17.239,
+              "gain": 17.239,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.239
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1137,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 264,
+          "main": 32,
+          "analysis": 4,
+          "blue1": 1,
+          "blue2": 0,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 12
+          },
+          "nonIncome": {
+            "score": 143,
+            "credits": 9,
+            "energy": 5,
+            "publicity": 61,
+            "availableData": 30,
+            "handSize": 14
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 20,
+            "publicity": 66,
+            "availableData": 31,
+            "handSize": 31
+          }
+        },
+        "candidate": {
+          "score": 264,
+          "main": 32,
+          "analysis": 4,
+          "blue1": 1,
+          "blue2": 0,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 12
+          },
+          "nonIncome": {
+            "score": 143,
+            "credits": 9,
+            "energy": 5,
+            "publicity": 61,
+            "availableData": 30,
+            "handSize": 14
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 20,
+            "publicity": 66,
+            "availableData": 31,
+            "handSize": 31
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          264,
+          312,
+          197,
+          207
+        ],
+        "candidate": [
+          264,
+          312,
+          197,
+          207
+        ]
+      }
+    },
+    {
+      "case": 13,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 763,
+      "firstLog": {
+        "before": {
+          "id": 764,
+          "type": "move-payment",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 2,
+          "selected": null
+        },
+        "after": {
+          "id": 764,
+          "type": "move-payment",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 2,
+          "selected": null
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1258,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 186,
+          "main": 26,
+          "analysis": 3,
+          "blue1": 0,
+          "blue2": 0,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 103,
+            "credits": 8,
+            "energy": 4,
+            "publicity": 36,
+            "availableData": 23,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 19,
+            "publicity": 38,
+            "availableData": 24,
+            "handSize": 32
+          }
+        },
+        "candidate": {
+          "score": 186,
+          "main": 26,
+          "analysis": 3,
+          "blue1": 0,
+          "blue2": 0,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 103,
+            "credits": 8,
+            "energy": 4,
+            "publicity": 36,
+            "availableData": 23,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 19,
+            "publicity": 38,
+            "availableData": 24,
+            "handSize": 32
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          186,
+          326,
+          242,
+          306
+        ],
+        "candidate": [
+          186,
+          326,
+          242,
+          306
+        ]
+      }
+    },
+    {
+      "case": 14,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1625,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1268,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 176,
+          "main": 33,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 132,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 39,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 28,
+            "energy": 25,
+            "publicity": 50,
+            "availableData": 41,
+            "handSize": 35
+          }
+        },
+        "candidate": {
+          "score": 176,
+          "main": 33,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 16,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 132,
+            "credits": 8,
+            "energy": 7,
+            "publicity": 47,
+            "availableData": 39,
+            "handSize": 20
+          },
+          "spent": {
+            "score": 0,
+            "credits": 28,
+            "energy": 25,
+            "publicity": 50,
+            "availableData": 41,
+            "handSize": 35
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          254,
+          320,
+          176,
+          219
+        ],
+        "candidate": [
+          254,
+          320,
+          176,
+          219
+        ]
+      }
+    },
+    {
+      "case": 15,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1529,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1182,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 225,
+          "main": 38,
+          "analysis": 6,
+          "blue1": 3,
+          "blue2": 3,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 22,
+            "energy": 9,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 126,
+            "credits": 9,
+            "energy": 13,
+            "publicity": 54,
+            "availableData": 48,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 34,
+            "energy": 25,
+            "publicity": 56,
+            "availableData": 48,
+            "handSize": 38
+          }
+        },
+        "candidate": {
+          "score": 225,
+          "main": 38,
+          "analysis": 6,
+          "blue1": 3,
+          "blue2": 3,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 22,
+            "energy": 9,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 126,
+            "credits": 9,
+            "energy": 13,
+            "publicity": 54,
+            "availableData": 48,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 34,
+            "energy": 25,
+            "publicity": 56,
+            "availableData": 48,
+            "handSize": 38
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          264,
+          169,
+          225,
+          190
+        ],
+        "candidate": [
+          264,
+          169,
+          225,
+          190
+        ]
+      }
+    },
+    {
+      "case": 16,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1598,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1210,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 147,
+          "main": 26,
+          "analysis": 2,
+          "blue1": 2,
+          "blue2": 2,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 12,
+            "energy": 11,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 17
+          },
+          "nonIncome": {
+            "score": 92,
+            "credits": 11,
+            "energy": 5,
+            "publicity": 30,
+            "availableData": 25,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 26,
+            "energy": 19,
+            "publicity": 35,
+            "availableData": 25,
+            "handSize": 41
+          }
+        },
+        "candidate": {
+          "score": 147,
+          "main": 26,
+          "analysis": 2,
+          "blue1": 2,
+          "blue2": 2,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 12,
+            "energy": 11,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 17
+          },
+          "nonIncome": {
+            "score": 92,
+            "credits": 11,
+            "energy": 5,
+            "publicity": 30,
+            "availableData": 25,
+            "handSize": 17
+          },
+          "spent": {
+            "score": 0,
+            "credits": 26,
+            "energy": 19,
+            "publicity": 35,
+            "availableData": 25,
+            "handSize": 41
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          147,
+          183,
+          322,
+          321
+        ],
+        "candidate": [
+          147,
+          183,
+          322,
+          321
+        ]
+      }
+    },
+    {
+      "case": 17,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1503,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1164,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 206,
+          "main": 32,
+          "analysis": 3,
+          "blue1": 1,
+          "blue2": 1,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 15,
+            "energy": 17,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 159,
+            "credits": 8,
+            "energy": 5,
+            "publicity": 34,
+            "availableData": 32,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 25,
+            "publicity": 46,
+            "availableData": 32,
+            "handSize": 35
+          }
+        },
+        "candidate": {
+          "score": 206,
+          "main": 32,
+          "analysis": 3,
+          "blue1": 1,
+          "blue2": 1,
+          "played": 11,
+          "income": {
+            "score": 0,
+            "credits": 15,
+            "energy": 17,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 159,
+            "credits": 8,
+            "energy": 5,
+            "publicity": 34,
+            "availableData": 32,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 25,
+            "publicity": 46,
+            "availableData": 32,
+            "handSize": 35
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          206,
+          270,
+          168,
+          242
+        ],
+        "candidate": [
+          206,
+          270,
+          168,
+          242
+        ]
+      }
+    },
+    {
+      "case": 18,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1344,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1039,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 155,
+          "main": 27,
+          "analysis": 3,
+          "blue1": 1,
+          "blue2": 0,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 8,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 81,
+            "credits": 5,
+            "energy": 4,
+            "publicity": 36,
+            "availableData": 23,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 28,
+            "energy": 15,
+            "publicity": 42,
+            "availableData": 25,
+            "handSize": 31
+          }
+        },
+        "candidate": {
+          "score": 155,
+          "main": 27,
+          "analysis": 3,
+          "blue1": 1,
+          "blue2": 0,
+          "played": 12,
+          "income": {
+            "score": 0,
+            "credits": 20,
+            "energy": 8,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 81,
+            "credits": 5,
+            "energy": 4,
+            "publicity": 36,
+            "availableData": 23,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 28,
+            "energy": 15,
+            "publicity": 42,
+            "availableData": 25,
+            "handSize": 31
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          210,
+          208,
+          206,
+          155
+        ],
+        "candidate": [
+          210,
+          208,
+          206,
+          155
+        ]
+      }
+    },
+    {
+      "case": 19,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1456,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1108,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 169,
+          "main": 32,
+          "analysis": 3,
+          "blue1": 3,
+          "blue2": 1,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 18,
+            "energy": 7,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 111,
+            "credits": 8,
+            "energy": 8,
+            "publicity": 42,
+            "availableData": 25,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 18,
+            "publicity": 48,
+            "availableData": 27,
+            "handSize": 31
+          }
+        },
+        "candidate": {
+          "score": 169,
+          "main": 32,
+          "analysis": 3,
+          "blue1": 3,
+          "blue2": 1,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 18,
+            "energy": 7,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 111,
+            "credits": 8,
+            "energy": 8,
+            "publicity": 42,
+            "availableData": 25,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 18,
+            "publicity": 48,
+            "availableData": 27,
+            "handSize": 31
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          267,
+          219,
+          169,
+          173
+        ],
+        "candidate": [
+          267,
+          219,
+          169,
+          173
+        ]
+      }
+    },
+    {
+      "case": 20,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 912,
+      "firstLog": {
+        "before": {
+          "id": 913,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 2,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 4,
+            "label": "第一排放置位 4",
+            "description": "按从左到右放入第一排第 4 位，额外获得 1 次收入",
+            "directScoreGain": 0,
+            "score": 15.361364,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 15.361,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 15.361364
+            },
+            "breakdown": {
+              "existingScore": 15.361,
+              "gain": 15.361,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 15.361
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "after": {
+          "id": 913,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 2,
+          "selected": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 4,
+            "label": "第一排放置位 4",
+            "description": "按从左到右放入第一排第 4 位，额外获得 1 次收入",
+            "directScoreGain": 0,
+            "score": 15.361364,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 15.361,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 15.361364
+            },
+            "breakdown": {
+              "existingScore": 15.361,
+              "gain": 15.361,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 15.361
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1324,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 217,
+          "main": 35,
+          "analysis": 3,
+          "blue1": 3,
+          "blue2": 1,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 111,
+            "credits": 11,
+            "energy": 7,
+            "publicity": 55,
+            "availableData": 39,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 22,
+            "publicity": 58,
+            "availableData": 36,
+            "handSize": 40
+          }
+        },
+        "candidate": {
+          "score": 217,
+          "main": 35,
+          "analysis": 3,
+          "blue1": 3,
+          "blue2": 1,
+          "played": 14,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 12,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 14
+          },
+          "nonIncome": {
+            "score": 111,
+            "credits": 11,
+            "energy": 7,
+            "publicity": 55,
+            "availableData": 39,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 22,
+            "publicity": 58,
+            "availableData": 36,
+            "handSize": 40
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          217,
+          190,
+          338,
+          277
+        ],
+        "candidate": [
+          217,
+          190,
+          338,
+          277
+        ]
+      }
+    },
+    {
+      "case": 21,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1684,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1308,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 222,
+          "main": 35,
+          "analysis": 4,
+          "blue1": 0,
+          "blue2": 3,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 12
+          },
+          "nonIncome": {
+            "score": 150,
+            "credits": 9,
+            "energy": 10,
+            "publicity": 38,
+            "availableData": 26,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 28,
+            "publicity": 42,
+            "availableData": 28,
+            "handSize": 37
+          }
+        },
+        "candidate": {
+          "score": 222,
+          "main": 35,
+          "analysis": 4,
+          "blue1": 0,
+          "blue2": 3,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 17,
+            "energy": 15,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 12
+          },
+          "nonIncome": {
+            "score": 150,
+            "credits": 9,
+            "energy": 10,
+            "publicity": 38,
+            "availableData": 26,
+            "handSize": 19
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 28,
+            "publicity": 42,
+            "availableData": 28,
+            "handSize": 37
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          226,
+          269,
+          305,
+          222
+        ],
+        "candidate": [
+          226,
+          269,
+          305,
+          222
+        ]
+      }
+    },
+    {
+      "case": 22,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 11,
+      "firstLog": {
+        "before": {
+          "id": 12,
+          "type": "discard",
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "selected": null
+        },
+        "after": {
+          "id": 12,
+          "type": "discard",
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "selected": null
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1364,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 196,
+          "main": 36,
+          "analysis": 5,
+          "blue1": 5,
+          "blue2": 2,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 22,
+            "energy": 9,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 120,
+            "credits": 14,
+            "energy": 9,
+            "publicity": 48,
+            "availableData": 45,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 39,
+            "energy": 21,
+            "publicity": 53,
+            "availableData": 45,
+            "handSize": 33
+          }
+        },
+        "candidate": {
+          "score": 196,
+          "main": 36,
+          "analysis": 5,
+          "blue1": 5,
+          "blue2": 2,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 22,
+            "energy": 9,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 120,
+            "credits": 14,
+            "energy": 9,
+            "publicity": 48,
+            "availableData": 45,
+            "handSize": 16
+          },
+          "spent": {
+            "score": 0,
+            "credits": 39,
+            "energy": 21,
+            "publicity": 53,
+            "availableData": 45,
+            "handSize": 33
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          196,
+          324,
+          286,
+          149
+        ],
+        "candidate": [
+          196,
+          324,
+          286,
+          149
+        ]
+      }
+    },
+    {
+      "case": 23,
+      "semanticLogsIdentical": true,
+      "semanticPrefix": 1564,
+      "firstLog": {
+        "before": null,
+        "after": null
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1197,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 195,
+          "main": 36,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 91,
+            "credits": 7,
+            "energy": 6,
+            "publicity": 44,
+            "availableData": 26,
+            "handSize": 21
+          },
+          "spent": {
+            "score": 0,
+            "credits": 25,
+            "energy": 25,
+            "publicity": 49,
+            "availableData": 28,
+            "handSize": 35
+          }
+        },
+        "candidate": {
+          "score": 195,
+          "main": 36,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 0,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 9
+          },
+          "nonIncome": {
+            "score": 91,
+            "credits": 7,
+            "energy": 6,
+            "publicity": 44,
+            "availableData": 26,
+            "handSize": 21
+          },
+          "spent": {
+            "score": 0,
+            "credits": 25,
+            "energy": 25,
+            "publicity": 49,
+            "availableData": 28,
+            "handSize": 35
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          129,
+          195,
+          299,
+          271
+        ],
+        "candidate": [
+          129,
+          195,
+          299,
+          271
+        ]
+      }
+    },
+    {
+      "case": 24,
+      "semanticLogsIdentical": false,
+      "semanticPrefix": 644,
+      "firstLog": {
+        "before": {
+          "id": 645,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 47.95110231417599,
+            "gain": 47.95110231417599,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 47.951,
+                "bestCard": {
+                  "slotIndex": 0,
+                  "score": 47.951,
+                  "cardId": "b_130.webp",
+                  "cardInstanceId": "card-112-0",
+                  "cardLabel": "金星探测计划",
+                  "price": 2,
+                  "typeCode": 2,
+                  "playScore": 47.161,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_planet_sector_scan",
+                    "card_planet_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 1.111,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0.38,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 17.944,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 0,
+                    "score": 47.951,
+                    "cardId": "b_130.webp",
+                    "cardInstanceId": "card-112-0",
+                    "cardLabel": "金星探测计划",
+                    "price": 2,
+                    "typeCode": 2,
+                    "playScore": 47.161,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_planet_sector_scan",
+                      "card_planet_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 1.111,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0.38,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 17.944,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 5
+                    }
+                  },
+                  {
+                    "slotIndex": 2,
+                    "score": 47.277,
+                    "cardId": "b_63.webp",
+                    "cardInstanceId": "card-114-0",
+                    "cardLabel": "观测开普勒22",
+                    "price": 2,
+                    "typeCode": 3,
+                    "playScore": 44.228,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_scan_nebula",
+                      "card_scan_nebula"
+                    ],
+                    "valueSignals": {
+                      "planScore": 2.81,
+                      "endGameExpectedScore": 6,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 24,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 0.81,
+                    "cardId": "b_27.webp",
+                    "cardInstanceId": "card-113-0",
+                    "cardLabel": "日冕摄谱仪",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "blue"
+                ],
+                "emptySlotIds": [
+                  "yellow",
+                  "red"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": false,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": true,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 47.951,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 47.95110231417599
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 47.951,
+                "bestCard": {
+                  "slotIndex": 0,
+                  "score": 47.951,
+                  "cardId": "b_130.webp",
+                  "cardInstanceId": "card-112-0",
+                  "cardLabel": "金星探测计划",
+                  "price": 2,
+                  "typeCode": 2,
+                  "playScore": 47.161,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_planet_sector_scan",
+                    "card_planet_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 1.111,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0.38,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 17.944,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 0,
+                    "score": 47.951,
+                    "cardId": "b_130.webp",
+                    "cardInstanceId": "card-112-0",
+                    "cardLabel": "金星探测计划",
+                    "price": 2,
+                    "typeCode": 2,
+                    "playScore": 47.161,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_planet_sector_scan",
+                      "card_planet_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 1.111,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0.38,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 17.944,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 5
+                    }
+                  },
+                  {
+                    "slotIndex": 2,
+                    "score": 47.277,
+                    "cardId": "b_63.webp",
+                    "cardInstanceId": "card-114-0",
+                    "cardLabel": "观测开普勒22",
+                    "price": 2,
+                    "typeCode": 3,
+                    "playScore": 44.228,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_scan_nebula",
+                      "card_scan_nebula"
+                    ],
+                    "valueSignals": {
+                      "planScore": 2.81,
+                      "endGameExpectedScore": 6,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 24,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 0.81,
+                    "cardId": "b_27.webp",
+                    "cardInstanceId": "card-113-0",
+                    "cardLabel": "日冕摄谱仪",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "blue"
+                ],
+                "emptySlotIds": [
+                  "yellow",
+                  "red"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": false,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": true,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 47.951,
+              "gain": 47.951,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 47.951
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "after": {
+          "id": 645,
+          "type": "turn-action",
+          "player": "player-blue",
+          "round": 3,
+          "turn": 1,
+          "selected": {
+            "id": "industry",
+            "kind": "quick",
+            "available": true,
+            "industryCard": {
+              "id": "industry:宇宙大战略集团",
+              "kind": "industry",
+              "label": "宇宙大战略集团",
+              "src": "../assets/industry/宇宙战略集团.png",
+              "width": 1382,
+              "height": 1054,
+              "aiOnly": true
+            },
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "score": 47.95110231417599,
+            "gain": 47.95110231417599,
+            "cost": 0,
+            "valueBreakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 47.951,
+                "bestCard": {
+                  "slotIndex": 0,
+                  "score": 47.951,
+                  "cardId": "b_130.webp",
+                  "cardInstanceId": "card-112-0",
+                  "cardLabel": "金星探测计划",
+                  "price": 2,
+                  "typeCode": 2,
+                  "playScore": 47.161,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_planet_sector_scan",
+                    "card_planet_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 1.111,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0.38,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 17.944,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 0,
+                    "score": 47.951,
+                    "cardId": "b_130.webp",
+                    "cardInstanceId": "card-112-0",
+                    "cardLabel": "金星探测计划",
+                    "price": 2,
+                    "typeCode": 2,
+                    "playScore": 47.161,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_planet_sector_scan",
+                      "card_planet_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 1.111,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0.38,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 17.944,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 5
+                    }
+                  },
+                  {
+                    "slotIndex": 2,
+                    "score": 47.277,
+                    "cardId": "b_63.webp",
+                    "cardInstanceId": "card-114-0",
+                    "cardLabel": "观测开普勒22",
+                    "price": 2,
+                    "typeCode": 3,
+                    "playScore": 44.228,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_scan_nebula",
+                      "card_scan_nebula"
+                    ],
+                    "valueSignals": {
+                      "planScore": 2.81,
+                      "endGameExpectedScore": 6,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 24,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 0.81,
+                    "cardId": "b_27.webp",
+                    "cardInstanceId": "card-113-0",
+                    "cardLabel": "日冕摄谱仪",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "blue"
+                ],
+                "emptySlotIds": [
+                  "yellow",
+                  "red"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": false,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": true,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              }
+            },
+            "actionGraph": {
+              "gain": 47.951,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 47.95110231417599
+            },
+            "breakdown": {
+              "abilityId": "strategy_pick_card",
+              "companyLabel": "宇宙大战略集团",
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "earlyEmptyStrategyPickPenalty": 0,
+              "industryPublicPick": {
+                "pendingType": "industry_strategy_pick",
+                "bestScore": 47.951,
+                "bestCard": {
+                  "slotIndex": 0,
+                  "score": 47.951,
+                  "cardId": "b_130.webp",
+                  "cardInstanceId": "card-112-0",
+                  "cardLabel": "金星探测计划",
+                  "price": 2,
+                  "typeCode": 2,
+                  "playScore": 47.161,
+                  "directScoreGain": 0,
+                  "effectTypes": [
+                    "card_planet_sector_scan",
+                    "card_planet_sector_scan"
+                  ],
+                  "valueSignals": {
+                    "planScore": 1.111,
+                    "endGameExpectedScore": 0,
+                    "c2Type3ProgressValue": 0,
+                    "cFinalTaskProgressValue": 0.38,
+                    "readyTaskCashoutDirectScore": 0,
+                    "readyTaskCashoutCount": 0,
+                    "playCardConversionPressure": 17.944,
+                    "finalRoundResourceDrainPenalty": 0,
+                    "standardActionPremium": 5
+                  }
+                },
+                "topCards": [
+                  {
+                    "slotIndex": 0,
+                    "score": 47.951,
+                    "cardId": "b_130.webp",
+                    "cardInstanceId": "card-112-0",
+                    "cardLabel": "金星探测计划",
+                    "price": 2,
+                    "typeCode": 2,
+                    "playScore": 47.161,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_planet_sector_scan",
+                      "card_planet_sector_scan"
+                    ],
+                    "valueSignals": {
+                      "planScore": 1.111,
+                      "endGameExpectedScore": 0,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0.38,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 17.944,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 5
+                    }
+                  },
+                  {
+                    "slotIndex": 2,
+                    "score": 47.277,
+                    "cardId": "b_63.webp",
+                    "cardInstanceId": "card-114-0",
+                    "cardLabel": "观测开普勒22",
+                    "price": 2,
+                    "typeCode": 3,
+                    "playScore": 44.228,
+                    "directScoreGain": 0,
+                    "effectTypes": [
+                      "card_scan_nebula",
+                      "card_scan_nebula"
+                    ],
+                    "valueSignals": {
+                      "planScore": 2.81,
+                      "endGameExpectedScore": 6,
+                      "c2Type3ProgressValue": 0,
+                      "cFinalTaskProgressValue": 0,
+                      "readyTaskCashoutDirectScore": 0,
+                      "readyTaskCashoutCount": 0,
+                      "playCardConversionPressure": 24,
+                      "finalRoundResourceDrainPenalty": 0,
+                      "standardActionPremium": 0
+                    }
+                  },
+                  {
+                    "slotIndex": 1,
+                    "score": 0.81,
+                    "cardId": "b_27.webp",
+                    "cardInstanceId": "card-113-0",
+                    "cardLabel": "日冕摄谱仪",
+                    "price": 1,
+                    "typeCode": 0,
+                    "playScore": null,
+                    "directScoreGain": 0,
+                    "effectTypes": [],
+                    "valueSignals": null
+                  }
+                ]
+              },
+              "strategyPassiveSlots": {
+                "occupiedSlotIds": [
+                  "blue"
+                ],
+                "emptySlotIds": [
+                  "yellow",
+                  "red"
+                ],
+                "occupiedCount": 1,
+                "emptyCount": 2,
+                "roundStartClearsSlots": true,
+                "slots": [
+                  {
+                    "slotId": "yellow",
+                    "occupied": false,
+                    "rewardLabel": "1 信用点",
+                    "rewardValue": 4.5
+                  },
+                  {
+                    "slotId": "red",
+                    "occupied": false,
+                    "rewardLabel": "1 宣传",
+                    "rewardValue": 1.5
+                  },
+                  {
+                    "slotId": "blue",
+                    "occupied": true,
+                    "rewardLabel": "1 数据",
+                    "rewardValue": 1.5
+                  }
+                ]
+              },
+              "existingScore": 47.951,
+              "gain": 47.951,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 47.951
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "resourceDiff": {
+        "same": true,
+        "prefix": 1200,
+        "before": null,
+        "after": null
+      },
+      "grandStrategy": {
+        "baseline": {
+          "score": 192,
+          "main": 37,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 1,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 119,
+            "credits": 10,
+            "energy": 7,
+            "publicity": 57,
+            "availableData": 34,
+            "handSize": 21
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 27,
+            "publicity": 59,
+            "availableData": 34,
+            "handSize": 38
+          }
+        },
+        "candidate": {
+          "score": 192,
+          "main": 37,
+          "analysis": 4,
+          "blue1": 2,
+          "blue2": 1,
+          "played": 15,
+          "income": {
+            "score": 0,
+            "credits": 14,
+            "energy": 16,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 10
+          },
+          "nonIncome": {
+            "score": 119,
+            "credits": 10,
+            "energy": 7,
+            "publicity": 57,
+            "availableData": 34,
+            "handSize": 21
+          },
+          "spent": {
+            "score": 0,
+            "credits": 29,
+            "energy": 27,
+            "publicity": 59,
+            "availableData": 34,
+            "handSize": 38
+          }
+        }
+      },
+      "scores": {
+        "baseline": [
+          192,
+          266,
+          268,
+          153
+        ],
+        "candidate": [
+          192,
+          266,
+          268,
+          153
+        ]
+      }
+    }
+  ]
+}
