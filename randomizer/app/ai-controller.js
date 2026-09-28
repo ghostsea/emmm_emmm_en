@@ -6178,6 +6178,42 @@
       return Math.max(0, penalty);
     }
 
+    function getAiFinalCardResourceReturnProfile(card, details = {}) {
+      const player = details.player || getCurrentPlayer();
+      if (!player || getAiRoundNumber() < FINAL_ROUND_NUMBER) return null;
+      const effects = details.playEffects || getAiPlayEffectsForCard(card);
+      const gain = { credits: 0, energy: 0 };
+      for (const effect of effects || []) {
+        const options = effect?.options || {};
+        // Only chains with no subsequent credit/energy payment are safe here.
+        // Conditional effects, moves, alien rewards and income choices need a
+        // separate projection; do not count their possible future returns.
+        if (options.cost && Object.values(options.cost).some(value => aiNumber(value) > 0)) return null;
+        if (options.extraCost && Object.values(options.extraCost).some(value => aiNumber(value) > 0)) return null;
+        if (aiNumber(options.repeat ?? 1) !== 1) return null;
+        if (effect?.type === "gain_resources") {
+          for (const key of ["credits", "energy"]) {
+            const amount = aiNumber(options.gain?.[key]);
+            if (amount < 0) return null;
+            gain[key] += amount;
+          }
+        } else if (["draw_cards", "pick_card", "gain_data"].includes(effect?.type)) {
+          continue;
+        } else if (effect?.type === cardEffects.EFFECT_TYPES.RESEARCH_TECH && options.skipCost === true) {
+          continue;
+        } else return null;
+      }
+      if (gain.credits <= 0 && gain.energy <= 0) return null;
+      const cost = details.cost || getCardPlayCost(card);
+      const afterPayment = Object.fromEntries(["credits", "energy"].map(key => [
+        key, Math.max(0, aiNumber(player.resources?.[key])) - Math.max(0, aiNumber(cost[key])),
+      ]));
+      return { gain, afterPayment, afterGuaranteedReturn: {
+        credits: afterPayment.credits + gain.credits,
+        energy: afterPayment.energy + gain.energy,
+      } };
+    }
+
     function scoreAiFinalRoundPlayCardResourceDrainPenalty(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       if (!player || getAiRoundNumber() < FINAL_ROUND_NUMBER) return 0;
@@ -6194,16 +6230,19 @@
       const resources = player.resources || {};
       const credits = Math.max(0, aiNumber(resources.credits));
       const energy = Math.max(0, aiNumber(resources.energy));
-      const creditsAfter = credits - creditCost;
-      const energyAfter = energy - energyCost;
+      const resourceReturn = getAiFinalCardResourceReturnProfile(card, details);
+      const creditReturn = Math.max(0, aiNumber(resourceReturn?.gain.credits));
+      const energyReturn = Math.max(0, aiNumber(resourceReturn?.gain.energy));
+      const creditsAfter = credits - creditCost + creditReturn;
+      const energyAfter = energy - energyCost + energyReturn;
       const finalMarks = countAiFinalMarksForPlayer(player);
       const analyzeCost = getAiAnalyzeEnergyCost(player);
       const scanCost = scanEffects?.getStandardScanCost?.(player) || scanEffects?.SCAN_COST || { energy: 2 };
       const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
 
       let penalty = 0;
-      if (creditCost > 0 && creditsAfter <= 0) penalty += energy <= 0 ? 10 : 6;
-      if (energyCost > 0 && energyAfter <= 0) penalty += credits <= 0 ? 10 : 7;
+      if (creditCost > 0 && creditsAfter <= 0) penalty += energy + energyReturn <= 0 ? 10 : 6;
+      if (energyCost > 0 && energyAfter <= 0) penalty += credits + creditReturn <= 0 ? 10 : 7;
       if (creditsAfter + energyAfter <= 1) penalty += finalMarks >= 2 ? 5 : 3;
       if (hasAiAnalyzeReadyDataSlot(player) && energyAfter < analyzeCost) penalty += 7;
       else if (canAiReachAnalyzeReadyWithDataPool(player) && energyAfter < analyzeCost) penalty += 4;
@@ -19290,6 +19329,9 @@
           directScoreGain,
           effectValue,
           probeMoveScanPreview,
+          finalCardResourceReturn: getAiFinalCardResourceReturnProfile(card, {
+            player: currentPlayer, playEffects: valuationPlayEffects, cost,
+          }),
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -26821,6 +26863,8 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      getAiFinalCardResourceReturnProfile,
+      scoreAiFinalRoundPlayCardResourceDrainPenalty,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,

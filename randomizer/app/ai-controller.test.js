@@ -17346,3 +17346,40 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { credits: 5, energy: 0, availableData: 4 },
+    data: { listComputerPlacedTokens: () => [{ placementSlot: 6 }] } });
+  const card = { id: "return-b56", cardId: "b_56.webp" };
+  const effects = cardEffects.buildPlayEffects(card);
+  const details = { player: h.blue, cost: { credits: 3 }, playEffects: effects, model: { cardType: 0 } };
+  const before = JSON.stringify(h.blue);
+  const profile = h.controller.getAiFinalCardResourceReturnProfile(card, details);
+  assert.deepEqual(profile, { gain: { credits: 0, energy: 1 }, afterPayment: { credits: 2, energy: 0 },
+    afterGuaranteedReturn: { credits: 2, energy: 1 } });
+  const oldEffects = effects.filter(e => e.type !== "gain_resources");
+  const oldPenalty = h.controller.scoreAiFinalRoundPlayCardResourceDrainPenalty(card, { ...details, playEffects: oldEffects });
+  const penalty = h.controller.scoreAiFinalRoundPlayCardResourceDrainPenalty(card, details);
+  assert.equal(oldPenalty - penalty, 7, "returned energy funds the ready analysis, without claiming scan energy");
+  assert.equal(JSON.stringify(h.blue), before, "resource preview is read-only");
+  for (const extra of [
+    { type: "card_move", options: { movementPoints: 1 } },
+    { type: "card_conditional_reward", options: { gain: { energy: 2 } } },
+    { type: "income" },
+    { type: "alien_trace" },
+    { type: "card_research_tech", options: { skipCost: false } },
+    { type: "pick_card", options: { extraCost: { credits: 1 } } },
+    { type: "gain_resources", options: { gain: { energy: -1 } } },
+  ]) assert.equal(h.controller.getAiFinalCardResourceReturnProfile(card, { ...details, playEffects: [...effects, extra] }), null);
+  assert.equal(h.controller.getAiFinalCardResourceReturnProfile(card, { ...details, playEffects: [
+    { type: "gain_resources", options: { gain: { publicity: 2 } } },
+  ] }), null, "publicity is not spendable credit or energy");
+  const creditReturn = { ...details, cost: { credits: 5 }, playEffects: [
+    { type: "gain_resources", options: { gain: { credits: 2, energy: 1 } } },
+  ] };
+  assert.deepEqual(h.controller.getAiFinalCardResourceReturnProfile(card, creditReturn).afterGuaranteedReturn, { credits: 2, energy: 1 });
+  const early = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 3 });
+  assert.equal(early.controller.getAiFinalCardResourceReturnProfile(card, { ...details, player: early.blue }), null);
+  assert.equal(early.controller.scoreAiFinalRoundPlayCardResourceDrainPenalty(card, { ...details, player: early.blue }), 0);
+}
