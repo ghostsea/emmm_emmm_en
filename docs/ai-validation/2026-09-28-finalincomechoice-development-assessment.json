@@ -1,0 +1,192 @@
+{
+  "decision": "hold-no-default-promotion-no-new-random",
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "a77168a7bd6748aaa9d852facbd5ad3f6a5e13b6"
+  },
+  "pairs": 24,
+  "newGames": 24,
+  "reusedBaselineGames": 24,
+  "meanDelta": -0.4375,
+  "pairedGameStandardError": 0.6942194683886753,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 271.7708333333333,
+      "meanDelta": -0.2916666666666856,
+      "minimumDelta": 6
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 195.95833333333334,
+      "meanDelta": -0.875,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 204.54166666666666,
+      "meanDelta": -0.2916666666666856,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -0.4375,
+    "min": 0,
+    "p10": 0.5,
+    "p25": 1.75,
+    "median": 2,
+    "p75": -1,
+    "max": 0,
+    "topQuartileMean": -1.8333333333333144,
+    "winnerMean": -2.7916666666666856,
+    "minimumPerGameMean": -0.25,
+    "seats270Plus": -1,
+    "seats300Plus": 0
+  },
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.01041666666666,
+    "min": 130,
+    "p10": 170,
+    "p25": 199.25,
+    "median": 230.5,
+    "p75": 279,
+    "max": 385,
+    "topQuartileMean": 307.0416666666667,
+    "winnerMean": 293.125,
+    "minimumPerGameMean": 177.33333333333334,
+    "seats270Plus": 27,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 271.7708333333333,
+        "min": 170
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 195.95833333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.54166666666666,
+        "min": 130
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 306.0833333333333,
+    "meanDelta": -2.7916666666666665,
+    "improved": 0,
+    "declined": 4,
+    "unchanged": 20
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 171.66666666666666,
+    "meanDelta": 0.375,
+    "improved": 3,
+    "declined": 3,
+    "unchanged": 18
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1136,
+    "matched": 1136,
+    "intendedCardMatched": 1136,
+    "paid": 1136,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "choiceEvidence": {
+    "games": 24,
+    "firstDifferingIncomeChoices": 8,
+    "settledChoices": 115,
+    "directImmediateReceipts": 8,
+    "transactionIncomeOnly": 107,
+    "companies": {
+      "宇宙大战略集团": {
+        "choices": 29,
+        "types": {
+          "credits": 14,
+          "energy": 7,
+          "handSize": 8
+        },
+        "positiveIncomeScoreMarginal": 18
+      },
+      "作弊实验室": {
+        "choices": 61,
+        "types": {
+          "credits": 17,
+          "energy": 27,
+          "handSize": 17
+        },
+        "positiveIncomeScoreMarginal": 35
+      },
+      "寰宇超动力": {
+        "choices": 25,
+        "types": {
+          "credits": 13,
+          "energy": 7,
+          "handSize": 5
+        },
+        "positiveIncomeScoreMarginal": 12
+      }
+    },
+    "evidence": {
+      "explicit-income-card-instance": 8,
+      "removed-card-instance-plus-income-in-same-transaction": 75,
+      "income-type-only-card-identity-unproven": 30,
+      "explicit-income-identity-assignment-contradicts-selected-gain": 2
+    }
+  },
+  "limitations": [
+    "Seen fixed development seeds, not a new random success. +10 target remains unfinished.",
+    "8 first changed decisions are round4 income discards with identical predecision resources. Other16 games have identical semantic decisions.",
+    "115 scoped candidate choices: only8 direct immediate receipts,75 same-transaction removed identity plus income,30 income-type-only,2 contradicted identity assignments. Do not claim115 complete real immediate receipts.",
+    "Structured snapshot normalization omits cardName, and removal resolver guesses first remaining identity for nonexplicit labels. A hand scan can be assigned the card actually consumed by subsequent data-income. Fix reporting before using these card-use attributions. Scores and C/E totals do not depend on card identity mapping.",
+    "No actualIncomePlacement preview field exists in this current baseline; an empty old-candidate audit is not a passed consistency check."
+  ]
+}

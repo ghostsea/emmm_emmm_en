@@ -1,0 +1,7225 @@
+{
+  "scope": "Full fixed24 candidate income choices in round4 with3marks. Explicit income-card-instance receipts reconcile immediate C/E/H with discard hand debit restored. Data-placement history instead joins the selected removed-card instance to the unique same-transaction income upgrade; this proves matching income type, not independent immediate gain attribution. Actual final-income scoring verified in browser/unit tests; no isolated causal score benefit inferred from later divergence.",
+  "summary": {
+    "games": 24,
+    "firstDifferingIncomeChoices": 8,
+    "candidateChoices": 115,
+    "directImmediateReceipts": 8,
+    "otherEvidenceRequiresQualification": 107,
+    "companies": {
+      "宇宙大战略集团": {
+        "choices": 29,
+        "types": {
+          "credits": 14,
+          "energy": 7,
+          "handSize": 8
+        },
+        "positiveIncomeScoreMarginal": 18
+      },
+      "作弊实验室": {
+        "choices": 61,
+        "types": {
+          "credits": 17,
+          "energy": 27,
+          "handSize": 17
+        },
+        "positiveIncomeScoreMarginal": 35
+      },
+      "寰宇超动力": {
+        "choices": 25,
+        "types": {
+          "credits": 13,
+          "energy": 7,
+          "handSize": 5
+        },
+        "positiveIncomeScoreMarginal": 12
+      }
+    }
+  },
+  "divergences": [
+    {
+      "case": 5,
+      "prefixLogs": 1607,
+      "player": "player-green",
+      "round": 4,
+      "turn": 10,
+      "baseline": [
+        {
+          "handIndex": 0,
+          "cardId": "b_109.webp",
+          "cardInstanceId": "card-107-0",
+          "cardLabel": "科学合作"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 3,
+          "cardId": "b_122.webp",
+          "cardInstanceId": "card-175-0",
+          "cardLabel": "望远锐现代化"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 118,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 6,
+          "availableData": 1
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "b_109.webp",
+            "cardLabel": "科学合作",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 16.667
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 16.667
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_76.webp",
+            "cardLabel": "飞掠水星",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 6.94,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0.833,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 15.834
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_122.webp",
+            "cardLabel": "望远锐现代化",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.667
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 118,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 6,
+          "availableData": 1
+        },
+        "options": [
+          {
+            "index": 3,
+            "selected": true,
+            "cardId": "b_122.webp",
+            "cardLabel": "望远锐现代化",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.5
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_109.webp",
+            "cardLabel": "科学合作",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.2
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.2
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_76.webp",
+            "cardLabel": "飞掠水星",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 6.94,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0.833,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 3.367
+          }
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "prefixLogs": 1377,
+      "player": "player-blue",
+      "round": 4,
+      "turn": 6,
+      "baseline": [
+        {
+          "handIndex": 1,
+          "cardId": "b_111.webp",
+          "cardInstanceId": "card-48-pass-3-4",
+          "cardLabel": "SETI研究所"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 2,
+          "cardId": "b_79.webp",
+          "cardInstanceId": "card-146-0",
+          "cardLabel": "NASA每日-圈"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 3,
+        "resources": {
+          "score": 96,
+          "credits": 7,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 1,
+            "selected": true,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 9.5
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_79.webp",
+            "cardLabel": "NASA每日-圈",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": -2.5
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_12.webp",
+            "cardLabel": "超环面仪器",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 22.666,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.72,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": -5.22
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 3,
+        "resources": {
+          "score": 96,
+          "credits": 7,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 2,
+            "selected": true,
+            "cardId": "b_79.webp",
+            "cardLabel": "NASA每日-圈",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 1.8
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 1.7
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_12.webp",
+            "cardLabel": "超环面仪器",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 22.666,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.72,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": -0.72
+          }
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "prefixLogs": 1047,
+      "player": "player-green",
+      "round": 4,
+      "turn": 1,
+      "baseline": [
+        {
+          "handIndex": 8,
+          "cardId": "b_42.webp",
+          "cardInstanceId": "card-151-0",
+          "cardLabel": "聚娈反应堆"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 0,
+          "cardId": "b_47.webp",
+          "cardInstanceId": "card-100-0",
+          "cardLabel": "政府资助"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 12,
+        "resources": {
+          "score": 119,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1
+        },
+        "options": [
+          {
+            "index": 8,
+            "selected": true,
+            "cardId": "b_42.webp",
+            "cardLabel": "聚娈反应堆",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 27.22,
+            "playableNow": true,
+            "playScoreNow": 27.22,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 3.266,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.984
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_47.webp",
+            "cardLabel": "政府资助",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 27.52,
+            "playableNow": true,
+            "playScoreNow": 27.52,
+            "playDirectScoreNow": 6,
+            "discardOpportunityCost": 3.302,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.948
+          },
+          {
+            "index": 4,
+            "selected": false,
+            "cardId": "b_89.webp",
+            "cardLabel": "奥西里斯- REx号",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 28.82,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 3.458,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.792
+          },
+          {
+            "index": 11,
+            "selected": false,
+            "cardId": "dlc_17.png",
+            "cardLabel": "付费媒体报道",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 33.82,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 4.058,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.192
+          },
+          {
+            "index": 5,
+            "selected": false,
+            "cardId": "dlc_23.png",
+            "cardLabel": "中性浮力训练",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.32,
+            "playableNow": true,
+            "playScoreNow": 36.32,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.358,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.892
+          },
+          {
+            "index": 6,
+            "selected": false,
+            "cardId": "b_120.webp",
+            "cardLabel": "战略规划",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.82,
+            "playableNow": true,
+            "playScoreNow": 36.82,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.418,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.832
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "yichangdian_4.webp",
+            "cardLabel": "全网热搜",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 38.625,
+            "playableNow": true,
+            "playScoreNow": 38.625,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.635,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.615
+          },
+          {
+            "index": 10,
+            "selected": false,
+            "cardId": "b_92.webp",
+            "cardLabel": "先驱者11号任务",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 39.82,
+            "playableNow": true,
+            "playScoreNow": 39.82,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.778,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.472
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "yichangdian_6.webp",
+            "cardLabel": "信息胶囊",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 42.8,
+            "playableNow": true,
+            "playScoreNow": 42.8,
+            "playDirectScoreNow": 2,
+            "discardOpportunityCost": 5.136,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.114
+          },
+          {
+            "index": 7,
+            "selected": false,
+            "cardId": "dlc_7.png",
+            "cardLabel": "双探测器",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 56.068,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 6.728,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -1.478
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "yichangdian_2.webp",
+            "cardLabel": "近距离观察",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.25,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 71.511,
+            "playableNow": true,
+            "playScoreNow": 71.511,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 8,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -2.75
+          },
+          {
+            "index": 9,
+            "selected": false,
+            "cardId": "b_98.webp",
+            "cardLabel": "发射前试验",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 52.124,
+            "playableNow": true,
+            "playScoreNow": 52.124,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 6.255,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -6.255
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 12,
+        "resources": {
+          "score": 119,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "b_47.webp",
+            "cardLabel": "政府资助",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 27.52,
+            "playableNow": true,
+            "playScoreNow": 27.52,
+            "playDirectScoreNow": 6,
+            "discardOpportunityCost": 3.302,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 6.198
+          },
+          {
+            "index": 8,
+            "selected": false,
+            "cardId": "b_42.webp",
+            "cardLabel": "聚娈反应堆",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 27.22,
+            "playableNow": true,
+            "playScoreNow": 27.22,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 3.266,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 5.934
+          },
+          {
+            "index": 4,
+            "selected": false,
+            "cardId": "b_89.webp",
+            "cardLabel": "奥西里斯- REx号",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 28.82,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 3.458,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 5.742
+          },
+          {
+            "index": 11,
+            "selected": false,
+            "cardId": "dlc_17.png",
+            "cardLabel": "付费媒体报道",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 33.82,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 4.058,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 5.442
+          },
+          {
+            "index": 6,
+            "selected": false,
+            "cardId": "b_120.webp",
+            "cardLabel": "战略规划",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.82,
+            "playableNow": true,
+            "playScoreNow": 36.82,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.418,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 5.082
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "yichangdian_4.webp",
+            "cardLabel": "全网热搜",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 38.625,
+            "playableNow": true,
+            "playScoreNow": 38.625,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.635,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.865
+          },
+          {
+            "index": 5,
+            "selected": false,
+            "cardId": "dlc_23.png",
+            "cardLabel": "中性浮力训练",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.32,
+            "playableNow": true,
+            "playScoreNow": 36.32,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.358,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.842
+          },
+          {
+            "index": 10,
+            "selected": false,
+            "cardId": "b_92.webp",
+            "cardLabel": "先驱者11号任务",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 39.82,
+            "playableNow": true,
+            "playScoreNow": 39.82,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.778,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.422
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "yichangdian_6.webp",
+            "cardLabel": "信息胶囊",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 42.8,
+            "playableNow": true,
+            "playScoreNow": 42.8,
+            "playDirectScoreNow": 2,
+            "discardOpportunityCost": 5.136,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.364
+          },
+          {
+            "index": 7,
+            "selected": false,
+            "cardId": "dlc_7.png",
+            "cardLabel": "双探测器",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 56.068,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 6.728,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.472
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "yichangdian_2.webp",
+            "cardLabel": "近距离观察",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 5
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 71.511,
+            "playableNow": true,
+            "playScoreNow": 71.511,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 8,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.5
+          },
+          {
+            "index": 9,
+            "selected": false,
+            "cardId": "b_98.webp",
+            "cardLabel": "发射前试验",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 52.124,
+            "playableNow": true,
+            "playScoreNow": 52.124,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 6.255,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -1.955
+          }
+        ]
+      }
+    },
+    {
+      "case": 13,
+      "prefixLogs": 1422,
+      "player": "player-green",
+      "round": 4,
+      "turn": 9,
+      "baseline": [
+        {
+          "handIndex": 2,
+          "cardId": "fangzhou_yellow_2",
+          "cardInstanceId": "fangzhou-card2-player-green-yellow-2",
+          "cardLabel": "方舟黄色痕迹 2"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 3,
+          "cardId": "b_50.webp",
+          "cardInstanceId": "card-178-0",
+          "cardLabel": "大型轨遒天文台计划"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 5,
+        "resources": {
+          "score": 158,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 2,
+            "selected": true,
+            "cardId": "fangzhou_yellow_2",
+            "cardLabel": "方舟黄色痕迹 2",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 13.498,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.62,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 15.047
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_62.webp",
+            "cardLabel": "飞掠木星",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 29.858,
+            "playableNow": true,
+            "playScoreNow": 29.858,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 3.583,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 13.084
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_10.webp",
+            "cardLabel": "小行星研究",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.293,
+            "playableNow": true,
+            "playScoreNow": 36.293,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.355,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 12.312
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_50.webp",
+            "cardLabel": "大型轨遒天文台计划",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.293,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0.035,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.632
+          },
+          {
+            "index": 4,
+            "selected": false,
+            "cardId": "b_87.webp",
+            "cardLabel": "最佳发射窗口",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 21.512,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.581,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.085
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 5,
+        "resources": {
+          "score": 158,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 3,
+            "selected": true,
+            "cardId": "b_50.webp",
+            "cardLabel": "大型轨遒天文台计划",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.293,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0.035,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.265
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "fangzhou_yellow_2",
+            "cardLabel": "方舟黄色痕迹 2",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 13.498,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.62,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.58
+          },
+          {
+            "index": 4,
+            "selected": false,
+            "cardId": "b_87.webp",
+            "cardLabel": "最佳发射窗口",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 21.512,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.581,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 1.719
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_62.webp",
+            "cardLabel": "飞掠木星",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 29.858,
+            "playableNow": true,
+            "playScoreNow": 29.858,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 3.583,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 0.617
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_10.webp",
+            "cardLabel": "小行星研究",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 36.293,
+            "playableNow": true,
+            "playScoreNow": 36.293,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 4.355,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -0.155
+          }
+        ]
+      }
+    },
+    {
+      "case": 15,
+      "prefixLogs": 1430,
+      "player": "player-brown",
+      "round": 4,
+      "turn": 8,
+      "baseline": [
+        {
+          "handIndex": 0,
+          "cardId": "dlc_7.png",
+          "cardInstanceId": "card-170-0",
+          "cardLabel": "双探测器"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 1,
+          "cardId": "b_131.webp",
+          "cardInstanceId": "card-175-0",
+          "cardLabel": "飞掠金星"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 2,
+        "resources": {
+          "score": 129,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 3
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "dlc_7.png",
+            "cardLabel": "双探测器",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": -4,
+            "routeEnergyFit": 8,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 22.389,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.687,
+            "handScarcityCost": 6,
+            "netAfterDiscard": -4.687
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_131.webp",
+            "cardLabel": "飞掠金星",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": -4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.346,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.122,
+            "handScarcityCost": 6,
+            "netAfterDiscard": -11.122
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 2,
+        "resources": {
+          "score": 129,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 3
+        },
+        "options": [
+          {
+            "index": 1,
+            "selected": true,
+            "cardId": "b_131.webp",
+            "cardLabel": "飞掠金星",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.346,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.122,
+            "handScarcityCost": 6,
+            "netAfterDiscard": -2.622
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "dlc_7.png",
+            "cardLabel": "双探测器",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 22.389,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.687,
+            "handScarcityCost": 6,
+            "netAfterDiscard": -4.487
+          }
+        ]
+      }
+    },
+    {
+      "case": 19,
+      "prefixLogs": 1218,
+      "player": "player-green",
+      "round": 4,
+      "turn": 2,
+      "baseline": [
+        {
+          "handIndex": 2,
+          "cardId": "b_65.webp",
+          "cardInstanceId": "card-139-0",
+          "cardLabel": "大型强子对撞机"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 1,
+          "cardId": "b_25.webp",
+          "cardInstanceId": "card-45-pass-3-1",
+          "cardLabel": "控制中心"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 134,
+          "credits": 7,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "options": [
+          {
+            "index": 2,
+            "selected": true,
+            "cardId": "b_65.webp",
+            "cardLabel": "大型强子对撞机",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 8,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 6.092,
+            "playableNow": true,
+            "playScoreNow": 6.092,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.731,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 7.269
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 8,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 12.826,
+            "playableNow": true,
+            "playScoreNow": 12.826,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.539,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 6.461
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_25.webp",
+            "cardLabel": "控制中心",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 2.915,
+            "playableNow": true,
+            "playScoreNow": 2.915,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.35,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -0.35
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_19.webp",
+            "cardLabel": "加阜大氢谱线望远锐",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 15.112,
+            "playableNow": true,
+            "playScoreNow": 16.632,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.813,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -1.813
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 134,
+          "credits": 7,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "options": [
+          {
+            "index": 1,
+            "selected": true,
+            "cardId": "b_25.webp",
+            "cardLabel": "控制中心",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 2.915,
+            "playableNow": true,
+            "playScoreNow": 2.915,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.35,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 3.95
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_65.webp",
+            "cardLabel": "大型强子对撞机",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 6.092,
+            "playableNow": true,
+            "playScoreNow": 6.092,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.731,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 3.469
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_111.webp",
+            "cardLabel": "SETI研究所",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 12.826,
+            "playableNow": true,
+            "playScoreNow": 12.826,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.539,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.661
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_19.webp",
+            "cardLabel": "加阜大氢谱线望远锐",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 15.112,
+            "playableNow": true,
+            "playScoreNow": 16.632,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.813,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.487
+          }
+        ]
+      }
+    },
+    {
+      "case": 21,
+      "prefixLogs": 1333,
+      "player": "player-white",
+      "round": 4,
+      "turn": 5,
+      "baseline": [
+        {
+          "handIndex": 1,
+          "cardId": "b_59.webp",
+          "cardInstanceId": "card-146-0",
+          "cardLabel": "约翰逊空间中心"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 2,
+          "cardId": "b_25.webp",
+          "cardInstanceId": "card-148-0",
+          "cardLabel": "控制中心"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 3,
+        "resources": {
+          "score": 96,
+          "credits": 1,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 1,
+            "selected": true,
+            "cardId": "b_59.webp",
+            "cardLabel": "约翰逊空间中心",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 2.167
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_25.webp",
+            "cardLabel": "控制中心",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.685,
+            "playableNow": true,
+            "playScoreNow": 0.685,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.082,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 2.085
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "dlc_15.png",
+            "cardLabel": "迭代工程",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4.667,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.919,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.19,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 0.976
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 3,
+        "resources": {
+          "score": 96,
+          "credits": 1,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 2
+        },
+        "options": [
+          {
+            "index": 2,
+            "selected": true,
+            "cardId": "b_25.webp",
+            "cardLabel": "控制中心",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.685,
+            "playableNow": true,
+            "playScoreNow": 0.685,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.082,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 1.718
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_59.webp",
+            "cardLabel": "约翰逊空间中心",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 0,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 1.7
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "dlc_15.png",
+            "cardLabel": "迭代工程",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.919,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.19,
+            "handScarcityCost": 2.5,
+            "netAfterDiscard": 0.81
+          }
+        ]
+      }
+    },
+    {
+      "case": 23,
+      "prefixLogs": 1563,
+      "player": "player-blue",
+      "round": 4,
+      "turn": 9,
+      "baseline": [
+        {
+          "handIndex": 1,
+          "cardId": "b_135.webp",
+          "cardInstanceId": "card-134-0",
+          "cardLabel": "韦断特v克综合孔径射电|远锐"
+        }
+      ],
+      "candidate": [
+        {
+          "handIndex": 0,
+          "cardId": "b_83.webp",
+          "cardInstanceId": "card-45-pass-3-1",
+          "cardLabel": "NASA创新先迸概念计划"
+        }
+      ],
+      "baselinePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 133,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0
+        },
+        "options": [
+          {
+            "index": 1,
+            "selected": true,
+            "cardId": "b_135.webp",
+            "cardLabel": "韦断特v克综合孔径射电|远锐",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 12,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 16.851,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.022,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 9.978
+          },
+          {
+            "index": 0,
+            "selected": false,
+            "cardId": "b_83.webp",
+            "cardLabel": "NASA创新先迸概念计划",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 4,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.463,
+            "playableNow": true,
+            "playScoreNow": 9.463,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.136,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.864
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_20.webp",
+            "cardLabel": "卡纳维拉尔角太空军基地",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.576,
+            "playableNow": true,
+            "playScoreNow": 0.576,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.069,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -0.069
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_138.webp",
+            "cardLabel": "月球门户空间站",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "incomeScore": 0,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 10.055,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.207,
+            "handScarcityCost": 0,
+            "netAfterDiscard": -1.207
+          }
+        ]
+      },
+      "candidatePreview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 4,
+        "resources": {
+          "score": 133,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "b_83.webp",
+            "cardLabel": "NASA创新先迸概念计划",
+            "incomeGain": {
+              "credits": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 1,
+                "energy": 0,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.5,
+              "incomeFinalScoreGain": 3
+            },
+            "incomeScore": 4.5,
+            "finalFormulaFit": 3,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 9.463,
+            "playableNow": true,
+            "playScoreNow": 9.463,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.136,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 6.364
+          },
+          {
+            "index": 2,
+            "selected": false,
+            "cardId": "b_20.webp",
+            "cardLabel": "卡纳维拉尔角太空军基地",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.576,
+            "playableNow": true,
+            "playScoreNow": 0.576,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.069,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 4.231
+          },
+          {
+            "index": 3,
+            "selected": false,
+            "cardId": "b_138.webp",
+            "cardLabel": "月球门户空间站",
+            "incomeGain": {
+              "handSize": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 0,
+                "handSize": 1,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.3,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.3,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 10.055,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 1.207,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 3.093
+          },
+          {
+            "index": 1,
+            "selected": false,
+            "cardId": "b_135.webp",
+            "cardLabel": "韦断特v克综合孔径射电|远锐",
+            "incomeGain": {
+              "energy": 1
+            },
+            "finalIncomeChoiceSettlement": {
+              "immediateGain": {
+                "credits": 0,
+                "energy": 1,
+                "handSize": 0,
+                "additionalPublicScan": 0,
+                "publicity": 0,
+                "availableData": 0
+              },
+              "immediateValue": 4.2,
+              "incomeFinalScoreGain": 0
+            },
+            "incomeScore": 4.2,
+            "finalFormulaFit": 0,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 16.851,
+            "playableNow": false,
+            "playScoreNow": null,
+            "playDirectScoreNow": null,
+            "discardOpportunityCost": 2.022,
+            "handScarcityCost": 0,
+            "netAfterDiscard": 2.178
+          }
+        ]
+      }
+    }
+  ],
+  "rows": [
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "log": 1283,
+      "player": "player-white",
+      "turn": 2,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "b_87.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 12.69
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 7,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "handSize": 0
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "log": 1407,
+      "player": "player-blue",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_6.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": -0.106
+      },
+      "receipt": {
+        "entry": 161,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "log": 1451,
+      "player": "player-white",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_97.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.466
+      },
+      "receipt": {
+        "entry": 167,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "log": 1505,
+      "player": "player-green",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_18.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -3.042
+      },
+      "receipt": {
+        "entry": 172,
+        "step": 11,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 2,
+      "company": "寰宇超动力",
+      "log": 1186,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_96.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 6.595
+      },
+      "receipt": {
+        "entry": 148,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "log": 1205,
+      "player": "player-brown",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 7.289
+      },
+      "receipt": {
+        "entry": 149,
+        "step": 10,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "log": 1242,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_58.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 6.64
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "log": 1399,
+      "player": "player-white",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_84.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -8.254
+      },
+      "receipt": {
+        "entry": 162,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "log": 1515,
+      "player": "player-green",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_106.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 1.2
+      },
+      "receipt": {
+        "entry": 176,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "log": 1227,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_125.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 13.742
+      },
+      "receipt": {
+        "entry": 152,
+        "step": 14,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "log": 1273,
+      "player": "player-white",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_96.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 8
+        },
+        "net": 10.56
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 14,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "log": 1303,
+      "player": "player-brown",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_20.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2.755
+      },
+      "receipt": {
+        "entry": 155,
+        "step": 15,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "log": 1497,
+      "player": "player-green",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_20.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.783
+      },
+      "receipt": {
+        "entry": 173,
+        "step": 17,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "log": 1558,
+      "player": "player-white",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_3.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.8
+      },
+      "receipt": {
+        "entry": 178,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "log": 1614,
+      "player": "player-brown",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_26.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -0.936
+      },
+      "receipt": {
+        "entry": 183,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 4,
+      "company": "作弊实验室",
+      "log": 1104,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_88.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.567
+      },
+      "receipt": {
+        "entry": 147,
+        "step": 18,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "log": 1186,
+      "player": "player-brown",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_78.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 6.457
+      },
+      "receipt": {
+        "entry": 152,
+        "step": 8,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "log": 1268,
+      "player": "player-white",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_50.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 9.3
+      },
+      "receipt": {
+        "entry": 157,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 4,
+      "company": "作弊实验室",
+      "log": 1545,
+      "player": "player-green",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_42.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 2.575
+      },
+      "receipt": {
+        "entry": 182,
+        "step": 6,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "log": 1280,
+      "player": "player-green",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_21.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 7.298
+      },
+      "receipt": {
+        "entry": 156,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "log": 1344,
+      "player": "player-white",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_125.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 8
+        },
+        "net": 3.979
+      },
+      "receipt": {
+        "entry": 162,
+        "step": 15,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "log": 1521,
+      "player": "player-white",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_97.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.5
+      },
+      "receipt": {
+        "entry": 174,
+        "step": 23,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "log": 1590,
+      "player": "player-blue",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_77.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -10.565
+      },
+      "receipt": {
+        "entry": 181,
+        "step": 8,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "log": 1608,
+      "player": "player-green",
+      "turn": 10,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_122.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.5
+      },
+      "receipt": {
+        "entry": 184,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "log": 1201,
+      "player": "player-white",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_120.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.912
+      },
+      "receipt": {
+        "entry": 146,
+        "step": 8,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": 0,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 6,
+      "company": "作弊实验室",
+      "log": 1240,
+      "player": "player-brown",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_3.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.2
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 3,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "log": 1268,
+      "player": "player-green",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_93.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 5.779
+      },
+      "receipt": {
+        "entry": 153,
+        "step": 13,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 6,
+      "company": "作弊实验室",
+      "log": 1378,
+      "player": "player-blue",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_79.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 1.8
+      },
+      "receipt": {
+        "entry": 160,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 7,
+      "company": "寰宇超动力",
+      "log": 1217,
+      "player": "player-white",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_26.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 5.416
+      },
+      "receipt": {
+        "entry": 152,
+        "step": 3,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "log": 1235,
+      "player": "player-brown",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.475
+      },
+      "receipt": {
+        "entry": 153,
+        "step": 10,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 7,
+      "company": "作弊实验室",
+      "log": 1256,
+      "player": "player-green",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_82.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 7.078
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 12,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 7,
+      "company": "寰宇超动力",
+      "log": 1494,
+      "player": "player-white",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_99.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 4
+        },
+        "net": -1.5
+      },
+      "receipt": {
+        "entry": 176,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "log": 1048,
+      "player": "player-green",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 6.198
+      },
+      "receipt": {
+        "entry": 137,
+        "step": 5,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "log": 1092,
+      "player": "player-brown",
+      "turn": 1,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "dlc_12.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.31
+      },
+      "receipt": {
+        "entry": 139,
+        "step": 8,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "log": 1141,
+      "player": "player-blue",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "fangzhou_blue_3",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.11
+      },
+      "receipt": {
+        "entry": 144,
+        "step": 6,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "log": 1170,
+      "player": "player-white",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_34.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 8.2
+      },
+      "receipt": {
+        "entry": 146,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "log": 1227,
+      "player": "player-brown",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_18.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": -0.811
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 4,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "log": 1256,
+      "player": "player-green",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_35.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 5.823
+      },
+      "receipt": {
+        "entry": 150,
+        "step": 8,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "log": 1326,
+      "player": "player-white",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_23.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.5
+      },
+      "receipt": {
+        "entry": 157,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "log": 1399,
+      "player": "player-white",
+      "turn": 5,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "b_122.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2
+      },
+      "receipt": {
+        "entry": 165,
+        "step": 2,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "log": 1401,
+      "player": "player-white",
+      "turn": 5,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "b_140.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -1.857
+      },
+      "receipt": {
+        "entry": 165,
+        "step": 3,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "作弊实验室",
+      "log": 1450,
+      "player": "player-brown",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_109.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 10
+        },
+        "net": 11.7
+      },
+      "receipt": {
+        "entry": 171,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "company": "作弊实验室",
+      "log": 1639,
+      "player": "player-blue",
+      "turn": 10,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_52.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 5
+        },
+        "net": -0.7
+      },
+      "receipt": {
+        "entry": 187,
+        "step": 6,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "log": 1190,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "fangzhou_pink_4",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2.896
+      },
+      "receipt": {
+        "entry": 146,
+        "step": 3,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "log": 1440,
+      "player": "player-green",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_38.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 5.888
+      },
+      "receipt": {
+        "entry": 165,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "log": 1512,
+      "player": "player-blue",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_25.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.343
+      },
+      "receipt": {
+        "entry": 170,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "log": 1590,
+      "player": "player-brown",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_5.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.3
+      },
+      "receipt": {
+        "entry": 175,
+        "step": 11,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "log": 1656,
+      "player": "player-green",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_30.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 2.12
+      },
+      "receipt": {
+        "entry": 181,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 11,
+      "company": "作弊实验室",
+      "log": 1148,
+      "player": "player-white",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_48.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.364
+      },
+      "receipt": {
+        "entry": 148,
+        "step": 8,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "log": 1178,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_88.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 5.977
+      },
+      "receipt": {
+        "entry": 150,
+        "step": 13,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "log": 1474,
+      "player": "player-green",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_65.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 6.651
+      },
+      "receipt": {
+        "entry": 177,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 11,
+      "company": "作弊实验室",
+      "log": 1500,
+      "player": "player-white",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_104.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.655
+      },
+      "receipt": {
+        "entry": 180,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 12,
+      "company": "作弊实验室",
+      "log": 1059,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_133.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.716
+      },
+      "receipt": {
+        "entry": 129,
+        "step": 16,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "log": 1365,
+      "player": "player-white",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_136.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -4.774
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 12,
+      "company": "作弊实验室",
+      "log": 1460,
+      "player": "player-green",
+      "turn": 10,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_32.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -7.124
+      },
+      "receipt": {
+        "entry": 164,
+        "step": 7,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 12,
+      "company": "作弊实验室",
+      "log": 1482,
+      "player": "player-brown",
+      "turn": 11,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_116.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -11.886
+      },
+      "receipt": {
+        "entry": 168,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "log": 1161,
+      "player": "player-blue",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_5.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 8
+        },
+        "net": 10.286
+      },
+      "receipt": {
+        "entry": 149,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "log": 1208,
+      "player": "player-white",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_118.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 18
+        },
+        "net": 21.944
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "log": 1339,
+      "player": "player-brown",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_14.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 0.17
+      },
+      "receipt": {
+        "entry": 164,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "log": 1423,
+      "player": "player-green",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_50.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.265
+      },
+      "receipt": {
+        "entry": 171,
+        "step": 9,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "log": 1442,
+      "player": "player-white",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "fangzhou_pink_4",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -1.8
+      },
+      "receipt": {
+        "entry": 174,
+        "step": 5,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "log": 1461,
+      "player": "player-blue",
+      "turn": 10,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "fangzhou_yellow_4",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.5
+      },
+      "receipt": {
+        "entry": 177,
+        "step": 6,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "log": 1133,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 5.803
+      },
+      "receipt": {
+        "entry": 147,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "log": 1165,
+      "player": "player-brown",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "banrenma_5.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.02
+      },
+      "receipt": {
+        "entry": 149,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "log": 1444,
+      "player": "player-brown",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_97.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2.802
+      },
+      "receipt": {
+        "entry": 173,
+        "step": 8,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "log": 1459,
+      "player": "player-green",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_7.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -9.13
+      },
+      "receipt": {
+        "entry": 174,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "log": 1575,
+      "player": "player-white",
+      "turn": 11,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_26.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.7
+      },
+      "receipt": {
+        "entry": 187,
+        "step": 3,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "log": 1651,
+      "player": "player-brown",
+      "turn": 12,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_125.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.7
+      },
+      "receipt": {
+        "entry": 193,
+        "step": 26,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 15,
+      "company": "作弊实验室",
+      "log": 1100,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_6.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 14.906
+      },
+      "receipt": {
+        "entry": 136,
+        "step": 10,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 15,
+      "company": "作弊实验室",
+      "log": 1163,
+      "player": "player-white",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_7.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.16
+      },
+      "receipt": {
+        "entry": 139,
+        "step": 16,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 15,
+      "company": "作弊实验室",
+      "log": 1291,
+      "player": "player-white",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_49.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -3.193
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "log": 1431,
+      "player": "player-brown",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_131.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -2.622
+      },
+      "receipt": {
+        "entry": 165,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "log": 1212,
+      "player": "player-white",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_55.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 12.547
+      },
+      "receipt": {
+        "entry": 148,
+        "step": 13,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "log": 1458,
+      "player": "player-white",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_6.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -8.514
+      },
+      "receipt": {
+        "entry": 168,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "log": 1528,
+      "player": "player-blue",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_41.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -7.486
+      },
+      "receipt": {
+        "entry": 174,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "log": 1567,
+      "player": "player-brown",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_23.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 8
+        },
+        "net": 12.007
+      },
+      "receipt": {
+        "entry": 179,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 17,
+      "company": "作弊实验室",
+      "log": 1170,
+      "player": "player-white",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_127.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 8
+        },
+        "net": 8.201
+      },
+      "receipt": {
+        "entry": 144,
+        "step": 14,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 17,
+      "company": "寰宇超动力",
+      "log": 1415,
+      "player": "player-brown",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_99.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 9.5
+      },
+      "receipt": {
+        "entry": 161,
+        "step": 13,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "log": 1486,
+      "player": "player-blue",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_120.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 1.429
+      },
+      "receipt": {
+        "entry": 166,
+        "step": 13,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 18,
+      "company": "作弊实验室",
+      "log": 946,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_89.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 6.792
+      },
+      "receipt": {
+        "entry": 118,
+        "step": 3,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "log": 1215,
+      "player": "player-brown",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_59.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 9.2
+      },
+      "receipt": {
+        "entry": 143,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "log": 1224,
+      "player": "player-white",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_13.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.245
+      },
+      "receipt": {
+        "entry": 144,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 18,
+      "company": "作弊实验室",
+      "log": 1241,
+      "player": "player-blue",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_92.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 5.968
+      },
+      "receipt": {
+        "entry": 146,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 19,
+      "company": "作弊实验室",
+      "log": 1219,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_25.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.95
+      },
+      "receipt": {
+        "entry": 147,
+        "step": 7,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 19,
+      "company": "作弊实验室",
+      "log": 1232,
+      "player": "player-blue",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_29.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 6.339
+      },
+      "receipt": {
+        "entry": 148,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "log": 1292,
+      "player": "player-brown",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_82.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 2.978
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 19,
+      "company": "作弊实验室",
+      "log": 1387,
+      "player": "player-green",
+      "turn": 6,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "b_35.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 5.663
+      },
+      "receipt": {
+        "entry": 163,
+        "step": 4,
+        "evidence": "explicit-income-identity-assignment-contradicts-selected-gain",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 19,
+      "company": "作弊实验室",
+      "log": 1389,
+      "player": "player-green",
+      "turn": 6,
+      "pendingType": "planet_reward_income",
+      "selected": {
+        "cardId": "b_58.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -1.8
+      },
+      "receipt": {
+        "entry": 163,
+        "step": 3,
+        "evidence": "explicit-income-identity-assignment-contradicts-selected-gain",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "log": 1342,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_88.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.308
+      },
+      "receipt": {
+        "entry": 161,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 20,
+      "company": "作弊实验室",
+      "log": 1468,
+      "player": "player-white",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_21.png",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 6.06
+      },
+      "receipt": {
+        "entry": 171,
+        "step": 6,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 20,
+      "company": "作弊实验室",
+      "log": 1565,
+      "player": "player-brown",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_14.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 1.076
+      },
+      "receipt": {
+        "entry": 180,
+        "step": 11,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "log": 1599,
+      "player": "player-blue",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_25.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 11
+        },
+        "net": 15.3
+      },
+      "receipt": {
+        "entry": 182,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "log": 1663,
+      "player": "player-green",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_73.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.39
+      },
+      "receipt": {
+        "entry": 189,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "log": 1154,
+      "player": "player-blue",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "fangzhou_blue_3",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2.668
+      },
+      "receipt": {
+        "entry": 141,
+        "step": 6,
+        "evidence": "explicit-income-card-instance",
+        "immediateVerified": true,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "作弊实验室",
+      "log": 1190,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_109.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 6.814
+      },
+      "receipt": {
+        "entry": 143,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "作弊实验室",
+      "log": 1271,
+      "player": "player-brown",
+      "turn": 4,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_58.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 1.7
+      },
+      "receipt": {
+        "entry": 148,
+        "step": 7,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "log": 1334,
+      "player": "player-white",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_25.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 1.718
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 10,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "作弊实验室",
+      "log": 1446,
+      "player": "player-green",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_9.webp",
+        "gain": {
+          "handSize": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 1,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.3,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 4.3
+      },
+      "receipt": {
+        "entry": 163,
+        "step": 10,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "availableData": -1,
+          "handSize": 2
+        },
+        "incomeDeltas": {
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "log": 1472,
+      "player": "player-blue",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_28.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 3.483
+      },
+      "receipt": {
+        "entry": 165,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "log": 1493,
+      "player": "player-white",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_59.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.8
+      },
+      "receipt": {
+        "entry": 166,
+        "step": 12,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 22,
+      "company": "作弊实验室",
+      "log": 1213,
+      "player": "player-green",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_37.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.895
+      },
+      "receipt": {
+        "entry": 153,
+        "step": 15,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "log": 1255,
+      "player": "player-blue",
+      "turn": 1,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 7.044
+      },
+      "receipt": {
+        "entry": 155,
+        "step": 4,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 22,
+      "company": "作弊实验室",
+      "log": 1460,
+      "player": "player-green",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_106.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 0
+        },
+        "net": -5.346
+      },
+      "receipt": {
+        "entry": 173,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 22,
+      "company": "作弊实验室",
+      "log": 1491,
+      "player": "player-brown",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_62.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 3.995
+      },
+      "receipt": {
+        "entry": 176,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "log": 1551,
+      "player": "player-white",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_32.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 0
+        },
+        "net": 2
+      },
+      "receipt": {
+        "entry": 186,
+        "step": 6,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "作弊实验室",
+      "log": 1226,
+      "player": "player-white",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_5.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 5.531
+      },
+      "receipt": {
+        "entry": 149,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "log": 1252,
+      "player": "player-green",
+      "turn": 2,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_8.png",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 6.48
+      },
+      "receipt": {
+        "entry": 151,
+        "step": 6,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "寰宇超动力",
+      "log": 1285,
+      "player": "player-blue",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_15.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 5.99
+      },
+      "receipt": {
+        "entry": 154,
+        "step": 7,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "作弊实验室",
+      "log": 1318,
+      "player": "player-brown",
+      "turn": 3,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_14.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": -1.403
+      },
+      "receipt": {
+        "entry": 156,
+        "step": 15,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "作弊实验室",
+      "log": 1501,
+      "player": "player-brown",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_81.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 4
+        },
+        "net": -1.8
+      },
+      "receipt": {
+        "entry": 172,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 23,
+      "company": "寰宇超动力",
+      "log": 1564,
+      "player": "player-blue",
+      "turn": 9,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_83.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 6.364
+      },
+      "receipt": {
+        "entry": 178,
+        "step": 4,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 24,
+      "company": "作弊实验室",
+      "log": 1281,
+      "player": "player-green",
+      "turn": 5,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_95.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 2.557
+      },
+      "receipt": {
+        "entry": 157,
+        "step": 12,
+        "evidence": "income-type-only-card-identity-unproven",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 24,
+      "company": "寰宇超动力",
+      "log": 1337,
+      "player": "player-white",
+      "turn": 6,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_47.webp",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 4
+        },
+        "net": 8.5
+      },
+      "receipt": {
+        "entry": 162,
+        "step": 13,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "log": 1383,
+      "player": "player-blue",
+      "turn": 7,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "b_114.webp",
+        "gain": {
+          "energy": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 0,
+            "energy": 1,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.2,
+          "incomeFinalScoreGain": 3
+        },
+        "net": 4.472
+      },
+      "receipt": {
+        "entry": 167,
+        "step": 5,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "energy": 1
+        }
+      }
+    },
+    {
+      "case": 24,
+      "company": "作弊实验室",
+      "log": 1450,
+      "player": "player-brown",
+      "turn": 8,
+      "pendingType": "place_data_income",
+      "selected": {
+        "cardId": "dlc_26.png",
+        "gain": {
+          "credits": 1
+        },
+        "profile": {
+          "immediateGain": {
+            "credits": 1,
+            "energy": 0,
+            "handSize": 0,
+            "additionalPublicScan": 0,
+            "publicity": 0,
+            "availableData": 0
+          },
+          "immediateValue": 4.5,
+          "incomeFinalScoreGain": 5
+        },
+        "net": 2.554
+      },
+      "receipt": {
+        "entry": 172,
+        "step": 6,
+        "evidence": "removed-card-instance-plus-income-in-same-transaction",
+        "immediateVerified": false,
+        "resourceDeltas": {
+          "credits": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "incomeDeltas": {
+          "credits": 1
+        }
+      }
+    }
+  ],
+  "manifest": [
+    {
+      "file": "traceready-base-1.json",
+      "sha256": "67fe4273e024a27ea1a4bc1d3c70dab2d2631c8741c36f8412f39238f2b8d6bd"
+    },
+    {
+      "file": "finalincomechoice-candidate-1.json",
+      "sha256": "d60db99f1f76ca78ed4a72b0ceb7d1aa15da0ecc56ca5210c4ef50d1dd029ee2"
+    },
+    {
+      "file": "traceready-base-2.json",
+      "sha256": "3244d12d31552c41dc744dd809c97304ae679ab6e66528509a31927d9b705861"
+    },
+    {
+      "file": "finalincomechoice-candidate-2.json",
+      "sha256": "193679ff714ddb19092948e8187ff8aa606a2b7ba93eea44f22c38b19d0e41ff"
+    },
+    {
+      "file": "traceready-base-3.json",
+      "sha256": "d0cc35dcadd1eb1fdeecbcb4696f606e5917e199defe08993e045ee5802253cf"
+    },
+    {
+      "file": "finalincomechoice-candidate-3.json",
+      "sha256": "4fb98efe6c5e3e0a74b2e4aef3d2c8e185e4a53c8cd2272d0f49054ba8ee0df6"
+    },
+    {
+      "file": "traceready-base-4.json",
+      "sha256": "4ffd5f480edc5b5cf4ec7cb9558aa609302a069fe26e60ac0c76930c578eb4f7"
+    },
+    {
+      "file": "finalincomechoice-candidate-4.json",
+      "sha256": "709478930e0f028060fe24eb195fbea300c1d613f905c81cae474afc0e5e75de"
+    },
+    {
+      "file": "traceready-base-5.json",
+      "sha256": "274e45309a1717e78094812f61b513d5f47d1c65caee1c1058c02bcc16bd90f7"
+    },
+    {
+      "file": "finalincomechoice-candidate-5.json",
+      "sha256": "377ba8f099dd3e3463b5e4c583781f2b02b2b37431c366d51558ab534ae9fe1b"
+    },
+    {
+      "file": "traceready-base-6.json",
+      "sha256": "5fa46fcd4ac98e4f1e770dbffb1e525cbec60679a01fa094db4e4fbc77752d69"
+    },
+    {
+      "file": "finalincomechoice-candidate-6.json",
+      "sha256": "812216b8f50a33611c46cd76974fe49eb36eb2d751a432b3ea7dfbd05f8f2a8c"
+    },
+    {
+      "file": "traceready-base-7.json",
+      "sha256": "2829069ce4b035a12ce46a5e9d2c1906c0367578a28111aa5e5803a52ff91227"
+    },
+    {
+      "file": "finalincomechoice-candidate-7.json",
+      "sha256": "eff6672cf593ac49d91aa98952d184222ab706aa5403d41a950a1821c4b5010b"
+    },
+    {
+      "file": "traceready-base-8.json",
+      "sha256": "6b0351e39e05129de96922f3c4be28d651db6003535095f5f44513414cf2cecb"
+    },
+    {
+      "file": "finalincomechoice-candidate-8.json",
+      "sha256": "fd8c8b2e6e16160dd6c8869beb50591a636f141f1cb603e976b052ac46227de4"
+    },
+    {
+      "file": "traceready-base-9.json",
+      "sha256": "739584395f8bd392680f1f1e5134081552dd23653648af40cc7b455ff58739de"
+    },
+    {
+      "file": "finalincomechoice-candidate-9.json",
+      "sha256": "6de1a76dbcca4a86a5d1d88e694f3fe0d9892b37ca8c274345fd143906eb2227"
+    },
+    {
+      "file": "traceready-base-10.json",
+      "sha256": "cda78582c62bf19a8783662acbbdf9a655431cfbc127bfb93d6b48bddb8e9a2b"
+    },
+    {
+      "file": "finalincomechoice-candidate-10.json",
+      "sha256": "318658f63942aeaa93e26f03f87477c9f92d9971edca24e3d70c3c062e174ac8"
+    },
+    {
+      "file": "traceready-base-11.json",
+      "sha256": "a40a6b77ef192a1a01eb9b8bd16ef4b4e38be0ab7e370c3b16d1bf460fde29e8"
+    },
+    {
+      "file": "finalincomechoice-candidate-11.json",
+      "sha256": "2254106d4c8e89c3672f6885823c82d6d0a122f68ac9f427848f57ff77e86099"
+    },
+    {
+      "file": "traceready-base-12.json",
+      "sha256": "909b03bf704ece24c4ea72039f347011d6d0ef176458cc4321b6c20a9ee97ea0"
+    },
+    {
+      "file": "finalincomechoice-candidate-12.json",
+      "sha256": "0bb70db97f255b0ce5f38c990ea6e5b119b0efd0613588629daf899b05357c39"
+    },
+    {
+      "file": "traceready-base-13.json",
+      "sha256": "adbcdec8d5ba0183bffaba9ae35c52255acbbc30d4a3311f67a54b7c5904ab1d"
+    },
+    {
+      "file": "finalincomechoice-candidate-13.json",
+      "sha256": "aee95017d441e6345a28512bc403ccc6b0dadc5786d8a46219556411ae0a31de"
+    },
+    {
+      "file": "traceready-base-14.json",
+      "sha256": "773fbf2a33675ac0559a0e834428a7251d691ca178dc7bd262813fbb3fb934c6"
+    },
+    {
+      "file": "finalincomechoice-candidate-14.json",
+      "sha256": "35aa2bfe27e81d98ee77d58072a329dd4e6ab842e7009aa286b53f13a61b9b3b"
+    },
+    {
+      "file": "traceready-base-15.json",
+      "sha256": "2751be1db057e906adba2943e40ee2bde8ad6a1b0d833c6e589ba1869729cfdb"
+    },
+    {
+      "file": "finalincomechoice-candidate-15.json",
+      "sha256": "5d96999adff65b9a413f3fc42a201d8f302338bbe3437cfcefbc37248a14083a"
+    },
+    {
+      "file": "traceready-base-16.json",
+      "sha256": "aee274c0d8a03fd7bda31a800de97c9fb98be7b3fbd90870cb34c914749e3854"
+    },
+    {
+      "file": "finalincomechoice-candidate-16.json",
+      "sha256": "81755ee673d9b17ce12ec640e53b1df05860093acfb79dd2b8af8df1be07230a"
+    },
+    {
+      "file": "traceready-base-17.json",
+      "sha256": "76c32fb4e41e8c6f910370a8bb422bc537f89895f2d42715363a576eb361c2cd"
+    },
+    {
+      "file": "finalincomechoice-candidate-17.json",
+      "sha256": "a4151cf7ad820608bbc7aa8b6f962683d389930ef1b53488ef8e8883c9d039fe"
+    },
+    {
+      "file": "traceready-base-18.json",
+      "sha256": "fdd994d219460b291a38369e16ea19cfe2be19255c1c9c603d274378fbd754a9"
+    },
+    {
+      "file": "finalincomechoice-candidate-18.json",
+      "sha256": "1ff28d503d2f0158fd10fa85a683a0202e26cd6a2127872e2a6347457869d068"
+    },
+    {
+      "file": "traceready-base-19.json",
+      "sha256": "2005cf4666cd04eb2d2942d9a747a2e972a953781e4365d0ac8db4f00500c285"
+    },
+    {
+      "file": "finalincomechoice-candidate-19.json",
+      "sha256": "79d62a06a259fcb6f6ef4392cb37a3d7a1eb6ca343421186ffec9f9299498742"
+    },
+    {
+      "file": "traceready-base-20.json",
+      "sha256": "a0a7c469d46bc7a4aac012b7b71d2a95eeace41360659708f13fd4e293274684"
+    },
+    {
+      "file": "finalincomechoice-candidate-20.json",
+      "sha256": "dc77c47184f0e78fd57408f4ea1fd8ace6f108bd15ae6f7d349754606dc3c089"
+    },
+    {
+      "file": "traceready-base-21.json",
+      "sha256": "0746c0bac8f042698d472afa2411d9a82d376470a2ad2482636f3183b357d05f"
+    },
+    {
+      "file": "finalincomechoice-candidate-21.json",
+      "sha256": "15a8fddf7a11fe8283e8c2ba2c5bcc2f80f6f9b656fcdcf9841825e8dc41adf5"
+    },
+    {
+      "file": "traceready-base-22.json",
+      "sha256": "343ec6e3913c5386298af11a3b677a0a2a0bbd9df973573e197ebd83bbffefca"
+    },
+    {
+      "file": "finalincomechoice-candidate-22.json",
+      "sha256": "5007ddd180ab2b1b66203105da58524f444b914efc783406a388076508766008"
+    },
+    {
+      "file": "traceready-base-23.json",
+      "sha256": "fcba83d7d722eab9ba1756bea4d2531ca94bc429a2930edeb0767ea4ab8c47c3"
+    },
+    {
+      "file": "finalincomechoice-candidate-23.json",
+      "sha256": "5aee91566c94a4b48cd36eb1f10f6448c13f69369e66f2e37965a5e0d27dfa41"
+    },
+    {
+      "file": "traceready-base-24.json",
+      "sha256": "bebddee462bec0a24200be508cff3ebeca0eb1d36012d3a3968456015a331182"
+    },
+    {
+      "file": "finalincomechoice-candidate-24.json",
+      "sha256": "c8ab4b4db9b06965c4e9cb18d999099e5693c6b2ae1bc1a2f35793a9be1407c6"
+    }
+  ]
+}
