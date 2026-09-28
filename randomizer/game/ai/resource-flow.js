@@ -1149,6 +1149,8 @@
     if (sourceCategory === "setup") {
       collectStructuredSetupIncome(text, incomeDeltas, resourceDeltas);
     }
+    const actualDataReceipt = text.match(/获得\s+(\d+)\s*\/\s*\d+\s*个数据/);
+    if (actualDataReceipt) resourceDeltas.availableData = Number(actualDataReceipt[1]);
     const affirmativeDataText = text.replace(/(?:不|未|无法|未能|不能|不会|不再)获得数据/g, "");
     const implicitDataGains = (affirmativeDataText.match(/获得数据/g) || []).length;
     const recordedDataGains = Math.max(0, Number(resourceDeltas.availableData) || 0);
@@ -1236,6 +1238,15 @@
     return (beforePlayer?.hand || []).filter((card) => !afterKeys.has(card.key));
   }
 
+  function getNamedCardPickupLabel(text) {
+    const value = String(text || "");
+    const match = value.match(/^精选1张牌并获得其左上角奖励[:：]\s*精选\s+([^；;\n]+)/)
+      || value.match(/快速交易精选[:：]\s*([^，,；;\n]+)/)
+      || value.match(/PASS 精选[:：]\s*([^，,；;\n]+)/)
+      || value.match(/获得卡牌[:：]\s*([^，,；;\n]+)/);
+    return match?.[1]?.trim() || null;
+  }
+
   function attachStructuredHandGains(entryEvents, beforeStates, afterStates, entry) {
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
@@ -1311,6 +1322,35 @@
         eventForCards.cards.push({ ...card, change: "gain", origin });
       }
     }
+  }
+
+  function reattributeNamedCardPickups(events) {
+    const groups = new Map(), changes = [];
+    for (const event of events) {
+      const key = JSON.stringify([event.gameId, event.entryId, event.playerId]);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(event);
+    }
+    for (const group of groups.values()) for (const donor of group) for (const card of [...(donor.cards || [])]) {
+      if (card.change !== "gain" || !card.label) continue;
+      const explicitHandDelta = Number(parseStructuredStepDeltas({ text: donor.sourceDetail }, donor.sourceCategory).resourceDeltas.handSize) || 0;
+      if (Number(donor.resourceDeltas.handSize || 0) - explicitHandDelta < 1) continue;
+      const matching = group.filter(event => getNamedCardPickupLabel(event.sourceDetail) === card.label);
+      if (matching.length !== 1 || matching[0] === donor) continue;
+      const target = matching[0];
+      if (Number(target.resourceDeltas.handSize || 0) !== 0 || target.cards.some(item => item.key === card.key)) continue;
+      // Relocate only the snapshot gain above the explicitly logged delta.
+      // If it masked a -1 payment, preserve that payment and expose the +1
+      // pickup separately. Never guess between repeated transaction names.
+      target.cards.push(card);
+      donor.cards.splice(donor.cards.indexOf(card), 1);
+      target.resourceDeltas.handSize = 1;
+      donor.resourceDeltas.handSize = Number(donor.resourceDeltas.handSize || 0) - 1;
+      if (!donor.resourceDeltas.handSize) delete donor.resourceDeltas.handSize;
+      changes.push({ entryId: target.entryId, playerId: target.playerId, key: card.key, label: card.label,
+        fromStep: donor.stepIndex, toStep: target.stepIndex, fromText: donor.sourceDetail, toText: target.sourceDetail });
+    }
+    return changes;
   }
 
   function attachStructuredHandUses(entryEvents, beforeStates, afterStates, entry) {
@@ -1659,6 +1699,7 @@
       );
       // Identity-only diagnostics must not affect resource-source inference.
       attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
+      reattributeNamedCardPickups(entryEvents);
       events.push(...entryEvents);
       if (snapshotStates) {
         previousStates = snapshotStates;
@@ -1836,6 +1877,8 @@
     SOURCE_CATEGORIES,
     RESOURCE_VALUES,
     parseDeltaText,
+    getNamedCardPickupLabel,
+    reattributeNamedCardPickups,
     classifySourceCategory,
     findAlienIdInLogText: findStructuredAlienId,
     summarizeBlueTechRewards,
