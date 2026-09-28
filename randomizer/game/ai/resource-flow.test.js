@@ -1,6 +1,54 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+for (const [received, requested] of [[0, 1], [1, 1], [2, 3]]) {
+  const initial = {id:"p1", resources:{availableData:0}, hand:[]};
+  const r = flow.analyzeStructuredActionLog([{id:1,playerId:"p1",actionType:"playCard",steps:[
+    {source:"main",text:`获得 ${requested} 数据：白色获得 ${received}/${requested} 个数据`},
+  ],accountingSnapshot:{players:[{...initial,resources:{availableData:received}}]}}],{initialPlayerStates:[initial]});
+  assert.equal(r.events.find(e=>e.stepIndex===0).resourceDeltas.availableData||0,received,"actual data count precedes capacity denominator");
+  assert.equal(r.events.filter(e=>e.syntheticSnapshotInference).length,0);
+}
+
+{
+  const picked = { id: "picked-data", cardName: "近地小行星研究" };
+  for (const text of [
+    "精选1张牌并获得其左上角奖励：精选 近地小行星研究；数据+1",
+    "精选奖励：获得卡牌：近地小行星研究，公共区已补牌：其它牌；数据+1",
+    "快速交易：快速交易精选：近地小行星研究，公共区已补牌：其它牌；数据+1",
+    "PASS 预留精选：PASS 精选：近地小行星研究；数据+1",
+  ]) {
+    const initial = { id: "p1", resources: { handSize: 0, availableData: 0, score: 0 }, hand: [] };
+    const result = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", roundNumber: 2, actionType: "playCard",
+      steps: [{ source: "main", text }, { source: "quick", text: "放置数据：资源：数据-1、分数+2" }],
+      accountingSnapshot: { players: [{ ...initial, resources: { handSize: 1, availableData: 0, score: 2 }, hand: [picked] }] },
+    }], { initialPlayerStates: [initial] });
+    const pickup = result.events.find(e => e.sourceDetail === text);
+    const placement = result.events.find(e => e.sourceDetail.startsWith("放置数据"));
+    assert.equal(pickup.cards.find(c => c.change === "gain").key, picked.id, "named pickup owns the actual new card");
+    assert.equal(pickup.resourceDeltas.handSize, 1, "pickup hand gain must not migrate to later data placement");
+    assert.equal(placement.resourceDeltas.handSize || 0, 0);
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+  const event = (stepIndex, text, gain = 0, cards = []) => ({ gameId: "g", entryId: 1, playerId: "p1", stepIndex,
+    sourceDetail: text, sourceCategory: flow.classifySourceCategory({text}), resourceDeltas: gain ? { handSize: gain } : {}, cards });
+  const gainCard = { key: "unique", label: "同名牌", change: "gain" };
+  const ambiguous = [event(0, "获得卡牌：同名牌"), event(1, "获得卡牌：同名牌"), event(2, "放置数据", 1, [gainCard])];
+  assert.deepEqual(flow.reattributeNamedCardPickups(ambiguous), [], "two named targets are ambiguous");
+  const paid = [event(0, "获得卡牌：同名牌"), event(1, "打出", -1, [gainCard])];
+  assert.deepEqual(flow.reattributeNamedCardPickups(paid), [], "cannot relocate a negative hand payment");
+  const explicit = [event(0, "获得卡牌：同名牌"), event(1, "PASS 收入：手牌+1", 1, [gainCard])];
+  assert.deepEqual(flow.reattributeNamedCardPickups(explicit), [], "cannot steal an explicitly stated hand reward");
+  const netted = [event(0, "获得卡牌：同名牌"), event(1, "放置数据：资源：手牌-1", 0, [gainCard])];
+  assert.equal(flow.reattributeNamedCardPickups(netted).length, 1, "separate observed pickup from explicit later payment");
+  assert.equal(netted[0].resourceDeltas.handSize, 1);assert.equal(netted[1].resourceDeltas.handSize, -1);
+  const two = [event(0, "获得卡牌：甲"), event(1, "获得卡牌：乙"), event(2, "放置数据", 2,
+    [{key:"a",label:"甲",change:"gain"},{key:"b",label:"乙",change:"gain"}])];
+  assert.equal(flow.reattributeNamedCardPickups(two).length, 2, "separate uniquely named pickups share a later snapshot");
+  assert.equal(two[0].resourceDeltas.handSize, 1);assert.equal(two[1].resourceDeltas.handSize, 1);
+  assert.equal(two[2].resourceDeltas.handSize || 0, 0);
+}
+
 {
   for (const [label, payout, expected] of [
     ["当前每个能量收入：1能量", "能量+7", { energy: 7 }],
