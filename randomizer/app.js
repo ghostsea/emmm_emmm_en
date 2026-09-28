@@ -1193,6 +1193,7 @@
         : getRecoverableActionLog(options)
     ),
     getAlienTraceActionPlayer,
+    getAlienTraceRewardAvailability,
     getCardPlayCost,
     getCardPrice,
     getCardTypeCode,
@@ -20213,6 +20214,19 @@
       subtitle: "按槽位顺序替换未替换的数据；无可替换数据时追加扫描计数且不获得数据。",
       choices: expandScanChoicesWithAomomoTargets(nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId))),
     });
+  }
+
+  function getAlienTraceRewardAvailability(effect, player = getCurrentPlayer()) {
+    if (effect?.type !== "alien_trace" || !player) return { ok: false };
+    const allowedTraceTypes = effect.options?.traceType
+      ? [effect.options.traceType]
+      : (effect.options?.allowedTraceTypes?.length ? effect.options.allowedTraceTypes : aliens.TRACE_TYPES);
+    const allowedAlienSlotIds = getEligibleAlienSlotIdsForTraceEffect(effect, player, allowedTraceTypes);
+    const hasPanelTarget = hasAlienTracePanelPlacementTarget(allowedAlienSlotIds, allowedTraceTypes, player);
+    const unlockTraceTypes = getFangzhouUnlockableTraceTypes(
+      getFangzhouTraceChoiceSlotId(allowedAlienSlotIds), allowedTraceTypes, player,
+    );
+    return { ok: hasPanelTarget || unlockTraceTypes.length > 0, allowedTraceTypes, allowedAlienSlotIds, hasPanelTarget, unlockTraceTypes };
   }
 
   function openAlienTraceRewardEffect(effect) {
