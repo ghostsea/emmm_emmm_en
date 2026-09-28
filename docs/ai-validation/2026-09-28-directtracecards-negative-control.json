@@ -1,0 +1,19 @@
+{
+  "scope": "In-memory regressions; candidate source untouched",
+  "rows": [
+    {
+      "name": "old-unsupported-filter",
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "legal direct trace card is an active play candidate: b_27.webp"
+      }
+    },
+    {
+      "name": "ignore-card-payment",
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "trace affordability uses resources after actual card payment"
+      }
+    }
+  ]
+}
