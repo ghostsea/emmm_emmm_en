@@ -16,6 +16,24 @@ const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
 const industryModule = require("../game/industry");
 
+function verifyScanUsesCurrentPosition() {
+  for (const roundNumber of [1, 2, 3, 4]) {
+    const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber,
+      blueResources: { score: 100, credits: 5, energy: 6, publicity: 2, availableData: 0 } });
+    const recordScan = () => h.controller.recordAiAutoBattleLog("turn-action", "earlier scan", { action: { id: "scan" } });
+    recordScan();
+    const before = JSON.stringify(h.blue);
+    const second = h.controller.scoreAiScanAction(h.blue);
+    recordScan();
+    recordScan();
+    const fourth = h.controller.scoreAiScanAction(h.blue);
+    assert(Number.isFinite(second));
+    assert.equal(fourth, second, "same current position must not lose value solely from previous scan count");
+    assert.equal(JSON.stringify(h.blue), before, "scan valuation must be read-only");
+  }
+}
+verifyScanUsesCurrentPosition();
+
 // A continuation premium needs an actual resource increase. Early engine
 // pressure alone must not turn empty or fully capped rewards into value.
 function verifyActualContinuationGains() {

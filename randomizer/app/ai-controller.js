@@ -18618,7 +18618,8 @@
             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
         )
         : 0;
-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
+      // Prior scans do not consume this action's current rewards. Resource
+      // costs, full-pool backlog and low cashout value are priced below.
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
         && scanCountThisRound <= 0
@@ -18655,7 +18656,6 @@
         - costValue * costMultiplier
         - reservePenalty
         - lateResourceDrainPenalty
-        - repeatedScanPenalty
         - fullDataAnalyzeBacklogPenalty
         - adjustedLowCashoutScanPenalty;
     }
@@ -26878,6 +26878,7 @@
       scoreAiFullSectorExtraMark,
       scoreAiLastSectorWinTaskCashout,
       scoreAiNebulaScanChoice,
+      scoreAiScanAction,
       scoreAiTerminalStagingOnlyLaunchPenalty,
       stopAiAutoBattle,
       sumAiDemandMap,
