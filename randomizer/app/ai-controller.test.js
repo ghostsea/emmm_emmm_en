@@ -457,6 +457,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     cardEffects: {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
+        REMOVE_PLANET_MARKER: cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
         CARD_MOVE: "card_move",
         PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_ORBIT: "card_orbit",
@@ -470,6 +471,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         CONDITIONAL_REWARD: "card_conditional_reward",
         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
       },
+      collectReadyTasks: options.collectReadyTasks,
       buildPlayEffects: (card) => card?.playEffects || [],
       getCardModel: (card) => card?.model || null,
       ensureCardEffectState: () => null,
@@ -573,6 +575,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       },
     }),
     createTurnState: () => ({}),
+    buildPlanetMarkerRemovalChoices: options.buildPlanetMarkerRemovalChoices,
+    buildCardTaskContext: options.buildCardTaskContext,
     computePlayerFinalScoreBreakdown: options.computePlayerFinalScoreBreakdown || (() => ({})),
     formatRocketLabel: () => "",
     getActivePlayers: () => allPlayers,
@@ -17346,3 +17350,40 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const planetModule = require("../game/planet-stats");
+  const ps = planetModule.createPlanetStatsState();
+  for (const planetId of ["mercury", "mars", "saturn"]) {
+    ps.planets[planetId].orbitMarkers = [{ playerId: "player-blue", color: "blue", sequence: 1 }];
+    ps.planets[planetId].orbits = 1;
+  }
+  const choices = ["mercury", "mars", "saturn"].map(planetId => ({ id: "orbit:"+planetId+":1", kind: "orbit", planetId, sequence: 1 }));
+  const scoreCard = { id: "marker-score", typeCode: 3, cardTypeCode: 3, cardId: "b_74.webp", model: cardEffects.MODELS["b_74.webp"] };
+  const taskCard = { id: "marker-task", cardId: "b_107.webp", model: cardEffects.MODELS["b_107.webp"] };
+  const card = { id: "remove-orbit", cardId: "b_13.webp", price: 1, cardTypeCode: 0 };
+  card.playEffects = cardEffects.buildPlayEffects(card);
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: [card], blueReservedCards: [scoreCard, taskCard],
+    planetStats: planetModule, planetStatsState: ps, endGameScoring, collectReadyTasks: cardEffects.collectReadyTasks,
+    buildPlanetMarkerRemovalChoices: () => choices, buildCardTaskContext: () => ({ planetStatsState: ps }) });
+  const before = JSON.stringify({ player:h.blue, ps });
+  const previews = h.controller.listAiMarkerRemovalPreviews(card.playEffects[0], h.blue);
+  assert.equal(previews[0].choice.planetId, "mercury", "avoid losing scored or ready-task markers");
+  assert.equal(previews.find(x => x.choice.planetId === "mars").scoreLoss, 4, "real Mars-card score lost");
+  const saturn = previews.find(x => x.choice.planetId === "saturn");
+  assert(saturn.readyTaskLoss > 0, "unclaimed ready task must not be sacrificed for free");
+  assert.deepEqual(saturn.lostTaskIds, ["b107-saturn-task"]);
+  assert.equal(JSON.stringify({ player:h.blue, ps }), before, "preview cannot remove live markers or alter card task state");
+  assert(h.controller.buildAiPlayCardCandidate(card, 0, h.blue), "b13 becomes available with a legal marker");
+  choices.length = 0;
+  assert.equal(h.controller.buildAiPlayCardCandidate(card, 0, h.blue), null, "b13 cannot grant rewards without its sacrifice");
+  const plutoChoice = { id: "plutoOrbit:pluto-card:1", kind: "plutoOrbit", cardId: "pluto-card", planetId: "pluto", sequence: 1 };
+  const plutoMarkers = [{ kind: "orbit", cardId: "pluto-card", planetId: "pluto", sequence: 1, playerId: "player-blue", color: "blue" }];
+  h.blue.reservedCards = [{ id: "all-marker-score", typeCode: 3, cardTypeCode: 3, cardId: "dlc_39.png", model: cardEffects.MODELS["dlc_39.png"] }];
+  const pluto = createAiControllerHarness(null, { currentPlayerColor: "blue", blueReservedCards: h.blue.reservedCards,
+    planetStats: planetModule, planetStatsState: planetModule.createPlanetStatsState(), endGameScoring,
+    actionContext: { plutoMarkers }, buildPlanetMarkerRemovalChoices: () => [plutoChoice] });
+  const frozen = JSON.stringify(plutoMarkers);
+  assert.equal(pluto.controller.listAiMarkerRemovalPreviews(card.playEffects[0], pluto.blue)[0].scoreLoss, 2, "Pluto counts in the same actual scoring model");
+  assert.equal(JSON.stringify(plutoMarkers), frozen);
+}

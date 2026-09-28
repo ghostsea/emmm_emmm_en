@@ -1156,6 +1156,8 @@
     cancelTechSelection,
     clearTransientStateForRecovery,
     closeScanTargetPicker,
+    buildPlanetMarkerRemovalChoices,
+    buildCardTaskContext,
     computePlayerFinalScoreBreakdown,
     confirmCardTaskCompletion,
     confirmCardCornerQuickAction,
@@ -15528,8 +15530,7 @@
     return definition?.label || marker?.color || marker?.playerId || "未知玩家";
   }
 
-  function buildPlanetMarkerRemovalChoices(effect) {
-    const currentPlayer = getCurrentPlayer();
+  function buildPlanetMarkerRemovalChoices(effect, currentPlayer = getCurrentPlayer()) {
     const owner = effect.options?.owner || "current";
     const markerKinds = new Set(effect.options?.markerKinds || ["orbit", "land", "satelliteLand"]);
     const choices = [];
@@ -15579,7 +15580,7 @@
       }
     }
 
-    return [...choices, ...buildPlutoMarkerRemovalChoices(owner, markerKinds)];
+    return [...choices, ...buildPlutoMarkerRemovalChoices(owner, markerKinds, currentPlayer)];
   }
 
   function removePlanetMarkerForChoice(choice, player, owner = "current") {
@@ -33395,8 +33396,7 @@
     return collectPlutoMarkers().some((marker) => marker.kind === "land" && markerBelongsToPlayer(marker, player));
   }
 
-  function buildPlutoMarkerRemovalChoices(owner, markerKinds) {
-    const currentPlayer = getCurrentPlayer();
+  function buildPlutoMarkerRemovalChoices(owner, markerKinds, currentPlayer = getCurrentPlayer()) {
     const choices = [];
     for (const { player, card } of getAllPlutoReservedCardEntries()) {
       if (owner !== "any" && player?.id !== currentPlayer?.id) continue;

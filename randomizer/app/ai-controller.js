@@ -82,6 +82,8 @@
       cancelTechSelection,
       clearTransientStateForRecovery,
       closeScanTargetPicker,
+      buildPlanetMarkerRemovalChoices,
+      buildCardTaskContext,
       computePlayerFinalScoreBreakdown,
       confirmCardTaskCompletion,
       confirmCardCornerQuickAction,
@@ -10783,12 +10785,65 @@
       )).length;
     }
 
+    function listAiMarkerRemovalPreviews(effect, player = getCurrentPlayer(), suppliedChoices = null) {
+      if (!player || !endGameScoring?.computePlayerFinalScore) return [];
+      const choices = suppliedChoices || buildPlanetMarkerRemovalChoices?.(effect, player) || [];
+      if (!choices.length) return [];
+      const actionContext = createActionContext();
+      const taskContext = buildCardTaskContext?.() || {};
+      const beforePlayer = structuredClone(player);
+      const beforeContext = { ...actionContext, ...taskContext, currentPlayer: beforePlayer,
+        planetStatsState: structuredClone(planetStatsState), finalScoringState: structuredClone(finalScoringState),
+        alienGameState: structuredClone(alienGameState), plutoMarkers: structuredClone(taskContext.plutoMarkers || actionContext.plutoMarkers || []),
+        cardEffects, getCardTypeCode };
+      const beforeScore = endGameScoring.computePlayerFinalScore(beforeContext, beforePlayer).totalScore;
+      const readyBefore = cardEffects.collectReadyTasks?.(beforePlayer, beforeContext) || [];
+      return choices.map((choice) => {
+        const afterPlayer = structuredClone(beforePlayer);
+        const afterContext = { ...beforeContext, currentPlayer: afterPlayer,
+          planetStatsState: structuredClone(beforeContext.planetStatsState),
+          finalScoringState: structuredClone(beforeContext.finalScoringState),
+          alienGameState: structuredClone(beforeContext.alienGameState),
+          plutoMarkers: structuredClone(beforeContext.plutoMarkers) };
+        const owner = effect?.options?.owner || "current";
+        const markerRef = { sequence: choice.sequence, ...(owner === "any" ? {} : { player: afterPlayer }) };
+        let removed = false;
+        if (choice.kind === "plutoOrbit" || choice.kind === "plutoLand") {
+          const kind = choice.kind === "plutoOrbit" ? "orbit" : "land";
+          const index = afterContext.plutoMarkers.findIndex((marker) => marker.cardId === choice.cardId
+            && marker.kind === kind && Number(marker.sequence) === Number(choice.sequence));
+          if (index >= 0) { afterContext.plutoMarkers.splice(index, 1); removed = true; }
+        } else {
+          const result = choice.kind === "orbit"
+            ? planetStats.removePlanetOrbitMarker?.(afterContext.planetStatsState, choice.planetId, markerRef)
+            : choice.kind === "land"
+              ? planetStats.removePlanetLandingMarker?.(afterContext.planetStatsState, choice.planetId, markerRef)
+              : choice.kind === "satelliteLand"
+                ? planetStats.removeSatelliteLandingMarker?.(afterContext.planetStatsState, choice.planetId, choice.satelliteId, markerRef) : null;
+          removed = Boolean(result?.ok);
+        }
+        if (!removed) return null;
+        const afterScore = endGameScoring.computePlayerFinalScore(afterContext, afterPlayer).totalScore;
+        const readyAfter = new Set((cardEffects.collectReadyTasks?.(afterPlayer, afterContext) || [])
+          .map((entry) => entry.card.id + ":" + entry.task.id));
+        const lostTasks = readyBefore.filter((entry) => !readyAfter.has(entry.card.id + ":" + entry.task.id));
+        const scoreLoss = Math.max(0, aiNumber(beforeScore) - aiNumber(afterScore));
+        const readyTaskLoss = lostTasks.reduce((total, entry) => total + Math.max(0, getAiTaskRewardValue(entry.task, player)), 0);
+        return { choice, scoreLoss, readyTaskLoss, lostTaskIds: lostTasks.map((entry) => entry.task.id),
+          cost: scoreLoss + readyTaskLoss };
+      }).filter(Boolean).sort((left, right) => left.cost - right.cost || String(left.choice.id).localeCompare(String(right.choice.id)));
+    }
+
     function scoreAiEffectValue(effect, options = {}) {
       if (!effect) return 0;
       const type = effect.type;
       const effectOptions = effect.options || {};
       const player = options.player || getCurrentPlayer();
       switch (type) {
+        case cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER: {
+          const best = listAiMarkerRemovalPreviews(effect, player)[0];
+          return best ? -best.cost : 0;
+        }
         case cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN: {
           const profile = options.probeScanProfile || getAiPlayableProbeScanProfile(effect, player);
           return profile?.value || 0;
@@ -18912,7 +18967,6 @@
       const effectPlayer = player || getCurrentPlayer();
       const unsupportedTypes = new Set([
         "alien_trace",
-        cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
         cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION,
@@ -18934,6 +18988,10 @@
             : index === 1 && buildAiProbeMoveScanPreview(playEffects, effectPlayer))) {
             return { ok: false, message: "探测器扫描需要可执行的当前目标或一步移动后目标" };
           }
+        }
+        if (effect?.type === cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER
+          && !listAiMarkerRemovalPreviews(effect, effectPlayer).length) {
+          return { ok: false, message: "没有可移除且可估值的星球标记" };
         }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
@@ -19290,6 +19348,9 @@
           directScoreGain,
           effectValue,
           probeMoveScanPreview,
+          ...(valuationPlayEffects.some((effect) => effect.type === cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER)
+            ? { markerRemovalPreviews: valuationPlayEffects.filter((effect) => effect.type === cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER)
+              .flatMap((effect) => listAiMarkerRemovalPreviews(effect, currentPlayer)) } : {}),
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -20996,13 +21057,15 @@
     function runAiRareScanTargetDecision(pending, player) {
       const pendingType = pending?.type || null;
       if (pendingType === "remove_planet_marker") {
-        const button = chooseFirstAiButton("[data-planet-marker-choice]");
-        const choiceId = button?.dataset?.planetMarkerChoice || pending.choices?.[0]?.id || null;
+        const previews = listAiMarkerRemovalPreviews(pending.effect, player, pending.choices);
+        const selected = previews[0] || null;
+        const choiceId = selected?.choice?.id || null;
         if (!choiceId) return { ok: false, blocked: true, message: "AI 没有可移除的星球标记" };
         recordAiAutoBattleLog("rare-scan-target", `${player.colorLabel}AI 移除星球标记`, {
           logPlayerId: player.id,
           choiceId,
-          label: button?.textContent || "",
+          label: selected?.choice?.label || "",
+          markerRemovalPreviews: previews,
         });
         return handleRemovePlanetMarkerChoice(choiceId);
       }
@@ -26838,6 +26901,7 @@
       buildAiProbeMoveScanPreview,
       buildAiPlayCardCandidate,
       getAiPlayableProbeScanProfile,
+      listAiMarkerRemovalPreviews,
       canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,

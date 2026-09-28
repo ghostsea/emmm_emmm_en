@@ -1,0 +1,801 @@
+{
+  "scope": "All white-human paid card plays in the two new logs. Exact catalog-name matching only; alien/unresolved names retained. Static top-level unsupported gate is a diagnostic, not proof of live legal availability. Same-entry main steps can include subsequent triggers or income and are not all direct printed rewards.",
+  "controllerSha256": "c0bb11c17f9d287a6d3ce68bb3e8d555a544749e3083aeafbd6321326c2718de",
+  "games": [
+    {
+      "file": "参考行动日志/seti-action-log-20260909-231236.md",
+      "sha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae",
+      "plays": 18,
+      "rows": [
+        {
+          "heading": "### #10 第1轮 第2回合 - 白色 - 打牌行动",
+          "name": "毅力号火星车",
+          "payment": "资源：信用点-1、手牌-1；卡牌：毅力号火星车",
+          "cardId": "b_91.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_land"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：毅力号火星车：资源：信用点-1、手牌-1；卡牌：毅力号火星车",
+            "- [main] 登陆；火星/水星/卫星奖励4分：登陆 火卫一/火卫二，消耗 ，移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 4 个地点奖励",
+            "- [main] 获得 8 分：白色 分数+8",
+            "- [main] 获得收入 1/2：收入：弃掉 太空发射系统，手牌+1（已即时获得）；不可撤销：盲抽翻出新牌",
+            "- [main] 获得收入 2/2：收入：弃掉 飞掠火星，能量+1（已即时获得）",
+            "- [main] 指定目标登陆：4分：白色 分数+4"
+          ]
+        },
+        {
+          "heading": "### #14 第1轮 第3回合 - 白色 - 打牌行动",
+          "name": "信使号探测器",
+          "payment": "资源：信用点-3、手牌-1；卡牌：信使号探测器",
+          "cardId": "b_77.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "launch",
+            "card_move"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：信使号探测器：资源：信用点-3、手牌-1；卡牌：信使号探测器",
+            "- [main] 发射：发射 R2 -> 扇区[0,1]#0",
+            "- [main] 1移动：R1 -> 扇区[6,1]#4，消耗 1能量，需要 2 点移动力，移动到金星，宣传+1"
+          ]
+        },
+        {
+          "heading": "### #37 第2轮 第1回合 - 白色 - 打牌行动",
+          "name": "小行星研究",
+          "payment": "资源：手牌-1；卡牌：小行星研究",
+          "cardId": "b_10.webp",
+          "mapping": "unique-catalog",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 3,
+          "steps": [
+            "- [main] 打出：小行星研究：资源：手牌-1；卡牌：小行星研究"
+          ]
+        },
+        {
+          "heading": "### #45 第2轮 第3回合 - 白色 - 打牌行动",
+          "name": "霍尔效应推进器",
+          "payment": "资源：信用点-2、手牌-1；卡牌：霍尔效应推进器",
+          "cardId": "dlc_40.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：霍尔效应推进器：资源：信用点-2、手牌-1；卡牌：霍尔效应推进器",
+            "- [main] 5移动：R1 -> 扇区[7,1]#0，移动到金星，宣传+1；资源：宣传+5"
+          ]
+        },
+        {
+          "heading": "### #49 第2轮 第4回合 - 白色 - 打牌行动",
+          "name": "现场着陆直播",
+          "payment": "资源：信用点-2、手牌-1；卡牌：现场着陆直播",
+          "cardId": "dlc_6.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move",
+            "card_land",
+            "card_landing_sector_scan"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：现场着陆直播：资源：信用点-2、手牌-1；卡牌：现场着陆直播",
+            "- [main] 1移动：R1 -> 扇区[7,2]#4，移动到彗星，宣传+1",
+            "- [main] 登陆：登陆 土卫六，消耗 ，移除火箭，显示卫星登陆标记 土卫六；追加 3 个地点奖励",
+            "- [main] 获得 7 分：白色 分数+7",
+            "- [main] 获得任意外星人标记 1/2：外星人 2 放置蓝色痕迹；外星人 2首痕迹奖励：3分+1宣传",
+            "- [main] 获得任意外星人标记 2/2：外星人 2 放置粉色痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；外星人 2三种首痕迹已满：将在该玩家回合结束时揭示外星人",
+            "- [main] 刚登陆星球所在扇区扫描：已追加 1 次扇区6扫描",
+            "- [main] 刚登陆星球所在扇区扫描：织女一 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+            "- [main] 回合结束揭示外星人：异常点已展示：异常扇区 1、6、4；异常点揭示发牌：绿色+1，白色+2；不可撤销：回合结束揭示外星人"
+          ]
+        },
+        {
+          "heading": "### #57 第2轮 第6回合 - 白色 - 打牌行动",
+          "name": "生活常态",
+          "payment": "资源：信用点-1、手牌-1；卡牌：生活常态",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：生活常态：资源：信用点-1、手牌-1；卡牌：生活常态",
+            "- [main] 盲抽3张并结算两张角标：盲抽 3 张；诺托射电天文台 左上角：弃牌换1移动；收入：弃掉 太空交会，能量+1（已即时获得）；资源：手牌+1；不可撤销：盲抽翻出新牌",
+            "- [main] 诺托射电天文台：弃牌换1移动：R1 -> 扇区[5,2]#4，橙色2：进入小行星，宣传+1"
+          ]
+        },
+        {
+          "heading": "### #79 第3轮 第1回合 - 白色 - 打牌行动",
+          "name": "我们被监视了?",
+          "payment": "资源：信用点-1、手牌-1；卡牌：我们被监视了?",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：我们被监视了?：资源：信用点-1、手牌-1；卡牌：我们被监视了?",
+            "- [main] 获得即将触发异常奖励：异常点牌 a_1：1信用点"
+          ]
+        },
+        {
+          "heading": "### #83 第3轮 第2回合 - 白色 - 打牌行动",
+          "name": "阿番西博天文台",
+          "payment": "资源：信用点-3、手牌-1；卡牌：阿番西博天文台",
+          "cardId": "b_9.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_scan_action",
+            "card_any_sector_scan"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：阿番西博天文台：资源：信用点-3、手牌-1；卡牌：阿番西博天文台",
+            "- [main] 扫描行动：扫描行动已展开",
+            "- [main] 扇区扫描：开普勒22 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 公共牌区扫描 新任务：开普勒22 槽位4 替换为白色token；获得数据；弃除 新任务，公共区留空待扫描结束补牌；资源：数据+1",
+            "- [main] 发射/移动：发射 R1 -> 扇区[1,1]#4，消耗 1能量",
+            "- [main] 额外任意扇区扫描：开普勒22 槽位5 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 完成扇区：开普勒22：开普勒22第1次结算：白色获胜，棕色保留1枚标记；追加 4 个奖励效果",
+            "- [main] 开普勒22参与奖励：白色 +1宣传：白色 宣传+1",
+            "- [main] 开普勒22参与奖励：棕色 +1宣传：棕色 宣传+1",
+            "- [main] 开普勒22参与奖励：蓝色 +1宣传：蓝色 宣传+1",
+            "- [main] 开普勒22赢家奖励：白色放置粉色外星人痕迹：获得异常点牌：信息胶囊；资源：手牌+1；不可撤销：外星人牌获取翻开新牌",
+            "- [main] 补充公共牌区：公共牌区补牌：2:观测室女座；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #91 第3轮 第4回合 - 白色 - 打牌行动",
+          "name": "伽利略号任务",
+          "payment": "资源：手牌-1；卡牌：伽利略号任务",
+          "cardId": "b_44.webp",
+          "mapping": "unique-catalog",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 2,
+          "steps": [
+            "- [main] 打出：伽利略号任务：资源：手牌-1；卡牌：伽利略号任务"
+          ]
+        },
+        {
+          "heading": "### #95 第3轮 第5回合 - 白色 - 打牌行动",
+          "name": "望远锐现代化",
+          "payment": "资源：信用点-1、手牌-1；卡牌：望远锐现代化",
+          "cardId": "b_122.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "pick_card"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 2,
+          "steps": [
+            "- [main] 打出：望远锐现代化：资源：信用点-1、手牌-1；卡牌：望远锐现代化",
+            "- [main] 精选1张牌：获得卡牌：韦断特v克综合孔径射电|远锐，公共区已补牌：月球门户空间站；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #99 第3轮 第6回合 - 白色 - 打牌行动",
+          "name": "蜻蜓号",
+          "payment": "资源：信用点-1、手牌-1；卡牌：蜻蜓号",
+          "cardId": "b_29.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_land"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：蜻蜓号：资源：信用点-1、手牌-1；卡牌：蜻蜓号",
+            "- [main] 登陆（可重复登陆并获得地点奖励）：登陆 火卫一/火卫二，消耗 （有环绕，消耗-1），移除火箭，显示卫星登陆标记 火卫一/火卫二；追加 3 个地点奖励",
+            "- [main] 获得 8 分：白色 分数+8",
+            "- [main] 获得收入 1/2：收入：弃掉 飞掠金星，信用点+1（已即时获得）",
+            "- [main] 获得收入 2/2：收入：弃掉 火星轨遒门户，信用点+1（已即时获得）"
+          ]
+        },
+        {
+          "heading": "### #115 第3轮 第10回合 - 白色 - 打牌行动",
+          "name": "仔细倾听",
+          "payment": "资源：信用点-2、手牌-1；卡牌：仔细倾听",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：仔细倾听：资源：信用点-2、手牌-1；卡牌：仔细倾听",
+            "- [main] 扫描行动：扫描行动已展开",
+            "- [main] 扇区扫描：绘架座β 槽位5 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 公共牌区扫描 维护任务：天狼星A 槽位3 替换为白色token；获得数据；弃除 维护任务，公共区留空待扫描结束补牌；资源：数据+1",
+            "- [main] 发射/移动：已累加 1 移动到本次扫描移动效果",
+            "- [main] 水星扇区扫描：巴纳德 槽位2 替换为白色token；槽位2 +2分；获得数据；消耗 1宣传；资源：数据+1",
+            "- [main] 即将触发异常扇区额外扫描：织女一 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 扫描行动：累计移动：R1 -> 扇区[6,1]#4，移动到金星，宣传+1",
+            "- [main] 完成扇区：绘架座β：绘架座β第1次结算：白色获胜，绿色保留1枚标记；追加 5 个奖励效果",
+            "- [main] 绘架座β参与奖励：白色 +1宣传：白色 宣传+1",
+            "- [main] 绘架座β参与奖励：绿色 +1宣传：绿色 宣传+1",
+            "- [main] 绘架座β参与奖励：蓝色 +1宣传：蓝色 宣传+1",
+            "- [main] 绘架座β赢家奖励：白色 +3分：白色 分数+3",
+            "- [main] 绘架座β赢家奖励：白色放置粉色外星人痕迹：方舟粉色痕迹 2号位：方舟粉色痕迹 2号位 基础奖励；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 4：4分数：白色 分数+4",
+            "- [main] 方舟奖励 7：1分数：白色 分数+1",
+            "- [main] 方舟奖励 7：盲抽 1 张：已抽 1 张；不可撤销：盲抽翻出新牌",
+            "- [main] 补充公共牌区：公共牌区补牌：3:朱诺号探测器；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #117 第3轮 第11回合 - 白色 - 打牌行动",
+          "name": "延期发射",
+          "payment": "资源：信用点-1、手牌-1；卡牌：延期发射",
+          "cardId": "dlc_33.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "gain_resources"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 1,
+          "steps": [
+            "- [main] 打出：延期发射：资源：信用点-1、手牌-1；卡牌：延期发射",
+            "- [main] 获得 1 宣传：白色 宣传+1"
+          ]
+        },
+        {
+          "heading": "### #130 第4轮 第1回合 - 白色 - 打牌行动",
+          "name": "方舟蓝色痕迹 3",
+          "payment": "资源：信用点-2、手牌-1；卡牌：方舟蓝色痕迹 3",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：方舟蓝色痕迹 3：资源：信用点-2、手牌-1；卡牌：方舟蓝色痕迹 3",
+            "- [main] 方舟奖励牌：方舟奖励牌翻开新牌；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 1：盲抽 2 张：已抽 2 张；不可撤销：盲抽翻出新牌",
+            "- [main] 方舟奖励 1：扫描行动：扫描行动已展开",
+            "- [main] 扇区扫描：织女一 槽位4 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 公共牌区扫描 太空第一人：比邻星 槽位3 替换为白色token；获得数据；弃除 太空第一人，公共区留空待扫描结束补牌；资源：数据+1",
+            "- [main] 发射/移动：已累加 1 移动到本次扫描移动效果",
+            "- [main] 水星扇区扫描：比邻星 槽位4 替换为白色token；获得数据；消耗 1宣传；资源：数据+1",
+            "- [main] 扫描行动：累计移动：R1 -> 扇区[4,3]#4，移动到木星，宣传+1",
+            "- [main] 完成扇区：织女一：织女一第3次结算：白色获胜，绿色保留1枚标记；追加 3 个奖励效果",
+            "- [main] 织女一参与奖励：白色 +1宣传：白色 宣传+1",
+            "- [main] 织女一参与奖励：绿色 +1宣传：绿色 宣传+1",
+            "- [main] 织女一赢家奖励：白色 +5分：白色 分数+5",
+            "- [main] 补充公共牌区：公共牌区补牌：2:深部地下中微子实验；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #142 第4轮 第4回合 - 白色 - 打牌行动",
+          "name": "朱诺号探测器",
+          "payment": "资源：信用点-3、手牌-1；卡牌：朱诺号探测器",
+          "cardId": "b_60.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "launch",
+            "gain_data"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：朱诺号探测器：资源：信用点-3、手牌-1；卡牌：朱诺号探测器",
+            "- [main] 发射：发射 R1 -> 扇区[1,1]#0",
+            "- [main] 获得 1 个数据：白色获得 1/1 个数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #154 第4轮 第7回合 - 白色 - 打牌行动",
+          "name": "金星探测计划",
+          "payment": "资源：信用点-2、手牌-1；卡牌：金星探测计划",
+          "cardId": "b_130.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_planet_sector_scan",
+            "card_planet_sector_scan"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：金星探测计划：资源：信用点-2、手牌-1；卡牌：金星探测计划",
+            "- [main] 金星所在扇区扫描 1/2：织女一 槽位4 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 金星所在扇区扫描 2/2：织女一 已无未替换数据，追加白色扫描计数；不获得数据",
+            "- [main] 完成扇区：织女一：织女一第4次结算：白色获胜，棕色保留1枚标记；追加 4 个奖励效果",
+            "- [main] 织女一参与奖励：白色 +1宣传：白色 宣传+1",
+            "- [main] 织女一参与奖励：棕色 +1宣传：棕色 宣传+1",
+            "- [main] 织女一参与奖励：绿色 +1宣传：绿色 宣传+1",
+            "- [main] 织女一赢家奖励：白色 +5分：白色 分数+5"
+          ]
+        },
+        {
+          "heading": "### #162 第4轮 第9回合 - 白色 - 打牌行动",
+          "name": "隼鸟号",
+          "payment": "资源：信用点-1、手牌-1；卡牌：隼鸟号",
+          "cardId": "b_52.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_conditional_reward"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：隼鸟号：资源：信用点-1、手牌-1；卡牌：隼鸟号",
+            "- [main] 若己方火箭在小行星：获得1黄色痕迹：条件满足，已追加奖励",
+            "- [main] 探测器在小行星：获得1黄色痕迹：方舟黄色痕迹 2号位：方舟黄色痕迹 2号位 基础奖励；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 7：1分数：白色 分数+1",
+            "- [main] 方舟奖励 7：盲抽 1 张：已抽 1 张；不可撤销：盲抽翻出新牌",
+            "- [main] 方舟奖励 5：1分数：白色 分数+1",
+            "- [main] 方舟奖励 5：1能量：白色 能量+1"
+          ]
+        },
+        {
+          "heading": "### #166 第4轮 第10回合 - 白色 - 打牌行动",
+          "name": "NEAR 舒梅克号探测器",
+          "payment": "资源：信用点-1、手牌-1；卡牌：NEAR 舒梅克号探测器",
+          "cardId": "b_82.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "gain_resources"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：NEAR 舒梅克号探测器：资源：信用点-1、手牌-1；卡牌：NEAR 舒梅克号探测器",
+            "- [main] 获得 2 宣传：白色 宣传+2"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "参考行动日志/seti-action-log-20260919-223731.md",
+      "sha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05",
+      "plays": 22,
+      "rows": [
+        {
+          "heading": "### #6 第1轮 第1回合 - 白色 - 打牌行动",
+          "name": "三叉戟号探测器",
+          "payment": "资源：信用点-2、宣传+1、手牌-1；卡牌：三叉戟号探测器",
+          "cardId": "b_126.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "launch"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：三叉戟号探测器：资源：信用点-2、宣传+1、手牌-1；卡牌：三叉戟号探测器",
+            "- [main] 发射：发射 R1 -> 扇区[7,1]#2"
+          ]
+        },
+        {
+          "heading": "### #10 第1轮 第2回合 - 白色 - 打牌行动",
+          "name": "建造大型米波射电望远锐",
+          "payment": "资源：信用点-3、宣传+1、手牌-1；卡牌：建造大型米波射电望远锐",
+          "cardId": "b_46.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_research_tech"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：建造大型米波射电望远锐：资源：信用点-3、宣传+1、手牌-1；卡牌：建造大型米波射电望远锐",
+            "- [main] 选择科技：purple4",
+            "- [main] 获得科技片：purple4：获得科技：purple4；不可撤销：拿取科技后露出下一张 bonus",
+            "- [main] 旋转：太阳系旋转：R1随盘旋转->[3,1]#4；R2随盘旋转->[4,1]#4；R9随盘旋转->[5,2]#4；不可撤销：太阳系旋转：R1随盘旋转->[3,1]#4；R2随盘旋转->[4,1]#4；R9随盘旋转->[5,2]#4",
+            "- [main] 获取精选 1 张牌：获得卡牌：水手10号任务，公共区已补牌：太空交会；获取奖励：精选 1 张牌，首拿 +2 分；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #14 第1轮 第3回合 - 白色 - 打牌行动",
+          "name": "现场着陆直播",
+          "payment": "资源：信用点-2、手牌-1；卡牌：现场着陆直播",
+          "cardId": "dlc_6.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move",
+            "card_land",
+            "card_landing_sector_scan"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：现场着陆直播：资源：信用点-2、手牌-1；卡牌：现场着陆直播",
+            "- [main] 1移动：R1 -> 扇区[4,3]#0，移动到木星，宣传+1",
+            "- [main] 登陆：登陆 木星，消耗 （有环绕，消耗-1），移除火箭，显示登陆标记#1；追加 3 个地点奖励",
+            "- [main] 首次登陆：额外获得 2 个数据：白色获得 2/2 个数据；资源：数据+2",
+            "- [main] 获得 7 分：白色 分数+7",
+            "- [main] 获得 1 个黄色外星人标记：外星人 1 放置黄色痕迹；外星人 1首痕迹奖励：5分+1宣传",
+            "- [main] 刚登陆星球所在扇区扫描：已追加 1 次扇区4扫描",
+            "- [main] 刚登陆星球所在扇区扫描：织女一 槽位1 替换为白色token；获得数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #22 第1轮 第5回合 - 白色 - 打牌行动",
+          "name": "水手10号任务",
+          "payment": "资源：宣传+1、手牌-1；卡牌：水手10号任务",
+          "cardId": "b_71.webp",
+          "mapping": "unique-catalog",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 2,
+          "steps": [
+            "- [main] 打出：水手10号任务：资源：宣传+1、手牌-1；卡牌：水手10号任务"
+          ]
+        },
+        {
+          "heading": "### #26 第1轮 第6回合 - 白色 - 打牌行动",
+          "name": "高级导航系统",
+          "payment": "资源：信用点-1、宣传+1、手牌-1；卡牌：高级导航系统",
+          "cardId": "b_2.webp",
+          "mapping": "unique-catalog",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 3,
+          "steps": [
+            "- [main] 打出：高级导航系统：资源：信用点-1、宣传+1、手牌-1；卡牌：高级导航系统"
+          ]
+        },
+        {
+          "heading": "### #41 第2轮 第2回合 - 白色 - 打牌行动",
+          "name": "观测老人增四",
+          "payment": "资源：信用点-1、宣传+1、手牌-1；卡牌：观测老人增四",
+          "cardId": "b_15.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_scan_nebula"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：观测老人增四：资源：信用点-1、宣传+1、手牌-1；卡牌：观测老人增四",
+            "- [main] 绘架座β扇区扫描：绘架座β 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #49 第2轮 第4回合 - 白色 - 打牌行动",
+          "name": "太空清理计划",
+          "payment": "资源：信用点-1、手牌-1；卡牌：太空清理计划",
+          "cardId": "b_23.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_discard_public_corner_rewards"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：太空清理计划：资源：信用点-1、手牌-1；卡牌：太空清理计划",
+            "- [main] 同时弃除公共牌区3张牌并获取左上角奖励：弃除 3 张公共牌；量子计算机：宣传+1；更优太阳能板：宣传+1；奥西里斯- REx号：1移动；资源：宣传+2；不可撤销：公共牌补牌翻出新牌",
+            "- [main] 弃牌换1移动：R1 -> 扇区[5,2]#0，移动到火星，宣传+1"
+          ]
+        },
+        {
+          "heading": "### #53 第2轮 第5回合 - 白色 - 打牌行动",
+          "name": "进入大气层",
+          "payment": "资源：信用点-1、手牌-1；卡牌：进入大气层",
+          "cardId": "b_13.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_remove_planet_marker",
+            "gain_resources",
+            "gain_data",
+            "pick_card"
+          ],
+          "explicitUnsupportedTypes": [
+            "card_remove_planet_marker"
+          ],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：进入大气层：资源：信用点-1、手牌-1；卡牌：进入大气层",
+            "- [main] 移除己方环绕器：火星 环绕 1",
+            "- [main] 移除环绕器：3分：白色 分数+3",
+            "- [main] 移除环绕器：1数据：白色获得 1/1 个数据",
+            "- [main] 移除环绕器：精选1张牌：获得卡牌：霍尔效应推进器，公共区已补牌：维护任务；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #61 第2轮 第7回合 - 白色 - 打牌行动",
+          "name": "半人马卡牌8",
+          "payment": "资源：能量-2、手牌-1；卡牌：半人马卡牌8",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：半人马卡牌8：资源：能量-2、手牌-1；卡牌：半人马卡牌8",
+            "- [main] 半人马8：选定扇区扫描2次：已选定扇区 4，追加 2 次扫描",
+            "- [main] 半人马8：选定扇区扫描2次 1/2：织女一 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 半人马8：选定扇区扫描2次 2/2：织女一 槽位4 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 完成扇区：织女一：织女一第1次结算：白色获胜，蓝色保留1枚标记；追加 4 个奖励效果",
+            "- [main] 织女一参与奖励：白色 +1宣传：白色 宣传+1",
+            "- [main] 织女一参与奖励：蓝色 +1宣传：蓝色 宣传+1",
+            "- [main] 织女一赢家奖励：白色 +2分：白色 分数+2",
+            "- [main] 织女一赢家奖励：白色放置粉色外星人痕迹：盲抽半人马牌：半人马卡牌2；资源：手牌+1；不可撤销：外星人牌获取翻开新牌"
+          ]
+        },
+        {
+          "heading": "### #68 第2轮 第9回合 - 白色 - 打牌行动",
+          "name": "半人马卡牌2",
+          "payment": "资源：能量-1、手牌-1；卡牌：半人马卡牌2",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：半人马卡牌2：资源：能量-1、手牌-1；卡牌：半人马卡牌2",
+            "- [main] 半人马2：2数据：白色获得 2/2 个数据"
+          ]
+        },
+        {
+          "heading": "### #73 第2轮 第10回合 - 白色 - 打牌行动",
+          "name": "半人马卡牌9",
+          "payment": "资源：能量-1、手牌-1；卡牌：半人马卡牌9",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：半人马卡牌9：资源：能量-1、手牌-1；卡牌：半人马卡牌9",
+            "- [main] 半人马9：发射：发射 R1 -> 扇区[6,1]#4"
+          ]
+        },
+        {
+          "heading": "### #75 第2轮 第11回合 - 白色 - 打牌行动",
+          "name": "霍尔效应推进器",
+          "payment": "资源：信用点-2、手牌-1；卡牌：霍尔效应推进器",
+          "cardId": "dlc_40.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：霍尔效应推进器：资源：信用点-2、手牌-1；卡牌：霍尔效应推进器",
+            "- [main] 5移动：R1 -> 扇区[5,4]#4，需要 2 点移动力，移动到海王星，宣传+1；资源：宣传+3",
+            "- [main] 跳过：高级导航系统：1免费移动",
+            "- [main] 跳过：高级导航系统：1免费移动"
+          ]
+        },
+        {
+          "heading": "### #79 第2轮 第12回合 - 白色 - 打牌行动",
+          "name": "半人马卡牌5",
+          "payment": "资源：能量-2、手牌-1；卡牌：半人马卡牌5",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：半人马卡牌5：资源：能量-2、手牌-1；卡牌：半人马卡牌5",
+            "- [main] 半人马5：精选1张牌：获得卡牌：罗曼空间望远锐，公共区已补牌：可重复使用着陆器；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #91 第3轮 第1回合 - 白色 - 打牌行动",
+          "name": "方舟蓝色痕迹 2",
+          "payment": "资源：信用点-2、手牌-1；卡牌：方舟蓝色痕迹 2",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：方舟蓝色痕迹 2：资源：信用点-2、手牌-1；卡牌：方舟蓝色痕迹 2",
+            "- [main] 方舟奖励牌：方舟奖励牌翻开新牌；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 7：1信用点：白色 信用点+1",
+            "- [main] 方舟奖励 7：1能量：白色 能量+1",
+            "- [main] 方舟奖励 7：1宣传：白色 宣传+1",
+            "- [main] 方舟奖励 7：获得 1 数据：白色获得 1/1 个数据",
+            "- [main] 方舟奖励 7：精选1张牌：获得卡牌：百亿亿次超级计算机，公共区已补牌：木星探测计划；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #95 第3轮 第2回合 - 白色 - 打牌行动",
+          "name": "百亿亿次超级计算机",
+          "payment": "资源：信用点-1、手牌-1；卡牌：百亿亿次超级计算机",
+          "cardId": "b_35.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "alien_trace"
+          ],
+          "explicitUnsupportedTypes": [
+            "alien_trace"
+          ],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：百亿亿次超级计算机：资源：信用点-1、手牌-1；卡牌：百亿亿次超级计算机",
+            "- [main] 在已有蓝色痕迹的外星人上再放1个蓝色痕迹：方舟蓝色痕迹 2号位：方舟蓝色痕迹 2号位 基础奖励；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 5：1分数：白色 分数+1",
+            "- [main] 方舟奖励 5：1能量：白色 能量+1",
+            "- [main] 方舟奖励 7：1分数：白色 分数+1",
+            "- [main] 方舟奖励 7：盲抽 1 张：已抽 1 张；不可撤销：盲抽翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #111 第3轮 第6回合 - 白色 - 打牌行动",
+          "name": "突破聆听",
+          "payment": "资源：信用点-1、手牌-1；卡牌：突破聆听",
+          "cardId": "b_16.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move",
+            "card_scan_color_choice"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：突破聆听：资源：信用点-1、手牌-1；卡牌：突破聆听",
+            "- [main] 1移动：R1 -> 扇区[4,1]#4",
+            "- [main] 蓝色扇区扫描：天狼星A 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #115 第3轮 第7回合 - 白色 - 打牌行动",
+          "name": "韦布空间望远锐",
+          "payment": "资源：信用点-2、手牌-1；卡牌：韦布空间望远锐",
+          "cardId": "b_58.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_move",
+            "card_probe_sector_scan"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：韦布空间望远锐：资源：信用点-2、手牌-1；卡牌：韦布空间望远锐",
+            "- [main] 1移动：R1 -> 扇区[3,1]#4，移动到金星，宣传+1",
+            "- [main] 选择1个己方探测器，扫描所在及相邻扇区：已追加 3 个扇区扫描",
+            "- [main] 选择1个己方探测器，扫描所在及相邻扇区：绘架座β：绘架座β 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 选择1个己方探测器，扫描所在及相邻扇区：南河三：南河三 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 选择1个己方探测器，扫描所在及相邻扇区：织女一：织女一 槽位1 替换为白色token；获得数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #143 第4轮 第2回合 - 白色 - 打牌行动",
+          "name": "观测天狼星A",
+          "payment": "资源：信用点-2、宣传+1、手牌-1；卡牌：观测天狼星A",
+          "cardId": "b_114.webp",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_scan_nebula",
+            "card_scan_nebula"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 1,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：观测天狼星A：资源：信用点-2、宣传+1、手牌-1；卡牌：观测天狼星A",
+            "- [main] 天狼星A扫描 1/2：天狼星A 槽位3 替换为白色token；获得数据；资源：数据+1",
+            "- [main] 天狼星A扫描 2/2：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1"
+          ]
+        },
+        {
+          "heading": "### #147 第4轮 第3回合 - 白色 - 打牌行动",
+          "name": "NASA深空网络",
+          "payment": "资源：信用点-2、手牌-1；卡牌：NASA深空网络",
+          "cardId": "dlc_3.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "gain_resources"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：NASA深空网络：资源：信用点-2、手牌-1；卡牌：NASA深空网络",
+            "- [main] 获得 3 个公共牌区扫描标记：白色 额外公共扫描+3"
+          ]
+        },
+        {
+          "heading": "### #151 第4轮 第4回合 - 白色 - 打牌行动",
+          "name": "方舟黄色痕迹 2",
+          "payment": "资源：信用点-2、手牌-1；卡牌：方舟黄色痕迹 2",
+          "cardId": null,
+          "mapping": "unresolved-or-alien",
+          "effects": [],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：方舟黄色痕迹 2：资源：信用点-2、手牌-1；卡牌：方舟黄色痕迹 2",
+            "- [main] 方舟奖励牌：方舟奖励牌翻开新牌；不可撤销：方舟奖励牌翻开新牌",
+            "- [main] 方舟奖励 7：1信用点：白色 信用点+1",
+            "- [main] 方舟奖励 7：1能量：白色 能量+1",
+            "- [main] 方舟奖励 7：1宣传：白色 宣传+1",
+            "- [main] 方舟奖励 7：获得 1 数据：白色获得 1/1 个数据",
+            "- [main] 方舟奖励 7：精选1张牌：获得卡牌：阿塔卡马大型亳米波阵，公共区已补牌：潘多拉卫星；不可撤销：公共牌补牌翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #171 第4轮 第9回合 - 白色 - 打牌行动",
+          "name": "私营部门投资",
+          "payment": "资源：信用点-2、手牌-1；卡牌：私营部门投资",
+          "cardId": "dlc_34.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "card_income",
+            "card_count_tech_types_reward"
+          ],
+          "explicitUnsupportedTypes": [],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：私营部门投资：资源：信用点-2、手牌-1；卡牌：私营部门投资",
+            "- [main] 增加一次收入：收入：弃掉 金星号探测器，信用点+1（已即时获得）",
+            "- [main] 按最多科技类型数量盲抽：最多科技类型 4，盲抽 4/4 张；资源：手牌+4；不可撤销：盲抽翻出新牌"
+          ]
+        },
+        {
+          "heading": "### #183 第4轮 第12回合 - 白色 - 打牌行动",
+          "name": "完美执行的项目",
+          "payment": "资源：信用点-1、手牌-1；卡牌：完美执行的项目",
+          "cardId": "dlc_20.png",
+          "mapping": "unique-catalog",
+          "effects": [
+            "gain_resources",
+            "card_discard_card_corner_repeat"
+          ],
+          "explicitUnsupportedTypes": [
+            "card_discard_card_corner_repeat"
+          ],
+          "taskCount": 0,
+          "triggerCount": 0,
+          "steps": [
+            "- [main] 打出：完美执行的项目：资源：信用点-1、手牌-1；卡牌：完美执行的项目",
+            "- [main] 获得 1 宣传：白色 宣传+1",
+            "- [main] 弃非外星人卡并结算其左上角奖励3次：弃掉 大型离子对撞机实验；3移动；资源：手牌-1",
+            "- [main] 弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3"
+          ]
+        }
+      ]
+    }
+  ]
+}

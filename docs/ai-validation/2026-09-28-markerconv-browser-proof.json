@@ -1,0 +1,413 @@
+{
+  "scope": "Six forced browser fixtures: ordinary target choice, sole scored orbit, ready-task protection, Pluto, B2 and absent target. Same actual1credit payment and3score/1data/1picked-card resources; target choice deliberately differs. Actual final score changes equal previewed marker loss plus3. Ready-task opportunity loss is existing heuristic value, not an observed net future score. No autonomous strength claim.",
+  "fixtures": 6,
+  "negativeControls": [
+    "gate",
+    "score-loss",
+    "ready-task-loss"
+  ],
+  "rows": [
+    {
+      "mode": "ordinary",
+      "oldAvailable": false,
+      "newAvailable": true,
+      "previews": [
+        {
+          "choice": {
+            "id": "orbit:saturn:1",
+            "kind": "orbit",
+            "planetId": "saturn",
+            "sequence": 1,
+            "label": "土星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:mars:1",
+            "kind": "orbit",
+            "planetId": "mars",
+            "sequence": 1,
+            "label": "火星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 4,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 4
+        }
+      ],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 0
+      },
+      "after": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 3
+      },
+      "beforeScore": 4,
+      "afterScore": 7,
+      "oldAfterScore": 7,
+      "remaining": [
+        {
+          "id": "orbit:mars:1",
+          "kind": "orbit",
+          "planetId": "mars",
+          "sequence": 1,
+          "label": "火星 环绕 1",
+          "description": "白色标记"
+        }
+      ],
+      "hand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ],
+      "oldHand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ]
+    },
+    {
+      "mode": "scored-only",
+      "oldAvailable": false,
+      "newAvailable": true,
+      "previews": [
+        {
+          "choice": {
+            "id": "orbit:mars:1",
+            "kind": "orbit",
+            "planetId": "mars",
+            "sequence": 1,
+            "label": "火星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 4,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 4
+        }
+      ],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 0
+      },
+      "after": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 3
+      },
+      "beforeScore": 4,
+      "afterScore": 3,
+      "oldAfterScore": 3,
+      "remaining": [],
+      "hand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ],
+      "oldHand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ]
+    },
+    {
+      "mode": "ready-task",
+      "oldAvailable": false,
+      "newAvailable": true,
+      "previews": [
+        {
+          "choice": {
+            "id": "orbit:neptune:1",
+            "kind": "orbit",
+            "planetId": "neptune",
+            "sequence": 1,
+            "label": "海王星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 0
+        },
+        {
+          "choice": {
+            "id": "orbit:saturn:1",
+            "kind": "orbit",
+            "planetId": "saturn",
+            "sequence": 1,
+            "label": "土星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 0,
+          "readyTaskLoss": 13.41,
+          "lostTaskIds": [
+            "b107-saturn-task"
+          ],
+          "cost": 13.41
+        }
+      ],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 0
+      },
+      "after": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 3
+      },
+      "beforeScore": 0,
+      "afterScore": 3,
+      "oldAfterScore": 3,
+      "remaining": [
+        {
+          "id": "orbit:saturn:1",
+          "kind": "orbit",
+          "planetId": "saturn",
+          "sequence": 1,
+          "label": "土星 环绕 1",
+          "description": "白色标记"
+        }
+      ],
+      "hand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ],
+      "oldHand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ]
+    },
+    {
+      "mode": "pluto",
+      "oldAvailable": false,
+      "newAvailable": true,
+      "previews": [
+        {
+          "choice": {
+            "id": "plutoOrbit:marker-pluto:1",
+            "kind": "plutoOrbit",
+            "planetId": "pluto",
+            "cardId": "marker-pluto",
+            "sequence": 1,
+            "label": "冥王星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 2,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 2
+        }
+      ],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 0
+      },
+      "after": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 3
+      },
+      "beforeScore": 2,
+      "afterScore": 3,
+      "oldAfterScore": 3,
+      "remaining": [],
+      "hand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ],
+      "oldHand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ]
+    },
+    {
+      "mode": "b2",
+      "oldAvailable": false,
+      "newAvailable": true,
+      "previews": [
+        {
+          "choice": {
+            "id": "orbit:mars:1",
+            "kind": "orbit",
+            "planetId": "mars",
+            "sequence": 1,
+            "label": "火星 环绕 1",
+            "description": "白色标记"
+          },
+          "scoreLoss": 8,
+          "readyTaskLoss": 0,
+          "lostTaskIds": [],
+          "cost": 8
+        }
+      ],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      },
+      "paid": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 0
+      },
+      "after": {
+        "credits": 9,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 3
+      },
+      "beforeScore": 8,
+      "afterScore": 3,
+      "oldAfterScore": 3,
+      "remaining": [],
+      "hand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ],
+      "oldHand": [
+        {
+          "id": "card-125-0",
+          "cardId": "b_93.webp"
+        }
+      ]
+    },
+    {
+      "mode": "no-target",
+      "oldAvailable": false,
+      "newAvailable": false,
+      "previews": [],
+      "before": {
+        "credits": 10,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 0
+      }
+    }
+  ],
+  "ordinaryComparison": "Both old UI order and new preview select Saturn: no actual score difference in ordinary fixture.",
+  "readyTaskComparison": "Old removes Saturn; candidate removes Neptune, preserving already-ready Saturn task. Future reward is not executed in this fixture."
+}

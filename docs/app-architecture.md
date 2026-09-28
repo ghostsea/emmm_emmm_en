@@ -58,3 +58,8 @@
 ### 方舟手牌身份元数据
 
 资源影响快照保留当前玩家的方舟手牌实例，历史步骤完成时计算并缓存 `fangzhouCardChanges`（gain/remove）。该字段经步骤归一化和已提交日志保存，供 `resource-flow` 跟踪同一主行动内解锁后立即使用的牌；它不改变资源、牌序或AI评分。旧日志没有该字段时沿用原来的文本/行动边界快照解析，不能保证补回遗漏身份。
+
+
+### AI 标记移除预估上下文
+
+app向AI控制器注入只读查询buildPlanetMarkerRemovalChoices(effect, player)与buildCardTaskContext()。前者沿用实际普通星球及冥王星的合法目标枚举，缺省仍是当前玩家；后者提供与任务结算一致的盘面上下文。控制器仅在克隆的玩家、标记和计分状态中预估，实际移除仍经handleRemovePlanetMarkerChoice走原结算流程。
