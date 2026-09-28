@@ -1,0 +1,684 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "ok": true,
+      "results": [
+        {
+          "actualTrace": {
+            "logPlayerId": "player-brown",
+            "logPlayerColor": "brown",
+            "kind": "state-slot",
+            "mode": "trace-board",
+            "alienSlot": "1",
+            "pickerStep": null,
+            "traceType": "pink",
+            "position": null,
+            "score": 3,
+            "directCardTraceValue": {
+              "alienSlotId": 1,
+              "traceType": "pink",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              },
+              "value": 3,
+              "directScore": 3
+            },
+            "b1TraceValue": {
+              "score": 0,
+              "counts": null,
+              "currentBase": 0,
+              "nextBase": 0,
+              "multiplier": 0,
+              "directMarginal": 0,
+              "potentialValue": 0,
+              "surplusPenalty": 0
+            },
+            "label": ""
+          },
+          "traceCalls": [],
+          "effectOptions": {
+            "targetRule": "playerHasSameTrace",
+            "allowedTraceTypes": [
+              "pink"
+            ],
+            "repeat": 1
+          },
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 29.5,
+            "directScoreGain": 3,
+            "effectValue": 3,
+            "directTracePreviews": [
+              {
+                "selected": {
+                  "alienSlotId": 1,
+                  "traceType": "pink",
+                  "afterScore": 0,
+                  "mode": "trace-board",
+                  "kind": "state-extra",
+                  "reward": {
+                    "gain": {
+                      "score": 3
+                    }
+                  },
+                  "value": 3,
+                  "directScore": 3
+                },
+                "options": [
+                  {
+                    "alienSlotId": 1,
+                    "traceType": "pink",
+                    "afterScore": 0,
+                    "mode": "trace-board",
+                    "kind": "state-extra",
+                    "reward": {
+                      "gain": {
+                        "score": 3
+                      }
+                    },
+                    "value": 3,
+                    "directScore": 3
+                  }
+                ]
+              }
+            ],
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          },
+          "id": "b_27.webp",
+          "type": "pink",
+          "ownership": "first",
+          "mode": "hidden",
+          "availability": {
+            "ok": true,
+            "allowedTraceTypes": [
+              "pink"
+            ],
+            "allowedAlienSlotIds": [
+              1
+            ],
+            "hasPanelTarget": true,
+            "unlockTraceTypes": [],
+            "targets": [
+              {
+                "alienSlotId": 1,
+                "traceType": "pink",
+                "afterScore": 0,
+                "mode": "trace-board",
+                "kind": "state-extra",
+                "reward": {
+                  "gain": {
+                    "score": 3
+                  }
+                }
+              }
+            ]
+          },
+          "selectedScore": -14.415000000000001,
+          "steps": 2,
+          "actual": {
+            "credits": -1,
+            "score": 3,
+            "energy": 0,
+            "data": 0,
+            "hand": -1,
+            "extraTraces": 1,
+            "panelTraces": 0
+          },
+          "bugs": []
+        },
+        {
+          "actualTrace": {
+            "logPlayerId": "player-green",
+            "logPlayerColor": "green",
+            "kind": "state-slot",
+            "mode": "trace-board",
+            "alienSlot": "1",
+            "pickerStep": null,
+            "traceType": "yellow",
+            "position": null,
+            "score": 3,
+            "directCardTraceValue": {
+              "alienSlotId": 1,
+              "traceType": "yellow",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              },
+              "value": 3,
+              "directScore": 3
+            },
+            "b1TraceValue": {
+              "score": 0,
+              "counts": null,
+              "currentBase": 0,
+              "nextBase": 0,
+              "multiplier": 0,
+              "directMarginal": 0,
+              "potentialValue": 0,
+              "surplusPenalty": 0
+            },
+            "label": ""
+          },
+          "traceCalls": [],
+          "effectOptions": {
+            "targetRule": "playerHasSameTrace",
+            "allowedTraceTypes": [
+              "yellow"
+            ],
+            "repeat": 1
+          },
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 28.531000000000002,
+            "directScoreGain": 3,
+            "effectValue": 3,
+            "directTracePreviews": [
+              {
+                "selected": {
+                  "alienSlotId": 1,
+                  "traceType": "yellow",
+                  "afterScore": 0,
+                  "mode": "trace-board",
+                  "kind": "state-extra",
+                  "reward": {
+                    "gain": {
+                      "score": 3
+                    }
+                  },
+                  "value": 3,
+                  "directScore": 3
+                },
+                "options": [
+                  {
+                    "alienSlotId": 1,
+                    "traceType": "yellow",
+                    "afterScore": 0,
+                    "mode": "trace-board",
+                    "kind": "state-extra",
+                    "reward": {
+                      "gain": {
+                        "score": 3
+                      }
+                    },
+                    "value": 3,
+                    "directScore": 3
+                  }
+                ]
+              }
+            ],
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          },
+          "id": "b_32.webp",
+          "type": "yellow",
+          "ownership": "extra",
+          "mode": "hidden",
+          "availability": {
+            "ok": true,
+            "allowedTraceTypes": [
+              "yellow"
+            ],
+            "allowedAlienSlotIds": [
+              1
+            ],
+            "hasPanelTarget": true,
+            "unlockTraceTypes": [],
+            "targets": [
+              {
+                "alienSlotId": 1,
+                "traceType": "yellow",
+                "afterScore": 0,
+                "mode": "trace-board",
+                "kind": "state-extra",
+                "reward": {
+                  "gain": {
+                    "score": 3
+                  }
+                }
+              }
+            ]
+          },
+          "selectedScore": -13.978950000000001,
+          "steps": 2,
+          "actual": {
+            "credits": -1,
+            "score": 3,
+            "energy": 0,
+            "data": 0,
+            "hand": -1,
+            "extraTraces": 1,
+            "panelTraces": 0
+          },
+          "bugs": []
+        },
+        {
+          "actualTrace": {
+            "logPlayerId": "player-white",
+            "logPlayerColor": "white",
+            "kind": "state-slot",
+            "mode": "trace-board",
+            "alienSlot": "1",
+            "pickerStep": null,
+            "traceType": "blue",
+            "position": null,
+            "score": 3,
+            "directCardTraceValue": {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-extra",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              },
+              "value": 3,
+              "directScore": 3
+            },
+            "b1TraceValue": {
+              "score": 0,
+              "counts": null,
+              "currentBase": 0,
+              "nextBase": 0,
+              "multiplier": 0,
+              "directMarginal": 0,
+              "potentialValue": 0,
+              "surplusPenalty": 0
+            },
+            "label": ""
+          },
+          "traceCalls": [],
+          "effectOptions": {
+            "targetRule": "playerHasSameTrace",
+            "allowedTraceTypes": [
+              "blue"
+            ],
+            "repeat": 1
+          },
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 28.15,
+            "directScoreGain": 3,
+            "effectValue": 3,
+            "directTracePreviews": [
+              {
+                "selected": {
+                  "alienSlotId": 1,
+                  "traceType": "blue",
+                  "afterScore": 0,
+                  "mode": "trace-board",
+                  "kind": "state-extra",
+                  "reward": {
+                    "gain": {
+                      "score": 3
+                    }
+                  },
+                  "value": 3,
+                  "directScore": 3
+                },
+                "options": [
+                  {
+                    "alienSlotId": 1,
+                    "traceType": "blue",
+                    "afterScore": 0,
+                    "mode": "trace-board",
+                    "kind": "state-extra",
+                    "reward": {
+                      "gain": {
+                        "score": 3
+                      }
+                    },
+                    "value": 3,
+                    "directScore": 3
+                  }
+                ]
+              }
+            ],
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          },
+          "id": "b_35.webp",
+          "type": "blue",
+          "ownership": "first",
+          "mode": "hidden",
+          "availability": {
+            "ok": true,
+            "allowedTraceTypes": [
+              "blue"
+            ],
+            "allowedAlienSlotIds": [
+              1
+            ],
+            "hasPanelTarget": true,
+            "unlockTraceTypes": [],
+            "targets": [
+              {
+                "alienSlotId": 1,
+                "traceType": "blue",
+                "afterScore": 0,
+                "mode": "trace-board",
+                "kind": "state-extra",
+                "reward": {
+                  "gain": {
+                    "score": 3
+                  }
+                }
+              }
+            ]
+          },
+          "selectedScore": -13.807500000000001,
+          "steps": 2,
+          "actual": {
+            "credits": -1,
+            "score": 3,
+            "energy": 0,
+            "data": 0,
+            "hand": -1,
+            "extraTraces": 1,
+            "panelTraces": 0
+          },
+          "bugs": []
+        },
+        {
+          "actualTrace": {
+            "logPlayerId": "player-blue",
+            "logPlayerColor": "blue",
+            "kind": "state-slot",
+            "mode": "trace-board",
+            "alienSlot": "1",
+            "pickerStep": null,
+            "traceType": "blue",
+            "position": null,
+            "score": 9.49,
+            "directCardTraceValue": {
+              "alienSlotId": 1,
+              "traceType": "blue",
+              "afterScore": 0,
+              "mode": "trace-board",
+              "kind": "state-unlock",
+              "reward": {
+                "gain": {
+                  "score": 3
+                }
+              },
+              "value": 9.49,
+              "directScore": 3
+            },
+            "b1TraceValue": {
+              "score": 0,
+              "counts": null,
+              "currentBase": 0,
+              "nextBase": 0,
+              "multiplier": 0,
+              "directMarginal": 0,
+              "potentialValue": 0,
+              "surplusPenalty": 0
+            },
+            "label": ""
+          },
+          "traceCalls": [
+            {
+              "type": "blue",
+              "slot": 1,
+              "mode": "fangzhou-grid",
+              "position": 1,
+              "reward": {
+                "gain": {
+                  "score": 2
+                },
+                "basicRewardCount": 1
+              },
+              "value": 8.05
+            }
+          ],
+          "effectOptions": {
+            "targetRule": "playerHasSameTrace",
+            "allowedTraceTypes": [
+              "blue"
+            ],
+            "repeat": 1
+          },
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 28.599999999999998,
+            "directScoreGain": 3,
+            "effectValue": 9.49,
+            "directTracePreviews": [
+              {
+                "selected": {
+                  "alienSlotId": 1,
+                  "traceType": "blue",
+                  "afterScore": 0,
+                  "mode": "trace-board",
+                  "kind": "state-unlock",
+                  "reward": {
+                    "gain": {
+                      "score": 3
+                    }
+                  },
+                  "value": 9.49,
+                  "directScore": 3
+                },
+                "options": [
+                  {
+                    "alienSlotId": 1,
+                    "traceType": "blue",
+                    "afterScore": 0,
+                    "mode": "trace-board",
+                    "kind": "state-unlock",
+                    "reward": {
+                      "gain": {
+                        "score": 3
+                      }
+                    },
+                    "value": 9.49,
+                    "directScore": 3
+                  },
+                  {
+                    "alienSlotId": 1,
+                    "traceType": "blue",
+                    "afterScore": 0,
+                    "kind": "grid",
+                    "mode": "fangzhou-grid",
+                    "position": 1,
+                    "reward": {
+                      "gain": {
+                        "score": 2
+                      },
+                      "basicRewardCount": 1
+                    },
+                    "value": 8.05,
+                    "directScore": 2
+                  }
+                ]
+              }
+            ],
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          },
+          "id": "b_35.webp",
+          "type": "blue",
+          "ownership": "first",
+          "mode": "fangzhou",
+          "availability": {
+            "ok": true,
+            "allowedTraceTypes": [
+              "blue"
+            ],
+            "allowedAlienSlotIds": [
+              1
+            ],
+            "hasPanelTarget": true,
+            "unlockTraceTypes": [
+              "blue"
+            ],
+            "targets": [
+              {
+                "alienSlotId": 1,
+                "traceType": "blue",
+                "afterScore": 0,
+                "mode": "trace-board",
+                "kind": "state-unlock",
+                "reward": {
+                  "gain": {
+                    "score": 3
+                  }
+                }
+              },
+              {
+                "alienSlotId": 1,
+                "traceType": "blue",
+                "afterScore": 0,
+                "kind": "grid",
+                "mode": "fangzhou-grid",
+                "position": 1,
+                "reward": {
+                  "gain": {
+                    "score": 2
+                  },
+                  "basicRewardCount": 1
+                }
+              }
+            ]
+          },
+          "selectedScore": -7.52,
+          "steps": 3,
+          "actual": {
+            "credits": -1,
+            "score": 3,
+            "energy": 0,
+            "data": 0,
+            "hand": 0,
+            "extraTraces": 1,
+            "panelTraces": 0
+          },
+          "bugs": []
+        }
+      ]
+    }
+  }
+}

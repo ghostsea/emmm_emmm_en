@@ -1,0 +1,14 @@
+{
+  "rows": [
+    {
+      "control": "legacySelector",
+      "exit": 1,
+      "assertion": "AssertionError [ERR_ASSERTION]: direct card must realize its counted-score target; ordinary selector remains unchanged\r"
+    },
+    {
+      "control": "unlockProjection",
+      "exit": 1,
+      "assertion": "AssertionError [ERR_ASSERTION]: intermediate selector must retain the best legal downstream reward\r"
+    }
+  ]
+}

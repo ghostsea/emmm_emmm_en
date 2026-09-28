@@ -1664,3 +1664,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 直接痕迹牌具体目标估值b9ef7abe已冻结并推送：保持默认1a72821e与候选双方统计器22一致，完整24组48新局。限定打牌层按付款后合法state/面板/方舟解锁目标和实际奖励估值，b36计新增后的数量分；不改通用痕迹行动估值及目标选择器，后续审计预估与实际选择差异。54测试、3项负对照、八物种蓝痕迹零资源预览、普通额外3分/方舟3分补牌/b36首5分加数量1分实际结算通过。尚无均分结论，默认不切换。见[冻结计划](ai-validation/2026-09-28-tracetargetvalues-development-plan.json)、[运行矩阵](ai-validation/2026-09-28-tracetargetvalues-matrix-browser.json)。
+
+
+2026-09-28 直接痕迹牌预估/执行一致性42f5426e冻结：直接打牌节点沿用同一具体目标价值选择state/正面格位及方舟中间分支，b36计分进入实际选色；其他痕迹来源仍用原排序。54测试、两项负对照、普通3分/方舟3分补牌/b36首5分加数量1分真实结算及实际选择价值元数据通过。复用统计器22的默认24局，新跑24候选，并独立比较b9ef7abe全24上一版；不把局部一致性直接视为提分，尚不改默认。见[冻结计划](ai-validation/2026-09-28-traceexecution-development-plan.json)、[运行证据](ai-validation/2026-09-28-traceexecution-browser.json)。
