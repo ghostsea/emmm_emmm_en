@@ -2693,8 +2693,27 @@
         + scoreAiPublicityResearchTechSetupValue(immediateGain, player, { scale: 0.7 });
     }
 
+    function scoreAiPickedCardCornerReward(card, player = getCurrentPlayer()) {
+      if (!card || !player) return -Infinity;
+      const reward = cards.getDiscardActionRewardForCard?.(card);
+      const move = cards.getDiscardActionMoveRewardForCard?.(card);
+      const gain = { ...(reward?.gain || move?.gain || {}) };
+      gain.availableData = aiNumber(gain.availableData) + Math.max(0, aiNumber(reward?.dataCount));
+      let value = 3 + scoreAiResourceBundle(getAiActualResourceGain(gain, player));
+      if (move) {
+        const points = Math.max(1, aiNumber(move.movementPoints || 1));
+        const effect = { type: cardEffects.EFFECT_TYPES.CARD_MOVE, options: { movementPoints: points } };
+        const candidates = listAiEffectMoveCandidates({ id: "cardMove", player, effect, poolRemaining: points });
+        if (candidates.some((candidate) => aiNumber(candidate.score) >= 0)) value += points * 1.5;
+      }
+      // The selected card stays in hand. Avoid recursively valuing its play
+      // effects while the public row can contain this same pick effect.
+      return value;
+    }
+
     function scoreAiPublicPickCard(card, player = getCurrentPlayer(), pendingType = null) {
       if (!card) return -Infinity;
+      if (pendingType === "card_pick_corner_reward") return scoreAiPickedCardCornerReward(card, player);
       const incomeGain = cards.getIncomeGainForCard?.(card) || null;
       if (pendingType === "industry_mission_pick") {
         return incomeGain ? scoreAiImmediateIncomeRewardValue(player, incomeGain) : -Infinity;
@@ -10835,6 +10854,9 @@
           return Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) * AI_RESOURCE_VALUES.handSize;
         case "pick_card":
           return 3;
+        case cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD:
+          return Math.max(0, ...(cardState.publicCards || []).filter(Boolean)
+            .map((card) => scoreAiPickedCardCornerReward(card, player)));
         case "launch":
           return 6;
         case "research_tech_select":
@@ -18913,7 +18935,6 @@
       const unsupportedTypes = new Set([
         "alien_trace",
         cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
-        cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
         cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION,
         cardEffects.EFFECT_TYPES.DISCARD_ANY_FOR_INCOME,
@@ -18934,6 +18955,10 @@
             : index === 1 && buildAiProbeMoveScanPreview(playEffects, effectPlayer))) {
             return { ok: false, message: "探测器扫描需要可执行的当前目标或一步移动后目标" };
           }
+        }
+        if (effect?.type === cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD
+          && !(cardState.publicCards || []).some(Boolean)) {
+          return { ok: false, message: "没有可精选的公共牌角标目标" };
         }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };

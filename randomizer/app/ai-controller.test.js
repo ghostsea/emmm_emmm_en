@@ -457,6 +457,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     cardEffects: {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
+        PICK_CARD_CORNER_REWARD: cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
         CARD_MOVE: "card_move",
         PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_ORBIT: "card_orbit",
@@ -17346,3 +17347,21 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+// A picked card is retained, and only an actually fitting corner resource is valued.
+{
+  const card = { id: "corner-pick-source", cardId: "b_48.webp", price: 1, cardTypeCode: 0 };
+  card.playEffects = cardEffects.buildPlayEffects(card);
+  const dataCard = { id: "corner-data", resourceReward: { gain: {}, dataCount: 1 } };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 2,
+    blueHand: [card], blueResources: { credits: 5, energy: 3, availableData: 6, publicity: 10 }, publicCards: [dataCard] });
+  const effect = cardEffects.buildPlayEffects(card)[0];
+  const before = JSON.stringify(h.blue);
+  assert(h.controller.buildAiPlayCardCandidate(card, 0, h.blue), "b48 must have a playable public target");
+  assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue }), 3, "full data pool adds no corner resource");
+  assert.equal(JSON.stringify(h.blue), before, "pick preview is readonly");
+  h.blue.resources.availableData = 5;
+  assert(h.controller.scoreAiEffectValue(effect, { player: h.blue }) > 3, "one data fits");
+  const empty = createAiControllerHarness(null, { currentPlayerColor: "blue", blueHand: [card], publicCards: [] });
+  assert.equal(empty.controller.buildAiPlayCardCandidate(card, 0, empty.blue), null, "no blind fallback for b48 without a public target");
+}
