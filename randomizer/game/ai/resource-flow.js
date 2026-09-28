@@ -793,6 +793,13 @@
       return context.sourceCategory;
     }
 
+    // A completed resource exchange is identified by its own step, even
+    // inside an alien/card/analysis/research main-action transaction.
+    const ownText = String(context.text || context.sourceDetail || "");
+    if (/^快速交易：\s*(?:2\s*张牌\s*→\s*1\s*(?:信用点|能量)|\d+\s*(?:信用点|能量)\s*→\s*\d+\s*(?:信用点|能量))(?:；资源：[^；]+)?$/.test(ownText)) {
+      return "trade_conversion";
+    }
+
     const pace = String(context.pace || context.source || "").toLowerCase();
     const text = [
       context.text,

@@ -1059,3 +1059,10 @@ for (const [label,key] of [['能量','energy'],['信用点','credits']]) {
   for(const suffix of ['；失败','；请选择','；取消']) assert.deepEqual(event('快速交易：2张牌 → 1'+label+suffix).resourceDeltas,{},'uncompleted exchange is not a receipt');
   assert.deepEqual(event('快速交易：2张牌 → 精选1张牌').resourceDeltas,{},'selection remains outside deterministic exchange parser');
 }
+
+for (const actionLabel of ['分析数据','打出半人马卡牌9','宇宙大战略集团能力','研究科技','获得本轮收入']) {
+  for (const text of ['快速交易：2张牌 → 1能量','快速交易：2张牌 → 1信用点','快速交易：2信用点 → 1能量','快速交易：2能量 → 1信用点']) {
+    const [e]=flow.normalizeStructuredActionLog([{id:1,playerId:'p',actionType:'researchTech',actionLabel,steps:[{source:'quick',text}]}]);
+    assert.equal(e.sourceCategory,'trade_conversion','completed exchange owns its source despite '+actionLabel);
+  }
+}

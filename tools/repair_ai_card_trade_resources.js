@@ -9,7 +9,7 @@ function repairCardTradeResources(run) {
   if (!ledger?.events || !ledger.players?.length) throw Error("Resource ledger required");
   const events = structuredClone(ledger.events), changes = [];
   for (const event of events) {
-    if (event.syntheticSnapshotInference || !/^快速交易：\s*2\s*张牌\s*→\s*1\s*(信用点|能量)(?:；资源：[^；]+)?$/.test(event.sourceDetail || "")) continue;
+    if (event.syntheticSnapshotInference || !/^快速交易：\s*(?:2\s*张牌\s*→\s*1\s*(信用点|能量)|\d+\s*(信用点|能量)\s*→\s*\d+\s*(信用点|能量))(?:；资源：[^；]+)?$/.test(event.sourceDetail || "")) continue;
     const [parsed] = normalizeStructuredActionLog([{ id: event.entryId, playerId: event.playerId,
       actionType: event.mainActionType, steps: [{ source: event.pace, text: event.sourceDetail }] }]);
     const adjustments = [];
@@ -28,10 +28,11 @@ function repairCardTradeResources(run) {
         oldCompensation: before, newCompensation: compensation.resourceDeltas[key] || 0 });
       event.resourceDeltas[key] = value;
     }
-    if (adjustments.length) {
+    if (adjustments.length || event.sourceCategory !== "trade_conversion") {
+      const oldSourceCategory = event.sourceCategory;
       event.sourceCategory = "trade_conversion";
       changes.push({ entryId: event.entryId, playerId: event.playerId, stepIndex: event.stepIndex,
-        text: event.sourceDetail, adjustments });
+        text: event.sourceDetail, oldSourceCategory, adjustments });
     }
   }
   const cleaned = events.filter(e => !e.syntheticSnapshotInference || Object.keys(e.resourceDeltas).length || Object.keys(e.incomeDeltas || {}).length || e.cards?.length);
@@ -41,7 +42,7 @@ function repairCardTradeResources(run) {
   });
   if (summary.players.some(p => Object.keys(p.balanceResiduals || {}).length)) throw Error("Corrected ledger does not close");
   return { method: "card-trade-with-unique-snapshot-compensation-v1", changes,
-    scope: "Completed two-card credit/energy trade labels only. Move missing explicit deltas from unique sufficient same-entry/player snapshot compensation. Card identities with unknown purpose remain unknown; do not rewrite input or claim net income/alien resource causality.",
+    scope: "Completed two-card credit/energy and credit/energy exchange labels only. Move missing explicit deltas from unique sufficient same-entry/player snapshot compensation and correct direct trade source. Card identities with unknown purpose remain unknown; do not rewrite input or claim net income/alien resource causality.",
     resourceFlow: { ...summary, events: cleaned } };
 }
 module.exports = { repairCardTradeResources };
