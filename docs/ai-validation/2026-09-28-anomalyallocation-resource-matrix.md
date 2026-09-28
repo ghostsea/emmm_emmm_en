@@ -1,4 +1,4 @@
-# 精选角标覆盖固定24组资源对照
+# 异常点分配固定24组资源对照
 
 Full24 previously seen fixed pairs. Reuse all24 adopted011 zero-resource baseline results with exact source/input hashes; candidate d6c86b84 anomaly8 only, parser25 in both frozen arms. Main parser26 changes statistics only and is not transplanted into frozen policies. Public-catalog prior counts1 retained card, actual corner, immediate income and future income without double charging consumed cards. No hidden draw pile or current hand-order proxy. After draw jointly allocate two distinct consumed cards and one retained; recompute second phase. Six real browser pairs,54 tests and two negative controls passed. No b48 or marker-removal combination. Complete all24 and audit scores/config/payments/resource receipts before fresh tests; no company/seed subset filtering or historical gain addition.
 
