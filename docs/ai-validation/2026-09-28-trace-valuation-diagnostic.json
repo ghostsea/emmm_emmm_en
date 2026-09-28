@@ -1,0 +1,344 @@
+{
+  "scope": "Real browser diagnostic on frozen cc14 coverage candidate. Wrapped only valuation read to record arguments, preserving returned scores. Three constrained hidden trace cards and one revealed Fangzhou card were actually paid and resolved. No policy or mean improvement claimed.",
+  "candidateCommit": "cc14d52c7ed22916dead76d7c608fc7dd0ac68f9",
+  "findings": [
+    "Effect scorer ignores allowedTraceTypes and targetRule: all four inputs have no type, slot, position or reward and all evaluate at19.163.",
+    "Three hidden examples give3 score and no replacement card; revealed Fangzhou example gives3 score and unlocks a replacement alien card, but has identical effectValue.",
+    "This demonstrates lost target context, not that the whole19.163 value must equal immediate3 score. Future trace, final-score and card conversion benefits require explicit valuation.",
+    "Next isolated candidate should enumerate only runtime-legal destinations after card payment, preserve empty target restrictions, value actual state/panel/unlock rewards and b36 after-trace count, and record the selected valuation target for execution audit. Do not change unrelated effect valuations or infer unknown alien identities.",
+    "The negative full24 coverage-only result remains negative and is not reinterpreted as a positive valuation experiment."
+  ],
+  "ok": true,
+  "results": [
+    {
+      "traceCalls": [
+        {
+          "type": null,
+          "slot": null,
+          "mode": "",
+          "position": null,
+          "reward": null,
+          "value": 19.163
+        }
+      ],
+      "effectOptions": {
+        "targetRule": "playerHasSameTrace",
+        "allowedTraceTypes": [
+          "pink"
+        ],
+        "repeat": 1
+      },
+      "valueBreakdown": {
+        "costValue": 6,
+        "cornerOpportunity": 30.2,
+        "directScoreGain": 0,
+        "effectValue": 19.163,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "id": "b_27.webp",
+      "type": "pink",
+      "ownership": "first",
+      "mode": "hidden",
+      "availability": {
+        "ok": true,
+        "allowedTraceTypes": [
+          "pink"
+        ],
+        "allowedAlienSlotIds": [
+          1
+        ],
+        "hasPanelTarget": true,
+        "unlockTraceTypes": []
+      },
+      "selectedScore": 1.0730000000000004,
+      "steps": 2,
+      "actual": {
+        "credits": -1,
+        "score": 3,
+        "energy": 0,
+        "data": 0,
+        "hand": -1,
+        "extraTraces": 1,
+        "panelTraces": 0
+      },
+      "bugs": []
+    },
+    {
+      "traceCalls": [
+        {
+          "type": null,
+          "slot": null,
+          "mode": "",
+          "position": null,
+          "reward": null,
+          "value": 19.163
+        }
+      ],
+      "effectOptions": {
+        "targetRule": "playerHasSameTrace",
+        "allowedTraceTypes": [
+          "yellow"
+        ],
+        "repeat": 1
+      },
+      "valueBreakdown": {
+        "costValue": 6,
+        "cornerOpportunity": 26.656000000000002,
+        "directScoreGain": 0,
+        "effectValue": 19.163,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "id": "b_32.webp",
+      "type": "yellow",
+      "ownership": "extra",
+      "mode": "hidden",
+      "availability": {
+        "ok": true,
+        "allowedTraceTypes": [
+          "yellow"
+        ],
+        "allowedAlienSlotIds": [
+          1
+        ],
+        "hasPanelTarget": true,
+        "unlockTraceTypes": []
+      },
+      "selectedScore": 2.6677999999999997,
+      "steps": 2,
+      "actual": {
+        "credits": -1,
+        "score": 3,
+        "energy": 0,
+        "data": 0,
+        "hand": -1,
+        "extraTraces": 1,
+        "panelTraces": 0
+      },
+      "bugs": []
+    },
+    {
+      "traceCalls": [
+        {
+          "type": null,
+          "slot": null,
+          "mode": "",
+          "position": null,
+          "reward": null,
+          "value": 19.163
+        }
+      ],
+      "effectOptions": {
+        "targetRule": "playerHasSameTrace",
+        "allowedTraceTypes": [
+          "blue"
+        ],
+        "repeat": 1
+      },
+      "valueBreakdown": {
+        "costValue": 6,
+        "cornerOpportunity": 28.15,
+        "directScoreGain": 0,
+        "effectValue": 19.163,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "id": "b_35.webp",
+      "type": "blue",
+      "ownership": "first",
+      "mode": "hidden",
+      "availability": {
+        "ok": true,
+        "allowedTraceTypes": [
+          "blue"
+        ],
+        "allowedAlienSlotIds": [
+          1
+        ],
+        "hasPanelTarget": true,
+        "unlockTraceTypes": []
+      },
+      "selectedScore": 1.9954999999999998,
+      "steps": 2,
+      "actual": {
+        "credits": -1,
+        "score": 3,
+        "energy": 0,
+        "data": 0,
+        "hand": -1,
+        "extraTraces": 1,
+        "panelTraces": 0
+      },
+      "bugs": []
+    },
+    {
+      "traceCalls": [
+        {
+          "type": null,
+          "slot": null,
+          "mode": "",
+          "position": null,
+          "reward": null,
+          "value": 19.163
+        }
+      ],
+      "effectOptions": {
+        "targetRule": "playerHasSameTrace",
+        "allowedTraceTypes": [
+          "blue"
+        ],
+        "repeat": 1
+      },
+      "valueBreakdown": {
+        "costValue": 6,
+        "cornerOpportunity": 27.549999999999997,
+        "directScoreGain": 0,
+        "effectValue": 19.163,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "id": "b_35.webp",
+      "type": "blue",
+      "ownership": "first",
+      "mode": "fangzhou",
+      "availability": {
+        "ok": true,
+        "allowedTraceTypes": [
+          "blue"
+        ],
+        "allowedAlienSlotIds": [
+          1
+        ],
+        "hasPanelTarget": true,
+        "unlockTraceTypes": [
+          "blue"
+        ]
+      },
+      "selectedScore": 2.265500000000001,
+      "steps": 2,
+      "actual": {
+        "credits": -1,
+        "score": 3,
+        "energy": 0,
+        "data": 0,
+        "hand": 0,
+        "extraTraces": 1,
+        "panelTraces": 0
+      },
+      "bugs": []
+    }
+  ]
+}
