@@ -1,0 +1,166 @@
+{
+  "decision": "hold-no-default-promotion-no-new-random",
+  "models": {
+    "base": "1a72821ec7d5ffdac16a3f12a077559dca372caa",
+    "candidate": "b9ef7abe5ae8743eeda94864da5247507632b209"
+  },
+  "pairs": 24,
+  "newGames": 48,
+  "meanDelta": -0.65625,
+  "pairedGameStandardError": 2.064999720365283,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 273.3958333333333,
+      "meanDelta": 1.3333333333333144,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 190.45833333333334,
+      "meanDelta": -6.375,
+      "minimumDelta": -3
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 205.91666666666666,
+      "meanDelta": 1.0833333333333144,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -0.65625,
+    "min": 0,
+    "p10": 0.5,
+    "p25": -0.25,
+    "median": 0,
+    "p75": 4,
+    "max": -23,
+    "topQuartileMean": -2.0833333333333144,
+    "winnerMean": -0.6666666666666856,
+    "minimumPerGameMean": -2.5416666666666856,
+    "seats270Plus": 2,
+    "seats300Plus": -3
+  },
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 235.79166666666666,
+    "min": 130,
+    "p10": 170,
+    "p25": 197.25,
+    "median": 228.5,
+    "p75": 284,
+    "max": 362,
+    "topQuartileMean": 306.7916666666667,
+    "winnerMean": 295.25,
+    "minimumPerGameMean": 175.04166666666666,
+    "seats270Plus": 30,
+    "seats300Plus": 11,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 273.3958333333333,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 190.45833333333334,
+        "min": 133
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 205.91666666666666,
+        "min": 130
+      }
+    }
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 296.9583333333333,
+    "meanDelta": -11.916666666666666,
+    "improved": 4,
+    "declined": 14,
+    "unchanged": 6
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 172.875,
+    "meanDelta": 1.5833333333333333,
+    "improved": 8,
+    "declined": 6,
+    "unchanged": 10
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1172,
+    "matched": 1172,
+    "intendedCardMatched": 1172,
+    "paid": 1172,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "choiceEvidence": {
+    "games": 24,
+    "plays": 24,
+    "matchedLegalTarget": 24,
+    "sameValue": 19,
+    "lowerActualTarget": 5,
+    "unknown": 0
+  },
+  "baselineRefresh": {
+    "games": 24,
+    "semanticLogs": 38340,
+    "changedGames": 16,
+    "changedBuckets": [
+      "cardUse",
+      "nonIncomeGain",
+      "spent"
+    ]
+  },
+  "limitations": [
+    "Seen fixed development seeds; no fresh-random success or +10 achievement claimed.",
+    "Direct card valuation selects the best enumerated legal target; existing target picker is unchanged. Lower actual target values and unknown matches are reported explicitly; legal payment is not full predicted-reward realization.",
+    "b36 target chooser still omits its pending after-trace-count score. This is a concrete successor direction, not evidence to recast the present full-game score delta.",
+    "Current parser22 is used on both arms. Source/card-origin differences against older archives are reporting corrections, not acquired extra game resources. No post-hoc company gate."
+  ]
+}

@@ -1,0 +1,17 @@
+const fs=require('fs'),assert=require('node:assert/strict'),d='tmp/ai-20260905/',p='tracetargetvalues',s=JSON.parse(fs.readFileSync(d+p+'-suite.json')),partial=process.argv.includes('--partial'),rows=[];let games=0;
+for(const [i,pair]of s.pairs.entries()){
+ const file=d+pair.candidate;if(!fs.existsSync(file)){if(partial)continue;throw Error('missing '+file);}const run=JSON.parse(fs.readFileSync(file)),r=run.result;assert(run.summary.ok&&run.summary.gameEnded&&!run.summary.bugCount);games++;
+ for(const[li,l]of r.logs.entries()){
+  const a=l.details?.action;if(l.type!=='turn-action'||a?.id!=='playCard'||!a.effectTypes?.includes('alien_trace'))continue;
+  const nextMain=r.logs.findIndex((x,j)=>j>li&&x.playerId===l.playerId&&x.type==='turn-action');const window=r.logs.slice(li+1,nextMain<0?undefined:nextMain).filter(x=>x.playerId===l.playerId&&x.rawTurnNumber===l.rawTurnNumber);
+  const play=window.find(x=>x.type==='play-card'),chosen=play?.details?.selected;assert.equal(chosen?.cardInstanceId,a.cardInstanceId);
+  const payment=r.resourceFlow.events.find(e=>e.playerId===l.playerId&&e.roundNumber===l.roundNumber&&e.turnNumber===l.turnNumber&&e.cards.some(c=>c.key===chosen.cardInstanceId&&c.change==='play'));assert(payment);
+  const traces=window.filter(x=>x.type==='alien-trace');const concrete=traces.find(x=>['state-slot','grid-slot'].includes(x.details.kind)||(/解锁/.test(x.details.label||'')&&x.details.traceType));
+  const preview=chosen.valueBreakdown.directTracePreviews[0],actual=concrete?.details,options=preview.options.filter(t=>actual&&Number(actual.alienSlot)===t.alienSlotId&&actual.traceType===t.traceType&&(actual.kind==='grid-slot'?t.kind==='grid'&&Number(actual.position)===Number(t.position):t.kind.startsWith('state-')));
+  // Some selector stages omit the slot; retain that as unknown, never assume the preview slot.
+  const matched=options.length===1?options[0]:null;
+  const receipts=r.resourceFlow.events.filter(e=>e.playerId===l.playerId&&e.entryId===payment.entryId&&e.stepIndex>payment.stepIndex&&e.pace==='main');
+  rows.push({case:i+1,player:l.playerId,company:r.playerResults.find(q=>q.playerId===l.playerId).companyLabel,round:l.roundNumber,turn:l.turnNumber,rawTurn:l.rawTurnNumber,card:a.cardId,instance:a.cardInstanceId,payment:{entry:payment.entryId,resources:payment.resourceDeltas},preview,actual:actual||null,actualMatchesLegalPreview:Boolean(matched),sameEstimatedValue:matched?Math.abs(matched.value-preview.selected.value)<0.00001:null,selectedValueGap:matched?matched.value-preview.selected.value:null,actualPredictedTarget:matched,traceLogs:traces.map(x=>x.details),receipts:receipts.map(e=>({step:e.stepIndex,text:e.sourceDetail,resources:e.resourceDeltas,cards:e.cards}))});
+ }
+}
+const summary={games,plays:rows.length,matchedLegalTarget:rows.filter(x=>x.actualMatchesLegalPreview).length,sameValue:rows.filter(x=>x.sameEstimatedValue).length,lowerActualTarget:rows.filter(x=>x.selectedValueGap<-0.00001).length,unknown:rows.filter(x=>!x.actualMatchesLegalPreview).length};fs.writeFileSync(d+p+'-preview-audit'+(partial?'-partial':'')+'.json',JSON.stringify({scope:'Exact paid card instance and same raw-turn subsequent trace selection before next own turn-action. Enumerated prediction compared to first concrete selector target; omitted slot remains unknown. Main transaction receipts include triggered rewards and are not isolated causal effects. Target picker policy remains unchanged; a lower selected target value is reported, not hidden.',summary,rows},null,2)+'\n');console.log(summary);
