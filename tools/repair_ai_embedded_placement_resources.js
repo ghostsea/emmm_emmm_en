@@ -43,7 +43,9 @@ function repairEmbeddedPlacementResources(run) {
     }
     const replacements = parsed.map((part, i) => ({ ...event,
       stepIndex: event.stepIndex + i / parsed.length, sourceDetail: part.sourceDetail,
-      sourceCategory: part.isDataPlacement ? "data_placement" : event.sourceCategory,
+      sourceCategory: part.isDataPlacement ? "data_placement"
+        : ["data_placement", "tech_bonus_blue1", "tech_bonus_blue2"].includes(event.sourceCategory)
+          ? part.sourceCategory : event.sourceCategory,
       isDataPlacement: part.isDataPlacement, resourceDeltas: part.resourceDeltas,
       incomeDeltas: part.incomeDeltas, cards: i === 0 ? event.cards : [], techIds: i === 0 ? event.techIds : [] }));
     changes.push({ entryId: event.entryId, playerId: event.playerId, stepIndex: event.stepIndex,

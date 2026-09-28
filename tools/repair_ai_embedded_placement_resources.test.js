@@ -29,6 +29,7 @@ assert.throws(() => repairEmbeddedPlacementResources(ambiguous), /unique snapsho
 {
   const scoreEvents = structuredClone(events);
   scoreEvents[2].sourceDetail = text.replaceAll("1 能量", "2 分");
+  scoreEvents[2].sourceCategory = "data_placement";
   scoreEvents[2].resourceDeltas = { availableData: 1, score: 4 };
   scoreEvents[3].resourceDeltas = { availableData: -1 };
   const scoreLedger = summarizeResourceEvents(scoreEvents, { endingInventories: { p: { availableData: 6 } } });
@@ -36,5 +37,7 @@ assert.throws(() => repairEmbeddedPlacementResources(ambiguous), /unique snapsho
   assert.equal(fixed.resourceFlow.events.reduce((n, e) => n + (e.resourceDeltas.score || 0), 0), 2,
     "score does not get an invented resource compensation");
   assert.equal(fixed.resourceFlow.players[0].finalScore, scoreLedger.players[0].finalScore);
+  assert.notEqual(fixed.changes[0].replacementEvents[0].sourceCategory, "data_placement",
+    "the original compound source must not turn the preceding reward into a second placement");
 }
 console.log("repair_ai_embedded_placement_resources.test.js ok");
