@@ -1,0 +1,744 @@
+{
+  "scope": "All complete24 pairs. Exact paid DLC20 instance and later discarded second instance matched in the same transaction. Preserve preplay projection versus actual pending-choice rerank, direct movement effect IDs and all receipt texts. Other triggered effects in the transaction are retained but not attributed to DLC20 direct reward; movement forecast is only first-step plus nominal pool, not predicted full payout.",
+  "summary": {
+    "baseline": {
+      "plays": 0,
+      "plannedDiscardMatches": null,
+      "movementCorners": 0,
+      "directMoveSteps": 0,
+      "resourceCorners": 0,
+      "byCompany": {}
+    },
+    "candidate": {
+      "plays": 3,
+      "plannedDiscardMatches": 3,
+      "movementCorners": 0,
+      "directMoveSteps": 0,
+      "resourceCorners": 3,
+      "byCompany": {
+        "作弊实验室": 3
+      }
+    }
+  },
+  "rows": [
+    {
+      "side": "candidate",
+      "case": 1,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 7,
+      "instance": "card-134-0",
+      "payment": {
+        "entry": 114,
+        "step": 0,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "text": "打出：完美执行的项目：资源：信用点-1、手牌-1"
+      },
+      "preview": {
+        "cardId": "b_23.webp",
+        "cardInstanceId": "card-44-pass-2-5",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 23.454,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 20.454
+      },
+      "selectedPreview": {
+        "cardId": "b_23.webp",
+        "cardInstanceId": "card-44-pass-2-5",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 23.454,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 20.454
+      },
+      "discard": {
+        "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+        "entryId": 114,
+        "stepIndex": 2,
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "finalScore": 238,
+        "roundNumber": 3,
+        "turnNumber": 7,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 太空清理计划；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+        "resourceDeltas": {
+          "publicity": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-44-pass-2-5",
+            "label": "太空清理计划",
+            "change": "discard",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "samePlannedDiscard": true,
+      "moves": [],
+      "directCornerEntries": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 114,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 238,
+          "roundNumber": 3,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 太空清理计划；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-44-pass-2-5",
+              "label": "太空清理计划",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "transaction": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 114,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 238,
+          "roundNumber": 3,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "获得 1 宣传：绿色 宣传+1",
+          "resourceDeltas": {
+            "publicity": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 114,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 238,
+          "roundNumber": 3,
+          "turnNumber": 7,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 太空清理计划；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-44-pass-2-5",
+              "label": "太空清理计划",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+          "entryId": 114,
+          "stepIndex": 9007199254740981,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 238,
+          "roundNumber": 3,
+          "turnNumber": 7,
+          "pace": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "snapshot inference: card",
+          "resourceDeltas": {
+            "publicity": 2
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "confidence": 0.8,
+          "syntheticSnapshotInference": true
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 1,
+      "instance": "card-53-0",
+      "payment": {
+        "entry": 8,
+        "step": 0,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "text": "打出：完美执行的项目：资源：信用点-1、手牌-1"
+      },
+      "preview": {
+        "cardId": "b_77.webp",
+        "cardInstanceId": "card-6-0",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 20.820999999999998,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 17.820999999999998
+      },
+      "selectedPreview": {
+        "cardId": "b_77.webp",
+        "cardInstanceId": "card-6-0",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 20.820999999999998,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 17.820999999999998
+      },
+      "discard": {
+        "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+        "entryId": 8,
+        "stepIndex": 2,
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "finalScore": 371,
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 信使号探测器；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+        "resourceDeltas": {
+          "publicity": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-6-0",
+            "label": "信使号探测器",
+            "change": "discard",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "samePlannedDiscard": true,
+      "moves": [],
+      "directCornerEntries": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 信使号探测器；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-6-0",
+              "label": "信使号探测器",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "transaction": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "获得 1 宣传：绿色 宣传+1",
+          "resourceDeltas": {
+            "publicity": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 2,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 信使号探测器；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-6-0",
+              "label": "信使号探测器",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 3,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "放置数据",
+          "resourceDeltas": {
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": true,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 4,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "放置数据：资源：宣传+1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": true,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+          "entryId": 8,
+          "stepIndex": 9007199254740981,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "finalScore": 371,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "snapshot inference: card",
+          "resourceDeltas": {
+            "publicity": 2
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "confidence": 0.8,
+          "syntheticSnapshotInference": true
+        }
+      ]
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 1,
+      "instance": "card-10-0",
+      "payment": {
+        "entry": 9,
+        "step": 0,
+        "resources": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "text": "打出：完美执行的项目：资源：信用点-1、手牌-1"
+      },
+      "preview": {
+        "cardId": "b_56.webp",
+        "cardInstanceId": "card-11-0",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 19.500999999999998,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 16.500999999999998
+      },
+      "selectedPreview": {
+        "cardId": "b_56.webp",
+        "cardInstanceId": "card-11-0",
+        "index": 0,
+        "repeat": 3,
+        "requestedGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "actualGain": {
+          "publicity": 3,
+          "availableData": 0
+        },
+        "resourceValue": 19.500999999999998,
+        "movementPoints": 0,
+        "movementValue": 0,
+        "opportunityCost": 3,
+        "bestMove": null,
+        "score": 16.500999999999998
+      },
+      "discard": {
+        "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+        "entryId": 9,
+        "stepIndex": 2,
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "finalScore": 269,
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 离子推迸系统；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+        "resourceDeltas": {
+          "publicity": 1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-11-0",
+            "label": "离子推迸系统",
+            "change": "discard",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "samePlannedDiscard": true,
+      "moves": [],
+      "directCornerEntries": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 离子推迸系统；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-11-0",
+              "label": "离子推迸系统",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "transaction": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 1,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "获得 1 宣传：棕色 宣传+1",
+          "resourceDeltas": {
+            "publicity": 1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 2,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "main",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "弃非外星人卡并结算其左上角奖励3次：弃掉 离子推迸系统；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "handSize": -1
+          },
+          "incomeDeltas": {},
+          "cards": [
+            {
+              "key": "card-11-0",
+              "label": "离子推迸系统",
+              "change": "discard",
+              "origin": "normal"
+            }
+          ],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 3,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "放置数据",
+          "resourceDeltas": {
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": true,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 4,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "放置数据：资源：宣传+1",
+          "resourceDeltas": {
+            "publicity": 1,
+            "availableData": -1
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": true,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+          "entryId": 9,
+          "stepIndex": 9007199254740981,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 269,
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "pace": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "snapshot inference: card",
+          "resourceDeltas": {
+            "publicity": 2
+          },
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "confidence": 0.8,
+          "syntheticSnapshotInference": true
+        }
+      ]
+    }
+  ]
+}

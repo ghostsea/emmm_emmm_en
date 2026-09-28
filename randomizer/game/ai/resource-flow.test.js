@@ -2,6 +2,27 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  for (const [detail, expected, start] of [
+    ["宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1", { publicity: 3, handSize: -1 }, { publicity: 1, handSize: 1 }],
+    ["宣传+1；宣传+1；宣传+1；资源：宣传+1、手牌-1", { publicity: 1, handSize: -1 }, { publicity: 9, handSize: 1 }],
+    ["分数+1；分数+1；分数+1；资源：分数+3、数据+2、手牌-1", { score: 3, availableData: 2, handSize: -1 }, { score: 0, availableData: 4, handSize: 1 }],
+  ]) {
+    const text = `弃非外星人卡并结算其左上角奖励3次：弃掉 角标牌；${detail}`;
+    assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, expected);
+    const initial = { id: "p", resources: start, hand: [{ id: "corner", label: "角标牌" }] };
+    const final = { ...initial, hand: [], resources: { ...start } };
+    for (const [key, value] of Object.entries(expected)) final.resources[key] += value;
+    const result = flow.analyzeStructuredActionLog([{ id: 1, roundNumber: 3, playerId: "p", actionType: "playCard",
+      steps: [{ source: "main", text }], accountingSnapshot: { players: [final] },
+    }], { initialPlayerStates: [initial] });
+    assert.deepEqual(result.events[0].resourceDeltas, expected);
+    assert.equal(result.events.filter(e => e.syntheticSnapshotInference).length, 0,
+      "explicit repeated reward must not be repaired by synthetic snapshot gains");
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+}
+
+{
   const text = "弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3";
   assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, { publicity: 3 });
   assert.equal(flow.parseDeltaText(text).matchedMagnitude, 3);
