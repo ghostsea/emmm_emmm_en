@@ -1037,3 +1037,32 @@ console.log("resource-flow.test.js: all tests passed");
   assert.equal(mismatched.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "one remaining card with a contradictory known name is not a valid fallback");
   assert.equal(mismatched.events.find(e => e.syntheticHandRemoval).cards[0].key, incomeCard.id);
 }
+
+// A completed card-for-resource exchange must remain a trade even when the
+// enclosing main action is an alien card that spends the resource immediately.
+for (const [label,key] of [['能量','energy'],['信用点','credits']]) {
+  const initial={id:'p',resources:{[key]:0,handSize:3},income:{},hand:[{id:'a'},{id:'b'},{id:'target'}]};
+  const result=flow.analyzeStructuredActionLog([{id:1,roundNumber:1,playerId:'p',actionType:'playCard',steps:[
+    {source:'quick',text:'快速交易：2张牌 → 1'+label},
+    {source:'main',text:'打出：半人马卡牌9：资源：'+label+'-1、手牌-1'},
+  ],accountingSnapshot:{players:[{...initial,resources:{[key]:0,handSize:0},hand:[]}]}}],{initialPlayerStates:[initial]});
+  const trade=result.events.find(e=>e.sourceDetail==='快速交易：2张牌 → 1'+label);
+  assert.deepEqual(trade.resourceDeltas,{handSize:-2,[key]:1});
+  assert.equal(trade.sourceCategory,'trade_conversion');
+  assert.equal(result.players[0].nonIncomeGain[key],1);
+  assert.equal(result.players[0].spent[key],1);
+  assert.equal(result.players[0].spent.handSize,3);
+  assert.equal(result.reconciliation.inferredMagnitude,0,'same-transaction use must not net away the exchange');
+  assert.equal(result.reconciliation.residualMagnitude,0);
+  const event=text=>flow.normalizeStructuredActionLog([{id:1,playerId:'p',steps:[{source:'quick',text}]}])[0];
+  assert.deepEqual(event('快速交易：2张牌 → 1'+label+'；资源：手牌-2、'+label+'+1').resourceDeltas,{handSize:-2,[key]:1},'explicit deltas are not duplicated');
+  for(const suffix of ['；失败','；请选择','；取消']) assert.deepEqual(event('快速交易：2张牌 → 1'+label+suffix).resourceDeltas,{},'uncompleted exchange is not a receipt');
+  assert.deepEqual(event('快速交易：2张牌 → 精选1张牌').resourceDeltas,{},'selection remains outside deterministic exchange parser');
+}
+
+for (const actionLabel of ['分析数据','打出半人马卡牌9','宇宙大战略集团能力','研究科技','获得本轮收入']) {
+  for (const text of ['快速交易：2张牌 → 1能量','快速交易：2张牌 → 1信用点','快速交易：2信用点 → 1能量','快速交易：2能量 → 1信用点']) {
+    const [e]=flow.normalizeStructuredActionLog([{id:1,playerId:'p',actionType:'researchTech',actionLabel,steps:[{source:'quick',text}]}]);
+    assert.equal(e.sourceCategory,'trade_conversion','completed exchange owns its source despite '+actionLabel);
+  }
+}

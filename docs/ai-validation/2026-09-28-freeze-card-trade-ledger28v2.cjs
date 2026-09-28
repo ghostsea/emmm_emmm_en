@@ -1,0 +1,15 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process'),assert=require('node:assert/strict'),d='tmp/ai-20260905/',p='tradeledger28v2';
+const old=JSON.parse(fs.readFileSync(d+'finalreturn-suite.json')),hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');assert(!fs.existsSync(d+p+'-suite.json'));
+const model=root=>{const cwd=path.resolve(d+root);assert.equal(cp.execFileSync('git',['status','--porcelain'],{cwd,encoding:'utf8'}).trim(),'');const hashes=Object.fromEntries(Object.keys(old.models.base.hashes).map(f=>[f,hash(path.join(cwd,f))]));return {root,commit:cp.execFileSync('git',['rev-parse','HEAD'],{cwd,encoding:'utf8'}).trim(),hashes,fingerprint:crypto.createHash('sha256').update(JSON.stringify(hashes)).digest('hex')};};
+const base=model('../..'),candidate=model('card-trade-ledger28');assert.deepEqual(base.hashes,old.models.base.hashes);
+for(const[f,h]of Object.entries(old.harnessHashes))assert.equal(hash(f),h);
+const differences=Object.keys(base.hashes).filter(f=>base.hashes[f]!==candidate.hashes[f]);
+const semanticDifferences=differences.filter(f=>fs.readFileSync(path.resolve(d,base.root,f),'utf8').replace(/\r\n/g,'\n')!==fs.readFileSync(path.resolve(d,candidate.root,f),'utf8').replace(/\r\n/g,'\n'));
+assert.deepEqual(semanticDifferences.sort(),['randomizer/game/ai/resource-flow.js','randomizer/game/ai/resource-flow.test.js','randomizer/index.html'].sort());
+const rule='Full24 parser28 replays vs identical current011 parser27 baseline. Only deterministic completed two-card credit/energy trade statistics and cache changed.54 tests and reference/helper tests passed. Require all score/resource-decision trajectories and step counts unchanged; report gross/source changes without claiming AI uplift. Reuse old output hashes unchanged, no partial replay accepted as full coverage.';
+const s={phase:'full-baseline-parser28-replay',frozenAt:new Date().toISOString(),seedGeneratedAt:old.seedGeneratedAt,plannedPairs:24,minimumPairs:24,newGames:24,reusedBaselineGames:24,rule,scope:rule,models:{base,candidate},harnessHashes:old.harnessHashes,baselineResultHashes:Object.fromEntries(old.pairs.map(x=>[x.baseline,hash(d+x.baseline)])),runtimeDifferences:differences,semanticDifferences,pairs:old.pairs.map((x,i)=>({seed:x.seed,alienSeed:x.alienSeed,baseline:x.baseline,candidate:p+'-candidate-'+(i+1)+'.json'}))};
+fs.writeFileSync(d+p+'-suite.json',JSON.stringify(s,null,2)+'\n');fs.writeFileSync('docs/ai-validation/2026-09-28-card-trade-ledger28v2-replay-plan.json',JSON.stringify(s,null,2)+'\n');
+for(const name of ['energyunlock-run.cjs','collect-energyunlock.cjs','audit-energyunlock.cjs','audit-energyunlock-runtime.cjs','energyunlock-resource-matrix.cjs','finish-energyunlock.cjs','queue-energyunlock.cjs']){
+ const code=fs.readFileSync(d+name,'utf8').replaceAll('energyunlock',p).replaceAll('能量交易打牌解锁固定24组资源对照','交易统计解析器28完整24组资源对照');fs.writeFileSync(d+name.replaceAll('energyunlock',p),code);
+}
+console.log('FROZEN',s.frozenAt,candidate.commit);

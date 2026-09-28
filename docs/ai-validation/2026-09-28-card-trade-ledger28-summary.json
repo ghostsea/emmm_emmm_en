@@ -1,0 +1,111 @@
+{
+  "status": "adopted-statistics-only-full24-replay",
+  "parserCommit": "d1815d5540c5c35396018a8af467ea086a4e3391",
+  "newGames": 24,
+  "reusedBaselineGames": 24,
+  "scoreDelta": {
+    "mean": 0,
+    "min": 0,
+    "p10": 0,
+    "p25": 0,
+    "median": 0,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": 0,
+    "winnerMean": 0,
+    "minimumPerGameMean": 0,
+    "seats270Plus": 0,
+    "seats300Plus": 0
+  },
+  "replay": {
+    "games": 24,
+    "logs": 38426,
+    "steps": 36816,
+    "explicitTrades": 124,
+    "independentlyRepairableGames": 16,
+    "oldReportsInsufficientForRepair": [
+      {
+        "case": 2,
+        "reason": "No unique sufficient compensation: 182/player-white/handSize"
+      },
+      {
+        "case": 5,
+        "reason": "No unique sufficient compensation: 73/player-white/energy"
+      },
+      {
+        "case": 7,
+        "reason": "No unique sufficient compensation: 170/player-blue/handSize"
+      },
+      {
+        "case": 9,
+        "reason": "No unique sufficient compensation: 131/player-brown/handSize"
+      },
+      {
+        "case": 11,
+        "reason": "No unique sufficient compensation: 174/player-blue/handSize"
+      },
+      {
+        "case": 14,
+        "reason": "No unique sufficient compensation: 73/player-blue/energy"
+      },
+      {
+        "case": 21,
+        "reason": "No unique sufficient compensation: 173/player-brown/handSize"
+      },
+      {
+        "case": 23,
+        "reason": "No unique sufficient compensation: 187/player-brown/handSize"
+      }
+    ],
+    "issues": []
+  },
+  "human": {
+    "files": 18,
+    "games": 17,
+    "seats": 66,
+    "eventsReclassified": 55,
+    "seatsWithSourceChanges": 38,
+    "seatsWithIncomeChanges": 0,
+    "totalsAndActionsUnchanged": true,
+    "issues": []
+  },
+  "payments": {
+    "pairs": 24,
+    "plays": 1165,
+    "uniquePayments": 1165,
+    "matchingAmounts": 1165,
+    "issues": []
+  },
+  "limitations": [
+    "Parser-only fix, no strength gain.",
+    "Earlier eac3d5dd replay had correct amounts but incomplete source classification; retained as failed-stage evidence, not accepted validation.",
+    "Old net compensation insufficient for some historical games; only full new replays establish complete gross/source totals.",
+    "Unknown physical-card removal purpose remains unknown.",
+    "Candidate payment checks cover 24 new replay games only."
+  ],
+  "integration": {
+    "files": [
+      {
+        "file": "randomizer/game/ai/resource-flow.js",
+        "sha256": "62b76ff6f18385385971c1a15b21cc868f647e086ba3409de5efdb4abecd7642"
+      },
+      {
+        "file": "randomizer/game/ai/resource-flow.test.js",
+        "sha256": "6402b22219113bffbe2060d0c3780f3b95b10556a2aab6ad0f11c2eb7322d7db"
+      },
+      {
+        "file": "randomizer/index.html",
+        "sha256": "bded73b68b03201fd197aba993ccffed03c49887082e0f25c6e4b34c520be265"
+      },
+      {
+        "file": "tools/repair_ai_card_trade_resources.js",
+        "sha256": "a89e84f0ab173c8c0c1cb280e6c491d690de757aa925a67ad8607b18a08bcc05"
+      },
+      {
+        "file": "tools/repair_ai_card_trade_resources.test.js",
+        "sha256": "7412d65d4765f5a6712cd6bb88f55e00e97878abd9291c1da85043dac1dedb6e"
+      }
+    ],
+    "normalizedSourceMatchesFrozenCandidate": true
+  }
+}
