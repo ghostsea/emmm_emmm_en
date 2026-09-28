@@ -1,0 +1,13 @@
+const fs=require('fs'),cp=require('child_process'),assert=require('node:assert/strict'),crypto=require('crypto');
+const d='tmp/ai-20260905/',root=d+'weak-company-blue-lifecycle',input=d+'scanprojectionabsolute64-candidate-13.json',out=d+'trace-parser29-replay.json';
+const index=cp.execFileSync('git',['show','HEAD:randomizer/index.html'],{cwd:root,encoding:'utf8',windowsHide:true});
+fs.writeFileSync(root+'/randomizer/index.html',index.replace('ai-resource-flow-28','ai-resource-flow-29'));
+const before=JSON.parse(fs.readFileSync(input));
+cp.execFileSync(process.execPath,['tools/run_ai_autobattle_browser.js','--single','--seed',before.options.seed,'--alienSeed',before.options.alienSeed,'--root',root,'--includeLogs','--lightweight','--timeoutMs','1800000','--out',out],{stdio:'ignore',windowsHide:true});
+const after=JSON.parse(fs.readFileSync(out)),clean=v=>Array.isArray(v)?v.map(clean):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k])=>!['createdAt','updatedAt','placedAt'].includes(k)).map(([k,x])=>[k,clean(x)])):v;
+assert(after.summary.ok&&after.summary.gameEnded&&!after.summary.blocked&&after.summary.bugCount===0);
+assert.equal(after.summary.steps,before.summary.steps);assert.deepEqual(after.summary.playerScores,before.summary.playerScores);assert.deepEqual(clean(after.result.logs),clean(before.result.logs));
+assert.equal(after.result.resourceFlow.reconciliation.residualMagnitude,0);
+const pay=after.result.resourceFlow.events.find(e=>e.entryId===84&&/半人马粉色痕迹 2号位：支付 3 数据/.test(e.sourceDetail));assert(pay);assert.equal(pay.resourceDeltas.availableData,-3);
+const report={scope:'Parser-only replay of frozen scan projection case13; all semantic logs unchanged excluding timestamps. No policy improvement claim.',input,output:out,sha256:Object.fromEntries([input,out].map(f=>[f,crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')])),steps:after.summary.steps,scores:after.summary.playerScores,semanticLogs:after.result.logs.length,bugs:0,payment:pay,ledgerSeats:after.result.resourceFlow.players.length};
+fs.writeFileSync('docs/ai-validation/2026-09-28-trace-parser29-replay.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({steps:report.steps,scores:report.scores,semanticLogs:report.semanticLogs}));

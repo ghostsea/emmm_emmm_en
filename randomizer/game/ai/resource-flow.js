@@ -1130,7 +1130,17 @@
       }
     }
     collapseStructuredDuplicateSignedDeltas(text, parsed.resourceDeltas);
-    collectStructuredUnsignedRewards(text, parsed.resourceDeltas);
+    // A completed Centauri trace receipt contains both a data payment and
+    // its score reward. A preceding "winner reward" label must not turn the
+    // unsigned payment into a gain. Restrict this to the runtime receipt;
+    // affordability messages and pending/cancelled choices are not payments.
+    let traceDataPayment = 0;
+    const rewardText = text.replace(
+      /(半人马(?:粉色|黄色|蓝色)痕迹\s*[12]号位：)支付\s+(\d+)\s*数据(?=、分数\+\d+)/g,
+      (_, label, amount) => { traceDataPayment += Number(amount); return label; },
+    );
+    collectStructuredUnsignedRewards(rewardText, parsed.resourceDeltas);
+    if (traceDataPayment) addResourceValue(parsed.resourceDeltas, "availableData", -traceDataPayment);
     const traceScoreSummary = getTraceCountScoreSummary(text);
     if (traceScoreSummary !== null) parsed.resourceDeltas.score = traceScoreSummary;
     Object.assign(parsed.resourceDeltas, getComponentRewardResourceSummary(text) || {});

@@ -1,0 +1,44 @@
+{
+  "scope": "Parser-only replay of frozen scan projection case13; all semantic logs unchanged excluding timestamps. No policy improvement claim.",
+  "input": "tmp/ai-20260905/scanprojectionabsolute64-candidate-13.json",
+  "output": "tmp/ai-20260905/trace-parser29-replay.json",
+  "sha256": {
+    "tmp/ai-20260905/scanprojectionabsolute64-candidate-13.json": "ce56e3764adadb367d100bf2b49a54666bf512d4147432703ecf1177398546bd",
+    "tmp/ai-20260905/trace-parser29-replay.json": "8277b8fbce06b8e35357bd4fb093e67b9f13452a0b99652246b514d25a78aa03"
+  },
+  "steps": 1329,
+  "scores": [
+    260,
+    167,
+    183,
+    232
+  ],
+  "semanticLogs": 1395,
+  "bugs": 0,
+  "payment": {
+    "gameId": "codex-ai-scan-projection-20260928:1f9963d047b53fb78d16bdcd",
+    "entryId": 84,
+    "stepIndex": 8,
+    "playerId": "player-white",
+    "playerLabel": "白色",
+    "finalScore": 232,
+    "roundNumber": 3,
+    "turnNumber": 1,
+    "pace": "main",
+    "mainActionType": "scan",
+    "sourceCategory": "alien",
+    "sourceDetail": "比邻星赢家奖励：白色放置粉色外星人痕迹：半人马粉色痕迹 2号位：支付 3 数据、分数+15",
+    "resourceDeltas": {
+      "score": 15,
+      "availableData": -3
+    },
+    "incomeDeltas": {},
+    "cards": [],
+    "techIds": [],
+    "alienId": "半人马",
+    "industryId": "寰宇超动力",
+    "isDataPlacement": false,
+    "confidence": 1
+  },
+  "ledgerSeats": 4
+}
