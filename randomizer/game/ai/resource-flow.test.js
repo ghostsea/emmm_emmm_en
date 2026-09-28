@@ -1,6 +1,139 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+{
+  const text = "弃牌换1移动 x3：R1 -> 扇区[5,3]#4，橙色2：进入小行星，宣传+1；资源：宣传+3";
+  assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, { publicity: 3 });
+  assert.equal(flow.parseDeltaText(text).matchedMagnitude, 3);
+  assert.deepEqual(flow.parseDeltaText("1移动：R2 -> 扇区[2,1]#0，宣传+1、分数+2；资源：宣传+3、能量-1；收入：能量+1").resourceDeltas,
+    { publicity: 3, energy: -1, score: 2 }, "only explicit impact keys override component descriptions");
+  assert.equal(flow.parseDeltaText("1移动：R1 -> 扇区[5,3]#4，宣传+1；宣传+3").resourceDeltas.publicity, 4,
+    "independent gains without an impact summary remain additive");
+  const initial = { id: "p", color: "white", resources: { publicity: 0 }, hand: [] };
+  const result = flow.analyzeStructuredActionLog([{ id: 1, roundNumber: 4, playerId: "p", actionType: "playCard",
+    steps: [{ source: "main", text }], accountingSnapshot: { players: [{ ...initial, resources: { publicity: 3 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(result.events[0].resourceDeltas.publicity, 3);
+  assert.equal(result.players[0].nonIncomeGain.publicity, 3);
+  assert.equal(result.players[0].spent.publicity, 0, "snapshot reconciliation must not invent spending to cancel a duplicated gain");
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+}
+
+{
+  for (const drawn of [0, 1, 2]) {
+    const before = [
+      { id: "blue", color: "blue", resources: {}, hand: [] },
+      { id: "brown", color: "brown", resources: {}, hand: [] },
+    ];
+    const after = before.map(p => ({ ...p,
+      resources: p.id === "brown" ? { credits: 1 } : {},
+      hand: Array.from({ length: p.id === "blue" ? 1 : drawn }, (_, i) => ({ id: p.id + i })),
+    }));
+    const result = flow.analyzeStructuredActionLog([{
+      id: 23, playerId: "brown", actionType: "playCard",
+      steps: [
+        { source: "main", text: "宇宙战略集团：黄色奖励槽：+1 信用点" },
+        { source: "main", text: `回合结束揭示外星人：异常点已展示：异常扇区 4、1、7；异常点揭示发牌：蓝色+1，棕色+${drawn}/2` },
+      ], accountingSnapshot: { players: after },
+    }], { initialPlayerStates: before });
+    const grant = result.events.find(e => e.stepIndex === 1 && e.playerId === "brown");
+    assert(grant, "each explicit reveal recipient must have its own event");
+    assert.equal(grant.resourceDeltas.handSize || 0, drawn, "count actual draws, not expected entitlement");
+    assert.equal(grant.cards.length, drawn);
+    assert(grant.cards.every(c => c.origin === "alien"));
+    assert.deepEqual(result.events[0].resourceDeltas, { credits: 1 }, "company reward did not grant alien cards");
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+}
+
+{
+  // Actual b36 receipt: brown earns first-trace 3VP/1 publicity plus 1VP
+  // for the new blue trace. The trailing impact reports total score 4.
+  for (const color of ["蓝色", "黄色", "粉色"]) {
+    const text = `获得任意外星人痕迹，并按该颜色痕迹数得分：外星人 2 放置${color}痕迹，三种首标记已满，可揭示；外星人 2首痕迹奖励：3分+1宣传；${color}痕迹痕迹 1 个：分数+1；资源：分数+4`;
+    assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, { publicity: 1, score: 4 });
+    const before = [
+      { id: "blue", color: "blue", resources: { score: 20, publicity: 5 }, hand: [] },
+      { id: "brown", color: "brown", resources: { score: 20, publicity: 5 }, hand: [] },
+    ];
+    const after = before.map(p => p.id === "brown" ? { ...p, resources: { score: 24, publicity: 6 } } : p);
+    const result = flow.analyzeStructuredActionLog([{
+      id: 23, roundNumber: 1, turnNumber: 5, playerId: "brown", actionType: "playCard",
+      steps: [{ source: "main", text }], accountingSnapshot: { players: after },
+    }], { initialPlayerStates: before });
+    assert.equal(result.events[0].playerId, "brown", "trace color is not reward recipient");
+    assert.deepEqual(result.events[0].resourceDeltas, { publicity: 1, score: 4 });
+    assert.equal(result.events.length, 1, "no compensating snapshot inference should hide double counting");
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+  assert.deepEqual(flow.parseDeltaText("蓝色痕迹痕迹 1 个：分数+1；独立奖励：分数+4").resourceDeltas,
+    { score: 5 }, "without an impact summary, independent rewards stay additive");
+}
+
+{
+  const events = [
+    { gameId: "incomplete", playerId: "p", sourceCategory: "setup", resourceDeltas: { credits: 2, energy: 3 } },
+    { gameId: "incomplete", playerId: "p", sourceCategory: "cost", resourceDeltas: { credits: -3, energy: -2 } },
+  ];
+  const row = flow.summarizeResourceEvents(events).players[0];
+  assert.deepEqual(row.unexplainedResourceDeficits, { credits: 1 });
+  assert.equal(row.balanceResiduals, null, "no ending observation is available");
+  assert.equal(row.endingInventory.credits, null, "missing resource evidence is not an empty inventory");
+  assert.equal(row.utilizationRate.credits, null, "do not report 150% utilization from incomplete history");
+  assert.equal(row.endingInventory.energy, 1);
+  assert.equal(row.utilizationRate.energy, 2 / 3, "unaffected resources retain their estimate");
+  const observed = flow.summarizeResourceEvents(events, { endingInventories: { p: { credits: 0, energy: 1 } } }).players[0];
+  assert.equal(observed.endingInventory.credits, 0, "retain explicitly observed ending");
+  assert.equal(observed.balanceResiduals.credits, -1);
+  assert.equal(observed.utilizationRate.credits, null);
+  assert.deepEqual(observed.unexplainedResourceDeficits, {}, "observed mismatch is already represented by balanceResiduals");
+}
+
+{
+  for (const count of [0, 1, 2, 3]) {
+    const text = `每个外星人：2分+1能量：${count} 个外星人，分数+${count * 2}、能量+${count}`;
+    assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, count ? { score: count * 2, energy: count } : {});
+    const initial = { id: "p", color: "white", resources: { score: 10, energy: 2 }, hand: [], income: {} };
+    const result = flow.analyzeStructuredActionLog([{
+      id: 1, roundNumber: 2, playerId: "p", actionType: "cardTask",
+      steps: [{ source: "quick", text }],
+      accountingSnapshot: { players: [{ ...initial, resources: { score: 10 + count * 2, energy: 2 + count } }] },
+    }], { initialPlayerStates: [initial] });
+    assert.equal(result.players[0].nonIncomeGain.energy, count);
+    assert.equal(result.players[0].spent.energy, 0, "formula text must not create compensating inferred consumption");
+    assert.equal(result.reconciliation.inferredMagnitude, 0);
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+  assert.deepEqual(flow.parseDeltaText("奖励：+1能量；额外奖励：能量+2").resourceDeltas, { energy: 3 }, "separate actual gains remain additive");
+}
+
+{
+  const initial = { id: "p", resources: { credits: 2, energy: 1 }, hand: [], income: {} };
+  const result = flow.analyzeStructuredActionLog([{
+    id: 1, roundNumber: 4, playerId: "p", actionType: "land",
+    steps: [
+      { source: "quick", text: "快速交易：2信用点 → 1能量" },
+      { source: "main", text: "登陆 奥陌陌，消耗 2能量（橙色3，消耗-1），移除火箭，显示登陆标记#1" },
+    ],
+    accountingSnapshot: { players: [{ ...initial, resources: { credits: 0, energy: 0 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(result.players[0].nonIncomeGain.energy, 1);
+  assert.equal(result.players[0].spent.energy, 2, "gross landing cost must not net the preceding trade gain");
+  assert.equal(result.players[0].spent.credits, 2);
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+  assert.equal(result.reconciliation.inferredMagnitude, 0);
+  assert.equal(result.events[1].sourceCategory, "alien", "retain actual source attribution");
+
+  const event = (text) => flow.normalizeStructuredActionLog([{ id: 1, playerId: "p", steps: [{ text }] }], {
+    initialPlayerStates: [initial],
+  })[0];
+  assert.deepEqual(event("快速交易：2能量 → 1信用点；资源：能量-2、信用点+1").resourceDeltas, { energy: -2, credits: 1 });
+  assert.deepEqual(event("登陆 奥陌陌，消耗 2能量；资源：能量-2").resourceDeltas, { energy: -2 });
+  for (const text of ["快速交易：2信用点 → 1能量；请选择", "快速交易：2信用点 → 1能量；失败", "可登陆 奥陌陌，消耗 2能量", "取消登陆 奥陌陌，消耗 2能量"]) {
+    assert.deepEqual(event(text).resourceDeltas, {}, text);
+  }
+}
+
 for (const text of ["获得卡牌：水熊虫研究", "获得卡牌：宇航员训练体验，公共区已补牌：水熊虫研究"]) {
   assert.equal(flow.findAlienIdInLogText(text), null);
   assert.equal(flow.classifySourceCategory({ text }), "card");
@@ -470,6 +603,36 @@ for (const playerId of ["p1", "p2"]) {
   assert.equal(playerFlow.cardUse.alienGainedInGame, 1);
 }
 
+{
+  const a={id:"played-a",label:"打出的牌"},b={id:"income-b",label:"收入牌"},c={id:"unknown-c",label:"移出牌"};
+  const player=(hand,income={})=>({id:"p1",color:"white",hand,resources:{handSize:hand.length,credits:income.credits||0},income});
+  const initial=player([]);
+  const entries=[
+    {id:1,roundNumber:2,playerId:"p1",actionType:"scan",steps:[{source:"main",text:"资源：手牌+3"}],accountingSnapshot:{players:[player([a,b,c])]}},
+    {id:2,roundNumber:2,playerId:"p1",actionType:"playCard",steps:[
+      {source:"main",text:"打出：打出的牌：资源：手牌-1",playedCard:a},
+      {source:"quick",text:"收入：弃掉 收入牌，信用点+1（已即时获得）"},
+    ],accountingSnapshot:{players:[player([],{credits:1})]}},
+  ];
+  const r=flow.analyzeStructuredActionLog(entries,{initialPlayerStates:[initial]});
+  const p=r.players[0],unknown=r.events.filter(e=>e.syntheticHandRemoval);
+  assert.equal(unknown.length,1);
+  assert.deepEqual(unknown[0].cards.map(c=>[c.key,c.change]),[[c.id,"unknown_removal"]]);
+  assert.deepEqual(unknown[0].resourceDeltas,{},"identity diagnostics cannot add another payment");
+  assert.equal(p.cardUse.playedFromGains,1);
+  assert.equal(p.cardUse.incomeFromGains,1);
+  assert.equal(p.cardUse.unknownRemovalsFromGains,1);
+  assert.equal(p.cardUse.discardedFromGains,0,"an unexplained removal must not be guessed as discard");
+  assert.equal(p.cardUse.untracedGains,0);
+  assert.equal(p.cardUse.knownRemovalUseRate,2/3);
+  assert.equal(p.spent.handSize,3);
+  assert.equal(r.reconciliation.residualMagnitude,0);
+  const unobserved=flow.analyzeStructuredActionLog(entries.map(({accountingSnapshot,...e})=>e),{initialPlayerStates:[initial]});
+  assert.equal(unobserved.events.filter(e=>e.syntheticHandRemoval).length,0,"missing snapshots cannot prove removal identities");
+  const partial=flow.analyzeStructuredActionLog([{id:3,roundNumber:2,playerId:"p2",actionType:"scan",steps:[],accountingSnapshot:{players:[{id:"p2",hand:[],resources:{}}]}}],{initialPlayerStates:[player([c]),{id:"p2",hand:[],resources:{}}]});
+  assert.equal(partial.events.filter(e=>e.syntheticHandRemoval).length,0,"a player omitted from a partial snapshot has no observed after-hand");
+}
+
 const structuredResearchCost = flow.analyzeStructuredActionLog([{
   id: 8, roundNumber: 1, turnNumber: 5, playerId: "p1", playerLabel: "白色",
   actionType: "researchTech", actionLabel: "科技行动",
@@ -705,4 +868,31 @@ console.log("resource-flow.test.js: all tests passed");
  assert.equal(r.players[0].spent.handSize,1,"the removed original card remains a gross cost");
  assert.equal(r.events.flatMap(e=>e.cards).filter(c=>c.change==='gain'&&c.key===special.id).length,1);
  assert.equal(r.reconciliation.residualMagnitude,0);
+}
+
+
+{
+  const incomeCard = { id: "card-151-0", cardName: "合同研究" };
+  const scanCard = { id: "card-154-0", cardName: "重组" };
+  const initial = { id: "p", color: "green", resources: {}, income: {}, hand: [incomeCard, scanCard] };
+  const entries = [{ id: 172, roundNumber: 4, playerId: "p", actionType: "scan", steps: [
+    { source: "main", text: "手牌扫描 重组：获得数据；弃除手牌 重组；资源：数据+1、手牌-1" },
+    { source: "quick", text: "放置数据：资源：信用点+1、手牌-1；收入：信用点+1" },
+  ], accountingSnapshot: { players: [{ ...initial, resources: { credits: 1 }, income: { credits: 1 }, hand: [] }] } }];
+  const result = flow.analyzeStructuredActionLog(entries, { initialPlayerStates: [initial] });
+  const scan = result.events.find(e => e.sourceDetail.startsWith("手牌扫描"));
+  assert.equal(scan.cards.find(c => c.change === "discard").key, scanCard.id, "real cardName must match the scan card, regardless of before-hand order");
+  assert.equal(scan.cards.find(c => c.change === "discard").label, "重组");
+  assert.deepEqual(result.events.filter(e => e.syntheticHandRemoval).flatMap(e => e.cards).map(c => c.key), [incomeCard.id], "unlabeled data-income does not fabricate a known card purpose");
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+
+  const anonymized = { ...initial, hand: initial.hand.map(c => ({ id: c.id })) };
+  const ambiguous = flow.analyzeStructuredActionLog(entries, { initialPlayerStates: [anonymized] });
+  assert.deepEqual(ambiguous.events.filter(e => e.syntheticHandRemoval).flatMap(e => e.cards).map(c => c.key), [incomeCard.id, scanCard.id], "two unlabeled removals must not be assigned by hand order");
+  assert.equal(ambiguous.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "retain the textual evidence when the instance is unknown");
+  assert.equal(ambiguous.reconciliation.residualMagnitude, 0);
+
+  const mismatched = flow.analyzeStructuredActionLog([{ ...entries[0], steps: [entries[0].steps[0]] }], { initialPlayerStates: [{ ...initial, hand: [incomeCard] }] });
+  assert.equal(mismatched.events.find(e => e.sourceDetail.startsWith("手牌扫描")).cards[0].key, "重组", "one remaining card with a contradictory known name is not a valid fallback");
+  assert.equal(mismatched.events.find(e => e.syntheticHandRemoval).cards[0].key, incomeCard.id);
 }

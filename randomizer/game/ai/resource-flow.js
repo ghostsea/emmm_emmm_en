@@ -326,10 +326,12 @@
       income: 0,
       discarded: 0,
       movePayments: 0,
+      unknownRemovals: 0,
       playedFromGains: 0,
       incomeFromGains: 0,
       discardedFromGains: 0,
       movePaymentsFromGains: 0,
+      unknownRemovalsFromGains: 0,
       alienGainedInGame: 0,
       alienPlayedFromGains: 0,
     };
@@ -361,6 +363,7 @@
           income: "income",
           discard: "discarded",
           move_payment: "movePayments",
+          unknown_removal: "unknownRemovals",
         };
         const counter = counterByChange[card.change];
         if (!counter) continue;
@@ -372,6 +375,7 @@
           income: "incomeFromGains",
           discard: "discardedFromGains",
           move_payment: "movePaymentsFromGains",
+          unknown_removal: "unknownRemovalsFromGains",
         }[card.change];
         cardUse[fromGainsCounter] += 1;
         if (card.change === "play" && gained.origin === "alien") {
@@ -380,6 +384,11 @@
       }
     }
 
+    // Unmatched gains may have an unrecorded use; they are not ending hand stock.
+    cardUse.untracedGains = [...gainedCards.values()].reduce((count, cards) => count + cards.length, 0);
+    const knownUses = cardUse.playedFromGains + cardUse.incomeFromGains
+      + cardUse.discardedFromGains + cardUse.movePaymentsFromGains;
+    cardUse.knownRemovalUseRate = divideOrNull(knownUses, knownUses + cardUse.unknownRemovalsFromGains);
     return cardUse;
   }
 
@@ -389,11 +398,18 @@
     const unreconciledResourceKeys = new Set(options.unreconciledResourceKeys || []);
     const providedEndingInventory = options.endingInventories?.[compositePlayerKey]
       ?? options.endingInventories?.[row.playerId];
+    // Without an observed ending, negative accounting is evidence of missing
+    // gains or overcounted spending, not a known empty inventory.
+    const unexplainedResourceDeficits = providedEndingInventory ? {} : Object.fromEntries(
+      SPENDABLE_RESOURCE_KEYS.map((key) => [
+        key, row.spent[key] - row.setupGain[key] - row.grossGain[key],
+      ]).filter(([, value]) => value > 1e-9),
+    );
     const endingInventory = providedEndingInventory
       ? normalizeResourceMap(providedEndingInventory)
       : Object.fromEntries(TRACKED_RESOURCE_KEYS.map((key) => [
         key,
-        unreconciledResourceKeys.has(key)
+        unreconciledResourceKeys.has(key) || Boolean(unexplainedResourceDeficits[key])
           ? null
           : (key === "score"
           ? row.finalScore
@@ -409,7 +425,8 @@
       ]).filter(([, value]) => Math.abs(value) > 1e-9))
       : null;
     for (const key of TRACKED_RESOURCE_KEYS) {
-      utilizationRate[key] = unreconciledResourceKeys.has(key) || Boolean(balanceResiduals?.[key])
+      utilizationRate[key] = unreconciledResourceKeys.has(key)
+        || Boolean(balanceResiduals?.[key]) || Boolean(unexplainedResourceDeficits[key])
         ? null
         : divideOrNull(row.spent[key], row.setupGain[key] + row.grossGain[key]);
       nonIncomeShare[key] = divideOrNull(
@@ -433,6 +450,7 @@
       alienIds: [...row.alienIds],
       endingInventory,
       balanceResiduals,
+      unexplainedResourceDeficits,
       utilizationRate,
       nonIncomeShare,
       setupGainWeighted: weightedResourceMap(row.setupGain),
@@ -672,8 +690,33 @@
     };
   }
 
+  function getTraceCountScoreSummary(text) {
+    // Trace placement logs first-marker and trace-count components before an
+    // impact summary. The summary is the total score, not another reward.
+    if (!/痕迹\s*\d+\s*个\s*[:：]/.test(text)) return null;
+    const summary = String(text).match(/(?:^|[；;])\s*资源\s*[:：]([^；;\n]+)$/);
+    const score = summary?.[1].match(/分数\s*([+-]\d+(?:\.\d+)?)/);
+    return score ? Number(score[1]) : null;
+  }
+
+  function getMovementResourceSummary(text) {
+    // Movement details describe component rewards. The appended impact fields
+    // are before/after totals for those keys; fields absent there stay intact.
+    if (!/R\d+\s*->\s*扇区\[/.test(text)) return null;
+    const groups = [...String(text).matchAll(/(?:^|[；;])\s*资源\s*[:：]([^；;\n]+)/g)];
+    if (groups.length !== 1) return null;
+    const deltas = {};
+    collectDeltaTokens(groups[0][1], deltas);
+    return deltas;
+  }
+
   function parseDeltaText(text = "") {
-    const normalizedText = String(text || "");
+    // Counted-alien rewards log a per-alien formula before the actual payout.
+    // Its "+1能量" is part of the label, not an additional resource gain.
+    const normalizedText = String(text || "").replace(
+      /^每个外星人\s*[:：][^；;\n]*?[:：](?=\s*\d+\s*个外星人[，,])/,
+      "",
+    );
     const resourceDeltas = {};
     const incomeDeltas = {};
     const explicitRanges = [];
@@ -714,6 +757,16 @@
       }
       resourceDeltas[key] = (Number(resourceDeltas[key]) || 0) + Number(value);
       matchedMagnitude += generic.matchedMagnitudeByKey[key] || 0;
+    }
+
+    const traceScoreSummary = getTraceCountScoreSummary(normalizedText);
+    if (traceScoreSummary !== null) {
+      matchedMagnitude -= Math.abs(Number(resourceDeltas.score) || 0) - Math.abs(traceScoreSummary);
+      resourceDeltas.score = traceScoreSummary;
+    }
+    for (const [key, value] of Object.entries(getMovementResourceSummary(normalizedText) || {})) {
+      matchedMagnitude -= Math.abs(Number(resourceDeltas[key]) || 0) - Math.abs(value);
+      resourceDeltas[key] = value;
     }
 
     return {
@@ -818,7 +871,7 @@
       income: normalizeResourceMap(player.income || {}),
       hand: hand.map((card, index) => ({
         key: String(card?.id || card?.key || card?.label || `hand-${index + 1}`),
-        label: card?.label || card?.name || card?.id || card?.key || `手牌${index + 1}`,
+        label: card?.label || card?.cardName || card?.name || card?.id || card?.key || `手牌${index + 1}`,
       })),
       industryId: player.initialSelection?.industry?.label
         || player.initialSelection?.industry?.id
@@ -882,7 +935,7 @@
         `${escapedLabel}\\s+(?:分数|信用点|能量|宣传|数据|手牌)\\s*[+-]\\d`,
       );
       const explicitGain = new RegExp(`${escapedLabel}(?:获得|得到)\\s*\\d`);
-      const explicitOwner = new RegExp(`(?:^|[：；;,，])\\s*${escapedLabel}(?!奖励槽)`);
+      const explicitOwner = new RegExp(`(?:^|[：；;,，])\\s*${escapedLabel}(?!奖励槽|痕迹)`);
       if (explicitDelta.test(text) || explicitGain.test(text) || explicitOwner.test(text)) {
         return player.playerId;
       }
@@ -907,7 +960,7 @@
       const played = step.playedCard;
       cards.push({
         key: String(played.id || played.key || played.label || "played-card"),
-        label: played.label || played.name || played.id || "打出的牌",
+        label: played.label || played.cardName || played.name || played.id || "打出的牌",
         change: "play",
         origin: "normal",
       });
@@ -925,7 +978,9 @@
       });
     } else if (/弃牌(?!扫描|堆)|弃掉|弃除手牌/.test(text)) {
       const discarded = text.match(/(?:弃牌(?!扫描|堆)|弃掉|弃除手牌)\s*([^，；：]*)/);
-      const label = discarded?.[1]?.trim() || "未知弃牌";
+      const parsedLabel = discarded?.[1]?.trim() || "";
+      const label = !parsedLabel || /^换\s*\d+\s*(?:数据|移动|信用点|能量|宣传)/.test(parsedLabel)
+        ? "未知弃牌" : parsedLabel;
       cards.push({ key: label, label, change: "discard", origin: "normal" });
     }
     for (const change of step?.fangzhouCardChanges || []) {
@@ -1060,10 +1115,27 @@
     }
     collapseStructuredDuplicateSignedDeltas(text, parsed.resourceDeltas);
     collectStructuredUnsignedRewards(text, parsed.resourceDeltas);
+    const traceScoreSummary = getTraceCountScoreSummary(text);
+    if (traceScoreSummary !== null) parsed.resourceDeltas.score = traceScoreSummary;
+    Object.assign(parsed.resourceDeltas, getMovementResourceSummary(text) || {});
     let resourceDeltas = sourceCategory === "cost"
       ? parseStructuredCostDeltas(text)
       : { ...parsed.resourceDeltas };
     let incomeDeltas = sourceCategory === "pass_income" ? {} : { ...parsed.incomeDeltas };
+    // Completed action labels also carry costs when an alien source takes
+    // precedence over the cost category. Keep gross spending separate from
+    // a preceding trade in the same transaction's net snapshot delta.
+    const planetPayment = text.match(/^(?:登陆|环绕) [^，]+，消耗 (\d+)\s*能量(?:[（，；]|$)/);
+    if (planetPayment && resourceDeltas.energy == null) {
+      resourceDeltas.energy = -Number(planetPayment[1]);
+    }
+    const cashTrade = text.match(/^快速交易：\s*(\d+)\s*(信用点|能量)\s*→\s*(\d+)\s*(信用点|能量)(?:；资源：[^；]+)?$/);
+    if (cashTrade && cashTrade[2] !== cashTrade[4]) {
+      const inputKey = RESOURCE_LABEL_TO_KEY[cashTrade[2]];
+      const outputKey = RESOURCE_LABEL_TO_KEY[cashTrade[4]];
+      if (resourceDeltas[inputKey] == null) resourceDeltas[inputKey] = -Number(cashTrade[1]);
+      if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = Number(cashTrade[3]);
+    }
     if (sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate") {
       resourceDeltas = addResourceMaps(resourceDeltas, parsed.incomeDeltas);
     }
@@ -1094,8 +1166,7 @@
     };
   }
 
-  function buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options) {
-    const playerId = findStructuredPlayerId(entry, step, snapshotStates);
+  function buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options, playerId = findStructuredPlayerId(entry, step, snapshotStates)) {
     const snapshotPlayer = snapshotStates?.get(playerId) || null;
     const playerLabel = snapshotPlayer?.playerLabel || entry.playerLabel || playerId;
     const sourceCategory = classifySourceCategory({
@@ -1129,6 +1200,26 @@
       isDataPlacement: /^放置数据/.test(String(step?.text || "")),
       confidence: 1,
     };
+  }
+
+  function buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options) {
+    const event = buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options);
+    const grant = String(step?.text || "").match(/揭示发牌\s*[:：]([^；;\n]+)/);
+    // Reveal grants name several recipients in one step. Preserve each actual
+    // drawn count (before /expected); do not infer their cards onto a company
+    // reward merely because it is the recipient's last event in this entry.
+    if (!grant || Object.keys(event.resourceDeltas).length || event.cards.length) return [event];
+    const grants = grant[1].split(/[，,]/).map(part => {
+      const match = part.trim().match(/^(.+?)\+(\d+)(?:\/\d+)?$/);
+      const player = match && [...snapshotStates.values()].find(p => p.playerLabel === match[1]);
+      return player ? { player, count: Number(match[2]) } : null;
+    });
+    if (!grants.length || grants.some(grant => !grant)) return [event];
+    return grants.map(({ player, count }) => ({
+      ...buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options, player.playerId),
+      sourceCategory: "alien",
+      resourceDeltas: count ? { handSize: count } : {},
+    }));
   }
 
   function getStructuredHandAdditions(beforePlayer, afterPlayer) {
@@ -1222,6 +1313,7 @@
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, beforePlayer] of beforeStates) {
+      if (!afterStates.has(playerId)) continue;
       const removals = getStructuredHandRemovals(beforePlayer, afterStates.get(playerId));
       if (!removals.length) continue;
       const playerEvents = entryEvents.filter((event) => (
@@ -1236,7 +1328,16 @@
         if (index < 0 && card?.label) {
           index = remaining.findIndex((candidate) => candidate.label === card.label && !explicitUseKeys.has(candidate.key));
         }
-        if (index < 0 && !card.explicitIdentity) index = remaining.findIndex(candidate => !explicitUseKeys.has(candidate.key));
+        if (index < 0 && !card.explicitIdentity) {
+          const eligible = remaining.filter(candidate => !explicitUseKeys.has(candidate.key));
+          // Order within the before-hand is not evidence of which card paid a
+          // later cost. Only an unambiguous, noncontradictory removal can fill
+          // a missing label; otherwise preserve its unknown purpose below.
+          if (eligible.length === 1
+            && (card.label === "未知弃牌" || eligible[0].label === eligible[0].key)) {
+            index = remaining.indexOf(eligible[0]);
+          }
+        }
         if (index < 0) return null;
         return remaining.splice(index, 1)[0] || null;
       };
@@ -1262,6 +1363,29 @@
             label: removal.label || card.label,
           };
         }
+      }
+      if (remaining.length) {
+        // A snapshot proves these identities left the hand, not why. Do not
+        // silently retain them or guess discard/income from net resource changes.
+        entryEvents.push({
+          gameId: playerEvents[0]?.gameId || "ai-game",
+          entryId,
+          stepIndex: Number.MAX_SAFE_INTEGER - 2,
+          playerId,
+          playerLabel: beforePlayer.playerLabel,
+          roundNumber: Number(entry.roundNumber) || 0,
+          turnNumber: Number(entry.turnNumber) || 0,
+          pace: entry.actionType || null,
+          sourceCategory: "unclassified",
+          sourceDetail: "snapshot hand removal: purpose unknown",
+          resourceDeltas: {},
+          incomeDeltas: {},
+          cards: remaining.map(card => ({ ...card, change: "unknown_removal", explicitIdentity: true })),
+          techIds: [],
+          industryId: beforePlayer.industryId,
+          confidence: 1,
+          syntheticHandRemoval: true,
+        });
       }
     }
   }
@@ -1502,8 +1626,8 @@
     let inferredMagnitude = 0;
     for (const entry of entries || []) {
       const snapshotStates = extractStructuredSnapshotStates(entry);
-      const entryEvents = (entry.steps || []).map((step, stepIndex) => (
-        buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options)
+      const entryEvents = (entry.steps || []).flatMap((step, stepIndex) => (
+        buildStructuredStepEvents(entry, step, stepIndex, snapshotStates, options)
       ));
       if (setupResidualAvailable) {
         appendStructuredSetupResiduals(
@@ -1522,7 +1646,6 @@
         options,
       );
       attachStructuredHandGains(entryEvents, previousStates, snapshotStates, entry);
-      attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
       inferredMagnitude += appendStructuredSnapshotInferences(
         entryEvents,
         entry,
@@ -1530,6 +1653,8 @@
         snapshotStates,
         options,
       );
+      // Identity-only diagnostics must not affect resource-source inference.
+      attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
       events.push(...entryEvents);
       if (snapshotStates) {
         previousStates = snapshotStates;
