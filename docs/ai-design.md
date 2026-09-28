@@ -1641,3 +1641,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 当前6e默认蓝色即时奖励机会核查：完整24组中，现有数据覆盖首次蓝1/蓝2奖励且未选该科技的候选175个；诊断存在后续行动解锁68个，尚须扣数据和真实科技奖励核对。冻结全部5个寰宇“蓝2可用当前数据领取、诊断分析解锁、与原选差不超过5”的决策，分别为第2/3/4/9/16组；只在真实科技选择界面替换当次选择，后续放数据和分析均由原策略决定，完整全桌比较，不按后续成绩挑例子、不形成公司硬规则。见[机会](ai-validation/2026-09-28-current-immediate-blue-opportunities.json)、[反事实计划](ai-validation/2026-09-28-immediate-blue-counterfactual-plan.json)。
+
+
+2026-09-28 末轮收入选牌候选冻结：a77168a7，仅末轮且三个终局标记已确定的收入弃牌选择，按即时资源与真实收入终局增量排序，保留弃牌机会成本，不提升收入行动本身的优先级。54测试、真实浏览器立即能量+1/收入+1/A2终局+11及隔离负对照通过；复用6e完整24基线。见[计划](ai-validation/2026-09-28-finalincomechoice-development-plan.json)。

@@ -1,0 +1,9 @@
+{
+  "scope": "In-memory rollback of actual income final score marginal only; production files untouched.",
+  "failure": {
+    "code": "ERR_ASSERTION",
+    "message": "a1 maximum / a2 minimum uses actual slot and excludes company base\n\n0 !== 5\n",
+    "actual": 0,
+    "expected": 5
+  }
+}
