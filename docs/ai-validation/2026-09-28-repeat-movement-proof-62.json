@@ -1,0 +1,177 @@
+{
+  "case": 62,
+  "originalFile": "repeatabsolute64-candidate-62.json",
+  "scope": "Full frozen-seed replay with read-only runtime wrapper. Full semantic decisions, steps and scores equal original; actual three moves independently captured and compared to decision from/to/rocket/cost/pool.",
+  "scores": [
+    253,
+    209,
+    278,
+    200
+  ],
+  "steps": 1501,
+  "semanticLogs": 1569,
+  "moves": [
+    {
+      "effectId": "dlc20-repeat-corner-move-card-142-0",
+      "player": "player-brown",
+      "poolBefore": 3,
+      "args": [
+        0,
+        1,
+        141
+      ],
+      "ok": true,
+      "message": "R1 -> 扇区[7,3]#4",
+      "cost": {},
+      "payload": {
+        "rocketId": 141,
+        "from": {
+          "x": 7,
+          "y": 2
+        },
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "remaining": 2,
+        "required": 1,
+        "provided": 1,
+        "rewards": []
+      },
+      "actualRocket": {
+        "id": 141,
+        "x": 7,
+        "y": 3
+      },
+      "beforeResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      },
+      "afterResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      }
+    },
+    {
+      "effectId": "dlc20-repeat-corner-move-card-142-0",
+      "player": "player-brown",
+      "poolBefore": 2,
+      "args": [
+        -1,
+        0,
+        141
+      ],
+      "ok": true,
+      "message": "R1 -> 扇区[6,3]#4，移动到木星，宣传+1",
+      "cost": {},
+      "payload": {
+        "rocketId": 141,
+        "from": {
+          "x": 7,
+          "y": 3
+        },
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "remaining": 1,
+        "required": 1,
+        "provided": 1,
+        "rewards": [
+          "移动到木星，宣传+1"
+        ]
+      },
+      "actualRocket": {
+        "id": 141,
+        "x": 6,
+        "y": 3
+      },
+      "beforeResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      },
+      "afterResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      }
+    },
+    {
+      "effectId": "dlc20-repeat-corner-move-card-142-0",
+      "player": "player-brown",
+      "poolBefore": 1,
+      "args": [
+        0,
+        1,
+        141
+      ],
+      "ok": true,
+      "message": "R1 -> 扇区[6,4]#4，移动到天王星，宣传+1",
+      "cost": {},
+      "payload": {
+        "rocketId": 141,
+        "from": {
+          "x": 6,
+          "y": 3
+        },
+        "to": {
+          "x": 6,
+          "y": 4
+        },
+        "required": 1,
+        "provided": 1,
+        "rewards": [
+          "移动到天王星，宣传+1"
+        ]
+      },
+      "actualRocket": {
+        "id": 141,
+        "x": 6,
+        "y": 4
+      },
+      "beforeResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      },
+      "afterResources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 6,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 141
+      }
+    }
+  ]
+}

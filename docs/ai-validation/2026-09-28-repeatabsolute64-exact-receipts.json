@@ -1,0 +1,1175 @@
+{
+  "scope": "All complete pairs. Unique actual paid and discarded card identities; direct corner amounts checked against actual pending-choice preview after caps. Old parser23 input only reattributed with explicit matching snapshot compensation. Movement decisions checked for pool arithmetic and final rocket/destination text in the unique committed pooled step. Intermediate targets and actual pool require separately instrumented full replay; decision pool is not an independent actual pool snapshot. No whole-route reward forecast or attribution of triggered movement to DLC20.",
+  "summary": {
+    "pairs": 64,
+    "inputs": 128,
+    "plays": 10,
+    "resourceReceipts": 10,
+    "movementCorners": 2,
+    "movementSteps": 6,
+    "firstStepMatches": 2,
+    "firstStepMismatches": 0,
+    "plannedDiscardChanges": 0,
+    "issues": []
+  },
+  "inputs": [
+    {
+      "side": "baseline",
+      "case": 1,
+      "file": "repeatabsolute64-base-1.json",
+      "sha256": "f3088402e63c40ca3d5807848e8aa1c15875f5e572c6d43a57c54d71fb7de1bc"
+    },
+    {
+      "side": "baseline",
+      "case": 2,
+      "file": "repeatabsolute64-base-2.json",
+      "sha256": "56686af1d6d47e0b1b91ac95e1a7c2bef5b2da1b2946ff423d72ac5a2cf9d2d4"
+    },
+    {
+      "side": "baseline",
+      "case": 3,
+      "file": "repeatabsolute64-base-3.json",
+      "sha256": "9ec6d4b52b8e12b5061a9889413f67397aa3796b8df9bb4c4347c90ac1d150aa"
+    },
+    {
+      "side": "baseline",
+      "case": 4,
+      "file": "repeatabsolute64-base-4.json",
+      "sha256": "224c1ffd70b81c9d3eb4bc96cd792a226f734811a88106f814a35dc9fd5df522"
+    },
+    {
+      "side": "baseline",
+      "case": 5,
+      "file": "repeatabsolute64-base-5.json",
+      "sha256": "3109b75c314032e18ad90596eff66b873443e0e23bf03acb7e4e1ff2d37df71f"
+    },
+    {
+      "side": "baseline",
+      "case": 6,
+      "file": "repeatabsolute64-base-6.json",
+      "sha256": "0602c1d36c85f204845b01adc6b82bb94faf6e5cad6a523d382d01a796167a83"
+    },
+    {
+      "side": "baseline",
+      "case": 7,
+      "file": "repeatabsolute64-base-7.json",
+      "sha256": "6c5e3ae51f33c5a488ab232f2fd985bc21dca724853385e6c240c1a9850fd195"
+    },
+    {
+      "side": "baseline",
+      "case": 8,
+      "file": "repeatabsolute64-base-8.json",
+      "sha256": "597908f3174f4759bfbd497d47c9abe61beb3934eeb436cec259a6af61913e4d"
+    },
+    {
+      "side": "baseline",
+      "case": 9,
+      "file": "repeatabsolute64-base-9.json",
+      "sha256": "f14fadbb8f2d32bd00babce6f30a442bef8a96994d2b45b75c556afc76daa7bd"
+    },
+    {
+      "side": "baseline",
+      "case": 10,
+      "file": "repeatabsolute64-base-10.json",
+      "sha256": "3a672780ebe22abc3daf5cd5ff3393c647661b89395cf2938abdd37345885fb0"
+    },
+    {
+      "side": "baseline",
+      "case": 11,
+      "file": "repeatabsolute64-base-11.json",
+      "sha256": "102b9812ea0012f4dbb71084c932ba19ab8c846f421d8f4a2a1994f3b045123f"
+    },
+    {
+      "side": "baseline",
+      "case": 12,
+      "file": "repeatabsolute64-base-12.json",
+      "sha256": "1e06c3ad5e405000c72f67bab139a7b0412561ddd822d8978360a260a33540c0"
+    },
+    {
+      "side": "baseline",
+      "case": 13,
+      "file": "repeatabsolute64-base-13.json",
+      "sha256": "4e49af1101db1a9377ce8a980b0b376ee4d56b75e3ad18639bf32662c62d0c13"
+    },
+    {
+      "side": "baseline",
+      "case": 14,
+      "file": "repeatabsolute64-base-14.json",
+      "sha256": "b4a32e73f39ae18713ec9341234eee7e3918ca9a10b625de2626c9087d855263"
+    },
+    {
+      "side": "baseline",
+      "case": 15,
+      "file": "repeatabsolute64-base-15.json",
+      "sha256": "5fd84552f670e5d0dade2c12f03b3df345b722ea246c46292839347358d87af3"
+    },
+    {
+      "side": "baseline",
+      "case": 16,
+      "file": "repeatabsolute64-base-16.json",
+      "sha256": "b089932faff26b7e9d098ee281a0265d01270d4a4625b3fd1379bd076dd7f1de"
+    },
+    {
+      "side": "baseline",
+      "case": 17,
+      "file": "repeatabsolute64-base-17.json",
+      "sha256": "23e04ba3fd46b9f0c0b7980f488277ef5120630c3f7e0049b1037d0f3e645b9c"
+    },
+    {
+      "side": "baseline",
+      "case": 18,
+      "file": "repeatabsolute64-base-18.json",
+      "sha256": "a9b6fe429d386869bdca9e06c928429511eac0f3b7dbee6fdcbd4df6c52bbbc6"
+    },
+    {
+      "side": "baseline",
+      "case": 19,
+      "file": "repeatabsolute64-base-19.json",
+      "sha256": "4161a57ffa29a36955f0af9970c17ca48bfc88f16d6e2e7087681e4822ce6a3e"
+    },
+    {
+      "side": "baseline",
+      "case": 20,
+      "file": "repeatabsolute64-base-20.json",
+      "sha256": "0baae1bb4cbfacd2d54faf99bd43eb9efcb7acdb437cf04f7a01c8d5954df7d8"
+    },
+    {
+      "side": "baseline",
+      "case": 21,
+      "file": "repeatabsolute64-base-21.json",
+      "sha256": "5e0a7d4ea76346a9bace5f8a006ea23f5d6180a7458bbd4e7f2021fda10bb51c"
+    },
+    {
+      "side": "baseline",
+      "case": 22,
+      "file": "repeatabsolute64-base-22.json",
+      "sha256": "1f151ba5f631e63067a2a6f32004846207560504e8f77d5b1736f4513247a848"
+    },
+    {
+      "side": "baseline",
+      "case": 23,
+      "file": "repeatabsolute64-base-23.json",
+      "sha256": "0c0d338aedb25ba71379f74a9f8d3d3c5da73a6070093ea05a347c401aa2e301"
+    },
+    {
+      "side": "baseline",
+      "case": 24,
+      "file": "repeatabsolute64-base-24.json",
+      "sha256": "2f61e90b24f2b2761359ce02104db29e599db813d20010e145be6ec6c7137887"
+    },
+    {
+      "side": "baseline",
+      "case": 25,
+      "file": "repeatabsolute64-base-25.json",
+      "sha256": "777af5c3cd6be5da2e12beca219639b3fbd43626ae2c45ea0311ae5cb88b3518"
+    },
+    {
+      "side": "baseline",
+      "case": 26,
+      "file": "repeatabsolute64-base-26.json",
+      "sha256": "7fb8d12486e3435084a4c00f2cbc9aabab39ad6e6f72d95ae407856ef3a29413"
+    },
+    {
+      "side": "baseline",
+      "case": 27,
+      "file": "repeatabsolute64-base-27.json",
+      "sha256": "00a865781e3323c548a76b0d9c293b2ed18b79e5796f7ea4736a999dfcdb6eea"
+    },
+    {
+      "side": "baseline",
+      "case": 28,
+      "file": "repeatabsolute64-base-28.json",
+      "sha256": "ab25f4de6e8cc0a2cad9bdd720b70d745137bd080e950807f05146607eec23b8"
+    },
+    {
+      "side": "baseline",
+      "case": 29,
+      "file": "repeatabsolute64-base-29.json",
+      "sha256": "a32106ae91f74cb0b405fa758a3bfc73847c68e29c74e65018fbad6826b4acee"
+    },
+    {
+      "side": "baseline",
+      "case": 30,
+      "file": "repeatabsolute64-base-30.json",
+      "sha256": "dae6e57058332e36fea784d1282f213efb11ae3d005743504f56a3523459690b"
+    },
+    {
+      "side": "baseline",
+      "case": 31,
+      "file": "repeatabsolute64-base-31.json",
+      "sha256": "63d7283a2d29c3ea1eb0268ef2b164e3f64d6f13a57df09526baf8de323db0e0"
+    },
+    {
+      "side": "baseline",
+      "case": 32,
+      "file": "repeatabsolute64-base-32.json",
+      "sha256": "c7649be81169ba94faf69e81abeedbe9d0a7b2b0ad2fd4e2927ffc7af02f9f62"
+    },
+    {
+      "side": "baseline",
+      "case": 33,
+      "file": "repeatabsolute64-base-33.json",
+      "sha256": "8c1b84096ca74b911982c2fc14eafc0adbb023b650eb7efcb4a17c3c5426255d"
+    },
+    {
+      "side": "baseline",
+      "case": 34,
+      "file": "repeatabsolute64-base-34.json",
+      "sha256": "78441afa12c5a6bdae38b9b09995fc9719a6f776c4913bbb1888cd7abf199404"
+    },
+    {
+      "side": "baseline",
+      "case": 35,
+      "file": "repeatabsolute64-base-35.json",
+      "sha256": "44743decc81e2aa04c22d58d58e215b8a30fc0fc8f77e65305143f08fd47eb77"
+    },
+    {
+      "side": "baseline",
+      "case": 36,
+      "file": "repeatabsolute64-base-36.json",
+      "sha256": "f90d09adb2d6f3619c9fecd5409d12b1fa6d2aacf6802291aeb064872cbca025"
+    },
+    {
+      "side": "baseline",
+      "case": 37,
+      "file": "repeatabsolute64-base-37.json",
+      "sha256": "511090ad206c15fb30f4bc19a7f8bb0892a19a75bb16d3032686577b1f53c15b"
+    },
+    {
+      "side": "baseline",
+      "case": 38,
+      "file": "repeatabsolute64-base-38.json",
+      "sha256": "f6f08eb2eb9742b2cf9c38be6c8bcdee1a43225c7a327773c52cc97db854bd34"
+    },
+    {
+      "side": "baseline",
+      "case": 39,
+      "file": "repeatabsolute64-base-39.json",
+      "sha256": "a505e292d36d5219787d0054f2736dac9aaabe9dd0fe89de6007f07099630361"
+    },
+    {
+      "side": "baseline",
+      "case": 40,
+      "file": "repeatabsolute64-base-40.json",
+      "sha256": "c7f5321d55d1cb8e9690ab05862af646d59ff0c7a933f393af7bc177e038a3a6"
+    },
+    {
+      "side": "baseline",
+      "case": 41,
+      "file": "repeatabsolute64-base-41.json",
+      "sha256": "29341064dee07c5d83a3030182b1ed6f80649cf43464abf4de09fd51a878b3cb"
+    },
+    {
+      "side": "baseline",
+      "case": 42,
+      "file": "repeatabsolute64-base-42.json",
+      "sha256": "ccdd5845a0f5fa46739d8eda57298fcd69bd4e38b4e408bd78b9b6d02dc5066b"
+    },
+    {
+      "side": "baseline",
+      "case": 43,
+      "file": "repeatabsolute64-base-43.json",
+      "sha256": "8518ce77d970cefd7251e2a8f11b9698a321fa88cf523d709fe9414178fecec3"
+    },
+    {
+      "side": "baseline",
+      "case": 44,
+      "file": "repeatabsolute64-base-44.json",
+      "sha256": "73fe2c6cc459f63c45e4ba1b635f3412026c8ba7440ef9e27692088dd6fe02c7"
+    },
+    {
+      "side": "baseline",
+      "case": 45,
+      "file": "repeatabsolute64-base-45.json",
+      "sha256": "b52f4b81a074e447bd5f155c96d19b9cb0650f6024cd37a884797e0bb465d5c7"
+    },
+    {
+      "side": "baseline",
+      "case": 46,
+      "file": "repeatabsolute64-base-46.json",
+      "sha256": "ef0281a7773e7c4e6cf72f4442a6b42f192917bca92dd48afa05f6bb4b02fa58"
+    },
+    {
+      "side": "baseline",
+      "case": 47,
+      "file": "repeatabsolute64-base-47.json",
+      "sha256": "7351aae9315c368a2dcfe28323433eb0dcea25e7e9d36f5022dafac912823fb0"
+    },
+    {
+      "side": "baseline",
+      "case": 48,
+      "file": "repeatabsolute64-base-48.json",
+      "sha256": "61934b976cc6cbe008fdce1af01a5ee99cc46b52ac1dcdde1adf81bbd03c0f94"
+    },
+    {
+      "side": "baseline",
+      "case": 49,
+      "file": "repeatabsolute64-base-49.json",
+      "sha256": "526293aca90572f2c2f35c0bf76fce78ac10acfc72ff4861a841ed7acd3ce215"
+    },
+    {
+      "side": "baseline",
+      "case": 50,
+      "file": "repeatabsolute64-base-50.json",
+      "sha256": "ecfe9be54d00cc9a0db737edba51e34f9ef376784abff59cc6b077d69fdde74f"
+    },
+    {
+      "side": "baseline",
+      "case": 51,
+      "file": "repeatabsolute64-base-51.json",
+      "sha256": "9ed1cb50bbd9184b50f0ec15fe3949d2e480d9bb33a1b3133595b879e7f0d1f5"
+    },
+    {
+      "side": "baseline",
+      "case": 52,
+      "file": "repeatabsolute64-base-52.json",
+      "sha256": "ca2e308d36d479c7db2b3fd7a3f6f6856f7d212cd1c197b3893495b173cb5ab5"
+    },
+    {
+      "side": "baseline",
+      "case": 53,
+      "file": "repeatabsolute64-base-53.json",
+      "sha256": "06efbe218c145a3ef037179fa3f1e3cf60ea02b8e972e1324eef7e94d0884c3f"
+    },
+    {
+      "side": "baseline",
+      "case": 54,
+      "file": "repeatabsolute64-base-54.json",
+      "sha256": "0be9d565b933a1dc4f71a3af502078766c3e519029258864cac88e0de707d379"
+    },
+    {
+      "side": "baseline",
+      "case": 55,
+      "file": "repeatabsolute64-base-55.json",
+      "sha256": "04326641903fc5d648b8b39c935735bfbade6afd54ab94242f627b92af4ad502"
+    },
+    {
+      "side": "baseline",
+      "case": 56,
+      "file": "repeatabsolute64-base-56.json",
+      "sha256": "66b0ee002348d9615f09587012bfd859ac58539f2bdf5d84b49d50db16056afe"
+    },
+    {
+      "side": "baseline",
+      "case": 57,
+      "file": "repeatabsolute64-base-57.json",
+      "sha256": "fd10c6301124b7794c2a754a2037879e2b372ce7242d3e6b499ec9304c079693"
+    },
+    {
+      "side": "baseline",
+      "case": 58,
+      "file": "repeatabsolute64-base-58.json",
+      "sha256": "a59f5dd6cd4f38b4824ac6e6fdb5acbbf632f6ed8310e59ca150dfd552e5ed48"
+    },
+    {
+      "side": "baseline",
+      "case": 59,
+      "file": "repeatabsolute64-base-59.json",
+      "sha256": "4ad588762e4641a1853c4f16a66b7ed3512629f0df5ff96c79f0a61c08a17132"
+    },
+    {
+      "side": "baseline",
+      "case": 60,
+      "file": "repeatabsolute64-base-60.json",
+      "sha256": "54a3c9d5cec65336a4aaadd2861f7aa3dbc1748f3088967fb80a64636d0e3a0c"
+    },
+    {
+      "side": "baseline",
+      "case": 61,
+      "file": "repeatabsolute64-base-61.json",
+      "sha256": "812dc967cefdbf244bb3c5dbcaa4185d88961319a30382992c1f1b25c18dd7fc"
+    },
+    {
+      "side": "baseline",
+      "case": 62,
+      "file": "repeatabsolute64-base-62.json",
+      "sha256": "43657d998f66c9dee9e33136cd4c85c3ba1e1ef1c4689832bea14d184cd0ef88"
+    },
+    {
+      "side": "baseline",
+      "case": 63,
+      "file": "repeatabsolute64-base-63.json",
+      "sha256": "125d1b507b65f1d469002e09edd3f0800e17a0476827db759b58ff31544a8c75"
+    },
+    {
+      "side": "baseline",
+      "case": 64,
+      "file": "repeatabsolute64-base-64.json",
+      "sha256": "766f9ded57e428f8aea05058bcd338dd0a8fb15be018944c91038b24e9a7319c"
+    },
+    {
+      "side": "candidate",
+      "case": 1,
+      "file": "repeatabsolute64-candidate-1.json",
+      "sha256": "82dde8fea45bef6f94bac1aeea6a3d71592ec3fbcfdc267379588632cb042cce"
+    },
+    {
+      "side": "candidate",
+      "case": 2,
+      "file": "repeatabsolute64-candidate-2.json",
+      "sha256": "26f92e04bf5fe6c822a6506d5d9251ca44f31119582a6819762d03a8c9c2e10e"
+    },
+    {
+      "side": "candidate",
+      "case": 3,
+      "file": "repeatabsolute64-candidate-3.json",
+      "sha256": "70a97ed16adab7674c809495e0aad65c26db7b9762ecb771ffd026964459dde1"
+    },
+    {
+      "side": "candidate",
+      "case": 4,
+      "file": "repeatabsolute64-candidate-4.json",
+      "sha256": "a9effe5675efeec5a11d8ac248d8e01789bcc03139dddde7a8b06df13da79109"
+    },
+    {
+      "side": "candidate",
+      "case": 5,
+      "file": "repeatabsolute64-candidate-5.json",
+      "sha256": "7d4294f2012c0d243ec87da05777eb47a12141293209885561226af17304cc58"
+    },
+    {
+      "side": "candidate",
+      "case": 6,
+      "file": "repeatabsolute64-candidate-6.json",
+      "sha256": "eef6b5dfa8e5b22cc154cff62dd6e78cc966bb95e9300b083563048dc514e719"
+    },
+    {
+      "side": "candidate",
+      "case": 7,
+      "file": "repeatabsolute64-candidate-7.json",
+      "sha256": "04ae057b524f845f0a2bf006f95466020441b078adfd1287152d73cb68061c40"
+    },
+    {
+      "side": "candidate",
+      "case": 8,
+      "file": "repeatabsolute64-candidate-8.json",
+      "sha256": "7420963d6294e979532407e222c1795e3fb1b3a099e838fd432a647a5a80edcc"
+    },
+    {
+      "side": "candidate",
+      "case": 9,
+      "file": "repeatabsolute64-candidate-9.json",
+      "sha256": "3410bf9d74ea0f5df49fad0c6a2be38690e4fafe830bae36b7288dba757eb4c4"
+    },
+    {
+      "side": "candidate",
+      "case": 10,
+      "file": "repeatabsolute64-candidate-10.json",
+      "sha256": "85e3aa8f3487cc10ca4749d14f04db847b0037c3dba56d1fdd7fb77f04911cdf"
+    },
+    {
+      "side": "candidate",
+      "case": 11,
+      "file": "repeatabsolute64-candidate-11.json",
+      "sha256": "d4c4b66286b21c8801446bc9553f2ab0a60ca319171af1620f5f0d2d042a2fc1"
+    },
+    {
+      "side": "candidate",
+      "case": 12,
+      "file": "repeatabsolute64-candidate-12.json",
+      "sha256": "3d3ed258802e6739a8e169e9d01e02f68830f2b7dcd5f08c25dac75e9af549da"
+    },
+    {
+      "side": "candidate",
+      "case": 13,
+      "file": "repeatabsolute64-candidate-13.json",
+      "sha256": "e0bd37cbb3c9f6d7fe437ef9cb8325b5597d73734c7755829505ff05eb0c7aaf"
+    },
+    {
+      "side": "candidate",
+      "case": 14,
+      "file": "repeatabsolute64-candidate-14.json",
+      "sha256": "9ac10023d11dbb89010a09cf58c6e9cf8df18513cf7474cd201ff5d28cee533a"
+    },
+    {
+      "side": "candidate",
+      "case": 15,
+      "file": "repeatabsolute64-candidate-15.json",
+      "sha256": "533fb1f788d08e3b156e2961c797ae91bd38f66d50c30f9449c28f9410d65b79"
+    },
+    {
+      "side": "candidate",
+      "case": 16,
+      "file": "repeatabsolute64-candidate-16.json",
+      "sha256": "ba828fbd5ce770072b4672274f1609decbd584baceaeb048e017cfa711c011f9"
+    },
+    {
+      "side": "candidate",
+      "case": 17,
+      "file": "repeatabsolute64-candidate-17.json",
+      "sha256": "c06cec5857e0c9783fb5af2dc06e2778746c1757bfe0f9654330aecd040f32f2"
+    },
+    {
+      "side": "candidate",
+      "case": 18,
+      "file": "repeatabsolute64-candidate-18.json",
+      "sha256": "0fa344f99d64b21ab67b052fbcc340170f829f5bbc58645e3ce481e0181ea96d"
+    },
+    {
+      "side": "candidate",
+      "case": 19,
+      "file": "repeatabsolute64-candidate-19.json",
+      "sha256": "8373839467c8b03cf4641aabc8f6834b839b20dd81cd7224f34c5d4bc0135950"
+    },
+    {
+      "side": "candidate",
+      "case": 20,
+      "file": "repeatabsolute64-candidate-20.json",
+      "sha256": "efdc3841758b7d765c4f60dabdc1eb669a9f14693643441255132b4a34d71842"
+    },
+    {
+      "side": "candidate",
+      "case": 21,
+      "file": "repeatabsolute64-candidate-21.json",
+      "sha256": "5318b05834a1a299f4b8c4b5f6471a49f685f1aad01ff31266606a91c1cee7e1"
+    },
+    {
+      "side": "candidate",
+      "case": 22,
+      "file": "repeatabsolute64-candidate-22.json",
+      "sha256": "26bf611335f08007ffb99c5a40f08a1eabc3b360756feefc795b36274771aced"
+    },
+    {
+      "side": "candidate",
+      "case": 23,
+      "file": "repeatabsolute64-candidate-23.json",
+      "sha256": "a68ec17d237e6f675d425009ae0053fe4b467a2b8e755ccffa760398f0bc8490"
+    },
+    {
+      "side": "candidate",
+      "case": 24,
+      "file": "repeatabsolute64-candidate-24.json",
+      "sha256": "950407a8671824c5e979a1897377b9a40a625052332143357c3b344da2fa0c4a"
+    },
+    {
+      "side": "candidate",
+      "case": 25,
+      "file": "repeatabsolute64-candidate-25.json",
+      "sha256": "fd3d6e3c460a14f87e81271f169b2c6a62f8f99dadf8880dae9f79f30d6f4f7e"
+    },
+    {
+      "side": "candidate",
+      "case": 26,
+      "file": "repeatabsolute64-candidate-26.json",
+      "sha256": "93b5a4eb3d03a5f386f89bf81618fad77a24fb66219a531f0b113a2ad7570e52"
+    },
+    {
+      "side": "candidate",
+      "case": 27,
+      "file": "repeatabsolute64-candidate-27.json",
+      "sha256": "852af80e990217822693aecf46702c7c32e590a928bfe1161248cfb1caa765d8"
+    },
+    {
+      "side": "candidate",
+      "case": 28,
+      "file": "repeatabsolute64-candidate-28.json",
+      "sha256": "50868dab1af77c069e5fd127d4c18e149ade9a0a0acdd24f0bc3cc2a0219e3c8"
+    },
+    {
+      "side": "candidate",
+      "case": 29,
+      "file": "repeatabsolute64-candidate-29.json",
+      "sha256": "68c4dfd5409229c3d6721116b8520f42bbb168d0d62cfd5fe625c79748d798ae"
+    },
+    {
+      "side": "candidate",
+      "case": 30,
+      "file": "repeatabsolute64-candidate-30.json",
+      "sha256": "8765dd74a7317e261f1aa5260676beddfc455453f6c0fe36378848a1c4073a6e"
+    },
+    {
+      "side": "candidate",
+      "case": 31,
+      "file": "repeatabsolute64-candidate-31.json",
+      "sha256": "fa1ff784af352e50d03238077caebeb4913cffec84525ef5fecb8207ac5f0a40"
+    },
+    {
+      "side": "candidate",
+      "case": 32,
+      "file": "repeatabsolute64-candidate-32.json",
+      "sha256": "48dbba95e670af18259f4d222b196a0c4b51788ea3d42e8057804dd605e3b3be"
+    },
+    {
+      "side": "candidate",
+      "case": 33,
+      "file": "repeatabsolute64-candidate-33.json",
+      "sha256": "d451634858ba1e55ad640edac3782e539c45ff4479930271c8a28aee27a04031"
+    },
+    {
+      "side": "candidate",
+      "case": 34,
+      "file": "repeatabsolute64-candidate-34.json",
+      "sha256": "bae197ce5b1e73f3131c874188ad3cababde6e9a01bac7fbd335ba2c815643e6"
+    },
+    {
+      "side": "candidate",
+      "case": 35,
+      "file": "repeatabsolute64-candidate-35.json",
+      "sha256": "03e45de1bb3e0ce9cf4576d65396f19045a3139cccc7ed2a0d1a6bacfce0280d"
+    },
+    {
+      "side": "candidate",
+      "case": 36,
+      "file": "repeatabsolute64-candidate-36.json",
+      "sha256": "00dc3f961d73b759a4366af3d5859e518d71f8e9bb572f27420f0bed60c112c9"
+    },
+    {
+      "side": "candidate",
+      "case": 37,
+      "file": "repeatabsolute64-candidate-37.json",
+      "sha256": "1bbbb0ff3fdb1abbb0cd970d32456d32095bca52e41abedf44b101de44640f6f"
+    },
+    {
+      "side": "candidate",
+      "case": 38,
+      "file": "repeatabsolute64-candidate-38.json",
+      "sha256": "77cddbc1289c842953370b9ba098e0f50c882ef85a6456a44567f239d7955909"
+    },
+    {
+      "side": "candidate",
+      "case": 39,
+      "file": "repeatabsolute64-candidate-39.json",
+      "sha256": "ba50e0534a9a008da0ff8ec0db16e31d37a21fc7dc202ebf29efa3420941e123"
+    },
+    {
+      "side": "candidate",
+      "case": 40,
+      "file": "repeatabsolute64-candidate-40.json",
+      "sha256": "c999eeb5f1aa11c7c0313c95f12f1b5646e44223674c0d37ccb4554fbb993292"
+    },
+    {
+      "side": "candidate",
+      "case": 41,
+      "file": "repeatabsolute64-candidate-41.json",
+      "sha256": "415054d66e1e2c9190c022550b972fa1bfb8409bf43dcb5ea896fedb8f9fe94d"
+    },
+    {
+      "side": "candidate",
+      "case": 42,
+      "file": "repeatabsolute64-candidate-42.json",
+      "sha256": "978ab0d463c366e1ddfd8de4bbff9149465ac6584da702e194feb3611e0e9a67"
+    },
+    {
+      "side": "candidate",
+      "case": 43,
+      "file": "repeatabsolute64-candidate-43.json",
+      "sha256": "3ab328def781eec21b1fa05eb4fd66257be87966cbaf7352f555fbe96eb8edc7"
+    },
+    {
+      "side": "candidate",
+      "case": 44,
+      "file": "repeatabsolute64-candidate-44.json",
+      "sha256": "e21ed543d0d3f82d92cd5f10b655ba90537287c734fe9ebdc63b0a7c41af1532"
+    },
+    {
+      "side": "candidate",
+      "case": 45,
+      "file": "repeatabsolute64-candidate-45.json",
+      "sha256": "20b9af6a0102d79fa6d1813de8317ba49d8b5a4e8abbd0939c0c78d5ca9fd57a"
+    },
+    {
+      "side": "candidate",
+      "case": 46,
+      "file": "repeatabsolute64-candidate-46.json",
+      "sha256": "55465fc7589daffbfb095622071548dfa970d2e5874213551b6b7a04f002ab69"
+    },
+    {
+      "side": "candidate",
+      "case": 47,
+      "file": "repeatabsolute64-candidate-47.json",
+      "sha256": "45a33483d1539f91057b7b4d00a7003e54b044c61838934bdca0cdf3c1533da2"
+    },
+    {
+      "side": "candidate",
+      "case": 48,
+      "file": "repeatabsolute64-candidate-48.json",
+      "sha256": "662fec03c24a4be402aa7902dd2e1934845f7f1a84b6283bcb745413a4bf9d8c"
+    },
+    {
+      "side": "candidate",
+      "case": 49,
+      "file": "repeatabsolute64-candidate-49.json",
+      "sha256": "53373b2bf4adee21f71a037e1188ee2435dfbdc2b71b82937013ce5119ad71ae"
+    },
+    {
+      "side": "candidate",
+      "case": 50,
+      "file": "repeatabsolute64-candidate-50.json",
+      "sha256": "8aca3bdbd931efb696019f6cfdd5b7423284088dce0be4a4713b55cd8d0d17c7"
+    },
+    {
+      "side": "candidate",
+      "case": 51,
+      "file": "repeatabsolute64-candidate-51.json",
+      "sha256": "c86bcee76b0c2c546e918d604859328f1d0c51d4561a41981a4328ea4a758ae7"
+    },
+    {
+      "side": "candidate",
+      "case": 52,
+      "file": "repeatabsolute64-candidate-52.json",
+      "sha256": "69f85e9a93d185b21f106b7641e76b2eea7b464e7f37c1ceffc67582e625bb02"
+    },
+    {
+      "side": "candidate",
+      "case": 53,
+      "file": "repeatabsolute64-candidate-53.json",
+      "sha256": "94d05a0442a91c01baef3887ca4b7a3871941121f058d32876fa4a952c4ce934"
+    },
+    {
+      "side": "candidate",
+      "case": 54,
+      "file": "repeatabsolute64-candidate-54.json",
+      "sha256": "51fe8addffc646ae0a2f2523c775068157532fc38e424b2d72f91201d79ef284"
+    },
+    {
+      "side": "candidate",
+      "case": 55,
+      "file": "repeatabsolute64-candidate-55.json",
+      "sha256": "eae7ab2ab3a8336460529ecf06077e5f9f37067af9cd85714f046cbe40a281a4"
+    },
+    {
+      "side": "candidate",
+      "case": 56,
+      "file": "repeatabsolute64-candidate-56.json",
+      "sha256": "d14d122e3a98e31cb689fe2fbe95ed073b6e1c14331f70a08185ef2dce16602b"
+    },
+    {
+      "side": "candidate",
+      "case": 57,
+      "file": "repeatabsolute64-candidate-57.json",
+      "sha256": "048ef04c3f02d83f21fbbd67731f152b3ac841c06329d8fc30eb010082e8761b"
+    },
+    {
+      "side": "candidate",
+      "case": 58,
+      "file": "repeatabsolute64-candidate-58.json",
+      "sha256": "ad500c6f70cdac6576eec3ca1006db5dff60bfe33c0e9d23eed6c1edd23ede07"
+    },
+    {
+      "side": "candidate",
+      "case": 59,
+      "file": "repeatabsolute64-candidate-59.json",
+      "sha256": "6d0a3f0996518743ffa85e2e1032f58b9b883ae4f8d298a0b7a4c77e133b0ad0"
+    },
+    {
+      "side": "candidate",
+      "case": 60,
+      "file": "repeatabsolute64-candidate-60.json",
+      "sha256": "07a1b8100bd0f2ccf809e30498d485126ce3019d5422ddf8905ac7b7c17e9263"
+    },
+    {
+      "side": "candidate",
+      "case": 61,
+      "file": "repeatabsolute64-candidate-61.json",
+      "sha256": "0db3684524d5936800562f05a8a2dd87e95ddd0b1b8006066ac1e682a2d2aa18"
+    },
+    {
+      "side": "candidate",
+      "case": 62,
+      "file": "repeatabsolute64-candidate-62.json",
+      "sha256": "b9a561b4a93108e6b3699da78b5d3f288a258909e5832b6df26e70e47dddbdc3"
+    },
+    {
+      "side": "candidate",
+      "case": 63,
+      "file": "repeatabsolute64-candidate-63.json",
+      "sha256": "bb0a419618c935eaa45f1117a8b7bb1c23aaa88e7e373233e7da25e2d7796c52"
+    },
+    {
+      "side": "candidate",
+      "case": 64,
+      "file": "repeatabsolute64-candidate-64.json",
+      "sha256": "6ed24d3fc5d67cc82c54ce8f38d0f8391cadb01c84bd3424c851dbe131c800cf"
+    }
+  ],
+  "rows": [
+    {
+      "side": "candidate",
+      "case": 21,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 1,
+      "turn": 1,
+      "entry": 6,
+      "playedInstance": "card-4-0",
+      "discardedInstance": "card-50-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "availableData": 0
+      },
+      "expected": {
+        "availableData": 0
+      },
+      "actual": {
+        "handSize": -1
+      },
+      "movementPoints": 3,
+      "moves": [
+        {
+          "rocketId": 1,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "payment": 0,
+          "remaining": 2
+        },
+        {
+          "rocketId": 1,
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "to": {
+            "x": 1,
+            "y": 2
+          },
+          "payment": 0,
+          "remaining": 1
+        },
+        {
+          "rocketId": 1,
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 1,
+            "y": 1
+          },
+          "payment": 0,
+          "remaining": 0
+        }
+      ],
+      "firstStepMatches": true,
+      "remainingPool": 0,
+      "movementReceipts": [
+        {
+          "step": 5,
+          "text": "弃牌换1移动 x3：R1 -> 扇区[1,1]#4，移动到金星，宣传+1；资源：宣传+3",
+          "resources": {
+            "publicity": 3
+          }
+        }
+      ],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 赫歇尔空间天文台；3移动；资源：手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 27,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 3,
+      "entry": 17,
+      "playedInstance": "card-62-0",
+      "discardedInstance": "card-61-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 月球门户空间站；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 28,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "entry": 36,
+      "playedInstance": "card-36-pass-1-2",
+      "discardedInstance": "card-79-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 维护任务；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 36,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "entry": 36,
+      "playedInstance": "card-82-0",
+      "discardedInstance": "card-52-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "availableData": 3
+      },
+      "expected": {
+        "availableData": 3
+      },
+      "actual": {
+        "availableData": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 太空发射系统；数据+1；数据+1；数据+1；资源：数据+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 39,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "turn": 3,
+      "entry": 15,
+      "playedInstance": "card-7-0",
+      "discardedInstance": "card-52-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 土星探测计划；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 44,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 1,
+      "entry": 9,
+      "playedInstance": "card-65-0",
+      "discardedInstance": "card-12-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 光帆；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 45,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 2,
+      "turn": 1,
+      "entry": 36,
+      "playedInstance": "card-80-0",
+      "discardedInstance": "card-57-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 更优太阳能板；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 58,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 12,
+      "entry": 138,
+      "playedInstance": "card-152-0",
+      "discardedInstance": "card-140-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 NASA天体生物学研究所；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 62,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 6,
+      "entry": 155,
+      "playedInstance": "card-143-0",
+      "discardedInstance": "card-142-0",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "availableData": 0
+      },
+      "expected": {
+        "availableData": 0
+      },
+      "actual": {
+        "handSize": -1
+      },
+      "movementPoints": 3,
+      "moves": [
+        {
+          "rocketId": 141,
+          "from": {
+            "x": 7,
+            "y": 2
+          },
+          "to": {
+            "x": 7,
+            "y": 3
+          },
+          "payment": 0,
+          "remaining": 2
+        },
+        {
+          "rocketId": 141,
+          "from": {
+            "x": 7,
+            "y": 3
+          },
+          "to": {
+            "x": 6,
+            "y": 3
+          },
+          "payment": 0,
+          "remaining": 1
+        },
+        {
+          "rocketId": 141,
+          "from": {
+            "x": 6,
+            "y": 3
+          },
+          "to": {
+            "x": 6,
+            "y": 4
+          },
+          "payment": 0,
+          "remaining": 0
+        }
+      ],
+      "firstStepMatches": true,
+      "remainingPool": 0,
+      "movementReceipts": [
+        {
+          "step": 3,
+          "text": "弃牌换1移动 x3：R1 -> 扇区[6,4]#4，移动到天王星，宣传+1；资源：宣传+2",
+          "resources": {
+            "publicity": 2
+          }
+        }
+      ],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 大型强子对撞机；3移动；资源：手牌-1"
+    },
+    {
+      "side": "candidate",
+      "case": 63,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "turn": 1,
+      "entry": 37,
+      "playedInstance": "card-80-0",
+      "discardedInstance": "card-38-pass-1-4",
+      "plannedDiscardMatches": true,
+      "requested": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "expected": {
+        "publicity": 3,
+        "availableData": 0
+      },
+      "actual": {
+        "publicity": 3,
+        "handSize": -1
+      },
+      "movementPoints": 0,
+      "moves": [],
+      "firstStepMatches": null,
+      "remainingPool": 0,
+      "movementReceipts": [],
+      "directReceipt": "弃非外星人卡并结算其左上角奖励3次：弃掉 行星猎手；宣传+1；宣传+1；宣传+1；资源：宣传+3、手牌-1"
+    }
+  ]
+}
