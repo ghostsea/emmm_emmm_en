@@ -17346,3 +17346,36 @@ for (const roundNumber of [1, 2]) {
   }
 }
 verifyActualContinuationGains();
+
+{
+  const makeHarness = (extra = {}) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: 2,
+    getPublicScanChoicesForCard: card => ({ ok: card.scan === true }), ...extra,
+  });
+  const h = makeHarness();
+  const profile = card => h.controller.getAiPlayCardOpportunityProfile(card);
+  const cornerCard = { resourceReward: { gain: { energy: 2 }, dataCount: 1 } };
+  const incomeCard = { incomeGain: { credits: 1 } };
+  const corner = profile(cornerCard).value;
+  const income = profile(incomeCard).value;
+  assert(corner > 0 && income > 0);
+  const all = { ...cornerCard, ...incomeCard, scan: true };
+  const before = JSON.stringify({ card: all, player: h.blue });
+  const p = profile(all);
+  assert(Math.abs(p.legacySum - (corner + income + 3)) < 1e-9);
+  assert(Math.abs(p.value - Math.max(corner, income, 3)) < 1e-9);
+  assert(p.value < p.legacySum, "exclusive uses must not all be charged to playing");
+  assert.equal(JSON.stringify({ card: all, player: h.blue }), before);
+  assert.equal(profile({}).value, 0);
+  assert.equal(profile({ scan: true }).value, 3);
+  const move = { moveReward: { movementPoints: 2, gain: { publicity: 2 } } };
+  const moveOnly = profile(move);
+  assert.equal(moveOnly.value, moveOnly.legacySum, "combined corner rewards are one alternative");
+  const rune = makeHarness({ runezuQuick: true });
+  const blocked = rune.controller.getAiPlayCardOpportunityProfile(all);
+  assert(Math.abs(blocked.corner) < 1e-9, "revealed Runezu blocks the resource corner");
+  assert.equal(blocked.value, Math.max(blocked.income, 3));
+  const single = h.controller.buildAiPlayCardCandidate({ id: "opportunity-single", price: 0, typeCode: 1,
+    model: { modeled: true }, playEffects: [{ type: "gain_resources", options: { gain: { score: 3 } } }] }, 0, h.blue);
+  assert.equal(single.valueBreakdown.cornerOpportunity, single.valueBreakdown.opportunityProfile.value);
+}

@@ -1,0 +1,74 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "rows": [
+        {
+          "cardId": "b_2.webp",
+          "profile": {
+            "value": 22.5,
+            "corner": 5.317,
+            "scan": 3,
+            "income": 22.5,
+            "legacySum": 30.817
+          },
+          "score": -4.625,
+          "cost": {
+            "credits": 1
+          }
+        }
+      ],
+      "steps": 0,
+      "before": {
+        "credits": 20,
+        "energy": 20
+      },
+      "after": {
+        "credits": 19,
+        "energy": 20,
+        "publicity": 4,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 6
+      },
+      "history": {
+        "id": 6,
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "rawTurnNumber": 1,
+        "actionCycleNumber": 1,
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "actionType": "playCard",
+        "actionLabel": "打牌行动",
+        "passed": false,
+        "steps": [
+          {
+            "stepId": "history-step-14",
+            "source": "main",
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "text": "打出：高级导航系统：资源：信用点-1、手牌-1",
+            "label": "打出：高级导航系统",
+            "detail": "资源：信用点-1、手牌-1",
+            "undoable": true,
+            "irreversibleCode": null,
+            "irreversibleReason": "",
+            "playedCard": {
+              "id": "card-68-0",
+              "cardId": "b_2.webp",
+              "label": "高级导航系统",
+              "cardName": "高级导航系统",
+              "src": "../assets/cards/basic/split/b_2.webp"
+            },
+            "fangzhouCardChanges": [],
+            "briefing": null
+          }
+        ]
+      },
+      "bugs": []
+    }
+  }
+}

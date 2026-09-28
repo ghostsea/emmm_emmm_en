@@ -10617,6 +10617,17 @@
       return value;
     }
 
+    function getAiPlayCardOpportunityProfile(card) {
+      // Playing consumes one card: its corner, scan and income uses are alternatives.
+      // Keep the shared selection/discard heuristic unchanged for this experiment.
+      const legacySum = scoreAiCardCornerOpportunity(card);
+      const scan = getPublicScanChoicesForCard(card).ok ? 3 : 0;
+      const incomeGain = cards.getIncomeGainForCard?.(card);
+      const income = incomeGain ? scoreAiIncomeOpportunityValue(getCurrentPlayer(), incomeGain) : 0;
+      const corner = Math.max(0, legacySum - scan - income);
+      return { value: Math.max(0, corner, scan, income), corner, scan, income, legacySum };
+    }
+
     function getAiScanEffectCount(effect) {
       const options = effect?.options || {};
       if (options.allMatching && options.condition) {
@@ -12723,7 +12734,7 @@
       const endGameValue = model?.endGameScoring ? 5 + getAiRemainingRoundWeight() * 0.5 : 0;
       const plutoValue = model?.pluto ? 8 : 0;
       const costValue = scoreAiResourceBundle(cost);
-      const cornerOpportunity = scoreAiCardCornerOpportunity(card);
+      const cornerOpportunity = details.cornerOpportunity ?? getAiPlayCardOpportunityProfile(card).value;
       const demandFit = scoreAiCardDemandFit(card, model, playEffects, player);
       const endGameExpectedScore = details.endGameExpectedScore ?? scoreAiCardEndGameExpectedValue(card, model, player);
       const readyTaskCashoutValue = Math.max(0, aiNumber(details.readyTaskCashout?.value));
@@ -19197,7 +19208,9 @@
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(currentPlayer) : 0;
       const chongTaskChainValue = scoreAiChongCardTaskChainValue(card, currentPlayer);
       const banrenmaThresholdSetupValue = scoreAiBanrenmaCardThresholdSetupValue(card, currentPlayer);
+      const opportunityProfile = getAiPlayCardOpportunityProfile(card);
       const score = scoreAiPlayCardValue(card, {
+        cornerOpportunity: opportunityProfile.value,
         player: currentPlayer,
         model,
         playEffects: valuationPlayEffects,
@@ -19286,7 +19299,8 @@
         score,
         valueBreakdown: {
           costValue: scoreAiResourceBundle(cost),
-          cornerOpportunity: scoreAiCardCornerOpportunity(card),
+          cornerOpportunity: opportunityProfile.value,
+          opportunityProfile,
           directScoreGain,
           effectValue,
           probeMoveScanPreview,
@@ -26820,6 +26834,7 @@
     }
 
     return {
+      getAiPlayCardOpportunityProfile,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
