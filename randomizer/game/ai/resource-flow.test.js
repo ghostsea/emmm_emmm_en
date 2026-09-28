@@ -1,6 +1,26 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+for (const color of ["粉色", "黄色", "蓝色"]) {
+  for (const [position, cost, score] of [[1, 1, 6], [2, 3, 15]]) {
+    for (const prefix of ["", "比邻星赢家奖励：白色放置粉色外星人痕迹："]) {
+      const initial = { id: "p1", color: "white", resources: { availableData: cost, score: 0 }, hand: [] };
+      const text = `${prefix}半人马${color}痕迹 ${position}号位：支付 ${cost} 数据、分数+${score}`;
+      const r = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p1", actionType: "scan", steps: [{ source: "main", text }],
+        accountingSnapshot: { players: [{ ...initial, resources: { availableData: 0, score } }] } }], { initialPlayerStates: [initial] });
+      assert.equal(r.events[0].resourceDeltas.availableData, -cost, text);
+      assert.equal(r.events[0].resourceDeltas.score, score);
+      assert.equal(r.events.filter(e => e.syntheticSnapshotInference).length, 0);
+      assert.equal(r.players[0].grossGain.availableData, 0);
+      assert.equal(r.players[0].spent.availableData, cost);
+    }
+  }
+}
+for (const text of ["半人马粉色痕迹 2号位：数据不足：需要 3 数据", "半人马粉色痕迹 2号位：取消", "半人马粉色痕迹 2号位：请支付 3 数据"]) {
+  const [e] = flow.normalizeStructuredActionLog([{ id: 1, playerId: "p1", steps: [{ source: "main", text }] }]);
+  assert.equal(e.resourceDeltas.availableData || 0, 0, "unsuccessful/pending trace is not paid");
+}
+
 for (const [label, key, tile] of [["能量", "energy", "blue2"], ["信用点", "credits", "blue1"], ["宣传", "publicity", "blue4"], ["分", "score", "blue4"]]) {
   const initial = { id: "p1", resources: { availableData: 6, [key]: 0 }, hand: [] };
   const placement = `放置数据：序号 15 自数据池槽位1 → 第三列第二行 (63.88%,81.29%)，额外获得 1 ${label}；获得 1 ${label}`;
